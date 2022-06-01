@@ -1,7 +1,14 @@
+import type { AppProps } from 'next/app'
+import { FC } from 'react'
+import { Provider } from 'react-redux'
+
 import '../styles/globals.css'
+import { store } from '../common/redux'
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => (
+  <Provider store={store}>
+    <Component {...pageProps} />
+  </Provider>
+)
 
-export default MyApp
+export default LTLMarketplace
