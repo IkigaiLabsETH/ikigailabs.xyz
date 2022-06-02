@@ -2,6 +2,8 @@ import React, { FC, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { ConnectWalletButton } from '../ConnectWalletButton'
+
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
 
@@ -84,14 +86,7 @@ export const Header: FC = () => {
           </div>
 
           <div className="hidden lg:flex">
-            <a
-              href="#"
-              title=""
-              className="inline-flex items-center justify-center px-4 py-2 text-base font-semibold text-gray-900 transition-all duration-200 bg-gray-100 border border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 hover:bg-gray-200"
-              role="button"
-            >
-              Connect Wallet
-            </a>
+            <ConnectWalletButton connectLabel="Connect Wallet" disconnectLabel="Disconnect"/>
           </div>
         </nav>
         {expanded && (
@@ -125,14 +120,7 @@ export const Header: FC = () => {
                   </a>
                 </Link>
 
-                <a
-                  href="#"
-                  title=""
-                  className="inline-flex items-center justify-center px-4 py-2 text-base font-semibold text-gray-900 transition-all duration-200 bg-gray-100 border border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 hover:bg-gray-200"
-                  role="button"
-                >
-                  Connect Wallet
-                </a>
+                <ConnectWalletButton connectLabel="Connect Wallet" disconnectLabel="Disconnect" />
               </div>
             </div>
           </nav>
