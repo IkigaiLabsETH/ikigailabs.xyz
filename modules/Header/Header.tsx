@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { ConnectWalletButton } from '../ConnectWalletButton'
+import { Profile } from '../Profile'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
@@ -11,7 +11,7 @@ export const Header: FC = () => {
     <header className="relative py-4 sm:py-6">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between">
-          <div className="shrink-0">
+          <div className="w-52">
             <a href="#" title="" className="flex items-center">
               <Image src="/logo.png" alt="logo" width="64" height="64" />
             </a>
@@ -85,8 +85,8 @@ export const Header: FC = () => {
             </Link>
           </div>
 
-          <div className="hidden lg:flex">
-            <ConnectWalletButton connectLabel="Connect Wallet" disconnectLabel="Disconnect"/>
+          <div className="hidden lg:flex w-52 justify-end">
+            <Profile />
           </div>
         </nav>
         {expanded && (
@@ -120,7 +120,7 @@ export const Header: FC = () => {
                   </a>
                 </Link>
 
-                <ConnectWalletButton connectLabel="Connect Wallet" disconnectLabel="Disconnect" />
+                <Profile />
               </div>
             </div>
           </nav>

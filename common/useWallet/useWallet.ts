@@ -1,4 +1,4 @@
-import { useAddress, useDisconnect, useMetamask } from '@thirdweb-dev/react'
+import { useAddress, useDisconnect, useMetamask, useSDK } from '@thirdweb-dev/react'
 
 export const useWallet = () => {
   const address = useAddress()

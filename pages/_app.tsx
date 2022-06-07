@@ -5,15 +5,15 @@ import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
 
 import '../styles/globals.css'
 import { store } from '../common/redux'
-import { MainLayout } from '../common/layouts/mainLayout'
+import { MainLayout } from '../common/layouts/MainLayout'
 
 const chain = parseInt(process.env.NEXT_CHAIN) || ChainId.Rinkeby
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => (
   <Provider store={store}>
-    <ThirdwebProvider desiredChainId={chain}>
+    <ThirdwebProvider desiredChainId={chain} autoConnect={true}>
       <MainLayout>
-       <Component {...pageProps} />
+        <Component {...pageProps} />
       </MainLayout>
     </ThirdwebProvider>
   </Provider>
