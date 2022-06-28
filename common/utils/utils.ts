@@ -1,4 +1,5 @@
-import { gt, join, lt, pipe, propSatisfies, take, takeLast, when, __ } from 'ramda'
+import { formatDuration, intervalToDuration } from 'date-fns'
+import { add, gt, join, lt, pipe, propSatisfies, subtract, take, takeLast, when, __ } from 'ramda'
 
 export const truncate = (length: number) =>
   when(
@@ -21,3 +22,10 @@ export const formatAmount = (number: number) =>
           maximumSignificantDigits: 2,
         },
   ).format(number)
+
+export const getRemainingTime = (start: Date, end: Date) => formatDuration(intervalToDuration({
+  start: new Date(Date.now()),
+  end: end,
+}))
+
+// export const getRemainingTime = (start: string, end: string) => ( parseInt(end) - new Date().getTime() / 1000 )

@@ -2,9 +2,10 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 import { balanceReducer } from '../../modules/Balance'
+import { featuredAuctionReducer } from '../../modules/Auction/Featured'
 
 const store = configureStore({
-  reducer: combineReducers({ balance: balanceReducer }),
+  reducer: combineReducers({ balance: balanceReducer, featuredAuction: featuredAuctionReducer }),
   devTools: true,
 })
 

@@ -31,7 +31,7 @@ export const Profile: FC<ProfileProps> = ({ connectLabel = 'Connect', disconnect
         onClick={() => setShowDropdown(!showDropdown)}
         className="relative flex items-center px-4 py-2 text-base font-semibold transition-all duration-200 bg-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 hover:bg-gray-100"
       >
-        {truncateAddress(address)} <span className='pl-1'>|</span> <Balance />
+        {truncateAddress(address)} <span className="pl-1">|</span> <Balance />
         <svg
           className={`w-4 h-4 ml-2 transition-all duration-300 ${showClasses}`}
           fill="none"

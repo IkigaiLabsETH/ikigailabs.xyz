@@ -16,6 +16,7 @@ module.exports = {
       yellow: colors.yellow,
       green: colors.green,
       indigo: colors.indigo,
+      rose: colors.rose,
       orange: {
         ...colors.orange,
         DEFAULT: '#ff584d',
