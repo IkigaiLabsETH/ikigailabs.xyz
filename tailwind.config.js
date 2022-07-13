@@ -23,7 +23,7 @@ module.exports = {
       }
     },
     fontFamily: {
-      sans: ['Sk-Modernist', 'sans-serif'],
+      sans: ['sans-serif'],
     },
     extend: {
       transitionProperty: {

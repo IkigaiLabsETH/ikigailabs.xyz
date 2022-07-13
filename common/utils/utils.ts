@@ -1,5 +1,5 @@
 import { formatDuration, intervalToDuration } from 'date-fns'
-import { add, gt, join, lt, pipe, propSatisfies, subtract, take, takeLast, when, __ } from 'ramda'
+import { gt, join, lt, pipe, propSatisfies, take, takeLast, when, __ } from 'ramda'
 
 export const truncate = (length: number) =>
   when(

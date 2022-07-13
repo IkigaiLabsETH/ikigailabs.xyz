@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { equals, lensProp, set } from 'ramda'
+import { lensProp, set } from 'ramda'
 
 import { RootState } from '../../common/redux/store'
 import { Token } from '../../common/types'
