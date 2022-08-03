@@ -12,14 +12,24 @@ module.exports = {
       black: colors.black,
       white: colors.white,
       gray: colors.gray,
-      red: colors.red,
-      yellow: colors.yellow,
+      red: {
+        ...colors.red,
+        DEFAULT: '#A1100F',
+      },
+      yellow: {
+        ...colors.yellow,
+        DEFAULT: '#F9D401',
+      },
       green: colors.green,
+      blue: {
+        ...colors.blue,
+        DEFAULT: '#313459',
+      },
       indigo: colors.indigo,
       rose: colors.rose,
       orange: {
         ...colors.orange,
-        DEFAULT: '#ff584d',
+        DEFAULT: '#DB7D2F',
       }
     },
     fontFamily: {

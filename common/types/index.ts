@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ContractType } from '@thirdweb-dev/sdk'
+import { ContractType, NFTMetadataOwner, ContractPrimarySale } from '@thirdweb-dev/sdk'
 
 export interface Token {
   symbol: string
@@ -7,6 +7,21 @@ export interface Token {
   value: BigNumber
   decimals: number
   displayValue: string
+}
+
+export interface ContractMetadata {
+  name: string
+  description: string
+  image: string
+}
+
+export interface NFTDropWithNFTS {
+  metadata: ContractMetadata
+  primarySales: ContractPrimarySale<any>
+  nfts: NFTMetadataOwner[]
+  claimedSupply: string
+  unclaimedSupply: string
+  ownedTokenIds: string[]
 }
 
 export interface ContractDefinition {

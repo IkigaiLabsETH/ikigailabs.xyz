@@ -2,15 +2,28 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 import { ContractDefinition, ContractType } from '../../common/types'
 import { RootState } from '../../common/redux/store'
-import { filter, map, pick, pipe, pluck, propEq } from 'ramda';
+import { filter, map, pick, pipe, pluck, propEq } from 'ramda'
 
 export const fetchFeaturedDrops = createAsyncThunk<
-  PromiseLike<PromiseSettledResult<{status: string, value: any}> | PromiseRejectedResult>,
-  { getAllContractsByContractType: (wallet: string) => (contractType: ContractType) => Promise<ContractDefinition[]>; wallet: string; contractType: ContractType },
+  PromiseLike<PromiseSettledResult<{ status: string; value: any }> | PromiseRejectedResult>,
+  {
+    getAllContractsByContractType: (wallet: string) => (contractType: ContractType) => Promise<ContractDefinition[]>
+    wallet: string
+    contractType: ContractType
+  },
   { rejectValue: string }
 >('featuredDrops/fetch', ({ getAllContractsByContractType, wallet, contractType }, { rejectWithValue }) =>
   getAllContractsByContractType(wallet)(contractType)
-    .then((response: ContractDefinition[]) => Promise.allSettled(map((contract: ContractDefinition) => contract?.metadata().then((metadata) => ({ metadata: pick(['name', 'description', 'image'])(metadata), address: contract?.address})))(response)))
+    .then((response: ContractDefinition[]) =>
+      Promise.allSettled(
+        map((contract: ContractDefinition) =>
+          contract?.metadata().then(metadata => ({
+            metadata: pick(['name', 'description', 'image'])(metadata),
+            address: contract?.address,
+          })),
+        )(response),
+      ),
+    )
     // @ts-ignore
     .then(pipe(filter(propEq('status', 'fulfilled')), pluck('value')))
     .catch((error: Error) => rejectWithValue(error.message)),

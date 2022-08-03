@@ -8,12 +8,12 @@ export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
 
   return (
-    <header className="relative py-4 sm:py-6">
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <header className="fixed py-4 sm:py-6 z-20 w-full">
+      <div className="px-4 mx-auto max-w-screen-2xl sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between">
           <div className="w-52">
             <a href="#" title="" className="flex items-center">
-              <Image src="/logo.png" alt="logo" width="64" height="64" />
+              <Image src="/assets/images/ltl-logo-white-small.png" alt="logo" width="64" height="64" />
             </a>
           </div>
 
@@ -54,35 +54,6 @@ export const Header: FC = () => {
                 </span>
               )}
             </button>
-          </div>
-
-          <div className="hidden lg:flex lg:items-center lg:justify-end lg:space-x-12 lg:mx-20">
-            <Link href="#">
-              <a
-                title="Item 1"
-                className="text-base font-medium text-gray-500 transition-all duration-200 hover:text-gray-900"
-              >
-                Item 1
-              </a>
-            </Link>
-
-            <Link href="#">
-              <a
-                title="Item 2"
-                className="text-base font-medium text-gray-500 transition-all duration-200 hover:text-gray-900"
-              >
-                Item 2
-              </a>
-            </Link>
-
-            <Link href="#">
-              <a
-                title="Item 3"
-                className="text-base font-medium text-gray-500 transition-all duration-200 hover:text-gray-900"
-              >
-                Item 3
-              </a>
-            </Link>
           </div>
 
           <div className="hidden lg:flex w-52 justify-end">

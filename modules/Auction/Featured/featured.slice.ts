@@ -24,7 +24,11 @@ const tranformations = {
 
 export const fetchFeaturedAuction = createAsyncThunk<
   AuctionListing | DirectListing,
-  { getListing: ({ contract, listingId }) => Promise<AuctionListing | DirectListing>; contract: string; listingId: string },
+  {
+    getListing: ({ contract, listingId }) => Promise<AuctionListing | DirectListing>
+    contract: string
+    listingId: string
+  },
   { rejectValue: string }
 >('featuredAuction/fetch', ({ getListing, contract, listingId }, { rejectWithValue }) =>
   getListing({ contract, listingId })

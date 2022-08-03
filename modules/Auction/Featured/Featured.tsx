@@ -18,7 +18,7 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, listingId 
   const dispatch = useAppDispatch()
   const featuredAuction = useAppSelector(selectFeaturedAuction)
   const loadingState = useAppSelector(selectLoadingState)
-  const [ remainingTime, setRemainingTime ] = useState<string>('')
+  const [remainingTime, setRemainingTime] = useState<string>('')
   const { getListing } = useWeb3()
 
   useEffect(() => {
@@ -37,14 +37,16 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, listingId 
   })
 
   const loader = <Loader />
-  const component = () => (
+  const component = (
     <section className="py-12 bg-white sm:py-16 lg:py-20">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="grid items-center max-w-4xl grid-cols-1 mx-auto lg:grid-cols-2 gap-x-16 gap-y-12">
           <div>
             <div className="max-w-lg mx-auto text-center lg:text-left lg:max-w-none lg:mx-0">
               <h2 className="text-sm font-bold tracking-wide uppercase text-rose-500">Today's Featured Drop</h2>
-              <p className="mt-4 text-5xl font-bold text-gray-900 md:text-6xl">{pathOr('', ['asset', 'name'])(featuredAuction)}</p>
+              <p className="mt-4 text-5xl font-bold text-gray-900 md:text-6xl">
+                {pathOr('', ['asset', 'name'])(featuredAuction)}
+              </p>
               <p className="mt-6 text-lg font-medium text-gray-600">
                 {pathOr('', ['asset', 'description'])(featuredAuction)}
               </p>
@@ -53,12 +55,16 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, listingId 
             <div className="flex items-start max-w-xs mx-auto mt-12 lg:mt-28 lg:max-w-none lg:mx-0 gap-x-16">
               <div>
                 <p className="text-base font-medium text-gray-500">Reserve Price</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">Ξ {pathOr('', ['reservePriceCurrencyValuePerToken', 'displayValue'])(featuredAuction)}</p>
+                <p className="mt-2 text-3xl font-bold text-gray-900">
+                  Ξ {pathOr('', ['reservePriceCurrencyValuePerToken', 'displayValue'])(featuredAuction)}
+                </p>
               </div>
 
               <div>
                 <p className="text-base font-medium text-gray-500">Edition</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">{`${prop('tokenId')(featuredAuction)}/${prop('quantity')(featuredAuction)}`}</p>
+                <p className="mt-2 text-3xl font-bold text-gray-900">{`${prop('tokenId')(featuredAuction)}/${prop(
+                  'quantity',
+                )(featuredAuction)}`}</p>
               </div>
             </div>
           </div>
@@ -71,11 +77,18 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, listingId 
                 </span>
 
                 <div className="mt-4 overflow-hidden  aspect-w-1 aspect-h-1 ">
-                  <Image className="rounded-lg" src={pathOr('', ['asset', 'image'])(featuredAuction)} width={320} height={190}/> 
+                  <Image
+                    className="rounded-lg"
+                    src={pathOr('', ['asset', 'image'])(featuredAuction)}
+                    width={320}
+                    height={190}
+                  />
                 </div>
 
                 <div className="flex items-center justify-between mt-4 space-x-6">
-                  <p className="flex-1 text-base font-bold text-gray-900">{pathOr('', ['asset', 'name'])(featuredAuction)}</p>
+                  <p className="flex-1 text-base font-bold text-gray-900">
+                    {pathOr('', ['asset', 'name'])(featuredAuction)}
+                  </p>
 
                   <div className="text-right shrink-0">
                     <p className="text-sm font-medium text-gray-500">Current Bid</p>
@@ -105,9 +118,9 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, listingId 
       </div>
     </section>
   )
- 
+
   return match(loadingState)
     .with('loading', () => loader)
-    .with('succeeded', component)
+    .with('succeeded', () => component)
     .otherwise(() => <></>)
 }

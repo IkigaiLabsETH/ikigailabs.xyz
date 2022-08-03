@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react'
 import { useWallet } from '../../common/useWallet'
 import { truncateAddress } from '../../common/utils'
 import { Balance } from '../Balance'
+import { Button } from '../Button'
 
 interface ProfileProps {
   connectLabel?: string
@@ -15,21 +16,13 @@ export const Profile: FC<ProfileProps> = ({ connectLabel = 'Connect', disconnect
   const showClasses = showDropdown ? 'rotate-180' : ''
 
   return !address ? (
-    <a
-      href="#"
-      title={connectLabel}
-      className="inline-flex items-center justify-center px-4 py-2 text-base font-semibold text-white transition-all duration-300 bg-gray-900 border border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:bg-gray-700"
-      role="button"
-      onClick={() => connect().then(console.log)}
-    >
-      {connectLabel}
-    </a>
+    <Button label={connectLabel} onClick={connect} />
   ) : (
     <div className="items-end flex flex-col">
       <a
         role="button"
         onClick={() => setShowDropdown(!showDropdown)}
-        className="relative flex items-center px-4 py-2 text-base font-semibold transition-all duration-200 bg-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 hover:bg-gray-100"
+        className="relative flex items-center px-4 py-2 text-base font-semibold transition-all duration-500 bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 hover:bg-gray-700"
       >
         {truncateAddress(address)} <span className="pl-1">|</span> <Balance />
         <svg
@@ -57,15 +50,7 @@ export const Profile: FC<ProfileProps> = ({ connectLabel = 'Connect', disconnect
               </a>
             </li>
             <li>
-              <a
-                href="#"
-                title="label"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white transition-all duration-300"
-                role="button"
-                onClick={disconnect}
-              >
-                {disconnectLabel}
-              </a>
+              <Button onClick={disconnect} label={disconnectLabel} />
             </li>
           </ul>
         </div>

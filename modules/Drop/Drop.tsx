@@ -14,15 +14,13 @@ interface DropProps {
   id: string
 }
 
-export const Drop:FC<DropProps> = ({ name, description, image, contract }) => {
-   return (
+export const Drop: FC<DropProps> = ({ name, description, image, contract }) => {
+  return (
     <div>
       <h2>{name}</h2>
       <Image src={image} />
-      <p>
-        {description}
-      </p>
+      <p>{description}</p>
       <Link href={`/drop/${contract}`} />
     </div>
-   )
+  )
 }
