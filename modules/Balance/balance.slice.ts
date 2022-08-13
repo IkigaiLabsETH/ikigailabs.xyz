@@ -6,7 +6,7 @@ import { Token } from '../../common/types'
 
 // First, create the thunk
 export const fetchBalance = createAsyncThunk<
-  Partial<Token>,
+  Promise<Partial<Token>>,
   { getBalance: (contract?: string) => Promise<Token>; contract: string },
   { rejectValue: string }
 >('balance/fetch', ({ getBalance, contract }, { rejectWithValue }) =>

@@ -1,5 +1,22 @@
 import { formatDuration, intervalToDuration } from 'date-fns'
-import { addIndex, gt, join, lt, map, modulo, pipe, propSatisfies, take, takeLast, when, __ } from 'ramda'
+import {
+  addIndex,
+  gt,
+  join,
+  lensPath,
+  lt,
+  map,
+  modulo,
+  pipe,
+  propSatisfies,
+  set,
+  take,
+  takeLast,
+  when,
+  __,
+} from 'ramda'
+
+import { NFTMetadataOwner } from '../types'
 
 export const truncate = (length: number) =>
   when(
@@ -34,3 +51,8 @@ export const getRemainingTime = (start: Date, end: Date) =>
 export const mapIndexed = addIndex(map)
 
 export const isOdd = modulo(__, 2)
+
+export const formatNFTMetadata = (metadata: NFTMetadataOwner) => {
+  console.log(metadata)
+  return set(lensPath(['metadata', 'id'] as never), metadata.metadata.id.toString())(metadata)
+}

@@ -6,4 +6,22 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   color: white;
   background-color: #121212;
+  @apply tracking-tight;
+}
+
+@layer base {
+  h1, h2, h3, h4 {
+    @apply font-bold;
+    @apply leading-none;
+    @apply mb-4;
+    @apply tracking-tighter;
+  }
+
+  h1 {
+    @apply text-5xl;
+  }
+  
+  h2 {
+    @apply text-4xl;
+  }
 }

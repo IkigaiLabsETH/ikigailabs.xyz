@@ -1,9 +1,8 @@
 import { equals, lt } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { match } from 'ts-pattern'
 
-import { useAppDispatch } from '../../common/redux/store'
+import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import useWeb3 from '../../common/useWeb3'
 import { formatAmount } from '../../common/utils/utils'
 import { Loader, Size } from '../Loader'
@@ -15,8 +14,8 @@ interface BalanceProps {
 
 export const Balance: FC<BalanceProps> = ({ contract = null }) => {
   const dispatch = useAppDispatch()
-  const balance = useSelector(selectBalance)
-  const loadingState = useSelector(selectLoadingState)
+  const balance = useAppSelector(selectBalance)
+  const loadingState = useAppSelector(selectLoadingState)
   const { getBalance } = useWeb3()
   const [counter, setCounter] = useState<number>(0)
 

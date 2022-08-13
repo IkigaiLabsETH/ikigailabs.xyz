@@ -6,6 +6,7 @@ import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
 import '../styles/globals.css'
 import { store } from '../common/redux'
 import { MainLayout } from '../common/layouts/MainLayout'
+import { appInit } from '../modules/App/app.reducer'
 
 const chain = parseInt(process.env.NEXT_CHAIN) || ChainId.Rinkeby
 
@@ -20,3 +21,5 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => (
 )
 
 export default LTLMarketplace
+
+store.dispatch(appInit())

@@ -11,8 +11,8 @@ export interface Token {
 
 export interface ContractMetadata {
   name: string
-  description: string
-  image: string
+  description?: string
+  image?: string
 }
 
 export interface NFTDropWithNFTS {
@@ -30,4 +30,8 @@ export interface ContractDefinition {
   metadata: () => Promise<any>
 }
 
-export type { ContractType, NFTMetadataOwner } from '@thirdweb-dev/sdk'
+export type { ContractType, NFTMetadataOwner, NFTDrop } from '@thirdweb-dev/sdk'
+
+export type Status = 'idle' | 'loading' | 'succeeded' | 'failed'
+
+export type ErrorType = string | null | undefined

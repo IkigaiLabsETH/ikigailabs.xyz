@@ -2,13 +2,16 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { FC } from 'react'
 
+import { featuredDrop } from '../common/config'
 import { FeaturedAuction } from '../modules/Auction/Featured'
-import { FeaturedDrops } from '../modules/FeaturedDrops'
+import { FeaturedDrop } from '../modules/FeaturedDrop'
+import { Footer } from '../modules/Footer'
+import { FoundersMintPass } from '../modules/FoundersMintPass'
+import { NFTDrops } from '../modules/NFTDrops'
 
 const Home: FC = () => {
   const featuredMarketplaceContract = process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT
   const featuredListingId = process.env.NEXT_PUBLIC_FEATURED_LISTING_ID
-  const walletAddress = process.env.NEXT_PUBLIC_WALLET_ADDRESS
 
   return (
     <div className="flex items-center flex-col">
@@ -32,10 +35,11 @@ const Home: FC = () => {
       </header>
       <main className="max-w-screen-2xl w-full">
         <FeaturedAuction contract={featuredMarketplaceContract} listingId={featuredListingId} />
-        <FeaturedDrops wallet={walletAddress} contractType="nft-drop" />
+        <FeaturedDrop contract={featuredDrop} />
+        <NFTDrops />
+        <FoundersMintPass />
       </main>
-
-      <footer className=""></footer>
+      <Footer />
     </div>
   )
 }
