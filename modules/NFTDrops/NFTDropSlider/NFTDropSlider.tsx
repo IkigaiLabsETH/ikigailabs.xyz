@@ -1,11 +1,10 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import { map, prop, propOr } from 'ramda'
 import React, { FC } from 'react'
 import { match } from 'ts-pattern'
 
 import { useAppSelector } from '../../../common/redux/store'
 import { NFTMetadataOwner } from '../../../common/types'
+import { Link } from '../../Link'
 import { Loader } from '../../Loader'
 import { selectLoadingState, selectNFTDrop } from '../NFTDrops.slice'
 
@@ -22,11 +21,11 @@ export const NFTDropSlider: FC<NFTDropSliderProps> = ({ contract }) => {
     <div>
       <div className="flex flex-row justify-between w-full">
         <div>
-          <h2>{prop('name')(metadata)}</h2>
-          <p>{prop('description')(metadata)}</p>
+          <h2 className='text-[4rem]'>{prop('name')(metadata)}</h2>
+          <p className='text-xl'>{prop('description')(metadata)}</p>
         </div>
-        <div className="flex self-end justify-end">
-          <Link href={`drops/${contract}`}>
+        <div className="flex self-start mt-2 justify-end">
+          <Link href={`drops/${contract}`} title="explore">
             <a>Explore</a>
           </Link>
         </div>

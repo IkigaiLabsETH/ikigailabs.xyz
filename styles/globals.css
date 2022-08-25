@@ -2,11 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Epilogue';
+  src: url('../public/assets/fonts/epilogue/Epilogue-Variable.woff2') format('woff2'),
+       url('../public/assets/fonts/epilogue/Epilogue-Variable.woff') format('woff'),
+       url('../public/assets/fonts/epilogue/Epilogue-Variable.ttf') format('truetype');
+       font-weight: 100 900;
+       font-display: swap;
+       font-style: normal;
+}
+
+@font-face {
+  font-family: 'Epilogue';
+  src: url('../public/assets/fonts/epilogue/Epilogue-VariableItalic.woff2') format('woff2'),
+       url('../public/assets/fonts/epilogue/Epilogue-VariableItalic.woff') format('woff'),
+       url('../public/assets/fonts/epilogue/Epilogue-VariableItalic.ttf') format('truetype');
+       font-weight: 100 900;
+       font-display: swap;
+       font-style: italic;
+}
+
+@font-face {
+  font-family: 'Boska';
+  src: url('../public/assets/fonts/boska/Boska-Variable.woff2') format('woff2'),
+       url('../public/assets/fonts/boska/Boska-Variable.woff') format('woff'),
+       url('../public/assets/fonts/boska/Boska-Variable.ttf') format('truetype');
+       font-weight: 200 900;
+       font-display: swap;
+       font-style: normal;
+}
+
+@font-face {
+  font-family: 'Boska';
+  src: url('../public/assets/fonts/boska/Boska-VariableItalic.woff2') format('woff2'),
+       url('../public/assets/fonts/boska/Boska-VariableItalic.woff') format('woff'),
+       url('../public/assets/fonts/boska/Boska-VariableItalic.ttf') format('truetype');
+       font-weight: 200 900;
+       font-display: swap;
+       font-style: italic;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../public/assets/fonts/satoshi/Satoshi-Variable.woff2') format('woff2'),
+       url('../public/assets/fonts/satoshi/Satoshi-Variable.woff') format('woff'),
+       url('../public/assets/fonts/satoshi/Satoshi-Variable.ttf') format('truetype');
+       font-weight: 300 900;
+       font-display: swap;
+       font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../public/assets/fonts/satoshi/Satoshi-VariableItalic.woff2') format('woff2'),
+       url('../public/assets/fonts/satoshi/Satoshi-VariableItalic.woff') format('woff'),
+       url('../public/assets/fonts/satoshi/Satoshi-VariableItalic.ttf') format('truetype');
+       font-weight: 300 900;
+       font-display: swap;
+       font-style: italic;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: 'satoshi';
   color: white;
   background-color: #121212;
-  @apply tracking-tight;
 }
 
 @layer base {
@@ -15,6 +74,7 @@ body {
     @apply leading-none;
     @apply mb-4;
     @apply tracking-tighter;
+    font-family: 'epilogue'
   }
 
   h1 {
@@ -22,6 +82,24 @@ body {
   }
   
   h2 {
-    @apply text-4xl;
+    @apply text-5xl;
+  }
+
+  p {
+    font-family: 'satoshi';
+    @apply text-gray-300;
+  }
+
+  .boska {
+    font-family: 'boska';
+  }
+
+  .epilogue {
+    font-family: 'epilogue';
+    @apply tracking-wide;
+  }
+
+  .satoshi {
+    font-family: 'satoshi';
   }
 }

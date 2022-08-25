@@ -33,7 +33,7 @@ const Home: FC = () => {
           </div>
         </div>
       </header>
-      <main className="max-w-screen-2xl w-full">
+      <main className="w-full">
         <FeaturedAuction contract={featuredMarketplaceContract} listingId={featuredListingId} />
         <FeaturedDrop contract={featuredDrop} />
         <NFTDrops />

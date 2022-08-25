@@ -8,6 +8,6 @@ interface MainLayoutProps {
 export const MainLayout: FC<MainLayoutProps> = ({ children }) => (
   <>
     <Header />
-    <div className="max-w-screen-2xl mx-auto w-full">{children}</div>
+    <div className="w-full">{children}</div>
   </>
 )
