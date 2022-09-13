@@ -14,6 +14,7 @@ import { featuredDropReducer } from '../../modules/FeaturedDrop'
 import { nftDropReducer } from '../../modules/NFTDrop'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
 import { NFTDropsMiddleware } from '../../modules/NFTDrops'
+import { foundersMintPassReducer } from '../../modules/FoundersMintPass'
 import { web3 } from '../web3'
 
 export const listenerMiddleware = createListenerMiddleware()
@@ -38,6 +39,7 @@ const store = configureStore({
     featuredDrop: featuredDropReducer,
     nftDrop: nftDropReducer,
     NFTDrops: NFTDropsReducer,
+    mintPass: foundersMintPassReducer,
   }),
   devTools: true,
   middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(listenerMiddleware.middleware),

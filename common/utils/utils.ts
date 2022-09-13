@@ -52,7 +52,5 @@ export const mapIndexed = addIndex(map)
 
 export const isOdd = modulo(__, 2)
 
-export const formatNFTMetadata = (metadata: NFTMetadataOwner) => {
-  console.log(metadata)
-  return set(lensPath(['metadata', 'id'] as never), metadata.metadata.id.toString())(metadata)
-}
+export const formatNFTMetadata = (metadata: NFTMetadataOwner) =>
+  set(lensPath(['metadata', 'id'] as never), metadata.metadata.id.toString())(metadata)

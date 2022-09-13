@@ -21,8 +21,8 @@ export const NFTDropSlider: FC<NFTDropSliderProps> = ({ contract }) => {
     <div>
       <div className="flex flex-row justify-between w-full">
         <div>
-          <h2 className='text-[4rem]'>{prop('name')(metadata)}</h2>
-          <p className='text-xl'>{prop('description')(metadata)}</p>
+          <h2 className="text-[4rem]">{prop('name')(metadata)}</h2>
+          <p className="text-xl">{prop('description')(metadata)}</p>
         </div>
         <div className="flex self-start mt-2 justify-end">
           <Link href={`drops/${contract}`} title="explore">

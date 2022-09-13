@@ -88,6 +88,15 @@ body {
   p {
     font-family: 'satoshi';
     @apply text-gray-300;
+    margin-bottom: 1.5rem;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+
+  a:hover {
+    @apply text-yellow;
   }
 
   .boska {

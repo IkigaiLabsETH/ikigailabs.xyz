@@ -1,26 +1,44 @@
-import React, { FC, useState } from 'react'
+import React, { ChangeEvent, FC, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { Profile } from '../Profile'
+import { useWallet } from '../../common/useWallet'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
+  const { disconnect } = useWallet()
+  const { pathname } = useRouter()
+
+  useEffect(() => {
+    setExpanded(false)
+  }, [pathname])
+
+  const handleDisconnect = event => {
+    event.preventDefault()
+    disconnect()
+    setExpanded(!expanded)
+  }
 
   return (
     <header className="fixed py-4 sm:py-6 z-20 w-full">
       <div className="px-4 mx-auto max-w-screen-2xl sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between">
-          <div className="w-52">
-            <a href="#" title="" className="flex items-center">
+          <div className="w-52 z-20">
+            <a href="/" title="" className="flex items-center">
               <Image src="/assets/images/ltl-logo-white-small.png" alt="logo" width="64" height="64" />
             </a>
           </div>
 
-          <div className="flex lg:hidden">
+          <div className="flex flex-row justify-end">
+            <div className="hidden md:flex">
+              <Profile />
+            </div>
             <button
               type="button"
-              className="p-1 text-gray-900 transition-all duration-200 bg-transparent rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+              className="z-20 ml-1 text-lg text-black bg-white p-4 border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all"
               onClick={() => setExpanded(!expanded)}
               aria-expanded={expanded ? 'true' : 'false'}
             >
@@ -55,47 +73,35 @@ export const Header: FC = () => {
               )}
             </button>
           </div>
+        </nav>
 
-          <div className="hidden lg:flex w-52 justify-end">
-            <Profile />
+        <nav
+          className={`absolute flex backdrop-blur top-0 left-0 items-center justify-end transition-opacity duration-300 visible ${
+            expanded ? 'opacity-100 h-screen w-full' : 'opacity-0 invisible'
+          }`}
+        >
+          <div className={`p-5 text-4xl md:text-6xl text-white font-bold transition-all ${expanded ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className="flex justify-end">
+              <Link href="/">
+                <a title="Home" className="p-4 bg-black mb-1 inline-block">
+                  Home
+                </a>
+              </Link>
+            </div>
+            <div className="flex justify-end">
+              <Link href="/about">
+                <a title="About" className="p-4 bg-black mb-1 inline-block">
+                  About
+                </a>
+              </Link>
+            </div>
+            <div className="flex justify-end mt-16">
+              <a href="#" role="button" onClick={handleDisconnect} className="p-4 bg-black mb-1 inline-block">
+                Disconnect
+              </a>
+            </div>
           </div>
         </nav>
-        {expanded && (
-          <nav>
-            <div className="px-1 py-5">
-              <div className="grid gap-y-6">
-                <Link href="#">
-                  <a
-                    title="Item 1"
-                    className="text-base font-medium text-gray-500 transition-all duration-200 hover:text-gray-900"
-                  >
-                    Item 1
-                  </a>
-                </Link>
-
-                <Link href="#">
-                  <a
-                    title="Item 2"
-                    className="text-base font-medium text-gray-500 transition-all duration-200 hover:text-gray-900"
-                  >
-                    Item 2
-                  </a>
-                </Link>
-
-                <Link href="#">
-                  <a
-                    title="Item 3"
-                    className="text-base font-medium text-gray-500 transition-all duration-200 hover:text-gray-900"
-                  >
-                    Item 3
-                  </a>
-                </Link>
-
-                <Profile />
-              </div>
-            </div>
-          </nav>
-        )}
       </div>
     </header>
   )

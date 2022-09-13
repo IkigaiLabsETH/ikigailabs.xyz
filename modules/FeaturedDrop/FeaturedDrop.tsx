@@ -23,7 +23,7 @@ export const FeaturedDrop: FC<featuredDropProps> = ({ contract }) => {
 
   const loader = <Loader size={Size.s} />
   const component = (
-    <div className="h-screen flex w-full items-center justify-center">
+    <div className="lg:h-screen flex w-full items-center justify-center">
       <NFTDropSummary address={contract} metadata={featuredDrop} />
     </div>
   )
