@@ -42,6 +42,7 @@ export const balanceSlice = createSlice({
       .addCase(fetchBalance.fulfilled, (state, action) => {
         const { payload } = action
         state.status = 'succeeded'
+        // @ts-ignore
         state.entities = payload
       })
       .addCase(fetchBalance.rejected, (state, action) => {
