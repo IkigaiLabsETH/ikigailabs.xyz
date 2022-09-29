@@ -32,7 +32,7 @@ interface NFTDropProps {
 
 export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
-  const { getAllNFTsFromNFTDrop, getNFTDrop } = useWeb3()
+  // const { getAllNFTsFromNFTDrop, getNFTDrop } = useWeb3()
   const address = useAddress()
 
   const nfts = useAppSelector(selectNfts) as NFTMetadataOwner[]
@@ -53,15 +53,15 @@ export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
   const ownedTokenIdsLoadingState = useAppSelector(selectOwnedTokenIdsLoadingState)
 
   useEffect(() => {
-    dispatch(fetchNFTsFromNFTDrop({ getAllNFTsFromNFTDrop, contract }))
-    dispatch(fetchNFTDropMetadata({ getNFTDrop, contract }))
-    dispatch(fetchNFTDropClaimedSupply({ getNFTDrop, contract }))
-    dispatch(fetchNFTDropUnclaimedSupply({ getNFTDrop, contract }))
+    // dispatch(fetchNFTsFromNFTDrop({ getAllNFTsFromNFTDrop, contract }))
+    // dispatch(fetchNFTDropMetadata({ getNFTDrop, contract }))
+    // dispatch(fetchNFTDropClaimedSupply({ getNFTDrop, contract }))
+    // dispatch(fetchNFTDropUnclaimedSupply({ getNFTDrop, contract }))
   }, [contract])
 
   useEffect(() => {
     if (contract && address) {
-      dispatch(fetchNFTDropOwnedTokenIds({ getNFTDrop, contract, wallet: address }))
+      // dispatch(fetchNFTDropOwnedTokenIds({ getNFTDrop, contract, wallet: address }))
     }
   }, [contract, address])
 
