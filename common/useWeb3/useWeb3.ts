@@ -20,9 +20,9 @@ export const useWeb3 = () => {
 
   const getSignatureDrop = (contract: string) => sdk.getNFTDrop(contract)
 
-  const getNFTFromNFTDrop = (contract: string) => (tokenId: number) => sdk.getNFTDrop(contract).get(tokenId)
+  // const getNFTFromNFTDrop = (contract: string) => (tokenId: number) => sdk.getNFTDrop(contract).get(tokenId)
 
-  const getAllNFTsFromSignatureDrop = (contract: string) => sdk.getNFTDrop(contract).getAll()
+  // const getAllNFTsFromSignatureDrop = (contract: string) => sdk.getNFTDrop(contract).getAll()
 
   const getAllContractsByContractType = (wallet: string) => (contractType: ContractType) =>
     sdk.getContractList(wallet).then(filter(propEq('contractType', contractType)))
@@ -34,8 +34,8 @@ export const useWeb3 = () => {
     // getEditionDrop,
     // getNFTFromEditionDrop,
     getSignatureDrop,
-    getNFTFromNFTDrop,
-    getAllNFTsFromSignatureDrop,
+    // getNFTFromNFTDrop,
+    // getAllNFTsFromSignatureDrop,
     getAllContractsByContractType,
   }
 }
