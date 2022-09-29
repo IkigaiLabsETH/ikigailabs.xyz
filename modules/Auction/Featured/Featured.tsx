@@ -19,10 +19,10 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, listingId 
   const featuredAuction = useAppSelector(selectFeaturedAuction)
   const loadingState = useAppSelector(selectLoadingState)
   const [remainingTime, setRemainingTime] = useState<string>('')
-  const { getListing } = useWeb3()
+  // const { getListing } = useWeb3()
 
   useEffect(() => {
-    equals(loadingState, 'idle') && dispatch(fetchFeaturedAuction({ getListing, contract, listingId }))
+    // equals(loadingState, 'idle') && dispatch(fetchFeaturedAuction({ getListing, contract, listingId }))
   }, [loadingState])
 
   useEffect(() => {

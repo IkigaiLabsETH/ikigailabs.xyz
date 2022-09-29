@@ -7,16 +7,16 @@ export const useWeb3 = () => {
 
   const getBalance = (contract?: string) => sdk.wallet.balance(contract)
 
-  const getNFTFromCollection = ({ contract, tokenId }: { contract: string; tokenId: number }) =>
-    sdk.getNFTCollection(contract).get(tokenId)
+  // const getNFTFromCollection = ({ contract, tokenId }: { contract: string; tokenId: number }) =>
+  //   sdk.getNFTCollection(contract).get(tokenId)
 
-  const getListing = ({ contract, listingId }: { contract: string; listingId: number }) =>
-    sdk.getMarketplace(contract).getListing(listingId)
+  // const getListing = ({ contract, listingId }: { contract: string; listingId: number }) =>
+  //   sdk.getMarketplace(contract).getListing(listingId)
 
-  const getEditionDrop = ({ contract }: { contract: string }) => sdk.getEditionDrop(contract)
+  // const getEditionDrop = ({ contract }: { contract: string }) => sdk.getEditionDrop(contract)
 
-  const getNFTFromEditionDrop = ({ contract, tokenId }: { contract: string; tokenId: number }) =>
-    sdk.getEditionDrop(contract).get(tokenId)
+  // const getNFTFromEditionDrop = ({ contract, tokenId }: { contract: string; tokenId: number }) =>
+  //   sdk.getEditionDrop(contract).get(tokenId)
 
   const getSignatureDrop = (contract: string) => sdk.getNFTDrop(contract)
 
@@ -29,10 +29,10 @@ export const useWeb3 = () => {
 
   return {
     getBalance,
-    getNFTFromCollection,
-    getListing,
-    getEditionDrop,
-    getNFTFromEditionDrop,
+    // getNFTFromCollection,
+    // getListing,
+    // getEditionDrop,
+    // getNFTFromEditionDrop,
     getSignatureDrop,
     getNFTFromNFTDrop,
     getAllNFTsFromSignatureDrop,
