@@ -8,7 +8,7 @@ import { store } from '../common/redux'
 import { MainLayout } from '../common/layouts/MainLayout'
 import { appInit } from '../modules/App/app.reducer'
 
-const chain = parseInt(process.env.NEXT_CHAIN) || ChainId.Rinkeby
+const chain = parseInt(process.env.NEXT_CHAIN) || ChainId.Goerli
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => (
   <Provider store={store}>
