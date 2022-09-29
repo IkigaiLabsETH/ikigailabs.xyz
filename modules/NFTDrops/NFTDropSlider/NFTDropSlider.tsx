@@ -26,7 +26,7 @@ export const NFTDropSlider: FC<NFTDropSliderProps> = ({ contract }) => {
         </div>
         <div className="flex self-start mt-2 justify-end">
           <Link href={`drops/${contract}`} title="explore">
-            <a>Explore</a>
+            Explore
           </Link>
         </div>
       </div>

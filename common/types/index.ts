@@ -1,6 +1,17 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ContractType, NFTMetadataOwner, ContractPrimarySale } from '@thirdweb-dev/sdk'
+import { ContractType, NFTMetadataOwner, ContractPrimarySale, ClaimCondition } from '@thirdweb-dev/sdk'
 
+export type {
+  ContractType,
+  NFTDrop,
+  EditionDrop,
+  NFTMetadata,
+  DropClaimConditions,
+  SignatureDrop,
+  TransactionResultWithId,
+  NFTMetadataOwner,
+  ClaimCondition,
+} from '@thirdweb-dev/sdk'
 export interface Token {
   symbol: string
   name: string
@@ -22,6 +33,7 @@ export interface NFTDropWithNFTS {
   claimedSupply: string
   unclaimedSupply: string
   ownedTokenIds: string[]
+  claimConditions: ClaimCondition[]
 }
 
 export interface ContractDefinition {
@@ -29,8 +41,6 @@ export interface ContractDefinition {
   contractType: ContractType
   metadata: () => Promise<any>
 }
-
-export type { ContractType, NFTMetadataOwner, NFTDrop } from '@thirdweb-dev/sdk'
 
 export type Status = 'idle' | 'loading' | 'succeeded' | 'failed'
 

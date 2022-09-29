@@ -15,7 +15,10 @@ import { nftDropReducer } from '../../modules/NFTDrop'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
 import { NFTDropsMiddleware } from '../../modules/NFTDrops'
 import { foundersMintPassReducer } from '../../modules/FoundersMintPass'
+import { freeMintReducer, freeMintMiddleware } from '../../modules/FreeMint'
 import { web3 } from '../web3'
+import { signatureDropMiddleware, signatureDropReducer } from '../../modules/SignatureDrop'
+import { signatureDropNFTMiddleware, signatureDropNFTReducer } from '../../modules/SignatureDrop/NFT'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -30,7 +33,10 @@ export const startAppListening = listenerMiddleware.startListening as AppStartLi
 
 export const addAppListener = addListener as TypedAddListener<RootState, AppDispatch>
 
-startAppListening(NFTDropsMiddleware(web3))
+// startAppListening(NFTDropsMiddleware(web3))
+startAppListening(freeMintMiddleware(web3))
+startAppListening(signatureDropMiddleware)
+startAppListening(signatureDropNFTMiddleware)
 
 const store = configureStore({
   reducer: combineReducers({
@@ -40,6 +46,9 @@ const store = configureStore({
     nftDrop: nftDropReducer,
     NFTDrops: NFTDropsReducer,
     mintPass: foundersMintPassReducer,
+    freeMint: freeMintReducer,
+    signatureDrop: signatureDropReducer,
+    signatureNFT: signatureDropNFTReducer,
   }),
   devTools: true,
   middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(listenerMiddleware.middleware),

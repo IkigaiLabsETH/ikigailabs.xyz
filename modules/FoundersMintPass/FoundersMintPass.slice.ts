@@ -62,4 +62,4 @@ export const foundersMintPassSlice = createSlice({
 
 export const { reducer } = foundersMintPassSlice
 
-export const selectLoadingState = (state: RootState) => state.FoundersMintPass.status
+export const selectLoadingState = (state: RootState) => state.mintPass.status

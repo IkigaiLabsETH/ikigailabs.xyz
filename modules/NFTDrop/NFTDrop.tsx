@@ -65,7 +65,7 @@ export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
     }
   }, [contract, address])
 
-  const nftsDisplay = () => map(({ metadata }) => <div>{metadata.description}</div>)(nfts)
+  const nftsDisplay = () => map(({ metadata }: NFTMetadataOwner) => <div>{metadata.description}</div>)(nfts)
 
   const dropMetadataDisplay = () => (
     <>

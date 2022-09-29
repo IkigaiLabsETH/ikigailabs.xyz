@@ -1,17 +1,23 @@
 import { formatDuration, intervalToDuration } from 'date-fns'
 import {
   addIndex,
+  append,
+  findIndex,
   gt,
+  ifElse,
   join,
   lensPath,
   lt,
   map,
   modulo,
   pipe,
+  prop,
+  propEq,
   propSatisfies,
   set,
   take,
   takeLast,
+  update,
   when,
   __,
 } from 'ramda'
@@ -54,3 +60,8 @@ export const isOdd = modulo(__, 2)
 
 export const formatNFTMetadata = (metadata: NFTMetadataOwner) =>
   set(lensPath(['metadata', 'id'] as never), metadata.metadata.id.toString())(metadata)
+
+export const addOrReplace = (x: string, value: any) =>
+  ifElse(pipe(findIndex(propEq(x, prop(x, value))), lt(0)), append(value), array =>
+    update(findIndex(propEq(x, prop(x, value)))(array), value, array),
+  )

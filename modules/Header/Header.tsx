@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
-  const { disconnect } = useWallet()
+  const { disconnect, connect, address } = useWallet()
   const { pathname } = useRouter()
 
   useEffect(() => {
@@ -19,6 +19,12 @@ export const Header: FC = () => {
   const handleDisconnect = event => {
     event.preventDefault()
     disconnect()
+    setExpanded(!expanded)
+  }
+
+  const handleConnect = event => {
+    event.preventDefault()
+    connect()
     setExpanded(!expanded)
   }
 
@@ -76,11 +82,15 @@ export const Header: FC = () => {
         </nav>
 
         <nav
-          className={`absolute flex backdrop-blur top-0 left-0 items-center justify-end transition-opacity duration-300 visible ${
-            expanded ? 'opacity-100 h-screen w-full' : 'opacity-0 invisible'
+          className={`absolute flex backdrop-blur top-0 items-center justify-end transition-all duration-300 visible delay-75 h-screen w-full ${
+            expanded ? 'opacity-100 left-0' : 'opacity-0 left-full'
           }`}
         >
-          <div className={`p-5 text-4xl md:text-6xl text-white font-bold transition-all ${expanded ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div
+            className={`p-5 text-4xl md:text-6xl text-white font-bold transition-all ${
+              expanded ? 'translate-x-0' : 'translate-x-full'
+            }`}
+          >
             <div className="flex justify-end">
               <Link href="/">
                 <a title="Home" className="p-4 bg-black mb-1 inline-block">
@@ -96,9 +106,15 @@ export const Header: FC = () => {
               </Link>
             </div>
             <div className="flex justify-end mt-16">
-              <a href="#" role="button" onClick={handleDisconnect} className="p-4 bg-black mb-1 inline-block">
-                Disconnect
-              </a>
+              {address ? (
+                <a href="#" role="button" onClick={handleDisconnect} className="p-4 bg-black mb-1 inline-block">
+                  Disconnect
+                </a>
+              ) : (
+                <a href="#" role="button" onClick={handleConnect} className="p-4 bg-black mb-1 inline-block">
+                  Connect
+                </a>
+              )}
             </div>
           </div>
         </nav>

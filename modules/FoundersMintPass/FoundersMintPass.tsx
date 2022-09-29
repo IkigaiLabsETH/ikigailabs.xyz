@@ -1,12 +1,16 @@
+import { divide, isNil } from 'ramda'
 import React, { ChangeEvent, FC } from 'react'
+import { match } from 'ts-pattern'
 
-import { useAppDispatch } from '../../common/redux/store'
+import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { useWallet } from '../../common/useWallet'
 import { Button } from '../Button'
-import { joinAllowlist } from './FoundersMintPass.slice'
+import { Loader } from '../Loader'
+import { joinAllowlist, selectLoadingState } from './FoundersMintPass.slice'
 
 export const FoundersMintPass: FC = () => {
   const dispatch = useAppDispatch()
+  const loadingState = useAppSelector(selectLoadingState)
   const { address, connect } = useWallet()
 
   const join = (event: ChangeEvent<HTMLButtonElement>) => {
@@ -21,14 +25,19 @@ export const FoundersMintPass: FC = () => {
     connect()
   }
 
-  const cta = address ? (
-    <Button onClick={join} label="Join allowlist" />
-  ) : (
-    <Button onClick={handleConnect} label="Connect &amp; Join allowlist" />
-  )
+  const getButton = match(address)
+    .when(isNil, () => <Button onClick={handleConnect} label="Connect" />)
+    .otherwise(() => <Button onClick={join} label="Join allowlist" />)
+
+  const cta = match(loadingState)
+    .with('idle', () => getButton)
+    .with('loading', () => <Loader />)
+    .with('succeeded', () => <div>Epic! You're all set.</div>)
+    .with('failed', () => <div>Whoops, something went wrong. Are you sure you aren't already on the list?</div>)
+    .exhaustive()
 
   return (
-    <div className="flex flex-col px-8 md:px-24 lg:px-48 bg-white text-black min-h-screen">
+    <div className="flex flex-col px-8 md:px-24 lg:px-48 bg-white text-black min-h-screen justify-center items-center">
       <div className="flex flex-row space-x-6 mt-32">
         <div className="w-full">
           <h1 className="text-[4rem] lg:text-[6rem] boska">Founders Mint Pass</h1>

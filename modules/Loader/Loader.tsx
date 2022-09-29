@@ -9,13 +9,18 @@ export enum Size {
 
 interface LoaderProps {
   size?: Size
+  color?: 'black' | 'white'
 }
 
-export const Loader: FC<LoaderProps> = ({ size = Size.m }) => {
+export const Loader: FC<LoaderProps> = ({ size = Size.m, color = 'black' }) => {
   const SIZE_MAP = {
     [Size.s]: 15,
     [Size.m]: 30,
     [Size.l]: 45,
   }
-  return <Image src="/assets/images/loader.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} />
+  return color === 'black' ? (
+    <Image src="/assets/images/loader.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} />
+  ) : (
+    <Image src="/assets/images/loader-white.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} />
+  )
 }

@@ -2,11 +2,12 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { FC } from 'react'
 
-import { featuredDrop } from '../common/config'
+import { FEATURED_DROP, FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID } from '../common/config'
 import { FeaturedAuction } from '../modules/Auction/Featured'
 import { FeaturedDrop } from '../modules/FeaturedDrop'
 import { Footer } from '../modules/Footer'
 import { FoundersMintPass } from '../modules/FoundersMintPass'
+import { FreeMint } from '../modules/FreeMint'
 import { NFTDrops } from '../modules/NFTDrops'
 
 const Home: FC = () => {
@@ -35,9 +36,10 @@ const Home: FC = () => {
       </header>
       <main className="w-full">
         {/* <FeaturedAuction contract={featuredMarketplaceContract} listingId={featuredListingId} /> */}
-        <FeaturedDrop contract={featuredDrop} />
+        <FeaturedDrop contract={FEATURED_DROP} />
         {/* <NFTDrops /> */}
         <FoundersMintPass />
+        <FreeMint contract={FREE_MINT_CONTRACT} tokenId={FREE_MINT_TOKEN_ID} />
       </main>
       <Footer />
     </div>

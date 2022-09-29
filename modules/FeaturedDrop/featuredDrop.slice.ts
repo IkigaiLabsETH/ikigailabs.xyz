@@ -1,17 +1,21 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-import { ContractMetadata, ErrorType, NFTDrop, Status } from '../../common/types'
+import { ContractMetadata, ErrorType, Status } from '../../common/types'
 import { RootState } from '../../common/redux/store'
+import { web3, Web3 } from '../../common/web3'
 
-export const fetchFeaturedDrop = createAsyncThunk<
-  Promise<ContractMetadata | unknown>,
-  { getNFTDrop: (contract: string) => NFTDrop; contract: string }
->('featuredDrop/fetch', ({ getNFTDrop, contract }, { rejectWithValue }) =>
-  getNFTDrop(contract)
-    .metadata.get()
-    .then((response: ContractMetadata) => response)
-    .catch((error: Error) => rejectWithValue(error.message)),
-)
+export const fetchFeaturedDropTh = (web3: Web3) =>
+  createAsyncThunk<Promise<ContractMetadata | unknown>, { contract: string }>(
+    'featuredDrop/fetch',
+    ({ contract }, { rejectWithValue }) =>
+      web3
+        .getNFTDrop(contract)
+        .then(response => response.metadata.get())
+        .then((response: ContractMetadata) => response)
+        .catch((error: Error) => rejectWithValue(error.message)),
+  )
+
+export const fetchFeaturedDrop = fetchFeaturedDropTh(web3)
 
 interface featuredDropState {
   entities: ContractMetadata
