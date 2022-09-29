@@ -211,7 +211,7 @@ export const SignatureDrop: FC<SignatureDropProps> = ({ contract }) => {
             </div>
           ))
           .with('succeeded', dropMetadataDisplay)
-          .otherwise(() => ( 
+          .otherwise(() => (
             <></>
           ))}
       </div>
