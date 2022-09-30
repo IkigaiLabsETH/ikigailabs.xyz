@@ -1,10 +1,11 @@
+/* eslint-disable react/function-component-definition */
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 import { Footer } from '../../../modules/Footer'
 import { NFT } from '../../../modules/SignatureDrop/NFT'
 
-const Collection: FC = () => {
+const Token: FC = () => {
   const { query } = useRouter()
   const { contract, tokenId } = query
 
@@ -23,4 +24,4 @@ const Collection: FC = () => {
   )
 }
 
-export default Collection
+export default Token

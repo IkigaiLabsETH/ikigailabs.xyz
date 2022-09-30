@@ -19,11 +19,16 @@ export const fetchSignatureDrop = createAction<{ contract: string }>('signtureDr
 export const fetchSignatureDropMetadataTh = (web3: Web3) =>
   createAsyncThunk<ContractMetadata, { contract: string }, { rejectValue: string }>(
     'signatureDrop/metadata/fetch',
-    ({ contract }, { rejectWithValue }) =>
-      web3
+    ({ contract }, { rejectWithValue }) => {
+      console.log(web3)
+      return web3
         .getSignatureDrop(contract)
-        .then(response => response.metadata.get())
-        .catch(error => rejectWithValue(error.message)),
+        .then(response => {
+          console.log(web3)
+          return response.metadata.get()
+        })
+        .catch(error => rejectWithValue(error.message))
+    }
   )
 export const fetchSignatureDropMetadata = fetchSignatureDropMetadataTh(web3)
 
@@ -72,10 +77,10 @@ export const fetchSignatureDropOwnedTokenIds = createAsyncThunk<
   string[],
   { contract: string; wallet: string },
   { rejectValue: string }
->('signatureDrop/ownedTokenIds/fetch', ({ contract }, { rejectWithValue }) =>
+>('signatureDrop/ownedTokenIds/fetch', ({ contract, wallet }, { rejectWithValue }) =>
   web3
     .getSignatureDrop(contract)
-    .then(response => response.getOwnedTokenIds())
+    .then(response => response.getOwnedTokenIds(wallet))
     .then(map((x: BigNumber) => x.toString()))
     .catch((error: Error) => rejectWithValue(error.message)),
 )
@@ -269,8 +274,14 @@ export const signatureDropSlice = createSlice({
       .addCase(claimNFT.fulfilled, state => {
         state.status.claim = 'succeeded'
       })
-      .addCase(claimNFT.rejected, state => {
+      .addCase(claimNFT.rejected, (state, action) => {
+        const { payload } = action
         state.status.claim = 'failed'
+        if (payload) {
+          state.error.claim = action.payload as string
+        } else {
+          state.error.claim = action.error.message
+        }
       })
       .addCase(fetchSignatureDropClaimConditions.pending, (state, action) => {
         state.status.claimConditions = 'loading'

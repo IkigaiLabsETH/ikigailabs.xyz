@@ -16,7 +16,6 @@ export const fetchNFTDrops = createAsyncThunk<Promise<{} | Error>, { web3: Web3;
         // return Promise.all([drop.metadata.get(), drop.getAll()])
         //   .then(([metadata, nfts]) => ({ [contract]: { metadata, nfts: map(formatNFTMetadata)(nfts) } }))
         //   .catch(error => rejectWithValue(error.message))
-        
       })(contracts),
     ),
 )

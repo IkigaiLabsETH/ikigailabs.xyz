@@ -22,7 +22,7 @@ export const FoundersMintPass: FC = () => {
 
   const handleConnect = (event: ChangeEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    connect()
+    connect().then(console.log)
   }
 
   const getButton = match(address)

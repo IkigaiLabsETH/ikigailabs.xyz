@@ -13,7 +13,7 @@ export const useWeb3 = () => {
   // const getListing = ({ contract, listingId }: { contract: string; listingId: number }) =>
   //   sdk.getMarketplace(contract).getListing(listingId)
 
-  // const getEditionDrop = ({ contract }: { contract: string }) => sdk.getEditionDrop(contract)
+  const getEditionDrop = ({ contract }: { contract: string }) => sdk.getEditionDrop(contract)
 
   // const getNFTFromEditionDrop = ({ contract, tokenId }: { contract: string; tokenId: number }) =>
   //   sdk.getEditionDrop(contract).get(tokenId)
@@ -31,7 +31,7 @@ export const useWeb3 = () => {
     getBalance,
     // getNFTFromCollection,
     // getListing,
-    // getEditionDrop,
+    getEditionDrop,
     // getNFTFromEditionDrop,
     getSignatureDrop,
     // getNFTFromNFTDrop,

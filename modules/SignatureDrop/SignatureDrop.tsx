@@ -164,7 +164,10 @@ export const SignatureDrop: FC<SignatureDropProps> = ({ contract }) => {
                 match(claimNFTLoadingState)
                   .with('loading', () => <Loader color="white" />)
                   .with('succeeded', () => <div>Congrats</div>)
-                  .otherwise(() => <Button label={`Buy for ${claimConditions[0].currencyMetadata.displayValue} eth`} onClick={claim} />)
+                  .with('failed', () => <div>Something went wrong</div>)
+                  .otherwise(() => (
+                    <Button label={`Buy for ${claimConditions[0].currencyMetadata.displayValue} eth`} onClick={claim} />
+                  )),
               )
               .otherwise(() => (
                 <></>

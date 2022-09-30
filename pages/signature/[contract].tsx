@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
@@ -5,7 +6,7 @@ import { Footer } from '../../modules/Footer'
 
 import { SignatureDrop } from '../../modules/SignatureDrop'
 
-const Collection: FC = () => {
+const SignatureCollection: FC = () => {
   const { query } = useRouter()
   const { contract } = query
 
@@ -25,4 +26,4 @@ const Collection: FC = () => {
   )
 }
 
-export default Collection
+export default SignatureCollection

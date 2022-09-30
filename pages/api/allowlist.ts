@@ -44,13 +44,17 @@ const add = async (req: NextApiRequest, res: NextApiResponse) => {
       error,
     })
   }
+
+  return res.status(500).json({
+    success: false,
+  })
 }
 
 const allowlist = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req
   return match(method)
     .with('POST', () => add(req, res))
-    .otherwise(() => {})
+    .otherwise(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 }
 
 export default allowlist
