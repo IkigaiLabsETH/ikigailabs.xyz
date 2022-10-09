@@ -6,8 +6,7 @@ import { FC } from 'react'
 import { FEATURED_DROP, FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID } from '../common/config'
 import { FeaturedDrop } from '../modules/FeaturedDrop'
 import { Footer } from '../modules/Footer'
-import { FoundersMintPass } from '../modules/FoundersMintPass'
-import { FreeMint } from '../modules/FreeMint'
+import { MintPasses } from '../modules/MintPasses'
 
 const Home: FC = () => (
   <div className="flex items-center flex-col">
@@ -31,8 +30,7 @@ const Home: FC = () => (
     </header>
     <main className="w-full">
       <FeaturedDrop contract={FEATURED_DROP} />
-      <FoundersMintPass />
-      <FreeMint contract={FREE_MINT_CONTRACT} tokenId={FREE_MINT_TOKEN_ID} />
+      <MintPasses />
     </main>
     <Footer />
   </div>

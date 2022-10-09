@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { find, findIndex, isNil, lensProp, path, pathEq, pipe, prop, propEq, propOr, set, tap } from 'ramda'
+import { find, findIndex, isNil, path, pipe, propEq, propOr } from 'ramda'
 import { RootState } from '../../common/redux/store'
 
 import { ErrorType, Status, NFTMetadata, EditionDrop } from '../../common/types'
@@ -18,15 +18,17 @@ export const claimTh = (web3: Web3) =>
 
 export const claim = claimTh(web3)
 
-export const fetchToken = createAsyncThunk<Promise<any>, { contract: string; web3: Web3; tokenId: number }>(
+export const fetchTokenTh = (web3: Web3) => createAsyncThunk<Promise<any>, { contract: string; tokenId: number }>(
   'freeMint/fetchToken',
-  ({ web3, contract, tokenId }, { rejectWithValue }) =>
+  ({ contract, tokenId }, { rejectWithValue }) =>
     web3
       .getEditionDrop(contract)
       .then(response => response.metadata.get())
       .then(response => response)
       .catch(error => rejectWithValue(error.message)),
 )
+
+export const fetchToken = fetchTokenTh(web3)
 
 interface FreeMintState {
   entities: {

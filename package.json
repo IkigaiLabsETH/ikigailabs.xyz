@@ -10,6 +10,7 @@
     "code:prettier": "prettier --write '**/*.{ts,tsx}'"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.12",
     "@reduxjs/toolkit": "^1.8.2",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@thirdweb-dev/react": "^3.1.2",

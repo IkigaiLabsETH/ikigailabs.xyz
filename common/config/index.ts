@@ -124,3 +124,11 @@ export const CONFETTI_CONFIG = {
     },
   },
 }
+
+export const MINT_PASSES = [
+  ['0x272991224665Dc0F905e525ce0e2e1E4BA108B71', 0],
+  ['0x4C390E37031c2AB8f5F036E21f1D19f0794415E3', 0],
+  ['0xB323669aFD9094189893cBFB535E2837abDb58f1', 0],
+]
+
+export type ContractTokenId = [string, number]

@@ -13,10 +13,7 @@ import { featuredAuctionReducer } from '../../modules/Auction/Featured'
 import { featuredDropReducer } from '../../modules/FeaturedDrop'
 import { nftDropReducer } from '../../modules/NFTDrop'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
-import { NFTDropsMiddleware } from '../../modules/NFTDrops'
-import { foundersMintPassReducer } from '../../modules/FoundersMintPass'
-import { freeMintReducer, freeMintMiddleware } from '../../modules/FreeMint'
-import { web3 } from '../web3'
+import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
 import { signatureDropMiddleware, signatureDropReducer } from '../../modules/SignatureDrop'
 import { signatureDropNFTMiddleware, signatureDropNFTReducer } from '../../modules/SignatureDrop/NFT'
 
@@ -34,7 +31,7 @@ export const startAppListening = listenerMiddleware.startListening as AppStartLi
 export const addAppListener = addListener as TypedAddListener<RootState, AppDispatch>
 
 // startAppListening(NFTDropsMiddleware(web3))
-startAppListening(freeMintMiddleware(web3))
+startAppListening(mintPassesMiddleware)
 startAppListening(signatureDropMiddleware)
 startAppListening(signatureDropNFTMiddleware)
 
@@ -45,8 +42,7 @@ const store = configureStore({
     featuredDrop: featuredDropReducer,
     nftDrop: nftDropReducer,
     NFTDrops: NFTDropsReducer,
-    mintPass: foundersMintPassReducer,
-    freeMint: freeMintReducer,
+    mintPasses: mintPassesReducer,
     signatureDrop: signatureDropReducer,
     signatureNFT: signatureDropNFTReducer,
   }),

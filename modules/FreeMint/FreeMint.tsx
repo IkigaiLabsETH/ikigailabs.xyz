@@ -1,5 +1,5 @@
 import { isNil } from 'ramda'
-import React, { ChangeEvent, FC } from 'react'
+import React, { ChangeEvent, FC, useEffect } from 'react'
 import { match } from 'ts-pattern'
 import Particles from 'react-tsparticles'
 import { loadFull } from 'tsparticles'
@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { useWallet } from '../../common/useWallet'
 import { Button } from '../Button'
 import { Loader } from '../Loader'
-import { claim, selectClaimLoadingState, selectToken } from './freeMint.slice'
+import { claim, fetchToken, selectClaimLoadingState, selectToken } from './freeMint.slice'
 import { CONFETTI_CONFIG } from '../../common/config'
 import { Link } from '../Link'
 import { Eyebrow } from '../Eyebrow'
@@ -23,6 +23,10 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
   const claimLoadingState = useAppSelector(selectClaimLoadingState(`${contract}_${tokenId}`))
   const token = useAppSelector(selectToken(`${contract}_${tokenId}`))
   const { address, connect } = useWallet()
+
+  useEffect(() => {
+    dispatch(fetchToken({ contract, tokenId }))
+  }, [])
 
   const particlesInit = async main => {
     await loadFull(main)
@@ -96,7 +100,6 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
     >
       <div className="w-full pb-12">
         <div className="px-8 py-4 pb-8 bg-black absolute w-full md:w-1/2 xl:w-1/3 max-w-xl">
-          <Eyebrow>Free mint</Eyebrow>
           {content}
         </div>
       </div>
