@@ -1,5 +1,5 @@
 
-import { ChainOrRpc, ThirdwebSDK } from '@thirdweb-dev/sdk'
+import { ChainId, ChainOrRpc, ThirdwebSDK } from '@thirdweb-dev/sdk'
 import { ethers } from 'ethers'
 
 let ethProvider = null
@@ -10,5 +10,12 @@ if (typeof window !== "undefined") {
   signer = ethProvider.getSigner()
 } 
 
-const chain = (process.env.NEXT_CHAIN || 'goerli') as ChainOrRpc
-export const sdk = ThirdwebSDK.fromSigner(signer, chain)
+const chain = (process.env.NEXT_CHAIN || ChainId.Goerli) as ChainOrRpc
+const sdk = new ThirdwebSDK(chain, { readonlySettings: {
+  chainId: ChainId.Goerli,
+  rpcUrl: "https://eth-goerli.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+}})
+
+sdk.updateSignerOrProvider(signer)
+
+export { sdk }
