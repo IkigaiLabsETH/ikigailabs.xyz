@@ -13,9 +13,13 @@ import { featuredAuctionReducer } from '../../modules/Auction/Featured'
 import { featuredDropReducer } from '../../modules/FeaturedDrop'
 import { nftDropReducer } from '../../modules/NFTDrop'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
-import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
+import { mintPassesReducer, mintPassesMiddleware, MintPasses } from '../../modules/MintPasses'
 import { signatureDropMiddleware, signatureDropReducer } from '../../modules/SignatureDrop'
 import { signatureDropNFTMiddleware, signatureDropNFTReducer } from '../../modules/SignatureDrop/NFT'
+import { modalMiddleware, modalReducer } from '../../modules/Modal'
+import { showMintPassDetails } from '../../modules/MintPasses/mintPasses.slice'
+import { appInit } from '../../modules/App/app.reducer'
+import { modalActions, MODAL_MAPPING } from '../modal'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -34,6 +38,7 @@ export const addAppListener = addListener as TypedAddListener<RootState, AppDisp
 startAppListening(mintPassesMiddleware)
 startAppListening(signatureDropMiddleware)
 startAppListening(signatureDropNFTMiddleware)
+startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions))
 
 const store = configureStore({
   reducer: combineReducers({
@@ -45,6 +50,7 @@ const store = configureStore({
     mintPasses: mintPassesReducer,
     signatureDrop: signatureDropReducer,
     signatureNFT: signatureDropNFTReducer,
+    modal: modalReducer,
   }),
   devTools: true,
   middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(listenerMiddleware.middleware),

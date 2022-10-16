@@ -1,6 +1,14 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { ContractType, NFTMetadataOwner, ContractPrimarySale, ClaimCondition } from '@thirdweb-dev/sdk'
 
+export enum Layout {
+  main = 'main',
+}
+
+export enum Modal {
+  mintPass = 'mintPass',
+}
+
 export type {
   ContractType,
   NFTDrop,

@@ -18,15 +18,16 @@ export const claimTh = (web3: Web3) =>
 
 export const claim = claimTh(web3)
 
-export const fetchTokenTh = (web3: Web3) => createAsyncThunk<Promise<any>, { contract: string; tokenId: number }>(
-  'freeMint/fetchToken',
-  ({ contract, tokenId }, { rejectWithValue }) =>
-    web3
-      .getEditionDrop(contract)
-      .then(response => response.metadata.get())
-      .then(response => response)
-      .catch(error => rejectWithValue(error.message)),
-)
+export const fetchTokenTh = (web3: Web3) =>
+  createAsyncThunk<Promise<any>, { contract: string; tokenId: number }>(
+    'freeMint/fetchToken',
+    ({ contract, tokenId }, { rejectWithValue }) =>
+      web3
+        .getEditionDrop(contract)
+        .then(response => response.metadata.get())
+        .then(response => response)
+        .catch(error => rejectWithValue(error.message)),
+  )
 
 export const fetchToken = fetchTokenTh(web3)
 
@@ -105,7 +106,8 @@ export const freeMintSlice = createSlice({
         } else {
           const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
           state.entities.claims[claimIndex] = {
-            ...claim,
+            id: `${contract}_${tokenId}`,
+            error: null,
             status: 'succeeded',
             data: payload,
           }

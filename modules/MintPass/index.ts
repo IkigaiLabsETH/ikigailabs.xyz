@@ -1,0 +1,1 @@
+export { MintPass } from './MintPass'

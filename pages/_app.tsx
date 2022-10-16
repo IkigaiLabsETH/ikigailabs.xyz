@@ -7,16 +7,16 @@ import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
 import '../styles/globals.css'
 import { store } from '../common/redux'
 import { appInit } from '../modules/App/app.reducer'
-import { MainLayout } from '../common/layouts/MainLayout'
+import { Modal } from '../modules/Modal'
+import { MODALS } from '../common/modal'
 
 const chain = parseInt(process.env.NEXT_CHAIN, 10) || ChainId.Goerli
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => (
   <Provider store={store}>
     <ThirdwebProvider desiredChainId={chain} autoConnect>
-      <MainLayout>
-        <Component {...pageProps} />
-      </MainLayout>
+      <Component {...pageProps} />
+      <Modal modals={MODALS} />
     </ThirdwebProvider>
   </Provider>
 )

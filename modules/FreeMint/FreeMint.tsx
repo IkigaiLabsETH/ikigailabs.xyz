@@ -99,9 +99,7 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
       style={{ backgroundImage: `url("${token.image}")` }}
     >
       <div className="w-full pb-12">
-        <div className="px-8 py-4 pb-8 bg-black absolute w-full md:w-1/2 xl:w-1/3 max-w-xl">
-          {content}
-        </div>
+        <div className="px-8 py-4 pb-8 bg-black absolute w-full md:w-1/2 xl:w-1/3 max-w-xl">{content}</div>
       </div>
     </div>
   )

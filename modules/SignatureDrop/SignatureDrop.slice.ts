@@ -28,7 +28,7 @@ export const fetchSignatureDropMetadataTh = (web3: Web3) =>
           return response.metadata.get()
         })
         .catch(error => rejectWithValue(error.message))
-    }
+    },
   )
 export const fetchSignatureDropMetadata = fetchSignatureDropMetadataTh(web3)
 

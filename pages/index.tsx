@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { FC } from 'react'
 
 import { FEATURED_DROP, FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID } from '../common/config'
+import { withLayout } from '../common/layouts/MainLayout/withLayout'
+import { Layout } from '../common/types'
 import { FeaturedDrop } from '../modules/FeaturedDrop'
 import { Footer } from '../modules/Footer'
 import { MintPasses } from '../modules/MintPasses'
@@ -36,4 +38,4 @@ const Home: FC = () => (
   </div>
 )
 
-export default Home
+export default withLayout(Layout.main)(Home)

@@ -1,11 +1,13 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../common/redux/store'
 
 import { ErrorType, Status } from '../../common/types'
 import { http, HTTP } from '../../common/http'
 import { ContractTokenId } from '../../common/config'
-import { find, findIndex, isNil, map, propEq } from 'ramda'
+import { find, findIndex, isNil, map, path, pipe, propEq } from 'ramda'
 import { web3, Web3 } from '../../common/web3'
+
+export const showMintPassDetails = createAction<any>('MintPassess/show')
 
 export const joinAllowlistTh = (http: HTTP) =>
   createAsyncThunk<Promise<{} | Error>, { address: string }>(
@@ -19,26 +21,25 @@ export const joinAllowlistTh = (http: HTTP) =>
 
 export const joinAllowlist = joinAllowlistTh(http)
 
-export const fetchMintpassesTh = (web3: Web3) => createAsyncThunk<any, { mintPasses: ContractTokenId[] }>(
-  'MintPasses/fetch',
-  ({ mintPasses }, { rejectWithValue }) =>
-    Promise.all(map(([contract, tokenId]) => (
-      web3
-        .getEditionDrop(contract)
-        .then(response => response.metadata.get())
-        .then(({ name, description, image, symbol }) => (
-          { 
+export const fetchMintpassesTh = (web3: Web3) =>
+  createAsyncThunk<any, { mintPasses: ContractTokenId[] }>('MintPasses/fetch', ({ mintPasses }, { rejectWithValue }) =>
+    Promise.all(
+      map(([contract, tokenId]) =>
+        web3
+          .getEditionDrop(contract)
+          .then(response => response.metadata.get())
+          .then(({ name, description, image, symbol }) => ({
             contract,
             tokenId,
             name,
             description,
             image,
             symbol,
-          }
-        ))
-        .catch(error => rejectWithValue(error.message))
-    ))(mintPasses))
-)
+          }))
+          .catch(error => rejectWithValue(error.message)),
+      )(mintPasses),
+    ),
+  )
 
 export const fetchMintpasses = fetchMintpassesTh(web3)
 
@@ -56,48 +57,43 @@ export const claimTh = (web3: Web3) =>
 export const claim = claimTh(web3)
 
 interface MintPassesState {
-    allowlist: {
-      entities: {},
-      status: Status
-      error: ErrorType
-    }
-    tokens: {
-      status: Status
-      error: ErrorType
-      entities: []
-    }
-    claims: {
-      entities: []
-      status: Status
-      error: ErrorType
-    }
+  allowlist: {
+    entities: {}
+    status: Status
+    error: ErrorType
   }
+  tokens: {
+    status: Status
+    error: ErrorType
+    entities: []
+  }
+  claims: {
+    id: string
+    data?: {}
+    status?: Status
+    error?: ErrorType
+  }[]
+}
 
 const initialState = {
-    allowlist: {
-      entities: {},
-      status: 'idle',
-      error: null,
-    },
-    tokens: {
-      entities: [],
-      status: 'idle',
-      error: null,
-    },
-    claims: {
-      entities: [],
-      status: 'idle',
-      error: null,
-    }
+  allowlist: {
+    entities: {},
+    status: 'idle',
+    error: null,
+  },
+  tokens: {
+    entities: [],
+    status: 'idle',
+    error: null,
+  },
+  claims: [],
 } as MintPassesState
 
 // Then, handle actions in your reducers:
 export const mintPassesSlice = createSlice({
   name: 'MintPass',
   initialState,
-  reducers: {
-    // standard reducer logic, with auto-generated action types per reducer
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(joinAllowlist.pending, (state, action) => {
@@ -127,16 +123,16 @@ export const mintPassesSlice = createSlice({
           },
         } = action
 
-        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
+        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.claims)
         if (isNil(claim)) {
           state.claims.push({
-            id: `${contract}_kenId}`,
+            id: `${contract}_${tokenId}`,
             status: 'loading',
             data: {},
             error: null,
           })
         } else {
-          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
+          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.claims)
           state.claims[claimIndex] = {
             ...claim,
             status: 'loading',
@@ -151,7 +147,7 @@ export const mintPassesSlice = createSlice({
           payload,
         } = action
 
-        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
+        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.claims)
         if (isNil(claim)) {
           state.claims.push({
             id: `${contract}_${tokenId}`,
@@ -160,7 +156,7 @@ export const mintPassesSlice = createSlice({
             error: null,
           })
         } else {
-          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
+          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.claims)
           state.claims[claimIndex] = {
             ...claim,
             status: 'succeeded',
@@ -176,7 +172,7 @@ export const mintPassesSlice = createSlice({
           payload,
           error: { message },
         } = action
-        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
+        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.claims)
         if (isNil(claim)) {
           state.claims.push({
             id: `${contract}_${tokenId}`,
@@ -185,7 +181,7 @@ export const mintPassesSlice = createSlice({
             error: payload ? (payload as string) : message,
           })
         } else {
-          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
+          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.claims)
           state.claims[claimIndex] = {
             ...claim,
             status: 'failed',
@@ -197,17 +193,13 @@ export const mintPassesSlice = createSlice({
         state.tokens.status = 'loading'
       })
       .addCase(fetchMintpasses.fulfilled, (state, action) => {
-        const {
-          payload,
-        } = action
+        const { payload } = action
         state.tokens.entities = payload
         state.tokens.status = 'succeeded'
       })
       .addCase(fetchMintpasses.rejected, (state, action) => {
-        const {
-          payload,
-        } = action
-        
+        const { payload } = action
+
         state.tokens.entities = []
         state.tokens.status = 'failed'
         if (payload) {
@@ -229,3 +221,7 @@ export const selectTokens = (state: RootState) => ({
   status: state.mintPasses.tokens.status,
   error: state.mintPasses.tokens.error,
 })
+
+export const selectToken = (pass: string) => (state: RootState) => pipe(path(['mintPasses', 'tokens', 'entities']), find(propEq('name', pass)))(state) as { name: string, image: string, description: string, tokenId: number, contract: string }
+
+// export const selectClaim = (tokenId: string) => (state: RootState) => state.mintPasses.claims
