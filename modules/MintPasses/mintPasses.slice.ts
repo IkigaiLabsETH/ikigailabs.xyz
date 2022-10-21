@@ -1,8 +1,8 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../common/redux/store'
 
-import { ErrorType, Status } from '../../common/types'
-import { http, HTTP } from '../../common/http'
+import { ErrorType, HTTP, Status } from '../../common/types'
+import { http } from '../../common/http'
 import { ContractTokenId } from '../../common/config'
 import { find, findIndex, isNil, map, path, pipe, propEq } from 'ramda'
 import { web3, Web3 } from '../../common/web3'

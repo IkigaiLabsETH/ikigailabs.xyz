@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.12",
     "@reduxjs/toolkit": "^1.8.2",
+    "@reservoir0x/reservoir-kit-client": "^0.1.8",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@thirdweb-dev/react": "^3.1.2",
     "@thirdweb-dev/sdk": "^3.1.2",

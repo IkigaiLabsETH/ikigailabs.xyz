@@ -1,6 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { ContractType, NFTMetadataOwner, ContractPrimarySale, ClaimCondition } from '@thirdweb-dev/sdk'
 
+export type { Axios as HTTP } from 'axios'
+
 export enum Layout {
   main = 'main',
 }

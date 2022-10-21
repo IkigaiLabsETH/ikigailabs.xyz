@@ -15,6 +15,7 @@ import { nftDropReducer } from '../../modules/NFTDrop'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
 import { mintPassesReducer, mintPassesMiddleware, MintPasses } from '../../modules/MintPasses'
 import { signatureDropMiddleware, signatureDropReducer } from '../../modules/SignatureDrop'
+import { dropActivityReducer } from '../../modules/DropActivity'
 import { signatureDropNFTMiddleware, signatureDropNFTReducer } from '../../modules/SignatureDrop/NFT'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
 import { showMintPassDetails } from '../../modules/MintPasses/mintPasses.slice'
@@ -51,6 +52,7 @@ const store = configureStore({
     signatureDrop: signatureDropReducer,
     signatureNFT: signatureDropNFTReducer,
     modal: modalReducer,
+    dropActivity: dropActivityReducer,
   }),
   devTools: true,
   middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(listenerMiddleware.middleware),
