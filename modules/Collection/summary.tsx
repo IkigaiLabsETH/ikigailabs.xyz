@@ -4,15 +4,12 @@ import { ContractMetadata } from '../../common/types'
 import { Eyebrow } from '../Eyebrow'
 import { Link } from '../Link'
 
-interface SignatureDropSummaryProps {
+interface CollectionSummaryProps {
   address: string
   metadata: ContractMetadata
 }
 
-export const SignatureDropSummary: FC<SignatureDropSummaryProps> = ({
-  address,
-  metadata: { name, description, image },
-}) => (
+export const CollectionSummary: FC<CollectionSummaryProps> = ({ address, metadata: { name, description, image } }) => (
   <div className="flex relative flex-col lg:flex-row-reverse w-screen lg:h-screen lg:min-h-min items-center">
     <div
       className="w-full lg:w-1/2 h-96 lg:h-screen bg-no-repeat bg-center bg-cover"

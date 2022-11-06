@@ -1,12 +1,13 @@
+/* eslint-disable react/function-component-definition */
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
-import { DropActivity } from '../../../modules/DropActivity'
 import { Footer } from '../../../modules/Footer'
+import { NFT } from '../../../modules/Collection/Token'
 
-const Activity:FC = ({}) => {
+const Token: FC = () => {
   const { query } = useRouter()
-  const { contract } = query
+  const { contract, tokenId } = query
 
   return (
     <div className="flex items-center flex-col">
@@ -16,13 +17,11 @@ const Activity:FC = ({}) => {
         <link rel="icon" href="/assets/images/ltl-logo-white-small.png" />
       </Head>
       <main className="w-full">
-        <div className="w-full bg-white flex items-center flex-col">
-          <DropActivity contract={contract as string} />
-        </div>
+        <NFT contract={contract as string} tokenId={tokenId as string} />
       </main>
       <Footer />
     </div>
   )
 }
 
-export default Activity
+export default Token

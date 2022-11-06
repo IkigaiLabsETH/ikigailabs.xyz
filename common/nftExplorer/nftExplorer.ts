@@ -1,5 +1,5 @@
-import { createClient } from "@reservoir0x/reservoir-kit-client"
-import axios from "axios"
+import { createClient } from '@reservoir0x/reservoir-kit-client'
+import axios from 'axios'
 
 export const explorerClient = createClient({
   apiBase: process.env.EXPLORER_URL || 'https://api-goerli.reservoir.tools',

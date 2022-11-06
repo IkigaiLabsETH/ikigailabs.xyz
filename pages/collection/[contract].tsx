@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 import { Footer } from '../../modules/Footer'
 
-import { SignatureDrop } from '../../modules/SignatureDrop'
+import { Collection } from '../../modules/Collection'
 
 const SignatureCollection: FC = () => {
   const { query } = useRouter()
@@ -18,7 +18,7 @@ const SignatureCollection: FC = () => {
         <link rel="icon" href="/assets/images/ltl-logo-white-small.png" />
       </Head>
       <main className="w-full">
-        <SignatureDrop contract={contract as string} />
+        <Collection contract={contract as string} />
       </main>
 
       <Footer />

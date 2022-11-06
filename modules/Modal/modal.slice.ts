@@ -18,7 +18,7 @@ export const modalSlice = createSlice({
   name: 'Modal',
   initialState,
   reducers: {
-    show(state, action: PayloadAction<{ modal: Modal, payload: any }>) {
+    show(state, action: PayloadAction<{ modal: Modal; payload: any }>) {
       state.modal = action.payload.modal
       state.data = action.payload.payload
       state.open = true
@@ -28,7 +28,6 @@ export const modalSlice = createSlice({
     },
   },
 })
-
 
 export const { reducer } = modalSlice
 export const { show, hide } = modalSlice.actions

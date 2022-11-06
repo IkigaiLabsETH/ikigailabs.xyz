@@ -3,7 +3,7 @@ import React, { FC, useEffect } from 'react'
 import { map } from 'ramda'
 
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
-import { fetchSignatureDropNFT, selectNft, selectNftLoadingState } from './NFT.slice'
+import { fetchCollectionNFT, selectNft, selectNftLoadingState } from './NFT.slice'
 import { Loader } from '../../Loader'
 import { NFTMetadataOwner } from '../../../common/types'
 
@@ -19,7 +19,7 @@ export const NFT: FC<NFTProps> = ({ contract, tokenId }) => {
   const nftLoadingState = useAppSelector(selectNftLoadingState)
 
   useEffect(() => {
-    dispatch(fetchSignatureDropNFT({ contract, tokenId }))
+    dispatch(fetchCollectionNFT({ contract, tokenId }))
   }, [contract, tokenId])
 
   const loader = (

@@ -22,6 +22,7 @@ export type {
   NFTMetadataOwner,
   ClaimCondition,
 } from '@thirdweb-dev/sdk'
+
 export interface Token {
   symbol: string
   name: string
@@ -55,3 +56,45 @@ export interface ContractDefinition {
 export type Status = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type ErrorType = string | null | undefined
+
+export enum ActivityType {
+  mint = 'mint',
+  transfer = 'transfer',
+  burned = 'burned',
+  listing_canceled = 'listing_canceled',
+  offer_canceled = 'offer_canceled',
+  ask = 'ask',
+  buy = 'buy',
+}
+
+export interface Token {
+  tokenId: string
+  tokenImage: string
+  tokenName: string
+}
+
+export interface Collection {
+  collectionId: string
+  collectionName: string
+}
+
+export interface Activity {
+  type: ActivityType.mint
+  fromAddress: string
+  toAddress: string
+  price: string
+  amount: number
+  timestamp: number
+  createdAt?: string
+  contract?: string
+  token: Token
+  collection?: Collection
+  txHash: string
+  logIndex?: number
+  batchIndex?: number
+}
+
+export interface CollectionActivity {
+  contract: string
+  activity: Activity[]
+}

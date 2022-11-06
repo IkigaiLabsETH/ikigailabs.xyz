@@ -222,6 +222,13 @@ export const selectTokens = (state: RootState) => ({
   error: state.mintPasses.tokens.error,
 })
 
-export const selectToken = (pass: string) => (state: RootState) => pipe(path(['mintPasses', 'tokens', 'entities']), find(propEq('name', pass)))(state) as { name: string, image: string, description: string, tokenId: number, contract: string }
+export const selectToken = (pass: string) => (state: RootState) =>
+  pipe(path(['mintPasses', 'tokens', 'entities']), find(propEq('name', pass)))(state) as {
+    name: string
+    image: string
+    description: string
+    tokenId: number
+    contract: string
+  }
 
 // export const selectClaim = (tokenId: string) => (state: RootState) => state.mintPasses.claims

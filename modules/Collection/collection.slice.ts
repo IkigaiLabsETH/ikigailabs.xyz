@@ -14,27 +14,24 @@ import {
 } from '../../common/types'
 import { web3, Web3 } from '../../common/web3'
 
-export const fetchSignatureDrop = createAction<{ contract: string }>('signtureDrop/fetch')
+export const fetchCollection = createAction<{ contract: string }>('signtureDrop/fetch')
 
-export const fetchSignatureDropMetadataTh = (web3: Web3) =>
+export const fetchCollectionMetadataTh = (web3: Web3) =>
   createAsyncThunk<ContractMetadata, { contract: string }, { rejectValue: string }>(
-    'signatureDrop/metadata/fetch',
-    ({ contract }, { rejectWithValue }) => {
-      console.log(web3)
-      return web3
+    'collection/metadata/fetch',
+    ({ contract }, { rejectWithValue }) =>
+      web3
         .getSignatureDrop(contract)
         .then(response => {
-          console.log(web3)
           return response.metadata.get()
         })
-        .catch(error => rejectWithValue(error.message))
-    },
+        .catch(error => rejectWithValue(error.message)),
   )
-export const fetchSignatureDropMetadata = fetchSignatureDropMetadataTh(web3)
+export const fetchCollectionMetadata = fetchCollectionMetadataTh(web3)
 
-export const fetchSignatureDropNFTsTh = (web3: Web3) =>
+export const fetchCollectionNFTsTh = (web3: Web3) =>
   createAsyncThunk<NFTMetadataOwner[], { contract: string }, { rejectValue: string }>(
-    'signatureDrop/nfts/fetch',
+    'collection/nfts/fetch',
     ({ contract }, { rejectWithValue }) =>
       web3
         .getSignatureDrop(contract)
@@ -47,11 +44,11 @@ export const fetchSignatureDropNFTsTh = (web3: Web3) =>
         )
         .catch(error => rejectWithValue(error.message)),
   )
-export const fetchSignatureDropNFTs = fetchSignatureDropNFTsTh(web3)
+export const fetchCollectionNFTs = fetchCollectionNFTsTh(web3)
 
-export const fetchSignatureDropClaimedSupplyTh = (web3: Web3) =>
+export const fetchCollectionClaimedSupplyTh = (web3: Web3) =>
   createAsyncThunk<string, { contract: string }, { rejectValue: string }>(
-    'signatureDrop/unclaimedSupply/fetch',
+    'collection/unclaimedSupply/fetch',
     ({ contract }, { rejectWithValue }) =>
       web3
         .getSignatureDrop(contract)
@@ -59,11 +56,11 @@ export const fetchSignatureDropClaimedSupplyTh = (web3: Web3) =>
         .then((claimedSupply: BigNumber) => claimedSupply.toString())
         .catch((error: Error) => rejectWithValue(error.message)),
   )
-export const fetchSignatureDropClaimedSupply = fetchSignatureDropClaimedSupplyTh(web3)
+export const fetchCollectionClaimedSupply = fetchCollectionClaimedSupplyTh(web3)
 
-export const fetchSignatureDropUnclaimedSupplyTh = (web3: Web3) =>
+export const fetchCollectionUnclaimedSupplyTh = (web3: Web3) =>
   createAsyncThunk<string, { contract: string }, { rejectValue: string }>(
-    'signatureDrop/claimedSupply/fetch',
+    'collection/claimedSupply/fetch',
     ({ contract }, { rejectWithValue }) =>
       web3
         .getSignatureDrop(contract)
@@ -71,13 +68,13 @@ export const fetchSignatureDropUnclaimedSupplyTh = (web3: Web3) =>
         .then((claimedSupply: BigNumber) => claimedSupply.toString())
         .catch((error: Error) => rejectWithValue(error.message)),
   )
-export const fetchSignatureDropUnclaimedSupply = fetchSignatureDropUnclaimedSupplyTh(web3)
+export const fetchCollectionUnclaimedSupply = fetchCollectionUnclaimedSupplyTh(web3)
 
-export const fetchSignatureDropOwnedTokenIds = createAsyncThunk<
+export const fetchCollectionOwnedTokenIds = createAsyncThunk<
   string[],
   { contract: string; wallet: string },
   { rejectValue: string }
->('signatureDrop/ownedTokenIds/fetch', ({ contract, wallet }, { rejectWithValue }) =>
+>('collection/ownedTokenIds/fetch', ({ contract, wallet }, { rejectWithValue }) =>
   web3
     .getSignatureDrop(contract)
     .then(response => response.getOwnedTokenIds(wallet))
@@ -85,9 +82,9 @@ export const fetchSignatureDropOwnedTokenIds = createAsyncThunk<
     .catch((error: Error) => rejectWithValue(error.message)),
 )
 
-export const fetchSignatureDropClaimConditionsTh = (web3: Web3) =>
+export const fetchCollectionClaimConditionsTh = (web3: Web3) =>
   createAsyncThunk<ClaimCondition[], { contract: string }, { rejectValue: string }>(
-    'signatureDrop/claimConditions/fetch',
+    'collection/claimConditions/fetch',
     ({ contract }, { rejectWithValue }) =>
       web3
         .getSignatureDrop(contract)
@@ -105,13 +102,13 @@ export const fetchSignatureDropClaimConditionsTh = (web3: Web3) =>
         )
         .catch(error => rejectWithValue(error.message)),
   )
-export const fetchSignatureDropClaimConditions = fetchSignatureDropClaimConditionsTh(web3)
+export const fetchCollectionClaimConditions = fetchCollectionClaimConditionsTh(web3)
 
 const claimNFTTh = (web3: Web3) =>
   createAsyncThunk<
     TransactionResultWithId<NFTMetadataOwner>[],
     { contract: string; quantity: number; address: string }
-  >('signatureDrop/nft/claim', ({ contract, quantity, address }, { rejectWithValue }) =>
+  >('collection/nft/claim', ({ contract, quantity, address }, { rejectWithValue }) =>
     web3
       .getSignatureDrop(contract)
       .then(response => response.claimTo(address, quantity))
@@ -120,7 +117,7 @@ const claimNFTTh = (web3: Web3) =>
 
 export const claimNFT = claimNFTTh(web3)
 
-interface SignatureDropState {
+interface CollectionState {
   entities: NFTDropWithNFTS
   status: {
     nfts: Status
@@ -162,28 +159,28 @@ const initialState = {
     claim: null,
     claimConditions: null,
   },
-} as SignatureDropState
+} as CollectionState
 
 // Then, handle actions in your reducers:
-export const signatureDropSlice = createSlice({
-  name: 'signatureDrop',
+export const collectionSlice = createSlice({
+  name: 'collection',
   initialState,
   reducers: {
     // standard reducer logic, with auto-generated action types per reducer
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchSignatureDropNFTs.pending, (state, action) => {
+      .addCase(fetchCollectionNFTs.pending, (state, action) => {
         state.status.nfts = 'loading'
       })
-      .addCase(fetchSignatureDropNFTs.fulfilled, (state, action) => {
+      .addCase(fetchCollectionNFTs.fulfilled, (state, action) => {
         const { payload } = action
         state.status.nfts = 'succeeded'
         // @ts-ignore
         state.entities.nfts = payload
         state.error.nfts = null
       })
-      .addCase(fetchSignatureDropNFTs.rejected, (state, action) => {
+      .addCase(fetchCollectionNFTs.rejected, (state, action) => {
         const { payload } = action
         state.status.nfts = 'failed'
         if (payload) {
@@ -192,17 +189,17 @@ export const signatureDropSlice = createSlice({
           state.error.nfts = action.error.message
         }
       })
-      .addCase(fetchSignatureDropMetadata.pending, (state, action) => {
+      .addCase(fetchCollectionMetadata.pending, (state, action) => {
         state.status.metadata = 'loading'
       })
-      .addCase(fetchSignatureDropMetadata.fulfilled, (state, action) => {
+      .addCase(fetchCollectionMetadata.fulfilled, (state, action) => {
         const { payload } = action
         state.status.metadata = 'succeeded'
         // @ts-ignore
         state.entities.metadata = payload
         state.error.metadata = null
       })
-      .addCase(fetchSignatureDropMetadata.rejected, (state, action) => {
+      .addCase(fetchCollectionMetadata.rejected, (state, action) => {
         const { payload } = action
         state.status.metadata = 'failed'
         if (payload) {
@@ -211,17 +208,17 @@ export const signatureDropSlice = createSlice({
           state.error.metadata = action.error.message
         }
       })
-      .addCase(fetchSignatureDropClaimedSupply.pending, (state, action) => {
+      .addCase(fetchCollectionClaimedSupply.pending, (state, action) => {
         state.status.claimedSupply = 'loading'
       })
-      .addCase(fetchSignatureDropClaimedSupply.fulfilled, (state, action) => {
+      .addCase(fetchCollectionClaimedSupply.fulfilled, (state, action) => {
         const { payload } = action
         state.status.claimedSupply = 'succeeded'
         // @ts-ignore
         state.entities.claimedSupply = payload
         state.error.claimedSupply = null
       })
-      .addCase(fetchSignatureDropClaimedSupply.rejected, (state, action) => {
+      .addCase(fetchCollectionClaimedSupply.rejected, (state, action) => {
         const { payload } = action
         state.status.claimedSupply = 'failed'
         if (payload) {
@@ -230,17 +227,17 @@ export const signatureDropSlice = createSlice({
           state.error.claimedSupply = action.error.message
         }
       })
-      .addCase(fetchSignatureDropUnclaimedSupply.pending, (state, action) => {
+      .addCase(fetchCollectionUnclaimedSupply.pending, (state, action) => {
         state.status.unclaimedSupply = 'loading'
       })
-      .addCase(fetchSignatureDropUnclaimedSupply.fulfilled, (state, action) => {
+      .addCase(fetchCollectionUnclaimedSupply.fulfilled, (state, action) => {
         const { payload } = action
         state.status.unclaimedSupply = 'succeeded'
         // @ts-ignore
         state.entities.unclaimedSupply = payload
         state.error.unclaimedSupply = null
       })
-      .addCase(fetchSignatureDropUnclaimedSupply.rejected, (state, action) => {
+      .addCase(fetchCollectionUnclaimedSupply.rejected, (state, action) => {
         const { payload } = action
         state.status.unclaimedSupply = 'failed'
         if (payload) {
@@ -249,17 +246,17 @@ export const signatureDropSlice = createSlice({
           state.error.unclaimedSupply = action.error.message
         }
       })
-      .addCase(fetchSignatureDropOwnedTokenIds.pending, (state, action) => {
+      .addCase(fetchCollectionOwnedTokenIds.pending, (state, action) => {
         state.status.ownedTokenIds = 'loading'
       })
-      .addCase(fetchSignatureDropOwnedTokenIds.fulfilled, (state, action) => {
+      .addCase(fetchCollectionOwnedTokenIds.fulfilled, (state, action) => {
         const { payload } = action
         state.status.ownedTokenIds = 'succeeded'
         // @ts-ignore
         state.entities.ownedTokenIds = payload
         state.error.ownedTokenIds = null
       })
-      .addCase(fetchSignatureDropOwnedTokenIds.rejected, (state, action) => {
+      .addCase(fetchCollectionOwnedTokenIds.rejected, (state, action) => {
         const { payload } = action
         state.status.ownedTokenIds = 'failed'
         if (payload) {
@@ -283,17 +280,17 @@ export const signatureDropSlice = createSlice({
           state.error.claim = action.error.message
         }
       })
-      .addCase(fetchSignatureDropClaimConditions.pending, (state, action) => {
+      .addCase(fetchCollectionClaimConditions.pending, (state, action) => {
         state.status.claimConditions = 'loading'
       })
-      .addCase(fetchSignatureDropClaimConditions.fulfilled, (state, action) => {
+      .addCase(fetchCollectionClaimConditions.fulfilled, (state, action) => {
         const { payload } = action
         state.status.claimConditions = 'succeeded'
         // @ts-ignore
         state.entities.claimConditions = payload
         state.error.claimConditions = null
       })
-      .addCase(fetchSignatureDropClaimConditions.rejected, (state, action) => {
+      .addCase(fetchCollectionClaimConditions.rejected, (state, action) => {
         const { payload } = action
         state.status.claimConditions = 'failed'
         if (payload) {
@@ -305,33 +302,33 @@ export const signatureDropSlice = createSlice({
   },
 })
 
-export const { reducer } = signatureDropSlice
+export const { reducer } = collectionSlice
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectNfts = path(['signatureDrop', 'entities', 'nfts'])
-export const selectNftsLoadingState = path(['signatureDrop', 'status', 'nfts'])
+export const selectNfts = path(['collection', 'entities', 'nfts'])
+export const selectNftsLoadingState = path(['collection', 'status', 'nfts'])
 
-export const selectMetadata = path(['signatureDrop', 'entities', 'metadata'])
-export const selectMetadataLoadingState = path(['signatureDrop', 'status', 'metadata'])
+export const selectMetadata = path(['collection', 'entities', 'metadata'])
+export const selectMetadataLoadingState = path(['collection', 'status', 'metadata'])
 
-export const selectClaimedSupply = path(['signatureDrop', 'entities', 'claimedSupply'])
-export const selectClaimedSupplyLoadingState = path(['signatureDrop', 'status', 'claimedSupply'])
+export const selectClaimedSupply = path(['collection', 'entities', 'claimedSupply'])
+export const selectClaimedSupplyLoadingState = path(['collection', 'status', 'claimedSupply'])
 
-export const selectUnclaimedSupply = path(['signatureDrop', 'entities', 'unclaimedSupply'])
-export const selectUnclaimedSupplyLoadingState = path(['signatureDrop', 'status', 'unclaimedSupply'])
+export const selectUnclaimedSupply = path(['collection', 'entities', 'unclaimedSupply'])
+export const selectUnclaimedSupplyLoadingState = path(['collection', 'status', 'unclaimedSupply'])
 
 export const selectTotalSupply = (state: RootState) =>
   add(
-    pathOr(0, ['signatureDrop', 'entities', 'claimedSupply'])(state),
-    pathOr(0, ['signatureDrop', 'entities', 'unclaimedSupply'])(state),
+    pathOr(0, ['collection', 'entities', 'claimedSupply'])(state),
+    pathOr(0, ['collection', 'entities', 'unclaimedSupply'])(state),
   )
 
-export const selectNftClaimConditions = path(['signatureDrop', 'entities', 'claimConditions'])
-export const selectNftClaimConditionsLoadingState = path(['signatureDrop', 'status', 'claimConditions'])
+export const selectNftClaimConditions = path(['collection', 'entities', 'claimConditions'])
+export const selectNftClaimConditionsLoadingState = path(['collection', 'status', 'claimConditions'])
 
-export const selectClaimNFT = path(['signatureDrop', 'entities', 'claim'])
-export const selectClaimNFTLoadingState = path(['signatureDrop', 'status', 'claim'])
+export const selectClaimNFT = path(['collection', 'entities', 'claim'])
+export const selectClaimNFTLoadingState = path(['collection', 'status', 'claim'])
 
-export const selectOwnedTokenIds = path(['signatureDrop', 'entities', 'ownedTokenIds'])
-export const selectOwnedTokenIdsLoadingState = path(['signatureDrop', 'status', 'ownedTokenIds'])
-export const selectOwnedTokensAmount = pathOr(0, ['signatureDrop', 'entities', 'ownedTokenIds', 'length'])
+export const selectOwnedTokenIds = path(['collection', 'entities', 'ownedTokenIds'])
+export const selectOwnedTokenIdsLoadingState = path(['collection', 'status', 'ownedTokenIds'])
+export const selectOwnedTokensAmount = pathOr(0, ['collection', 'entities', 'ownedTokenIds', 'length'])

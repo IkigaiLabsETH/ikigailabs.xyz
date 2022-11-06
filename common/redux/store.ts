@@ -7,20 +7,19 @@ import {
   TypedStartListening,
 } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { prop } from 'ramda'
 
 import { balanceReducer } from '../../modules/Balance'
 import { featuredAuctionReducer } from '../../modules/Auction/Featured'
 import { featuredDropReducer } from '../../modules/FeaturedDrop'
 import { nftDropReducer } from '../../modules/NFTDrop'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
-import { mintPassesReducer, mintPassesMiddleware, MintPasses } from '../../modules/MintPasses'
-import { signatureDropMiddleware, signatureDropReducer } from '../../modules/SignatureDrop'
-import { dropActivityReducer } from '../../modules/DropActivity'
-import { signatureDropNFTMiddleware, signatureDropNFTReducer } from '../../modules/SignatureDrop/NFT'
+import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
+import { collectionActivityReducer, collectionMiddleware, collectionReducer } from '../../modules/Collection'
+import { collectionNFTMiddleware, collectionNFTReducer } from '../../modules/Collection/Token'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
-import { showMintPassDetails } from '../../modules/MintPasses/mintPasses.slice'
-import { appInit } from '../../modules/App/app.reducer'
 import { modalActions, MODAL_MAPPING } from '../modal'
+import { collectionActivityApi } from '../../modules/Collection'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -37,8 +36,8 @@ export const addAppListener = addListener as TypedAddListener<RootState, AppDisp
 
 // startAppListening(NFTDropsMiddleware(web3))
 startAppListening(mintPassesMiddleware)
-startAppListening(signatureDropMiddleware)
-startAppListening(signatureDropNFTMiddleware)
+startAppListening(collectionMiddleware)
+startAppListening(collectionNFTMiddleware)
 startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions))
 
 const store = configureStore({
@@ -49,13 +48,14 @@ const store = configureStore({
     nftDrop: nftDropReducer,
     NFTDrops: NFTDropsReducer,
     mintPasses: mintPassesReducer,
-    signatureDrop: signatureDropReducer,
-    signatureNFT: signatureDropNFTReducer,
+    collection: collectionReducer,
+    signatureNFT: collectionNFTReducer,
     modal: modalReducer,
-    dropActivity: dropActivityReducer,
+    collectionActivity: collectionActivityReducer,
+    [collectionActivityApi.reducerPath]: prop('reducer')(collectionActivityApi),
   }),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(collectionActivityApi.middleware),
   devTools: true,
-  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(listenerMiddleware.middleware),
 })
 
 export { store }

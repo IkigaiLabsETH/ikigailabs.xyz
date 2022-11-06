@@ -1,11 +1,11 @@
-import { map, prop } from 'ramda'
-import React, { FC, MouseEvent, useEffect } from 'react'
+import { map } from 'ramda'
+import React, { FC, MouseEvent, useEffect, useState } from 'react'
 import { useAddress } from '@thirdweb-dev/react'
 import { match } from 'ts-pattern'
+import Link from 'next/link'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import {
-  fetchSignatureDropOwnedTokenIds,
   selectClaimedSupply,
   selectClaimedSupplyLoadingState,
   selectMetadata,
@@ -17,25 +17,36 @@ import {
   selectTotalSupply,
   selectUnclaimedSupply,
   selectUnclaimedSupplyLoadingState,
-  fetchSignatureDrop,
+  fetchCollection,
   claimNFT,
   selectNftClaimConditions,
   selectNftClaimConditionsLoadingState,
   selectClaimNFTLoadingState,
-} from './SignatureDrop.slice'
-import { ClaimCondition, ContractMetadata, NFTMetadata, NFTMetadataOwner, Status } from '../../common/types'
+} from './collection.slice'
+import { ClaimCondition, ContractMetadata, NFTMetadataOwner } from '../../common/types'
 import { Loader } from '../Loader'
 import { Eyebrow } from '../Eyebrow'
-import { Link } from '../Link'
 import { Button } from '../Button'
+import { Activity } from '../Activity'
+import { selectCollectionActivity } from './activity/collectionActivity.selectors'
+import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
-interface SignatureDropProps {
+interface CollectionProps {
   contract: string
 }
 
-export const SignatureDrop: FC<SignatureDropProps> = ({ contract }) => {
+enum Tab {
+  collection,
+  activity
+}
+
+export const Collection: FC<CollectionProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
   const address = useAddress()
+  const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
+
+  const { data: collectionActivity, status: collectionActivityStatus } = useAppSelector(selectCollectionActivity(contract))
+  console.log(collectionActivity, collectionActivityStatus)
 
   const nfts = useAppSelector(selectNfts) as NFTMetadataOwner[]
   const nftsLoadingState = useAppSelector(selectNftsLoadingState)
@@ -60,11 +71,12 @@ export const SignatureDrop: FC<SignatureDropProps> = ({ contract }) => {
   const claimNFTLoadingState = useAppSelector(selectClaimNFTLoadingState)
 
   useEffect(() => {
-    dispatch(fetchSignatureDrop({ contract }))
+    dispatch(fetchCollection({ contract }))
+
   }, [contract])
 
   useEffect(() => {
-    dispatch(fetchSignatureDropOwnedTokenIds({ contract, wallet: address }))
+    // dispatch(fetchCollectionOwnedTokenIds({ contract, wallet: address }))
   }, [contract, address])
 
   const claim = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -179,28 +191,44 @@ export const SignatureDrop: FC<SignatureDropProps> = ({ contract }) => {
   )
 
   const nftsDisplay = () => (
-    <div className="bg-white w-full flex justify-center">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-screen-2xl p-8 text-black">
-        {map(({ metadata }: NFTMetadataOwner) => (
-          <div
-            key={metadata.id as unknown as string}
-            className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
-          >
-            <div className="overflow-clip h-52">
-              <img src={metadata.image} alt={metadata.name as string} />
-            </div>
-            <div className="p-4">
-              <h5 className="font-bold text-2xl mb-4">{metadata.name}</h5>
-              <p className="text-black line-clamp-5">{metadata.description}</p>
-              <div className="flex justify-center items-center">
-                <Link href={`/signature/${contract}/${metadata.id}`} title={metadata.name as string}>
-                  View &rarr;
-                </Link>
-              </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-screen-2xl p-8 pt-0 text-black">
+      {map(({ metadata }: NFTMetadataOwner) => (
+        <div
+          key={metadata.id as unknown as string}
+          className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+        >
+          <div className="overflow-clip h-52">
+            <img src={metadata.image} alt={metadata.name as string} />
+          </div>
+          <div className="p-4">
+            <h5 className="font-bold text-2xl mb-4">{metadata.name}</h5>
+            <p className="text-black line-clamp-5">{metadata.description}</p>
+            <div className="flex justify-center items-center">
+              <Link href={`/collection/${contract}/${metadata.id}`} title={metadata.name as string}>
+                View &rarr;
+              </Link>
             </div>
           </div>
-        ))(nfts)}
-      </div>
+        </div>
+      ))(nfts)}
+    </div>
+  )
+
+  const collection = (
+    <div>
+      {match(nftsLoadingState)
+        .with('loading', () => <Loader />)
+        .with('succeeded', () => nftsDisplay())
+        .otherwise(() => null)}
+    </div>
+  )
+
+  const activity = (
+    <div className='w-full flex justify-center'> 
+      {match(collectionActivityStatus)
+          .with(QueryStatus.pending, () => <Loader />)
+          .with(QueryStatus.fulfilled, () => <Activity activity={collectionActivity.activities} />)
+          .otherwise(() => null)}
     </div>
   )
 
@@ -214,17 +242,36 @@ export const SignatureDrop: FC<SignatureDropProps> = ({ contract }) => {
             </div>
           ))
           .with('succeeded', dropMetadataDisplay)
-          .otherwise(() => (
-            <></>
-          ))}
+          .otherwise(() => null)}
       </div>
-      <div>
-        {match(nftsLoadingState)
-          .with('loading', () => <Loader />)
-          .with('succeeded', () => nftsDisplay())
-          .otherwise(() => (
-            <></>
-          ))}
+      <div className="bg-white w-full flex py-4 justify-center items-center text-black flex-col">
+        <div className="max-w-screen-2xl w-full m-4 flex md:px-6 lg:px-8">
+          <div className="sm:hidden">
+            <label htmlFor="tabs" className="sr-only">
+              Select a tab
+            </label>
+            <select id="tabs" name="tabs" className="block w-full">
+              <option>Collection</option>
+              <option>Activity</option>
+            </select>
+          </div>
+          <div className="hidden sm:block w-full">
+            <nav className="flex space-x-4 font-bold border-b border-b-gray-400 w-full" aria-label="Tabs">
+              <button onClick={() => setActiveTab(Tab.collection)} className={`p-4 border-b-2 transition-colors hover:text-red hover:border-b-red ${activeTab === Tab.collection ? 'text-black border-b-black' : 'text-gray-400 border-b-white'}`}>
+                Collection
+              </button>
+              <button onClick={() => setActiveTab(Tab.activity)} className={`p-4 border-b-2 transition-colors hover:text-red hover:border-b-red ${activeTab === Tab.activity ? 'text-black border-b-black' : 'text-gray-400 border-b-white'}`}>
+                Activity
+              </button>
+            </nav>
+          </div>
+        </div>
+        <div className="max-w-screen-2xl w-full m-4">
+          {match(activeTab)
+            .with(Tab.collection, () => collection)
+            .with(Tab.activity, () => activity)
+            .otherwise(() => null)}
+        </div>
       </div>
     </div>
   )
