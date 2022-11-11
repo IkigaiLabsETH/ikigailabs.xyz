@@ -39,7 +39,7 @@ export const Activity: FC<ActivityProps> = ({ activity }) => (
               <th scope="col"></th>
               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                 To
-              </th> 
+              </th>
               <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900 text-right">
                 Amount
               </th>
@@ -56,11 +56,7 @@ export const Activity: FC<ActivityProps> = ({ activity }) => (
               <tr>
                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                   <div className="flex items-center">
-                    <div className="h-10 w-10 justify-center items-center flex">
-                      {
-                        iconMapping[type]
-                      }
-                    </div>
+                    <div className="h-10 w-10 justify-center items-center flex">{iconMapping[type]}</div>
                   </div>
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -69,26 +65,33 @@ export const Activity: FC<ActivityProps> = ({ activity }) => (
                 <td className="text-gray-500 text-xs px-3">{fromAddress}</td>
                 <td className="text-gray-500">&rarr;</td>
                 <td className="text-gray-500 text-xs px-3">{toAddress}</td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
-                  {amount}
-                </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
-                  {price}
-                </td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">{amount}</td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">{price}</td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {formatDistance(
-                    new Date(timestamp * 1000),
-                    new Date(),
-                    { 
-                      includeSeconds: true,
-                      addSuffix: true,
-                    }
-                  )}
+                  {formatDistance(new Date(timestamp * 1000), new Date(), {
+                    includeSeconds: true,
+                    addSuffix: true,
+                  })}
                 </td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <a href={`https://etherscan.io/tx/${txHash}`} target='_blank' className="text-indigo-600 hover:text-indigo-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#000000" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  <a
+                    href={`https://etherscan.io/tx/${txHash}`}
+                    target="_blank"
+                    className="text-indigo-600 hover:text-indigo-900"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="#000000"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                      />
                     </svg>
                   </a>
                 </td>

@@ -1,6 +1,25 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { BigNumber } from 'ethers'
-import { add, lensPath, lensProp, map, path, pathOr, pipe, set, tap } from 'ramda'
+import {
+  add,
+  always,
+  collectBy,
+  flatten,
+  groupBy,
+  lensPath,
+  lensProp,
+  map,
+  path,
+  pathOr,
+  pipe,
+  pluck,
+  prop,
+  set,
+  tap,
+  toPairs,
+  tryCatch,
+  uniq,
+} from 'ramda'
 import { RootState } from '../../common/redux/store'
 
 import {
@@ -332,3 +351,22 @@ export const selectClaimNFTLoadingState = path(['collection', 'status', 'claim']
 export const selectOwnedTokenIds = path(['collection', 'entities', 'ownedTokenIds'])
 export const selectOwnedTokenIdsLoadingState = path(['collection', 'status', 'ownedTokenIds'])
 export const selectOwnedTokensAmount = pathOr(0, ['collection', 'entities', 'ownedTokenIds', 'length'])
+
+export const selectCollectionAttributes = pipe(
+  path(['collection', 'entities', 'nfts']),
+  tryCatch(
+    pipe(
+      map(path(['metadata', 'attributes'])),
+      flatten,
+      collectBy(prop('trait_type')),
+      map(
+        /* @ts-ignore: disable-next-line */
+        pipe(uniq, groupBy(prop('trait_type')), map(pluck('value')), toPairs, prop(0), item => ({
+          trait: item[0],
+          values: item[1],
+        })),
+      ),
+    ),
+    always([]),
+  ),
+)

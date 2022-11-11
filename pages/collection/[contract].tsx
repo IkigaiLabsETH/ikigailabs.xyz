@@ -7,8 +7,9 @@ import { Footer } from '../../modules/Footer'
 import { Collection } from '../../modules/Collection'
 
 const SignatureCollection: FC = () => {
-  const { query } = useRouter()
-  const { contract } = query
+  const {
+    query: { contract },
+  } = useRouter()
 
   return (
     <div className="flex items-center flex-col">

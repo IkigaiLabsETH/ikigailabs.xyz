@@ -98,3 +98,9 @@ export interface CollectionActivity {
   contract: string
   activity: Activity[]
 }
+
+export interface Facet {
+  trait: string
+  values: string[]
+  selected: string[]
+}

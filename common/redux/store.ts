@@ -15,7 +15,7 @@ import { featuredDropReducer } from '../../modules/FeaturedDrop'
 import { nftDropReducer } from '../../modules/NFTDrop'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
 import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
-import { collectionActivityReducer, collectionMiddleware, collectionReducer } from '../../modules/Collection'
+import { collectionMiddleware, collectionReducer } from '../../modules/Collection'
 import { collectionNFTMiddleware, collectionNFTReducer } from '../../modules/Collection/Token'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
 import { modalActions, MODAL_MAPPING } from '../modal'
@@ -51,10 +51,10 @@ const store = configureStore({
     collection: collectionReducer,
     signatureNFT: collectionNFTReducer,
     modal: modalReducer,
-    collectionActivity: collectionActivityReducer,
     [collectionActivityApi.reducerPath]: prop('reducer')(collectionActivityApi),
   }),
-  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(collectionActivityApi.middleware),
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(collectionActivityApi.middleware),
   devTools: true,
 })
 

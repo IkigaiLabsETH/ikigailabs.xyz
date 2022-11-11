@@ -1,8 +1,7 @@
-import { map } from 'ramda'
+import { assocPath, equals, find, findIndex, lens, lensIndex, lensProp, map, mergeDeepRight, mergeRight, path, pipe, prop, propEq, set, tap } from 'ramda'
 import React, { FC, MouseEvent, useEffect, useState } from 'react'
 import { useAddress } from '@thirdweb-dev/react'
 import { match } from 'ts-pattern'
-import Link from 'next/link'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import {
@@ -22,6 +21,7 @@ import {
   selectNftClaimConditions,
   selectNftClaimConditionsLoadingState,
   selectClaimNFTLoadingState,
+  selectCollectionAttributes,
 } from './collection.slice'
 import { ClaimCondition, ContractMetadata, NFTMetadataOwner } from '../../common/types'
 import { Loader } from '../Loader'
@@ -30,6 +30,9 @@ import { Button } from '../Button'
 import { Activity } from '../Activity'
 import { selectCollectionActivity } from './activity/collectionActivity.selectors'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
+import { NFTGrid } from '../NFTGrid'
+import { Facets } from '../Facets'
+import { toggleListItem } from '../../common/utils/utils'
 
 interface CollectionProps {
   contract: string
@@ -37,19 +40,35 @@ interface CollectionProps {
 
 enum Tab {
   collection,
-  activity
+  activity,
 }
 
 export const Collection: FC<CollectionProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
   const address = useAddress()
   const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
+  const [facets, setFacets] = useState<{ trait: string, values: string[], selected: string[] }[]>([])
 
-  const { data: collectionActivity, status: collectionActivityStatus } = useAppSelector(selectCollectionActivity(contract))
-  console.log(collectionActivity, collectionActivityStatus)
+  const { data: collectionActivity, status: collectionActivityStatus } = useAppSelector(
+    selectCollectionActivity(contract),
+  )
 
   const nfts = useAppSelector(selectNfts) as NFTMetadataOwner[]
   const nftsLoadingState = useAppSelector(selectNftsLoadingState)
+
+  const collectionAttributes = useAppSelector(selectCollectionAttributes)
+
+  useEffect(() => {
+    if (nftsLoadingState === 'succeeded') {
+      setFacets(map(mergeRight({ selected: [] }))(collectionAttributes))
+    }
+  }, [nftsLoadingState])
+
+  const updateFacets = (trait: string, facet: string) => {
+    const index = findIndex(propEq('trait', trait))(facets)
+    const f = assocPath([index, 'selected'], toggleListItem(facet)(path([index, 'selected'])(facets)))(facets)
+    return setFacets(f as any)
+}
 
   const dropMetadata = useAppSelector(selectMetadata) as ContractMetadata
   const dropMetadataLoadingState = useAppSelector(selectMetadataLoadingState)
@@ -72,7 +91,6 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
 
   useEffect(() => {
     dispatch(fetchCollection({ contract }))
-
   }, [contract])
 
   useEffect(() => {
@@ -191,26 +209,11 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   )
 
   const nftsDisplay = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-screen-2xl p-8 pt-0 text-black">
-      {map(({ metadata }: NFTMetadataOwner) => (
-        <div
-          key={metadata.id as unknown as string}
-          className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
-        >
-          <div className="overflow-clip h-52">
-            <img src={metadata.image} alt={metadata.name as string} />
-          </div>
-          <div className="p-4">
-            <h5 className="font-bold text-2xl mb-4">{metadata.name}</h5>
-            <p className="text-black line-clamp-5">{metadata.description}</p>
-            <div className="flex justify-center items-center">
-              <Link href={`/collection/${contract}/${metadata.id}`} title={metadata.name as string}>
-                View &rarr;
-              </Link>
-            </div>
-          </div>
-        </div>
-      ))(nfts)}
+    <div className="flex flex-col">
+      <div className="md:px-6 lg:px-8 mb-8">
+        <Facets facets={facets}  onClick={updateFacets} />
+      </div>
+      <NFTGrid nfts={nfts} />
     </div>
   )
 
@@ -218,17 +221,17 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
     <div>
       {match(nftsLoadingState)
         .with('loading', () => <Loader />)
-        .with('succeeded', () => nftsDisplay())
+        .with('succeeded', nftsDisplay)
         .otherwise(() => null)}
     </div>
   )
 
   const activity = (
-    <div className='w-full flex justify-center'> 
+    <div className="w-full flex justify-center">
       {match(collectionActivityStatus)
-          .with(QueryStatus.pending, () => <Loader />)
-          .with(QueryStatus.fulfilled, () => <Activity activity={collectionActivity.activities} />)
-          .otherwise(() => null)}
+        .with(QueryStatus.pending, () => <Loader />)
+        .with(QueryStatus.fulfilled, () => <Activity activity={collectionActivity.activities} />)
+        .otherwise(() => null)}
     </div>
   )
 
@@ -257,10 +260,20 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
           </div>
           <div className="hidden sm:block w-full">
             <nav className="flex space-x-4 font-bold border-b border-b-gray-400 w-full" aria-label="Tabs">
-              <button onClick={() => setActiveTab(Tab.collection)} className={`p-4 border-b-2 transition-colors hover:text-red hover:border-b-red ${activeTab === Tab.collection ? 'text-black border-b-black' : 'text-gray-400 border-b-white'}`}>
+              <button
+                onClick={() => setActiveTab(Tab.collection)}
+                className={`p-4 border-b-2 transition-colors hover:text-red hover:border-b-red ${
+                  activeTab === Tab.collection ? 'text-black border-b-black' : 'text-gray-400 border-b-white'
+                }`}
+              >
                 Collection
               </button>
-              <button onClick={() => setActiveTab(Tab.activity)} className={`p-4 border-b-2 transition-colors hover:text-red hover:border-b-red ${activeTab === Tab.activity ? 'text-black border-b-black' : 'text-gray-400 border-b-white'}`}>
+              <button
+                onClick={() => setActiveTab(Tab.activity)}
+                className={`p-4 border-b-2 transition-colors hover:text-red hover:border-b-red ${
+                  activeTab === Tab.activity ? 'text-black border-b-black' : 'text-gray-400 border-b-white'
+                }`}
+              >
                 Activity
               </button>
             </nav>

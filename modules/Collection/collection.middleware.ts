@@ -20,6 +20,10 @@ export const middleware = {
     listenerApi.dispatch(fetchCollectionClaimedSupply(prop('payload')(action)))
     listenerApi.dispatch(fetchCollectionUnclaimedSupply(prop('payload')(action)))
     listenerApi.dispatch(fetchCollectionClaimConditions(prop('payload')(action)))
-    listenerApi.dispatch(collectionActivityApi.endpoints.getCollectionActivityByContract.initiate(pathOr('', ['payload', 'contract'])(action)))
+    listenerApi.dispatch(
+      collectionActivityApi.endpoints.getCollectionActivityByContract.initiate(
+        pathOr('', ['payload', 'contract'])(action),
+      ),
+    )
   },
 }
