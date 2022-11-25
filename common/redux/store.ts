@@ -19,7 +19,7 @@ import { collectionMiddleware, collectionReducer } from '../../modules/Collectio
 import { collectionNFTMiddleware, collectionNFTReducer } from '../../modules/Collection/Token'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
 import { modalActions, MODAL_MAPPING } from '../modal'
-import { collectionActivityApi } from '../../modules/Collection'
+import { collectionApi } from '../../modules/Collection'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -51,10 +51,10 @@ const store = configureStore({
     collection: collectionReducer,
     signatureNFT: collectionNFTReducer,
     modal: modalReducer,
-    [collectionActivityApi.reducerPath]: prop('reducer')(collectionActivityApi),
+    [collectionApi.reducerPath]: prop('reducer')(collectionApi),
   }),
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(collectionActivityApi.middleware),
+    getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(collectionApi.middleware),
   devTools: true,
 })
 

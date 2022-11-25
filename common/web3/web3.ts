@@ -13,7 +13,7 @@ const chain = (process.env.NEXT_CHAIN || ChainId.Goerli) as ChainOrRpc
 const sdk = new ThirdwebSDK(chain, {
   readonlySettings: {
     chainId: ChainId.Goerli,
-    rpcUrl: 'https://eth-goerli.g.alchemy.com/v2/GBO1KTZt4HM-U_KnVj4di0ROyyGz3BZw',
+    rpcUrl: 'https://eth-goerli.g.alchemy.com/v2/uyDSscPAsHMY0vIhs7zKzF3XatffJMyi',
   },
 })
 

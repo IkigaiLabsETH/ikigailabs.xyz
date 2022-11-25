@@ -1,38 +1,31 @@
-import { assocPath, equals, find, findIndex, lens, lensIndex, lensProp, map, mergeDeepRight, mergeRight, path, pipe, prop, propEq, set, tap } from 'ramda'
-import React, { FC, MouseEvent, useEffect, useState } from 'react'
+import { QueryStatus } from '@reduxjs/toolkit/dist/query'
+import debounce from 'lodash.debounce'
+import { assocPath, equals, findIndex, map, mergeRight, path, propEq, propOr, prop, subtract } from 'ramda'
+import React, { FC, MouseEvent, useCallback, useEffect, useState } from 'react'
 import { useAddress } from '@thirdweb-dev/react'
 import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import {
-  selectClaimedSupply,
-  selectClaimedSupplyLoadingState,
-  selectMetadata,
-  selectMetadataLoadingState,
-  selectNfts,
-  selectNftsLoadingState,
-  selectOwnedTokenIdsLoadingState,
-  selectOwnedTokensAmount,
-  selectTotalSupply,
-  selectUnclaimedSupply,
-  selectUnclaimedSupplyLoadingState,
-  fetchCollection,
-  claimNFT,
-  selectNftClaimConditions,
-  selectNftClaimConditionsLoadingState,
-  selectClaimNFTLoadingState,
-  selectCollectionAttributes,
-} from './collection.slice'
-import { ClaimCondition, ContractMetadata, NFTMetadataOwner } from '../../common/types'
+import { fetchCollection, claimNFT, fetchCollectionOwnedTokenIds } from './collection.slice'
+import { ClaimCondition, Facet } from '../../common/types'
 import { Loader } from '../Loader'
 import { Eyebrow } from '../Eyebrow'
 import { Button } from '../Button'
 import { Activity } from '../Activity'
-import { selectCollectionActivity } from './activity/collectionActivity.selectors'
-import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { NFTGrid } from '../NFTGrid'
 import { Facets } from '../Facets'
-import { toggleListItem } from '../../common/utils/utils'
+import { formatAttributes, toggleListItem } from '../../common/utils/utils'
+import {
+  selectCollectionStats,
+  selectNFTS,
+  selectNftClaimConditions,
+  selectCollection,
+  selectCollectionAttributes,
+  selectOwnedTokens,
+  selectCollectionActivity,
+} from './collection.selectors'
+import { selectOwnedTokenIds } from '../NFTDrop/NFTDrop.slice'
+import { collectionApi, useGetCollectionTokensByContractWithAttributesQuery } from './collection.api'
 
 interface CollectionProps {
   contract: string
@@ -47,54 +40,43 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
   const address = useAddress()
   const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
-  const [facets, setFacets] = useState<{ trait: string, values: string[], selected: string[] }[]>([])
-
-  const { data: collectionActivity, status: collectionActivityStatus } = useAppSelector(
-    selectCollectionActivity(contract),
-  )
-
-  const nfts = useAppSelector(selectNfts) as NFTMetadataOwner[]
-  const nftsLoadingState = useAppSelector(selectNftsLoadingState)
-
-  const collectionAttributes = useAppSelector(selectCollectionAttributes)
+  const [facets, setFacets] = useState<Facet[]>([])
+  
+  const { data: collectionStats, status: collectionStatsStatus } = useAppSelector(selectCollectionStats(contract))
+  const { data: claimConditions, status: claimConditionsStatus } = useAppSelector(selectNftClaimConditions)
+  const { data: collection, status: collectionStatus } = useAppSelector(selectCollection)
+  const { data: nfts, status: nftsStatus } = useAppSelector(selectNFTS({ contract, attributes: formatAttributes(facets) }))
+  const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity(contract))
+  const { data: attributes, status: attributesStatus } = useAppSelector(selectCollectionAttributes(contract))
+  const { data: ownedTokens, status: ownedTokenStatus } = useAppSelector(selectOwnedTokens)
+  const { data: claimNFTData, status: claimNFTStatus } = useAppSelector(selectCollection)
 
   useEffect(() => {
-    if (nftsLoadingState === 'succeeded') {
-      setFacets(map(mergeRight({ selected: [] }))(collectionAttributes))
+    if (equals(attributesStatus, 'fulfilled')) {
+      setFacets(map(mergeRight({ selected: [] }))(attributes.attributes))
     }
-  }, [nftsLoadingState])
+  }, [attributesStatus])
 
-  const updateFacets = (trait: string, facet: string) => {
-    const index = findIndex(propEq('trait', trait))(facets)
+  const updateFacets = (key: string, facet: string) => {
+    const index = findIndex(propEq('key', key))(facets)
     const f = assocPath([index, 'selected'], toggleListItem(facet)(path([index, 'selected'])(facets)))(facets)
     return setFacets(f as any)
-}
+  }
 
-  const dropMetadata = useAppSelector(selectMetadata) as ContractMetadata
-  const dropMetadataLoadingState = useAppSelector(selectMetadataLoadingState)
+  const loadFacets = useCallback(
+    debounce(() => {
+      dispatch(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({contract, attributes: formatAttributes(facets)}))
+    }, 1500), [facets]
+  )
 
-  const claimedSupply = useAppSelector(selectClaimedSupply) as number
-  const claimedSupplyLoadingState = useAppSelector(selectClaimedSupplyLoadingState)
-
-  const unclaimedSupply = useAppSelector(selectUnclaimedSupply) as number
-  const unclaimedSupplyLoadingState = useAppSelector(selectUnclaimedSupplyLoadingState)
-
-  const totalSupply = useAppSelector(selectTotalSupply)
-
-  const ownedTokenAmount = useAppSelector(selectOwnedTokensAmount) as number
-  const ownedTokenIdsLoadingState = useAppSelector(selectOwnedTokenIdsLoadingState)
-
-  const claimConditions = useAppSelector(selectNftClaimConditions) as ClaimCondition[]
-  const claimConditionsLoadingState = useAppSelector(selectNftClaimConditionsLoadingState)
-
-  const claimNFTLoadingState = useAppSelector(selectClaimNFTLoadingState)
+  useEffect(loadFacets, [facets])  
 
   useEffect(() => {
-    dispatch(fetchCollection({ contract }))
+    contract && dispatch(fetchCollection({ contract }))
   }, [contract])
 
   useEffect(() => {
-    // dispatch(fetchCollectionOwnedTokenIds({ contract, wallet: address }))
+    address && dispatch(fetchCollectionOwnedTokenIds({ contract, wallet: address }))
   }, [contract, address])
 
   const claim = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -122,55 +104,45 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
           <span className="font-bold text-2xl tracking-tight">{claimCondition.currentMintSupply}</span>
         </div>
       </ul>
-    ))(claimConditions)
+    ))(claimConditions as any)
 
   const dropMetadataDisplay = () => (
     <>
       <div className="flex relative flex-col lg:flex-row-reverse w-screen lg:h-screen items-center lg:min-h-[55rem]">
         <div
           className="w-full lg:w-1/2 h-96 lg:h-screen lg:min-h-[55rem] bg-no-repeat bg-center bg-cover"
-          style={{ backgroundImage: `url(${dropMetadata.image})` }}
+          style={{ backgroundImage: `url(${propOr('', 'image')(collection)})` }}
         ></div>
         <div className="w-full lg:w-1/2 p-16 max-w-3xl">
           <Eyebrow>Signature</Eyebrow>
           <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">
-            {dropMetadata.name}
+            {propOr('', 'name')(collection)}
           </h2>
-          <p className="my-8 satoshi text-xl leading-relaxed">{dropMetadata.description}</p>
+          <p className="my-8 satoshi text-xl leading-relaxed">{propOr('', 'description')(collection)}</p>
           <div className="flex border-y border-y-gray-700 py-8 mt-6">
             <div className="grid grid-cols-4 gap-4 w-full">
               <div>
                 <h4 className="text-xs uppercase tracking-widest m-0 grey">Total Supply:</h4>
-                <span className="font-bold text-2xl tracking-tight">{totalSupply}</span>
+                <span className="font-bold text-2xl tracking-tight">{propOr('', 'supply')(collectionStats)}</span>
               </div>
               <div>
                 <h4 className="text-xs uppercase tracking-widest m-0 grey">Claimed:</h4>
                 <span className="font-bold text-2xl tracking-tight">
-                  {match(claimedSupplyLoadingState)
-                    .with('loading', () => <Loader color="white" />)
-                    .with('succeeded', () => claimedSupply)
-                    .otherwise(() => (
-                      <></>
-                    ))}
+                  {propOr('', 'claimed')(collectionStats)}
                 </span>
               </div>
               <div>
                 <h4 className="text-xs uppercase tracking-widest m-0 grey">Unclaimed:</h4>
                 <span className="font-bold text-2xl tracking-tight">
-                  {match(unclaimedSupplyLoadingState)
-                    .with('loading', () => <Loader color="white" />)
-                    .with('succeeded', () => unclaimedSupply)
-                    .otherwise(() => (
-                      <></>
-                    ))}
+                  {subtract(collectionStats.supply, collectionStats.claimed)}
                 </span>
               </div>
               <div>
                 <h4 className="text-xs uppercase tracking-widest m-0 grey grey">Owned:</h4>
                 <span className="font-bold text-2xl tracking-tight">
-                  {match(ownedTokenIdsLoadingState)
+                  {match(ownedTokenStatus)
                     .with('loading', () => <Loader color="white" />)
-                    .with('succeeded', () => ownedTokenAmount)
+                    .with('succeeded', () => <>{propOr(0, 'length')(ownedTokens)}</>)
                     .with('idle', () => 'Not connected')
                     .otherwise(() => (
                       <></>
@@ -180,7 +152,7 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
             </div>
           </div>
           <div className="my-8">
-            {match(claimConditionsLoadingState)
+            {match(claimConditionsStatus)
               .with('loading', () => <Loader color="white" />)
               .with('succeeded', conditions)
               .otherwise(() => (
@@ -188,10 +160,10 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
               ))}
           </div>
           <div className="flex">
-            {match(claimConditionsLoadingState)
+            {match(claimConditions)
               .with('loading', () => <Loader color="white" />)
               .with('succeeded', () =>
-                match(claimNFTLoadingState)
+                match(claimNFTStatus)
                   .with('loading', () => <Loader color="white" />)
                   .with('succeeded', () => <div>Congrats</div>)
                   .with('failed', () => <div>Something went wrong</div>)
@@ -211,26 +183,26 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   const nftsDisplay = () => (
     <div className="flex flex-col">
       <div className="md:px-6 lg:px-8 mb-8">
-        <Facets facets={facets}  onClick={updateFacets} />
+        <Facets facets={facets} onClick={updateFacets} />
       </div>
-      <NFTGrid nfts={nfts} />
+      <NFTGrid nfts={nfts.tokens} />
     </div>
   )
 
-  const collection = (
+  const collectionComponent = (
     <div>
-      {match(nftsLoadingState)
-        .with('loading', () => <Loader />)
-        .with('succeeded', nftsDisplay)
+      {match(nftsStatus)
+        .with(QueryStatus.pending, () => <Loader />)
+        .with(QueryStatus.fulfilled, nftsDisplay)
         .otherwise(() => null)}
     </div>
   )
 
-  const activity = (
+  const activityComponent = (
     <div className="w-full flex justify-center">
-      {match(collectionActivityStatus)
+      {match(activityStatus)
         .with(QueryStatus.pending, () => <Loader />)
-        .with(QueryStatus.fulfilled, () => <Activity activity={collectionActivity.activities} />)
+        .with(QueryStatus.fulfilled, () => <Activity activity={activity.activities} />)
         .otherwise(() => null)}
     </div>
   )
@@ -238,7 +210,7 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   return (
     <div className="flex flex-col w-full">
       <div className="flex">
-        {match(dropMetadataLoadingState)
+        {match(collectionStatus)
           .with('loading', () => (
             <div className="h-screen flex w-screen justify-center items-center">
               <Loader color="white" />
@@ -281,8 +253,8 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
         </div>
         <div className="max-w-screen-2xl w-full m-4">
           {match(activeTab)
-            .with(Tab.collection, () => collection)
-            .with(Tab.activity, () => activity)
+            .with(Tab.collection, () => collectionComponent)
+            .with(Tab.activity, () => activityComponent)
             .otherwise(() => null)}
         </div>
       </div>

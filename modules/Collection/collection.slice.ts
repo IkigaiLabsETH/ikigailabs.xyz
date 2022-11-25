@@ -1,26 +1,6 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { BigNumber } from 'ethers'
-import {
-  add,
-  always,
-  collectBy,
-  flatten,
-  groupBy,
-  lensPath,
-  lensProp,
-  map,
-  path,
-  pathOr,
-  pipe,
-  pluck,
-  prop,
-  set,
-  tap,
-  toPairs,
-  tryCatch,
-  uniq,
-} from 'ramda'
-import { RootState } from '../../common/redux/store'
+import { lensPath, lensProp, map, pipe, set } from 'ramda'
 
 import {
   ClaimCondition,
@@ -322,51 +302,3 @@ export const collectionSlice = createSlice({
 })
 
 export const { reducer } = collectionSlice
-
-// Other code such as selectors can use the imported `RootState` type
-export const selectNfts = path(['collection', 'entities', 'nfts'])
-export const selectNftsLoadingState = path(['collection', 'status', 'nfts'])
-
-export const selectMetadata = path(['collection', 'entities', 'metadata'])
-export const selectMetadataLoadingState = path(['collection', 'status', 'metadata'])
-
-export const selectClaimedSupply = path(['collection', 'entities', 'claimedSupply'])
-export const selectClaimedSupplyLoadingState = path(['collection', 'status', 'claimedSupply'])
-
-export const selectUnclaimedSupply = path(['collection', 'entities', 'unclaimedSupply'])
-export const selectUnclaimedSupplyLoadingState = path(['collection', 'status', 'unclaimedSupply'])
-
-export const selectTotalSupply = (state: RootState) =>
-  add(
-    pathOr(0, ['collection', 'entities', 'claimedSupply'])(state),
-    pathOr(0, ['collection', 'entities', 'unclaimedSupply'])(state),
-  )
-
-export const selectNftClaimConditions = path(['collection', 'entities', 'claimConditions'])
-export const selectNftClaimConditionsLoadingState = path(['collection', 'status', 'claimConditions'])
-
-export const selectClaimNFT = path(['collection', 'entities', 'claim'])
-export const selectClaimNFTLoadingState = path(['collection', 'status', 'claim'])
-
-export const selectOwnedTokenIds = path(['collection', 'entities', 'ownedTokenIds'])
-export const selectOwnedTokenIdsLoadingState = path(['collection', 'status', 'ownedTokenIds'])
-export const selectOwnedTokensAmount = pathOr(0, ['collection', 'entities', 'ownedTokenIds', 'length'])
-
-export const selectCollectionAttributes = pipe(
-  path(['collection', 'entities', 'nfts']),
-  tryCatch(
-    pipe(
-      map(path(['metadata', 'attributes'])),
-      flatten,
-      collectBy(prop('trait_type')),
-      map(
-        /* @ts-ignore: disable-next-line */
-        pipe(uniq, groupBy(prop('trait_type')), map(pluck('value')), toPairs, prop(0), item => ({
-          trait: item[0],
-          values: item[1],
-        })),
-      ),
-    ),
-    always([]),
-  ),
-)

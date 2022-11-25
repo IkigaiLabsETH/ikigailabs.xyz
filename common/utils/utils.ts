@@ -2,6 +2,7 @@ import { formatDuration, intervalToDuration } from 'date-fns'
 import {
   addIndex,
   append,
+  concat,
   curry,
   gt,
   ifElse,
@@ -13,6 +14,7 @@ import {
   modulo,
   pipe,
   propSatisfies,
+  reduce,
   set,
   take,
   takeLast,
@@ -21,7 +23,7 @@ import {
   __,
 } from 'ramda'
 
-import { NFTMetadataOwner } from '../types'
+import { FacetValue, NFTMetadataOwner } from '../types'
 
 export const truncate = (length: number) =>
   when(
@@ -60,8 +62,10 @@ export const isOdd = modulo(__, 2)
 export const formatNFTMetadata = (metadata: NFTMetadataOwner) =>
   set(lensPath(['metadata', 'id'] as never), metadata.metadata.id.toString())(metadata)
 
-export const toggleListItem = curry((value, list) => ifElse(
-    includes(value),
-    without([value]),
-    append(value),
-  )(list))
+export const toggleListItem = curry((value, list) => ifElse(includes(value), without([value]), append(value))(list))
+
+export const formatAttributes = reduce(
+  (acc, facet: { key: string; selected: string[] }) =>
+    concat(reduce((acc, value: string) => concat(`&attributes[${facet.key}]=${value}`)(acc), '')(facet.selected))(acc),
+  '',
+)

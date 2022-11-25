@@ -1,12 +1,12 @@
-import { NFTMetadataOwner } from '@thirdweb-dev/sdk'
 import { useRouter } from 'next/router'
 import { map } from 'ramda'
 import React, { FC } from 'react'
 
+import { NFT } from '../../common/types'
 import { Link } from '../Link'
 
 interface NFTGridProps {
-  nfts: NFTMetadataOwner[]
+  nfts: NFT[]
 }
 
 export const NFTGrid: FC<NFTGridProps> = ({ nfts }) => {
@@ -16,19 +16,19 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-screen-2xl p-8 pt-0 text-black">
-      {map(({ metadata }: NFTMetadataOwner) => (
+      {map(({ token }: NFT) => (
         <div
-          key={metadata.id as unknown as string}
+          key={token.name}
           className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
         >
           <div className="overflow-clip h-52">
-            <img src={metadata.image} alt={metadata.name as string} />
+            <img src={token.image} alt={token.name} />
           </div>
           <div className="p-4">
-            <h5 className="font-bold text-2xl mb-4">{metadata.name}</h5>
-            <p className="text-black line-clamp-5">{metadata.description}</p>
+            <h5 className="font-bold text-2xl mb-4">{token.name}</h5>
+            <p className="text-black line-clamp-5">{token.description}</p>
             <div className="flex justify-center items-center">
-              <Link href={`/collection/${contract}/${metadata.id}`} title={metadata.name as string}>
+              <Link href={`/collection/${contract}/${token.tokenId}`} title={token.name}>
                 View &rarr;
               </Link>
             </div>

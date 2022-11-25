@@ -1,5 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { ContractType, NFTMetadataOwner, ContractPrimarySale, ClaimCondition } from '@thirdweb-dev/sdk'
+import { string } from 'ts-pattern/dist/patterns'
 
 export type { Axios as HTTP } from 'axios'
 
@@ -99,8 +100,38 @@ export interface CollectionActivity {
   activity: Activity[]
 }
 
+export interface FacetValue {
+  value: string
+  count: number
+}
+
 export interface Facet {
-  trait: string
-  values: string[]
+  key: string
+  values: FacetValue[]
   selected: string[]
+}
+
+export interface Price {
+  amount: string
+  currency: string
+}
+
+export interface NFT {
+  market: {
+    floorAsk: {
+      price: Price | null
+    }
+    topBid: {
+      price: Price | null
+    }
+  }
+  token: {
+    rarity: number
+    description: string
+    name: string
+    image: string
+    owner: string
+    rarityRank: number
+    tokenId: number
+  }
 }
