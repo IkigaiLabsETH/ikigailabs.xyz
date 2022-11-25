@@ -4,7 +4,7 @@ import { Activity } from '../../../common/types'
 
 export const collectionActivityApi = createApi({
   reducerPath: 'collectionActivityApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.EXPLORER_URL || 'https://api-goerli.reservoir.tools' }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_EXPLORER_URL || 'https://api-goerli.reservoir.tools' }),
   endpoints: builder => ({
     getCollectionActivityByContract: builder.query<{ activities: Activity[] }, string>({
       query: (contract: string) =>

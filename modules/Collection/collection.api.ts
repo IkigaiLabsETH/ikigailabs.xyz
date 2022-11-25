@@ -4,7 +4,7 @@ import { Activity, NFT } from '../../common/types'
 
 export const collectionApi = createApi({
   reducerPath: 'collectionApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.EXPLORER_URL || 'https://api-goerli.reservoir.tools' }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_EXPLORER_URL || 'https://api-goerli.reservoir.tools' }),
   endpoints: builder => ({
     getCollectionByContract: builder.query<{ collection: any }, string>({
       query: (contract: string) =>
