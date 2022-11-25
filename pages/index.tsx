@@ -1,9 +1,9 @@
 /* eslint-disable react/function-component-definition */
 import Head from 'next/head'
 import Image from 'next/image'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 
-import { FEATURED_DROP, FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID } from '../common/config'
+import { FEATURED_DROP } from '../common/config'
 import { withLayout } from '../common/layouts/MainLayout/withLayout'
 import { Layout } from '../common/types'
 import { FeaturedDrop } from '../modules/FeaturedDrop'
