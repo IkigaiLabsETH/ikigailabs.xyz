@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { Activity, Facet, NFT } from '../../common/types'
-import { formatAttributes } from '../../common/utils/utils'
+import { Activity, NFT } from '../../common/types'
 
 export const collectionApi = createApi({
   reducerPath: 'collectionApi',
@@ -29,5 +28,3 @@ export const collectionApi = createApi({
     }),
   }),
 })
-
-export const { useGetCollectionTokensByContractWithAttributesQuery } = collectionApi

@@ -3,7 +3,7 @@ import React, { FC, useEffect } from 'react'
 import { map } from 'ramda'
 
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
-import { fetchCollectionNFT, selectNft, selectNftLoadingState } from './NFT.slice'
+import { fetchCollectionNFT, selectNft, selectNftLoadingState } from './token.slice'
 import { Loader } from '../../Loader'
 import { NFTMetadataOwner } from '../../../common/types'
 

@@ -1,4 +1,4 @@
-export { NFT } from './NFT'
+export { Token } from './Token'
 
-export { reducer as collectionNFTReducer } from './NFT.slice'
-export { middleware as collectionNFTMiddleware } from './NFT.middleware'
+export { reducer as collectionTokenReducer } from './token.api'
+export { middleware as collectionTokenMiddleware } from './token.middleware'

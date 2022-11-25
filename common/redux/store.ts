@@ -16,10 +16,11 @@ import { nftDropReducer } from '../../modules/NFTDrop'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
 import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
 import { collectionMiddleware, collectionReducer } from '../../modules/Collection'
-import { collectionNFTMiddleware, collectionNFTReducer } from '../../modules/Collection/Token'
+import { collectionTokenMiddleware } from '../../modules/Collection/Token'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
 import { modalActions, MODAL_MAPPING } from '../modal'
 import { collectionApi } from '../../modules/Collection'
+import { collectionTokenApi } from '../../modules/Collection/Token/token.api'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -37,7 +38,7 @@ export const addAppListener = addListener as TypedAddListener<RootState, AppDisp
 // startAppListening(NFTDropsMiddleware(web3))
 startAppListening(mintPassesMiddleware)
 startAppListening(collectionMiddleware)
-startAppListening(collectionNFTMiddleware)
+startAppListening(collectionTokenMiddleware)
 startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions))
 
 const store = configureStore({
@@ -49,7 +50,7 @@ const store = configureStore({
     NFTDrops: NFTDropsReducer,
     mintPasses: mintPassesReducer,
     collection: collectionReducer,
-    signatureNFT: collectionNFTReducer,
+    [collectionTokenApi.reducerPath]: prop('reducer')(collectionTokenApi),
     modal: modalReducer,
     [collectionApi.reducerPath]: prop('reducer')(collectionApi),
   }),

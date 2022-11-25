@@ -1,6 +1,6 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import debounce from 'lodash.debounce'
-import { assocPath, equals, findIndex, map, mergeRight, path, propEq, propOr, prop, subtract } from 'ramda'
+import { assocPath, equals, findIndex, map, mergeRight, path, propEq, propOr, subtract } from 'ramda'
 import React, { FC, MouseEvent, useCallback, useEffect, useState } from 'react'
 import { useAddress } from '@thirdweb-dev/react'
 import { match } from 'ts-pattern'
@@ -24,8 +24,7 @@ import {
   selectOwnedTokens,
   selectCollectionActivity,
 } from './collection.selectors'
-import { selectOwnedTokenIds } from '../NFTDrop/NFTDrop.slice'
-import { collectionApi, useGetCollectionTokensByContractWithAttributesQuery } from './collection.api'
+import { collectionApi } from './collection.api'
 
 interface CollectionProps {
   contract: string

@@ -28,7 +28,7 @@ export const middleware = {
     listenerApi.dispatch(
       collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
         contract: pathOr('', ['payload', 'contract'])(action),
-        attributes: [],
+        attributes: '',
       }),
     )
   },
