@@ -12,8 +12,6 @@ import { prop } from 'ramda'
 import { balanceReducer } from '../../modules/Balance'
 import { featuredAuctionReducer } from '../../modules/Auction/Featured'
 import { featuredDropReducer } from '../../modules/FeaturedDrop'
-import { nftDropReducer } from '../../modules/NFTDrop'
-import { NFTDropsReducer } from '../../modules/NFTDrops'
 import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
 import { collectionTokenMiddleware } from '../../modules/Collection/Token'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
@@ -28,7 +26,7 @@ import {
   ownedTokenIdsReducer,
   tokensReducer,
   unclaimedSupplyReducer,
-} from '../../modules/Drop/drop.slice'
+} from '../../modules/Drop'
 import { dropMiddleware } from '../../modules/Drop'
 
 export const listenerMiddleware = createListenerMiddleware()
@@ -56,8 +54,6 @@ const store = configureStore({
     balance: balanceReducer,
     featuredAuction: featuredAuctionReducer,
     featuredDrop: featuredDropReducer,
-    nftDrop: nftDropReducer,
-    NFTDrops: NFTDropsReducer,
     mintPasses: mintPassesReducer,
     [collectionTokenApi.reducerPath]: prop('reducer')(collectionTokenApi),
     modal: modalReducer,

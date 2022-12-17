@@ -28,7 +28,7 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts }) => {
             <h5 className="font-bold text-2xl mb-4">{token.name}</h5>
             <p className="text-black line-clamp-5">{token.description}</p>
             <div className="flex justify-center items-center">
-              <Link href={`/collection/${contract}/${token.tokenId}`} title={token.name}>
+              <Link href={`/collections/${contract}/${token.tokenId}`} title={token.name}>
                 View &rarr;
               </Link>
             </div>

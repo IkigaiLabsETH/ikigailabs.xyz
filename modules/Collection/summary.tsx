@@ -20,7 +20,7 @@ export const CollectionSummary: FC<CollectionSummaryProps> = ({ address, metadat
       <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{name}</h2>
       <p className="my-8 satoshi text-xl leading-relaxed">{description}</p>
       {/* <div className="flex flex-row w-full mt-16">
-        <Link href={`drop/${address}`} title="Visit collection">
+        <Link href={`drops/${address}`} title="Visit collection">
           Visit Collection &rarr;
         </Link>
       </div> */}

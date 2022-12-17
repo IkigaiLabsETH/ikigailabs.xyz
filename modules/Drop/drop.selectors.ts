@@ -1,4 +1,4 @@
-import { equals, pipe, pluck, prop, propOr, reject, tap, uniq } from 'ramda'
+import { equals, pipe, pluck, prop, propOr, reject, uniq } from 'ramda'
 import { RootState } from '../../common/redux/store'
 import { claimedSupplyAdapter, metadataAdapter, tokensAdapter, unclaimedSupplyAdapter } from './drop.slice'
 
