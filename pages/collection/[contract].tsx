@@ -2,9 +2,11 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
-import { Footer } from '../../modules/Footer'
 
+import { Footer } from '../../modules/Footer'
 import { Collection } from '../../modules/Collection'
+import { withLayout } from '../../common/layouts/MainLayout/withLayout'
+import { Layout } from '../../common/types'
 
 const SignatureCollection: FC = () => {
   const {
@@ -26,4 +28,4 @@ const SignatureCollection: FC = () => {
   )
 }
 
-export default SignatureCollection
+export default withLayout(Layout.main)(SignatureCollection)

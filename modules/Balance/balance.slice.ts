@@ -1,16 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import promiseRetry from 'promise-retry'
 import { lensProp, set } from 'ramda'
 
 import { RootState } from '../../common/redux/store'
 import { Token } from '../../common/types'
 
-// First, create the thunk
 export const fetchBalance = createAsyncThunk<
   Promise<Partial<Token>>,
   { getBalance: (contract?: string) => Promise<any>; contract: string },
   { rejectValue: string }
 >('balance/fetch', ({ getBalance, contract }, { rejectWithValue }) =>
-  getBalance()
+  promiseRetry(retry => getBalance(contract).catch(retry))
     .then(response => set(lensProp('value' as never), response.value.toString())(response))
     .catch((error: Error) => rejectWithValue(error.message)),
 )

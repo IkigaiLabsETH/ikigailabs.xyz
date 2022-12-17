@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../common/redux/store'
+import promiseRetry from 'promise-retry'
 
 import { ErrorType, HTTP, Status } from '../../common/types'
 import { http } from '../../common/http'
@@ -25,9 +26,12 @@ export const fetchMintpassesTh = (web3: Web3) =>
   createAsyncThunk<any, { mintPasses: ContractTokenId[] }>('MintPasses/fetch', ({ mintPasses }, { rejectWithValue }) =>
     Promise.all(
       map(([contract, tokenId]) =>
-        web3
-          .getEditionDrop(contract)
-          .then(response => response.metadata.get())
+        promiseRetry(retry =>
+          web3
+            .getEditionDrop(contract)
+            .then(response => response.metadata.get())
+            .catch(retry),
+        )
           .then(({ name, description, image, symbol }) => ({
             contract,
             tokenId,
@@ -47,11 +51,12 @@ export const claimTh = (web3: Web3) =>
   createAsyncThunk<Promise<{} | Error>, { contract: string; address: string; tokenId: number; amount: number }>(
     'MintPasses/claim',
     ({ contract, address, tokenId, amount }, { rejectWithValue }) =>
-      web3
-        .getEditionDrop(contract)
-        .then(response => response.claimTo(address, tokenId, amount))
-        .then(response => response)
-        .catch(error => rejectWithValue(error.message)),
+      promiseRetry(retry =>
+        web3
+          .getEditionDrop(contract)
+          .then(response => response.claimTo(address, tokenId, amount))
+          .catch(retry),
+      ).catch(error => rejectWithValue(error.message)),
   )
 
 export const claim = claimTh(web3)

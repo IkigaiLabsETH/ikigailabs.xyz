@@ -2,8 +2,8 @@ import { match } from 'ts-pattern'
 import React, { FC, useEffect } from 'react'
 import { map } from 'ramda'
 
-import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
-import { fetchCollectionNFT, selectNft, selectNftLoadingState } from './token.slice'
+import { useAppSelector } from '../../../common/redux/store'
+import { selectNft, selectNftLoadingState } from './token.slice'
 import { Loader } from '../../Loader'
 import { NFTMetadataOwner } from '../../../common/types'
 
@@ -13,14 +13,8 @@ interface NFTProps {
 }
 
 export const NFT: FC<NFTProps> = ({ contract, tokenId }) => {
-  const dispatch = useAppDispatch()
-
   const nft = useAppSelector(selectNft) as NFTMetadataOwner
   const nftLoadingState = useAppSelector(selectNftLoadingState)
-
-  useEffect(() => {
-    dispatch(fetchCollectionNFT({ contract, tokenId }))
-  }, [contract, tokenId])
 
   const loader = (
     <div className="flex w-screen h-screen justify-center items-center bg-white">

@@ -2,10 +2,13 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { FC, useEffect } from 'react'
+
 import { Footer } from '../../../modules/Footer'
 import { Token as CollectionToken } from '../../../modules/Collection/Token'
 import { useAppDispatch } from '../../../common/redux/store'
 import { fetchCollectionToken } from '../../../modules/Collection/Token/token.actions'
+import { Layout } from '../../../common/types'
+import { withLayout } from '../../../common/layouts/MainLayout/withLayout'
 
 const Token: FC = () => {
   const dispatch = useAppDispatch()
@@ -33,4 +36,4 @@ const Token: FC = () => {
   )
 }
 
-export default Token
+export default withLayout(Layout.main)(Token)

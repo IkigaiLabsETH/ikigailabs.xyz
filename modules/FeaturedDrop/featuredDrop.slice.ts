@@ -3,14 +3,18 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { ContractMetadata, ErrorType, Status } from '../../common/types'
 import { RootState } from '../../common/redux/store'
 import { web3, Web3 } from '../../common/web3'
+import promiseRetry from 'promise-retry'
 
 export const fetchFeaturedDropTh = (web3: Web3) =>
   createAsyncThunk<Promise<ContractMetadata | unknown>, { contract: string }>(
     'featuredDrop/fetch',
     ({ contract }, { rejectWithValue }) =>
-      web3
-        .getNFTDrop(contract)
-        .then(response => response.metadata.get())
+      promiseRetry(retry =>
+        web3
+          .getNFTDrop(contract)
+          .then(response => response.metadata.get())
+          .catch(retry),
+      )
         .then((response: ContractMetadata) => response)
         .catch((error: Error) => rejectWithValue(error.message)),
   )

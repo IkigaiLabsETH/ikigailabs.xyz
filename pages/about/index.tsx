@@ -1,6 +1,8 @@
 /* eslint-disable react/function-component-definition */
 import Head from 'next/head'
 import React, { FC } from 'react'
+import { withLayout } from '../../common/layouts/MainLayout/withLayout'
+import { Layout } from '../../common/types'
 
 const About: FC = () => (
   <div className="flex items-center flex-col">
@@ -74,4 +76,4 @@ const About: FC = () => (
   </div>
 )
 
-export default About
+export default withLayout(Layout.main)(About)

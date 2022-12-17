@@ -1,6 +1,7 @@
 import { createAction, createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import { BigNumber } from 'ethers'
-import { append, assoc, lensPath, lensProp, map, pipe, prop, set } from 'ramda'
+import { assoc, lensPath, lensProp, map, pipe, set } from 'ramda'
+import promiseRetry from 'promise-retry'
 
 import { ClaimCondition, ContractMetadata, NFTMetadataOwner, TransactionResultWithId } from '../../common/types'
 import { web3, Web3 } from '../../common/web3'
@@ -19,11 +20,14 @@ export const fetchDropMetadataTh = (web3: Web3) =>
   createAsyncThunk<{ id: string } & ContractMetadata, { contract: string }, { rejectValue: string }>(
     'drop/metadata/fetch',
     ({ contract }, { rejectWithValue }) =>
-      web3
-        .getSignatureDrop(contract)
-        .then(response => response.metadata.get())
+      promiseRetry(retry =>
+        web3
+          .getSignatureDrop(contract)
+          .then(response => response.metadata.get())
+          .catch(retry),
+      )
         .then(assoc('id', contract))
-        .catch(error => rejectWithValue(error.message)),
+        .catch((error: any) => rejectWithValue(error.message)),
   )
 export const fetchDropMetadata = fetchDropMetadataTh(web3)
 
@@ -31,9 +35,12 @@ export const fetchDropTokensTh = (web3: Web3) =>
   createAsyncThunk<{ id: string; tokens: any }, { contract: string }, { rejectValue: string }>(
     'drop/nfts/fetch',
     ({ contract }, { rejectWithValue }) =>
-      web3
-        .getSignatureDrop(contract)
-        .then(response => response.getAll())
+      promiseRetry(retry =>
+        web3
+          .getSignatureDrop(contract)
+          .then(response => response.getAll())
+          .catch(retry),
+      )
         .then((nfts: NFTMetadataOwner[]) => ({
           tokens: map((nft: NFTMetadataOwner) => ({
             token: {
@@ -55,23 +62,30 @@ export const fetchDropClaimedSupplyTh = (web3: Web3) =>
   createAsyncThunk<{ id: string; claimedSupply: string }, { contract: string }, { rejectValue: string }>(
     'drop/unclaimedSupply/fetch',
     ({ contract }, { rejectWithValue }) =>
-      web3
-        .getSignatureDrop(contract)
-        .then(response => response.totalClaimedSupply())
+      promiseRetry(retry =>
+        web3
+          .getSignatureDrop(contract)
+          .then(response => response.totalClaimedSupply())
+          .catch(retry),
+      )
         .then((claimedSupply: BigNumber) => ({ claimedSupply: claimedSupply.toString(), id: contract }))
         .catch((error: Error) => rejectWithValue(error.message)),
   )
+
 export const fetchDropClaimedSupply = fetchDropClaimedSupplyTh(web3)
 
 export const fetchDropUnclaimedSupplyTh = (web3: Web3) =>
   createAsyncThunk<{ id: string; unclaimedSupply: string }, { contract: string }, { rejectValue: string }>(
     'drop/claimedSupply/fetch',
     ({ contract }, { rejectWithValue }) =>
-      web3
-        .getSignatureDrop(contract)
-        .then(response => response.totalUnclaimedSupply())
-        .then((unclaimedSupply: BigNumber) => ({ unclaimedSupply: unclaimedSupply.toString(), id: contract }))
-        .catch((error: Error) => rejectWithValue(error.message)),
+      promiseRetry(retry =>
+        web3
+          .getSignatureDrop(contract)
+          .then(response => response.totalUnclaimedSupply())
+          .catch(retry)
+          .then((unclaimedSupply: BigNumber) => ({ unclaimedSupply: unclaimedSupply.toString(), id: contract }))
+          .catch((error: Error) => rejectWithValue(error.message)),
+      ),
   )
 export const fetchDropUnclaimedSupply = fetchDropUnclaimedSupplyTh(web3)
 
@@ -80,19 +94,26 @@ export const fetchDropOwnedTokenIds = createAsyncThunk<
   { contract: string; wallet: string },
   { rejectValue: string }
 >('drop/ownedTokenIds/fetch', ({ contract, wallet }, { rejectWithValue }) =>
-  web3
-    .getSignatureDrop(contract)
-    .then(response => response.getOwnedTokenIds(wallet))
+  promiseRetry(retry =>
+    web3
+      .getSignatureDrop(contract)
+      .then(response => response.getOwnedTokenIds(wallet))
+      .catch(retry),
+  )
     .then((tokens: []) => ({ tokens: map((x: BigNumber) => x.toString())(tokens), id: contract }))
     .catch((error: Error) => rejectWithValue(error.message)),
 )
+
 export const fetchDropClaimConditionsTh = (web3: Web3) =>
   createAsyncThunk<{ id: string; claimConditions: ClaimCondition[] }, { contract: string }, { rejectValue: string }>(
     'drop/claimConditions/fetch',
     ({ contract }, { rejectWithValue }) =>
-      web3
-        .getSignatureDrop(contract)
-        .then(response => response.claimConditions.getAll())
+      promiseRetry(retry =>
+        web3
+          .getSignatureDrop(contract)
+          .then(response => response.claimConditions.getAll())
+          .catch(retry),
+      )
         .then((conditions: ClaimCondition[]) => ({
           claimConditions: map(
             (claimCondition: ClaimCondition) =>
@@ -114,13 +135,15 @@ const claimTokenTh = (web3: Web3) =>
     TransactionResultWithId<NFTMetadataOwner>[],
     { contract: string; quantity: number; address: string }
   >('drop/nft/claim', ({ contract, quantity, address }, { rejectWithValue }) =>
-    web3
-      .getSignatureDrop(contract)
-      .then(response => response.claimTo(address, quantity))
-      .catch((error: Error) => {
-        console.log(error)
-        return rejectWithValue(error.message)
-      }),
+    promiseRetry(retry =>
+      web3
+        .getSignatureDrop(contract)
+        .then(response => response.claimTo(address, quantity))
+        .catch(retry),
+    ).catch((error: Error) => {
+      console.log(error)
+      return rejectWithValue(error.message)
+    }),
   )
 
 export const claimToken = claimTokenTh(web3)
