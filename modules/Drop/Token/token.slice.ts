@@ -4,11 +4,11 @@ import { lensPath, path, set } from 'ramda'
 import { ErrorType, NFTMetadataOwner, Status } from '../../../common/types'
 import { web3, Web3 } from '../../../common/web3'
 
-export const fetchCollectionNFT = createAction<{ contract: string; tokenId: string }>('collection/nft/fetch')
+export const fetchDropNFT = createAction<{ contract: string; tokenId: string }>('drop/nft/fetch')
 
-export const fetchCollectionNFTMetadataTh = (web3: Web3) =>
+export const fetchDropNFTMetadataTh = (web3: Web3) =>
   createAsyncThunk<NFTMetadataOwner, { contract: string; tokenId: string }, { rejectValue: string }>(
-    'collection/nft/fetch',
+    'drop/nft/fetch',
     ({ contract, tokenId }, { rejectWithValue }) =>
       web3
         .getSignatureDrop(contract)
@@ -19,9 +19,9 @@ export const fetchCollectionNFTMetadataTh = (web3: Web3) =>
         )
         .catch(error => rejectWithValue(error.message)),
   )
-export const fetchCollectionNFTMetadata = fetchCollectionNFTMetadataTh(web3)
+export const fetchDropNFTMetadata = fetchDropNFTMetadataTh(web3)
 
-interface CollectionNFTState {
+interface DropNFTState {
   entities: {
     nft: NFTMetadataOwner
   }
@@ -43,28 +43,28 @@ const initialState = {
   error: {
     nft: null,
   },
-} as CollectionNFTState
+} as DropNFTState
 
 // Then, handle actions in your reducers:
-export const collectionNFTSlice = createSlice({
-  name: 'collection',
+export const dropNFTSlice = createSlice({
+  name: 'drop',
   initialState,
   reducers: {
     // standard reducer logic, with auto-generated action types per reducer
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchCollectionNFTMetadata.pending, (state, action) => {
+      .addCase(fetchDropNFTMetadata.pending, (state, action) => {
         state.status.nft = 'loading'
       })
-      .addCase(fetchCollectionNFTMetadata.fulfilled, (state, action) => {
+      .addCase(fetchDropNFTMetadata.fulfilled, (state, action) => {
         const { payload } = action
         state.status.nft = 'succeeded'
         // @ts-ignore
         state.entities.nft = payload
         state.error.nft = null
       })
-      .addCase(fetchCollectionNFTMetadata.rejected, (state, action) => {
+      .addCase(fetchDropNFTMetadata.rejected, (state, action) => {
         const { payload } = action
         state.status.nft = 'failed'
         if (payload) {
@@ -76,7 +76,7 @@ export const collectionNFTSlice = createSlice({
   },
 })
 
-export const { reducer } = collectionNFTSlice
+export const { reducer } = dropNFTSlice
 
 export const selectNft = path(['signatureNFT', 'entities', 'nft'])
 export const selectNftLoadingState = path(['signatureNFT', 'status', 'nft'])

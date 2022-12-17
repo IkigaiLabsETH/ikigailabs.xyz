@@ -12,7 +12,7 @@ export const Button: FC<ButtonProps> = ({ label, onClick, type = 'solid' }) => {
     <a
       href="#"
       title={label}
-      className="text-2xl font-semibold tracking-tight border-2 border-yellow shadow-[5px_5px_0px_0px_rgba(255,255,255,1)] group h-[52px] overflow-clip whitespace-nowrap"
+      className="text-2xl active:translate-x-1 active:translate-y-1 font-semibold tracking-tight text-center border-2 border-yellow shadow-[5px_5px_0px_0px_rgba(255,255,255,1)] active:shadow-[0px_0px_0px_0px_rgba(255,255,255,1)] group h-[52px] overflow-clip whitespace-nowrap"
       role="button"
       onClick={e => onClick(e)}
     >
@@ -29,7 +29,7 @@ export const Button: FC<ButtonProps> = ({ label, onClick, type = 'solid' }) => {
     <a
       href="#"
       title={label}
-      className="text-lg text-black bg-white border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all group overflow-clip whitespace-nowrap h-[64px]"
+      className="text-lg active:translate-x-1 active:translate-y-1 text-black bg-white border-2 border-black text-center shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] active:shadow-[0px_0px_0px_0px_rgba(255,255,255,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all group overflow-clip whitespace-nowrap h-[64px]"
       role="button"
       onClick={e => onClick(e)}
     >

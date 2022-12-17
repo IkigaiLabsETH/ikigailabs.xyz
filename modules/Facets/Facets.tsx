@@ -14,7 +14,7 @@ export const Facets: FC<FacetProps> = ({ facets, onClick }) => (
       <li key={key} className="border-r border-r-black last:border-0 pb-2 px-1">
         <div className="font-bold mb-4">{key}</div>
         <ul className="flex flex-row -ml-2">
-          {map(({value, count}: FacetValue) => (
+          {map(({ value, count }: FacetValue) => (
             <li
               key={value}
               className={`text-xs font-bold py-1 px-2 hover:text-yellow rounded-full transition-colors hover:cursor-pointer mr-2 ${

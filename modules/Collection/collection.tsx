@@ -1,30 +1,28 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import debounce from 'lodash.debounce'
-import { assocPath, equals, findIndex, map, mergeRight, path, propEq, propOr, subtract } from 'ramda'
-import React, { FC, MouseEvent, useCallback, useEffect, useState } from 'react'
-import { useAddress } from '@thirdweb-dev/react'
+import { assocPath, equals, findIndex, map, mergeRight, path, pathOr, pipe, propEq, propOr, tap, unless } from 'ramda'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import { fetchCollection, claimNFT, fetchCollectionOwnedTokenIds } from './collection.slice'
-import { ClaimCondition, Facet } from '../../common/types'
+import { fetchCollection, getCollectionByContract } from './collection.api'
+import { Facet } from '../../common/types'
 import { Loader } from '../Loader'
-import { Eyebrow } from '../Eyebrow'
-import { Button } from '../Button'
 import { Activity } from '../Activity'
 import { NFTGrid } from '../NFTGrid'
 import { Facets } from '../Facets'
 import { formatAttributes, toggleListItem } from '../../common/utils/utils'
 import {
-  selectCollectionStats,
   selectNFTS,
-  selectNftClaimConditions,
   selectCollection,
   selectCollectionAttributes,
-  selectOwnedTokens,
   selectCollectionActivity,
 } from './collection.selectors'
+
 import { collectionApi } from './collection.api'
+import { CollectionHeader } from '../CollectionHeader'
+import { CollectionStat } from '../CollectionStat'
+import { format, parseISO } from 'date-fns/fp'
 
 interface CollectionProps {
   contract: string
@@ -37,18 +35,15 @@ enum Tab {
 
 export const Collection: FC<CollectionProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
-  const address = useAddress()
   const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
   const [facets, setFacets] = useState<Facet[]>([])
-  
-  const { data: collectionStats, status: collectionStatsStatus } = useAppSelector(selectCollectionStats(contract))
-  const { data: claimConditions, status: claimConditionsStatus } = useAppSelector(selectNftClaimConditions)
-  const { data: collection, status: collectionStatus } = useAppSelector(selectCollection)
-  const { data: nfts, status: nftsStatus } = useAppSelector(selectNFTS({ contract, attributes: formatAttributes(facets) }))
+
+  const { data: collection, status: collectionStatus } = useAppSelector(selectCollection(contract))
+  const { data: nfts, status: nftsStatus } = useAppSelector(
+    selectNFTS({ contract, attributes: formatAttributes(facets) }),
+  )
   const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity(contract))
   const { data: attributes, status: attributesStatus } = useAppSelector(selectCollectionAttributes(contract))
-  const { data: ownedTokens, status: ownedTokenStatus } = useAppSelector(selectOwnedTokens)
-  const { data: claimNFTData, status: claimNFTStatus } = useAppSelector(selectCollection)
 
   useEffect(() => {
     if (equals(attributesStatus, 'fulfilled')) {
@@ -64,120 +59,22 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
 
   const loadFacets = useCallback(
     debounce(() => {
-      dispatch(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({contract, attributes: formatAttributes(facets)}))
-    }, 1500), [facets]
+      contract &&
+        dispatch(
+          collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
+            contract,
+            attributes: formatAttributes(facets),
+          }),
+        )
+    }, 1500),
+    [facets, contract],
   )
 
-  useEffect(loadFacets, [facets])  
+  useEffect(loadFacets, [facets, contract])
 
   useEffect(() => {
     contract && dispatch(fetchCollection({ contract }))
   }, [contract])
-
-  useEffect(() => {
-    address && dispatch(fetchCollectionOwnedTokenIds({ contract, wallet: address }))
-  }, [contract, address])
-
-  const claim = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
-    dispatch(claimNFT({ contract, quantity: 1, address }))
-  }
-
-  const conditions = () =>
-    map((claimCondition: ClaimCondition) => (
-      <ul className="grid grid-cols-4 gap-4 w-full" key={claimCondition.startTime as unknown as string}>
-        <div>
-          <h4 className="text-xs uppercase tracking-widest m-0 grey">Max Quantity:</h4>
-          <span className="font-bold text-2xl tracking-tight">{claimCondition.maxQuantity}</span>
-        </div>
-        <div>
-          <h4 className="text-xs uppercase tracking-widest m-0 grey">Max per transaction:</h4>
-          <span className="font-bold text-2xl tracking-tight">{claimCondition.quantityLimitPerTransaction}</span>
-        </div>
-        <div>
-          <h4 className="text-xs uppercase tracking-widest m-0 grey">Available Supply:</h4>
-          <span className="font-bold text-2xl tracking-tight">{claimCondition.availableSupply}</span>
-        </div>
-        <div>
-          <h4 className="text-xs uppercase tracking-widest m-0 grey">Current mint supply:</h4>
-          <span className="font-bold text-2xl tracking-tight">{claimCondition.currentMintSupply}</span>
-        </div>
-      </ul>
-    ))(claimConditions as any)
-
-  const dropMetadataDisplay = () => (
-    <>
-      <div className="flex relative flex-col lg:flex-row-reverse w-screen lg:h-screen items-center lg:min-h-[55rem]">
-        <div
-          className="w-full lg:w-1/2 h-96 lg:h-screen lg:min-h-[55rem] bg-no-repeat bg-center bg-cover"
-          style={{ backgroundImage: `url(${propOr('', 'image')(collection)})` }}
-        ></div>
-        <div className="w-full lg:w-1/2 p-16 max-w-3xl">
-          <Eyebrow>Signature</Eyebrow>
-          <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">
-            {propOr('', 'name')(collection)}
-          </h2>
-          <p className="my-8 satoshi text-xl leading-relaxed">{propOr('', 'description')(collection)}</p>
-          <div className="flex border-y border-y-gray-700 py-8 mt-6">
-            <div className="grid grid-cols-4 gap-4 w-full">
-              <div>
-                <h4 className="text-xs uppercase tracking-widest m-0 grey">Total Supply:</h4>
-                <span className="font-bold text-2xl tracking-tight">{propOr('', 'supply')(collectionStats)}</span>
-              </div>
-              <div>
-                <h4 className="text-xs uppercase tracking-widest m-0 grey">Claimed:</h4>
-                <span className="font-bold text-2xl tracking-tight">
-                  {propOr('', 'claimed')(collectionStats)}
-                </span>
-              </div>
-              <div>
-                <h4 className="text-xs uppercase tracking-widest m-0 grey">Unclaimed:</h4>
-                <span className="font-bold text-2xl tracking-tight">
-                  {subtract(collectionStats.supply, collectionStats.claimed)}
-                </span>
-              </div>
-              <div>
-                <h4 className="text-xs uppercase tracking-widest m-0 grey grey">Owned:</h4>
-                <span className="font-bold text-2xl tracking-tight">
-                  {match(ownedTokenStatus)
-                    .with('loading', () => <Loader color="white" />)
-                    .with('succeeded', () => <>{propOr(0, 'length')(ownedTokens)}</>)
-                    .with('idle', () => 'Not connected')
-                    .otherwise(() => (
-                      <></>
-                    ))}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="my-8">
-            {match(claimConditionsStatus)
-              .with('loading', () => <Loader color="white" />)
-              .with('succeeded', conditions)
-              .otherwise(() => (
-                <></>
-              ))}
-          </div>
-          <div className="flex">
-            {match(claimConditions)
-              .with('loading', () => <Loader color="white" />)
-              .with('succeeded', () =>
-                match(claimNFTStatus)
-                  .with('loading', () => <Loader color="white" />)
-                  .with('succeeded', () => <div>Congrats</div>)
-                  .with('failed', () => <div>Something went wrong</div>)
-                  .otherwise(() => (
-                    <Button label={`Buy for ${claimConditions[0].currencyMetadata.displayValue} eth`} onClick={claim} />
-                  )),
-              )
-              .otherwise(() => (
-                <></>
-              ))}
-          </div>
-        </div>
-      </div>
-    </>
-  )
 
   const nftsDisplay = () => (
     <div className="flex flex-col">
@@ -208,28 +105,31 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex">
-        {match(collectionStatus)
-          .with('loading', () => (
-            <div className="h-screen flex w-screen justify-center items-center">
-              <Loader color="white" />
-            </div>
-          ))
-          .with('succeeded', dropMetadataDisplay)
-          .otherwise(() => null)}
-      </div>
+      <CollectionHeader
+        eyebrow="Collection"
+        coverImage={propOr('', 'image')(collection)}
+        name={propOr('', 'name')(collection)}
+        description={propOr('', 'description')(collection)}
+      >
+        <div className="flex border-y border-y-gray-700 py-8 mt-6">
+          <div className="grid grid-cols-4 gap-4 w-full">
+            <CollectionStat label="Floor Price" value={pathOr('—', ['floorAsk', 'tokenCount'])(collection)} />
+            <CollectionStat label="Top Offer" value={pathOr('—', ['topBid', 'price'])(collection)} />
+            <CollectionStat label="Volume" value={pathOr('—', ['volume', 'allTime'])(collection)} />
+            <CollectionStat label="Supply" value={propOr('—', 'tokenCount')(collection)} />
+            <CollectionStat
+              label="Created On"
+              value={pipe(
+                propOr('—', 'createdAt'),
+                unless(equals('—'), pipe(parseISO, format('yyyy-MM-dd'))),
+              )(collection)}
+            />
+          </div>
+        </div>
+      </CollectionHeader>
       <div className="bg-white w-full flex py-4 justify-center items-center text-black flex-col">
         <div className="max-w-screen-2xl w-full m-4 flex md:px-6 lg:px-8">
-          <div className="sm:hidden">
-            <label htmlFor="tabs" className="sr-only">
-              Select a tab
-            </label>
-            <select id="tabs" name="tabs" className="block w-full">
-              <option>Collection</option>
-              <option>Activity</option>
-            </select>
-          </div>
-          <div className="hidden sm:block w-full">
+          <div className="block w-full">
             <nav className="flex space-x-4 font-bold border-b border-b-gray-400 w-full" aria-label="Tabs">
               <button
                 onClick={() => setActiveTab(Tab.collection)}

@@ -2,11 +2,11 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
+
+import { Drop } from '../../modules/Drop'
 import { Footer } from '../../modules/Footer'
 
-import { Collection } from '../../modules/Collection'
-
-const SignatureCollection: FC = () => {
+const DropPage: FC = () => {
   const {
     query: { contract },
   } = useRouter()
@@ -19,11 +19,11 @@ const SignatureCollection: FC = () => {
         <link rel="icon" href="/assets/images/ltl-logo-white-small.png" />
       </Head>
       <main className="w-full">
-        <Collection contract={contract as string} />
+        <Drop contract={contract as string} />
       </main>
       <Footer />
     </div>
   )
 }
 
-export default SignatureCollection
+export default DropPage

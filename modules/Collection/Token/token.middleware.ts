@@ -11,9 +11,11 @@ export const middleware = {
     action: PayloadAction<{ contract: string; tokenId: string }>,
     listenerApi: ListenerEffectAPI<RootState, AppDispatch>,
   ) => {
-    listenerApi.dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate({
-      contract: pathOr('', ['payload', 'contract'])(action),
-      tokenId: pathOr('', ['payload', 'tokenId'])(action)
-    }))
+    listenerApi.dispatch(
+      collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate({
+        contract: pathOr('', ['payload', 'contract'])(action),
+        tokenId: pathOr('', ['payload', 'tokenId'])(action),
+      }),
+    )
   },
 }

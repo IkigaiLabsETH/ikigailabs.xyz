@@ -1,6 +1,10 @@
+import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { path } from 'ramda'
 
 import { Activity, NFT } from '../../common/types'
+
+export const fetchCollection = createAction<{ contract: string }>('collection/fetch')
 
 export const collectionApi = createApi({
   reducerPath: 'collectionApi',
@@ -9,6 +13,7 @@ export const collectionApi = createApi({
     getCollectionByContract: builder.query<{ collection: any }, string>({
       query: (contract: string) =>
         `collections/v5?id=${contract}&includeTopBid=true&sortBy=allTimeVolume&includeAttributes=false&limit=20`,
+      transformResponse: (response): any => path(['collections', 0])(response),
     }),
     getCollectionActivityByContract: builder.query<{ activities: Activity[] }, string>({
       query: (contract: string) =>
@@ -28,3 +33,6 @@ export const collectionApi = createApi({
     }),
   }),
 })
+
+export const { getCollectionByContract, getCollectionAttributesByContract, getCollectionActivityByContract } =
+  collectionApi.endpoints

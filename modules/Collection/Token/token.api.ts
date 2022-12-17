@@ -6,9 +6,9 @@ export const collectionTokenApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://api-goerli.reservoir.tools' }),
   endpoints: builder => ({
     getTokenByContractAndTokenId: builder.query<{ token: any }, {}>({
-      query: ({ contract, tokenId }: { contract: string, tokenId: string }) =>
+      query: ({ contract, tokenId }: { contract: string; tokenId: string }) =>
         `tokens/v5?tokens=${contract}:${tokenId}&includeTopBid=true&includeAttributes=true&normalizeRoyalties=true`,
-      transformResponse: (response): any => path(['tokens', 0])(response)
+      transformResponse: (response): any => path(['tokens', 0])(response),
     }),
   }),
 })

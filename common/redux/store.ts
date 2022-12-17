@@ -15,12 +15,21 @@ import { featuredDropReducer } from '../../modules/FeaturedDrop'
 import { nftDropReducer } from '../../modules/NFTDrop'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
 import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
-import { collectionMiddleware, collectionReducer } from '../../modules/Collection'
 import { collectionTokenMiddleware } from '../../modules/Collection/Token'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
 import { modalActions, MODAL_MAPPING } from '../modal'
-import { collectionApi } from '../../modules/Collection'
+import { collectionApi, collectionMiddleware } from '../../modules/Collection'
 import { collectionTokenApi } from '../../modules/Collection/Token/token.api'
+import {
+  claimConditionsReducer,
+  claimedSupplyReducer,
+  claimsReducer,
+  metadataReducer,
+  ownedTokenIdsReducer,
+  tokensReducer,
+  unclaimedSupplyReducer,
+} from '../../modules/Drop/drop.slice'
+import { dropMiddleware } from '../../modules/Drop'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -37,8 +46,9 @@ export const addAppListener = addListener as TypedAddListener<RootState, AppDisp
 
 // startAppListening(NFTDropsMiddleware(web3))
 startAppListening(mintPassesMiddleware)
-startAppListening(collectionMiddleware)
 startAppListening(collectionTokenMiddleware)
+startAppListening(collectionMiddleware)
+startAppListening(dropMiddleware)
 startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions))
 
 const store = configureStore({
@@ -49,10 +59,16 @@ const store = configureStore({
     nftDrop: nftDropReducer,
     NFTDrops: NFTDropsReducer,
     mintPasses: mintPassesReducer,
-    collection: collectionReducer,
     [collectionTokenApi.reducerPath]: prop('reducer')(collectionTokenApi),
     modal: modalReducer,
     [collectionApi.reducerPath]: prop('reducer')(collectionApi),
+    dropMetadata: metadataReducer,
+    dropTokens: tokensReducer,
+    dropClaimedSupply: claimedSupplyReducer,
+    dropUnclaimedSupply: unclaimedSupplyReducer,
+    dropOwnedTokenIds: ownedTokenIdsReducer,
+    dropClaimConditions: claimConditionsReducer,
+    claims: claimsReducer,
   }),
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(collectionApi.middleware),
