@@ -3,7 +3,6 @@ import React, { FC } from 'react'
 import { match } from 'ts-pattern'
 
 import { useAppSelector } from '../../../common/redux/store'
-import { any } from '../../../common/types'
 import { Link } from '../../Link'
 import { Loader } from '../../Loader'
 import { selectLoadingState, selectNFTDrop } from '../NFTDrops.slice'

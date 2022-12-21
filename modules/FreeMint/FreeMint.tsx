@@ -103,13 +103,8 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
         <Eyebrow>Exclusive Free Mint</Eyebrow>
         <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{token.name}</h2>
         <p className="my-8 satoshi text-xl leading-relaxed">{token.description}</p>
-        {
-          <div className="flex flex-row w-full mt-16">
-            {getButton}
-          </div>
-        }
+        {<div className="flex flex-row w-full mt-16">{getButton}</div>}
       </div>
-
     </div>
   )
 }

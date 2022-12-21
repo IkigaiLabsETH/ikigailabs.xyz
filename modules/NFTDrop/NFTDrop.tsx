@@ -23,7 +23,7 @@ import {
   selectUnclaimedSupply,
   selectUnclaimedSupplyLoadingState,
 } from './NFTDrop.slice'
-import { ContractMetadata, any } from '../../common/types'
+import { ContractMetadata } from '../../common/types'
 import { Loader } from '../Loader'
 
 interface NFTDropProps {

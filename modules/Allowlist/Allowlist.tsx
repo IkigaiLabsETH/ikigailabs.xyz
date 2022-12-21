@@ -8,11 +8,9 @@ import { Button } from '../Button'
 import { Loader } from '../Loader'
 import { selectAllowlistSignUp, signUp } from './allowlist.api'
 
-interface AllowlistProps {
+interface AllowlistProps {}
 
-}
-
-export const Allowlist:FC<AllowlistProps> = ({}) => {
+export const Allowlist: FC<AllowlistProps> = ({}) => {
   const { address, connect } = useWallet()
   const dispatch = useAppDispatch()
   const [request, setRequest] = useState<string>('')
@@ -56,14 +54,10 @@ export const Allowlist:FC<AllowlistProps> = ({}) => {
   }
 
   return (
-    <div className='flex flex-col w-full p-10 '>
-      <h1 className='text-[2rem] lg:text-[3rem] boska leading-none'>Allowlist</h1>
-      <p className='text-black'>
-        Get on the allowlist when live the life goes live.
-      </p>
-      <div className="flex flex-col w-48">
-        { getAction() }
-      </div>
+    <div className="flex flex-col w-full p-10 ">
+      <h1 className="text-[2rem] lg:text-[3rem] boska leading-none">Allowlist</h1>
+      <p className="text-black">Get on the allowlist when live the life goes live.</p>
+      <div className="flex flex-col w-48">{getAction()}</div>
     </div>
   )
 }

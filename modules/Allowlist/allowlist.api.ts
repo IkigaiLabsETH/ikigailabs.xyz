@@ -6,13 +6,11 @@ import { HTTP } from '../../common/types'
 export const showAllowlist = createAction('allowlist/show/')
 
 export const joinAllowlistTh = (http: HTTP) =>
-  createAsyncThunk<Promise<{} | Error>, { address: string }>(
-    'allowlist/join',
-    ({ address }, { rejectWithValue }) =>
-      http
-        .post('allowlist', { address })
-        .then(response => response)
-        .catch(error => rejectWithValue(error.response.data.error)),
+  createAsyncThunk<Promise<{} | Error>, { address: string }>('allowlist/join', ({ address }, { rejectWithValue }) =>
+    http
+      .post('allowlist', { address })
+      .then(response => response)
+      .catch(error => rejectWithValue(error.response.data.error)),
   )
 
 export const joinAllowlist = joinAllowlistTh(http)
@@ -22,14 +20,14 @@ export const allowlistApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
   endpoints: builder => ({
     signUp: builder.mutation<any, string>({
-      query: (address) => ({
+      query: address => ({
         url: 'allowlist',
         method: 'POST',
         body: {
-          address
+          address,
         },
-      })
-    })
+      }),
+    }),
   }),
 })
 

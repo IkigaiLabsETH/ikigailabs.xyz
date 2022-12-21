@@ -72,7 +72,9 @@ const store = configureStore({
     freeMint: freeMintReducer,
   }),
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(collectionApi.middleware, allowlistApi.middleware),
+    getDefaultMiddleware()
+      .prepend(listenerMiddleware.middleware)
+      .concat(collectionApi.middleware, allowlistApi.middleware),
   devTools: true,
 })
 

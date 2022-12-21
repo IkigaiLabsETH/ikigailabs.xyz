@@ -3,7 +3,7 @@ import { BigNumber } from 'ethers'
 import { add, lensPath, map, path, pathOr, set } from 'ramda'
 import { RootState } from '../../common/redux/store'
 
-import { NFTDropWithNFTS, any } from '../../common/types'
+import { NFTDropWithNFTS } from '../../common/types'
 
 // First, create the thunk
 export const fetchNFTsFromNFTDrop = createAsyncThunk<

@@ -131,19 +131,18 @@ export const fetchDropClaimConditionsTh = (web3: Web3) =>
 export const fetchDropClaimConditions = fetchDropClaimConditionsTh(web3)
 
 const claimTokenTh = (web3: Web3) =>
-  createAsyncThunk<
-    TransactionResultWithId<any>[],
-    { contract: string; quantity: number; address: string }
-  >('drop/nft/claim', ({ contract, quantity, address }, { rejectWithValue }) =>
-    promiseRetry(retry =>
-      web3
-        .getSignatureDrop(contract)
-        .then(response => response.claimTo(address, quantity))
-        .catch(retry),
-    ).catch((error: Error) => {
-      console.log(error)
-      return rejectWithValue(error.message)
-    }),
+  createAsyncThunk<TransactionResultWithId<any>[], { contract: string; quantity: number; address: string }>(
+    'drop/nft/claim',
+    ({ contract, quantity, address }, { rejectWithValue }) =>
+      promiseRetry(retry =>
+        web3
+          .getSignatureDrop(contract)
+          .then(response => response.claimTo(address, quantity))
+          .catch(retry),
+      ).catch((error: Error) => {
+        console.log(error)
+        return rejectWithValue(error.message)
+      }),
   )
 
 export const claimToken = claimTokenTh(web3)

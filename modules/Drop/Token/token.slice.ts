@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { lensPath, path, set } from 'ramda'
 
-import { ErrorType, any, Status } from '../../../common/types'
+import { ErrorType, Status } from '../../../common/types'
 import { web3, Web3 } from '../../../common/web3'
 
 export const fetchDropNFT = createAction<{ contract: string; tokenId: string }>('drop/nft/fetch')
@@ -13,10 +13,7 @@ export const fetchDropNFTMetadataTh = (web3: Web3) =>
       web3
         .getSignatureDrop(contract)
         .then(response => response.get(tokenId))
-        .then(
-          response =>
-            set(lensPath(['metadata', 'id'] as never), response.metadata.id.toString())(response) as any,
-        )
+        .then(response => set(lensPath(['metadata', 'id'] as never), response.metadata.id.toString())(response) as any)
         .catch(error => rejectWithValue(error.message)),
   )
 export const fetchDropNFTMetadata = fetchDropNFTMetadataTh(web3)
