@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import { match } from 'ts-pattern'
 
 import { useAppSelector } from '../../../common/redux/store'
-import { NFTMetadataOwner } from '../../../common/types'
+import { any } from '../../../common/types'
 import { Link } from '../../Link'
 import { Loader } from '../../Loader'
 import { selectLoadingState, selectNFTDrop } from '../NFTDrops.slice'
@@ -31,7 +31,7 @@ export const NFTDropSlider: FC<NFTDropSliderProps> = ({ contract }) => {
         </div>
       </div>
       <ul className="flex flex-1 flex-row overflow-scroll h-80 w-[96rem] mt-16">
-        {map(({ metadata: nft }: NFTMetadataOwner) => (
+        {map(({ metadata: nft }: any) => (
           <li className="relative mr-4" key={nft?.id.toString()}>
             {
               <div className="w-96">

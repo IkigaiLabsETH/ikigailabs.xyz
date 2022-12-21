@@ -23,8 +23,6 @@ import {
   __,
 } from 'ramda'
 
-import { FacetValue, NFTMetadataOwner } from '../types'
-
 export const truncate = (length: number) =>
   when(
     propSatisfies(gt(__, length), 'length'),
@@ -59,7 +57,7 @@ export const mapIndexed = addIndex(map)
 
 export const isOdd = modulo(__, 2)
 
-export const formatNFTMetadata = (metadata: NFTMetadataOwner) =>
+export const formatNFTMetadata = (metadata: any) =>
   set(lensPath(['metadata', 'id'] as never), metadata.metadata.id.toString())(metadata)
 
 export const toggleListItem = curry((value, list) => ifElse(includes(value), without([value]), append(value))(list))

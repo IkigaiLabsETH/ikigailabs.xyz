@@ -3,7 +3,7 @@ import { BigNumber } from 'ethers'
 import { assoc, lensPath, lensProp, map, pipe, set } from 'ramda'
 import promiseRetry from 'promise-retry'
 
-import { ClaimCondition, ContractMetadata, NFTMetadataOwner, TransactionResultWithId } from '../../common/types'
+import { ClaimCondition, ContractMetadata, any, TransactionResultWithId } from '../../common/types'
 import { web3, Web3 } from '../../common/web3'
 
 export const fetchDrop = createAction<{ contract: string }>('drop/fetch')
@@ -41,8 +41,8 @@ export const fetchDropTokensTh = (web3: Web3) =>
           .then(response => response.getAll())
           .catch(retry),
       )
-        .then((nfts: NFTMetadataOwner[]) => ({
-          tokens: map((nft: NFTMetadataOwner) => ({
+        .then((nfts: any[]) => ({
+          tokens: map((nft: any) => ({
             token: {
               contract,
               tokenId: nft.metadata.id.toString(),
@@ -132,7 +132,7 @@ export const fetchDropClaimConditions = fetchDropClaimConditionsTh(web3)
 
 const claimTokenTh = (web3: Web3) =>
   createAsyncThunk<
-    TransactionResultWithId<NFTMetadataOwner>[],
+    TransactionResultWithId<any>[],
     { contract: string; quantity: number; address: string }
   >('drop/nft/claim', ({ contract, quantity, address }, { rejectWithValue }) =>
     promiseRetry(retry =>

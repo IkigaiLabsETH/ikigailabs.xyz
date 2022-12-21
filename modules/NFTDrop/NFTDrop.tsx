@@ -23,7 +23,7 @@ import {
   selectUnclaimedSupply,
   selectUnclaimedSupplyLoadingState,
 } from './NFTDrop.slice'
-import { ContractMetadata, NFTMetadataOwner } from '../../common/types'
+import { ContractMetadata, any } from '../../common/types'
 import { Loader } from '../Loader'
 
 interface NFTDropProps {
@@ -35,7 +35,7 @@ export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
   // const { getAllNFTsFromNFTDrop, getNFTDrop } = useWeb3()
   const address = useAddress()
 
-  const nfts = useAppSelector(selectNfts) as NFTMetadataOwner[]
+  const nfts = useAppSelector(selectNfts) as any[]
   const nftsLoadingState = useAppSelector(selectNftsLoadingState)
 
   const dropMetadata = useAppSelector(selectMetadata) as ContractMetadata
@@ -65,7 +65,7 @@ export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
     }
   }, [contract, address])
 
-  const nftsDisplay = () => map(({ metadata }: NFTMetadataOwner) => <div>{metadata.description}</div>)(nfts)
+  const nftsDisplay = () => map(({ metadata }: any) => <div>{metadata.description}</div>)(nfts)
 
   const dropMetadataDisplay = () => (
     <>

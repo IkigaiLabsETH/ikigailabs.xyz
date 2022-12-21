@@ -1,13 +1,13 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { lensPath, path, set } from 'ramda'
 
-import { ErrorType, NFTMetadataOwner, Status } from '../../../common/types'
+import { ErrorType, any, Status } from '../../../common/types'
 import { web3, Web3 } from '../../../common/web3'
 
 export const fetchDropNFT = createAction<{ contract: string; tokenId: string }>('drop/nft/fetch')
 
 export const fetchDropNFTMetadataTh = (web3: Web3) =>
-  createAsyncThunk<NFTMetadataOwner, { contract: string; tokenId: string }, { rejectValue: string }>(
+  createAsyncThunk<any, { contract: string; tokenId: string }, { rejectValue: string }>(
     'drop/nft/fetch',
     ({ contract, tokenId }, { rejectWithValue }) =>
       web3
@@ -15,7 +15,7 @@ export const fetchDropNFTMetadataTh = (web3: Web3) =>
         .then(response => response.get(tokenId))
         .then(
           response =>
-            set(lensPath(['metadata', 'id'] as never), response.metadata.id.toString())(response) as NFTMetadataOwner,
+            set(lensPath(['metadata', 'id'] as never), response.metadata.id.toString())(response) as any,
         )
         .catch(error => rejectWithValue(error.message)),
   )
@@ -23,7 +23,7 @@ export const fetchDropNFTMetadata = fetchDropNFTMetadataTh(web3)
 
 interface DropNFTState {
   entities: {
-    nft: NFTMetadataOwner
+    nft: any
   }
   status: {
     nft: Status

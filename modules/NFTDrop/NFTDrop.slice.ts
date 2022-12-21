@@ -3,16 +3,16 @@ import { BigNumber } from 'ethers'
 import { add, lensPath, map, path, pathOr, set } from 'ramda'
 import { RootState } from '../../common/redux/store'
 
-import { NFTDropWithNFTS, NFTMetadataOwner } from '../../common/types'
+import { NFTDropWithNFTS, any } from '../../common/types'
 
 // First, create the thunk
 export const fetchNFTsFromNFTDrop = createAsyncThunk<
-  NFTMetadataOwner[],
+  any[],
   { getAllNFTsFromNFTDrop: (contract: string) => any; contract: string },
   { rejectValue: string }
 >('nftDrop/nfts/fetch', ({ getAllNFTsFromNFTDrop, contract }, { rejectWithValue }) =>
   getAllNFTsFromNFTDrop(contract)
-    .then(map((x: NFTMetadataOwner) => set(lensPath(['metadata', 'id'] as never), x.metadata.id.toString())(x)))
+    .then(map((x: any) => set(lensPath(['metadata', 'id'] as never), x.metadata.id.toString())(x)))
     .catch((error: Error) => rejectWithValue(error.message)),
 )
 

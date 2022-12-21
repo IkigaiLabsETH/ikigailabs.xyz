@@ -5,7 +5,7 @@ import { map } from 'ramda'
 import { useAppSelector } from '../../../common/redux/store'
 import { selectNft, selectNftLoadingState } from './token.slice'
 import { Loader } from '../../Loader'
-import { NFTMetadataOwner } from '../../../common/types'
+import { any } from '../../../common/types'
 
 interface NFTProps {
   contract: string
@@ -13,7 +13,7 @@ interface NFTProps {
 }
 
 export const NFT: FC<NFTProps> = ({ contract, tokenId }) => {
-  const nft = useAppSelector(selectNft) as NFTMetadataOwner
+  const nft = useAppSelector(selectNft) as any
   const nftLoadingState = useAppSelector(selectNftLoadingState)
 
   const loader = (
