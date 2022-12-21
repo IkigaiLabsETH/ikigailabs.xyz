@@ -1,6 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ContractType, NFTMetadataOwner, ContractPrimarySale, ClaimCondition } from '@thirdweb-dev/sdk'
-import { string } from 'ts-pattern/dist/patterns'
+import { ContractType, ContractPrimarySale, ClaimCondition } from '@thirdweb-dev/sdk'
 
 export type { Axios as HTTP } from 'axios'
 
@@ -10,6 +9,7 @@ export enum Layout {
 
 export enum Modal {
   mintPass = 'mintPass',
+  allowlist = 'allowlist',
 }
 
 export type {
@@ -20,7 +20,6 @@ export type {
   DropClaimConditions,
   SignatureDrop,
   TransactionResultWithId,
-  NFTMetadataOwner,
   ClaimCondition,
 } from '@thirdweb-dev/sdk'
 
@@ -41,7 +40,7 @@ export interface ContractMetadata {
 export interface NFTDropWithNFTS {
   metadata: ContractMetadata
   primarySales: ContractPrimarySale<any>
-  nfts: NFTMetadataOwner[]
+  nfts: any[]
   claimedSupply: string
   unclaimedSupply: string
   ownedTokenIds: string[]

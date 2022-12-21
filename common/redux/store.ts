@@ -28,6 +28,8 @@ import {
   unclaimedSupplyReducer,
 } from '../../modules/Drop'
 import { dropMiddleware } from '../../modules/Drop'
+import { freeMintMiddleware, freeMintReducer } from '../../modules/FreeMint'
+import { allowlistApi } from '../../modules/Allowlist/allowlist.api'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -47,7 +49,8 @@ startAppListening(mintPassesMiddleware)
 startAppListening(collectionTokenMiddleware)
 startAppListening(collectionMiddleware)
 startAppListening(dropMiddleware)
-startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions))
+startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions as any))
+startAppListening(freeMintMiddleware)
 
 const store = configureStore({
   reducer: combineReducers({
@@ -58,6 +61,7 @@ const store = configureStore({
     [collectionTokenApi.reducerPath]: prop('reducer')(collectionTokenApi),
     modal: modalReducer,
     [collectionApi.reducerPath]: prop('reducer')(collectionApi),
+    [allowlistApi.reducerPath]: prop('reducer')(allowlistApi),
     dropMetadata: metadataReducer,
     dropTokens: tokensReducer,
     dropClaimedSupply: claimedSupplyReducer,
@@ -65,9 +69,10 @@ const store = configureStore({
     dropOwnedTokenIds: ownedTokenIdsReducer,
     dropClaimConditions: claimConditionsReducer,
     claims: claimsReducer,
+    freeMint: freeMintReducer,
   }),
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(collectionApi.middleware),
+    getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(collectionApi.middleware, allowlistApi.middleware),
   devTools: true,
 })
 

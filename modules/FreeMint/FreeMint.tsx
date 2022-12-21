@@ -94,13 +94,22 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
     .exhaustive()
 
   return (
-    <div
-      className="bg-white relative h-screen flex bg-cover bg-center"
-      style={{ backgroundImage: `url("${token.image}")` }}
-    >
-      <div className="w-full pb-12">
-        <div className="px-8 py-4 pb-8 bg-black absolute w-full md:w-1/2 xl:w-1/3 max-w-xl">{content}</div>
+    <div className="flex relative flex-col lg:flex-row-reverse lg:h-screen items-center lg:min-h-min">
+      <div
+        className="w-full lg:w-1/2 h-96 lg:h-screen bg-no-repeat bg-center bg-cover"
+        style={{ backgroundImage: `url(${token.image})` }}
+      ></div>
+      <div className="w-full lg:w-1/2 p-16">
+        <Eyebrow>Exclusive Free Mint</Eyebrow>
+        <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{token.name}</h2>
+        <p className="my-8 satoshi text-xl leading-relaxed">{token.description}</p>
+        {
+          <div className="flex flex-row w-full mt-16">
+            {getButton}
+          </div>
+        }
       </div>
+
     </div>
   )
 }

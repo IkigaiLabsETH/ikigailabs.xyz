@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import promiseRetry from 'promise-retry'
 import { find, findIndex, isNil, path, pipe, propEq, propOr } from 'ramda'
 import { RootState } from '../../common/redux/store'
@@ -11,7 +11,7 @@ export const claimTh = (web3: Web3) =>
     'freeMint/claim',
     ({ contract, address, tokenId, amount }, { rejectWithValue }) =>
       web3
-        .getEditionDrop(contract)
+        .getContract(contract, 'edition-drop')
         .then(response => response.claimTo(address, tokenId, amount))
         .then(response => response)
         .catch(error => rejectWithValue(error.message)),
@@ -25,7 +25,7 @@ export const fetchTokenTh = (web3: Web3) =>
     ({ contract, tokenId }, { rejectWithValue }) =>
       promiseRetry(retry =>
         web3
-          .getEditionDrop(contract)
+          .getContract(contract, 'edition-drop')
           .then(response => response.metadata.get())
           .catch(retry),
       )

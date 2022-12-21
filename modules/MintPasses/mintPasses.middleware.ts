@@ -9,6 +9,6 @@ import { fetchMintpasses } from './mintPasses.slice'
 export const middleware = {
   actionCreator: appInit,
   effect: (action: Action, listenerApi: ListenerEffectAPI<RootState, AppDispatch>) => {
-    listenerApi.dispatch(fetchMintpasses({ mintPasses: MINT_PASSES as ContractTokenId[] }))
+    // listenerApi.dispatch(fetchMintpasses({ mintPasses: MINT_PASSES as ContractTokenId[] }))
   },
 }

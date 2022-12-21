@@ -218,7 +218,7 @@ export const mintPassesSlice = createSlice({
 
 export const { reducer } = mintPassesSlice
 
-export const selectAllowlistLoadingState = (state: RootState) => state.mintPasses.allowlist.status
+export const selectAllowlistLoadingState = (state: RootState) => state.allowlist.status
 export const selectTokensLoadingState = (state: RootState) => state.mintPasses.tokens.status
 
 export const selectTokens = (state: RootState) => ({
