@@ -5,7 +5,6 @@ import { map } from 'ramda'
 import { useAppSelector } from '../../../common/redux/store'
 import { selectNft, selectNftLoadingState } from './token.slice'
 import { Loader } from '../../Loader'
-import { any } from '../../../common/types'
 
 interface NFTProps {
   contract: string

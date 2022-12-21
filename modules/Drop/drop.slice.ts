@@ -3,7 +3,7 @@ import { BigNumber } from 'ethers'
 import { assoc, lensPath, lensProp, map, pipe, set } from 'ramda'
 import promiseRetry from 'promise-retry'
 
-import { ClaimCondition, ContractMetadata, any, TransactionResultWithId } from '../../common/types'
+import { ClaimCondition, ContractMetadata, TransactionResultWithId } from '../../common/types'
 import { web3, Web3 } from '../../common/web3'
 
 export const fetchDrop = createAction<{ contract: string }>('drop/fetch')
