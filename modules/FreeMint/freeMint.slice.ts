@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import promiseRetry from 'promise-retry'
 import { find, findIndex, isNil, path, pipe, propEq, propOr } from 'ramda'
 import { RootState } from '../../common/redux/store'
