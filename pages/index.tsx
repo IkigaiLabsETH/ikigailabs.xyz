@@ -3,11 +3,12 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { FC } from 'react'
 
-import { FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID } from '../common/config'
+import { FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID, BURN_TO_MINT_1155, BURN_TO_MINT_721 } from '../common/config'
 import { withLayout } from '../common/layouts/MainLayout/withLayout'
 import { useAppDispatch } from '../common/redux/store'
 import { Layout } from '../common/types'
 import { showAllowlist } from '../modules/Allowlist'
+import { BurnToMint } from '../modules/BurnToMint'
 import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
 import { FreeMint } from '../modules/FreeMint'
@@ -59,6 +60,7 @@ const Home: FC = () => {
       </header>
       <main className="w-full">
         <FreeMint contract={FREE_MINT_CONTRACT} tokenId={FREE_MINT_TOKEN_ID} />
+        <BurnToMint elevenFiftyFiveContractAddress={BURN_TO_MINT_1155} sevenTwentyOneContractAddress={BURN_TO_MINT_721} />
       </main>
       <Footer />
     </div>
