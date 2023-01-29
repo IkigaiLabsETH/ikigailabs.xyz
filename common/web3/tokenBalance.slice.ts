@@ -50,6 +50,7 @@ export const tokenBalanceSlice = createSlice({
         // @ts-ignore
         state.entities[address] = pipe(
           propOr([], address),
+          // @ts-ignore
           reject(both(propEq('contract', contract), propEq('tokenId', tokenId))),
           append({ contract, tokenId, balance: payload }),
         )(state.entities)
