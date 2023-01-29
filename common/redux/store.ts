@@ -74,14 +74,16 @@ startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions as any))
 startAppListening(freeMintMiddleware)
 startAppListening(checkTokenBalancesForCollectionMiddleware)
 startAppListening(getTokenBalanceSuccessMiddleware)
-startAppListening(notificationMiddleware(notifications)([
-  isFulfilled(burnToMint),
-  isRejected(burnToMint),
-  isFulfilled(claim),
-  isRejected(claim),
-  signUp.matchFulfilled,
-  signUp.matchRejected,
-]))
+startAppListening(
+  notificationMiddleware(notifications)([
+    isFulfilled(burnToMint),
+    isRejected(burnToMint),
+    isFulfilled(claim),
+    isRejected(claim),
+    signUp.matchFulfilled,
+    signUp.matchRejected,
+  ]),
+)
 
 const store = configureStore({
   reducer: combineReducers({

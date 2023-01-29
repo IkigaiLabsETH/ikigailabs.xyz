@@ -47,15 +47,11 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
     .when(isNil, () => <Button onClick={handleConnect} label="Connect" />)
     .otherwise(() => <Button onClick={handleClaim} label="Mint for free" />)
 
-  const idle = (
-    <>
-      {<div className="flex flex-row w-full mt-16">{getButton}</div>}
-    </>
-  )
+  const idle = <>{<div className="flex flex-row w-full mt-16">{getButton}</div>}</>
 
   const loading = (
     <div className="flex font-extrabold w-full">
-      <Loader color='white'/>
+      <Loader color="white" />
     </div>
   )
 
@@ -67,9 +63,7 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
 
   const failed = (
     <div className="flex">
-      <div className="text-red text-2xl">
-        Sorry, something went wrong.
-      </div>
+      <div className="text-red text-2xl">Sorry, something went wrong.</div>
     </div>
   )
 
@@ -90,7 +84,7 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
         <Eyebrow>Exclusive Free Mint</Eyebrow>
         <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{token.name}</h2>
         <p className="my-8 satoshi text-xl leading-relaxed">{token.description}</p>
-        {content}  
+        {content}
       </div>
     </div>
   )
