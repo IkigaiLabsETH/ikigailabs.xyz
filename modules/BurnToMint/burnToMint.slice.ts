@@ -3,43 +3,38 @@ import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../common/redux/store'
 import { web3, Web3 } from '../../common/web3'
 
-export const checkTokenBalancesForCollection = createAction<{ collection: {}, address: string }>('BurnToMint/checkTokenBalancesForCollection')
+export const checkTokenBalancesForCollection = createAction<{ collection: {}; address: string }>(
+  'BurnToMint/checkTokenBalancesForCollection',
+)
 
 export const _burnToMint = (web3: Web3) =>
   createAsyncThunk<
     Promise<any>,
     { sourceContract: string; address: string; targetContract: string; tokenId: string },
     { rejectValue: string }
-  >(
-    'BurnToMint/init',
-    async ({ sourceContract, targetContract, address, tokenId }, { rejectWithValue }) => {
-      try {
-        const source = await web3.getContract(sourceContract)
-        const target = await web3.getContract(targetContract)
+  >('BurnToMint/init', async ({ sourceContract, targetContract, address, tokenId }, { rejectWithValue }) => {
+    try {
+      const source = await web3.getContract(sourceContract)
+      const target = await web3.getContract(targetContract)
 
-        const hasApproval = await source?.call(
-          'isApprovedForAll',
-          address,
-          target?.getAddress(),
-        )
+      const hasApproval = await source?.call('isApprovedForAll', address, target?.getAddress())
 
-        const balance = await source?.call('balanceOf', address, tokenId)
+      const balance = await source?.call('balanceOf', address, tokenId)
 
-        if (!hasApproval) {
-          // Set approval
-          await source?.call('setApprovalForAll', target?.getAddress(), true)
-        }
-
-        if (balance < 1) {
-          throw new Error('No tokens found to burn')
-        }
-
-        await source?.call('claim', address!, 1)
-      } catch (error) {
-        return rejectWithValue(error.message)
+      if (!hasApproval) {
+        // Set approval
+        await source?.call('setApprovalForAll', target?.getAddress(), true)
       }
-    },
-  )
+
+      if (balance < 1) {
+        throw new Error('No tokens found to burn')
+      }
+
+      await source?.call('claim', address!, 1)
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  })
 
 export const burnToMint = _burnToMint(web3)
 
@@ -85,4 +80,3 @@ export const { reducer, actions } = burnToMintSlice
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectBurnToMint = (state: RootState) => state.burnToMint
-

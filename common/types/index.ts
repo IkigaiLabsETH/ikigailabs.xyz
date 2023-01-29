@@ -87,7 +87,11 @@ export interface Activity {
   timestamp: number
   createdAt?: string
   contract?: string
-  token: Token
+  token: {
+    tokenId: string
+    tokenImage: string
+    tokenName: string
+  }
   collection?: Collection
   txHash: string
   logIndex?: number

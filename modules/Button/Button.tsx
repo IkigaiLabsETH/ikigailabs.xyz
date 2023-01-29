@@ -20,7 +20,9 @@ export const Button: FC<ButtonProps> = ({ label, onClick, type = 'solid', loadin
     >
       <div className="text-yellow bg-black">
         <div className={`px-4 py-2 flex flex-row justify-center ${loading ? 'text-black' : ''}`}>{label}</div>
-        <div className={`px-4 py-2 flex-row justify-center -translate-y-full ${loading ? 'flex' : 'hidden'}`}><Loader color='white'/></div>
+        <div className={`px-4 py-2 flex-row justify-center -translate-y-full ${loading ? 'flex' : 'hidden'}`}>
+          <Loader color="white" />
+        </div>
       </div>
       <div className="text-black bg-yellow -translate-y-full w-0 group-hover:w-full transition-width overflow-x-hidden">
         <div className="px-4 py-2 flex flex-row justify-center">{label}</div>

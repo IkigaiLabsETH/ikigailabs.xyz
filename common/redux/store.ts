@@ -29,7 +29,11 @@ import {
 } from '../../modules/Drop'
 import { dropMiddleware } from '../../modules/Drop'
 import { freeMintMiddleware, freeMintReducer } from '../../modules/FreeMint'
-import { checkTokenBalancesForCollectionMiddleware, burnToMintReducer, getTokenBalanceSuccessMiddleware } from '../../modules/BurnToMint'
+import {
+  checkTokenBalancesForCollectionMiddleware,
+  burnToMintReducer,
+  getTokenBalanceSuccessMiddleware,
+} from '../../modules/BurnToMint'
 import { allowlistApi } from '../../modules/Allowlist/allowlist.api'
 import { tokenBalanceReducer } from '../web3'
 import { notificationMiddleware } from '../notification'

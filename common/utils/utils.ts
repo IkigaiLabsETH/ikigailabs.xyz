@@ -71,7 +71,7 @@ export const formatAttributes = reduce(
   '',
 )
 
-export const addOrReplace = (array: any[], object: {}, prop: string) => pipe(
-  findIndex(propEq(prop, object[prop])),
-  index => index === -1 ? append(object, array) : adjust(index, () => object, array)
-)(array)
+export const addOrReplace = (array: any[], object: {}, prop: string) =>
+  pipe(findIndex(propEq(prop, object[prop])), index =>
+    index === -1 ? append(object, array) : adjust(index, () => object, array),
+  )(array)
