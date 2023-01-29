@@ -126,3 +126,11 @@ body {
     @apply border-white hover:text-white text-white bg-black hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-[10px];
   }
 }
+
+.Toastify__toast {
+  @apply shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] satoshi font-bold text-black rounded-none border-2 border-black;
+}
+
+.Toastify__progress-bar--info, .Toastify__progress-bar--success, .Toastify__progress-bar--warning, .Toastify__progress-bar--error {
+  @apply bg-black;
+}

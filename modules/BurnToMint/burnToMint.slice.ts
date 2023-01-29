@@ -81,7 +81,7 @@ export const burnToMintSlice = createSlice({
   },
 })
 
-export const { reducer } = burnToMintSlice
+export const { reducer, actions } = burnToMintSlice
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectBurnToMint = (state: RootState) => state.burnToMint

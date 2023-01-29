@@ -32,6 +32,8 @@ import { freeMintMiddleware, freeMintReducer } from '../../modules/FreeMint'
 import { checkTokenBalancesForCollectionMiddleware, burnToMintReducer, getTokenBalanceSuccessMiddleware } from '../../modules/BurnToMint'
 import { allowlistApi } from '../../modules/Allowlist/allowlist.api'
 import { tokenBalanceReducer } from '../web3'
+import { notificationMiddleware } from '../notification'
+import { burnToMint } from '../../modules/BurnToMint/burnToMint.slice'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -46,6 +48,10 @@ export const startAppListening = listenerMiddleware.startListening as AppStartLi
 
 export const addAppListener = addListener as TypedAddListener<RootState, AppDispatch>
 
+const notifications = {
+  [burnToMint.rejected.type]: 'Failed to burn token',
+}
+
 // startAppListening(NFTDropsMiddleware(web3))
 startAppListening(mintPassesMiddleware)
 startAppListening(collectionTokenMiddleware)
@@ -55,6 +61,7 @@ startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions as any))
 startAppListening(freeMintMiddleware)
 startAppListening(checkTokenBalancesForCollectionMiddleware)
 startAppListening(getTokenBalanceSuccessMiddleware)
+startAppListening(notificationMiddleware(notifications)([burnToMint.rejected]))
 
 const store = configureStore({
   reducer: combineReducers({
