@@ -10,7 +10,6 @@ import { Button } from '../Button'
 import { Loader } from '../Loader'
 import { claim, fetchToken, selectClaimLoadingState, selectToken } from './freeMint.slice'
 import { CONFETTI_CONFIG } from '../../common/config'
-import { Link } from '../Link'
 import { Eyebrow } from '../Eyebrow'
 
 interface FreeMintProps {
@@ -28,7 +27,7 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
     dispatch(fetchToken({ contract, tokenId }))
   }, [])
 
-  const particlesInit = async main => {
+  const particlesInit = async (main: any) => {
     await loadFull(main)
   }
 
@@ -50,38 +49,26 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
 
   const idle = (
     <>
-      <h1 className="text-[2rem] lg:text-[3rem] boska leading-none">{token.name}</h1>
-      <p>{token.description}</p>
-      <div className="flex font-extrabold w-full">{getButton}</div>
+      {<div className="flex flex-row w-full mt-16">{getButton}</div>}
     </>
   )
 
   const loading = (
     <div className="flex font-extrabold w-full">
-      <Loader />
+      <Loader color='white'/>
     </div>
   )
 
   const succeeded = (
     <>
-      <div className="flex">
-        <div className="">
-          <h1 className="text-[2rem] lg:text-[3rem] boska py-4 leading-none bg-black">Epic! You're all set.</h1>
-          <div className="flex">
-            <Link href="/view" title="View NFT">
-              View NFT
-            </Link>
-          </div>
-        </div>
-      </div>
       <Particles id="tsparticles" options={CONFETTI_CONFIG as any} init={particlesInit} />
     </>
   )
 
   const failed = (
     <div className="flex">
-      <div className="bg-white border-2 shadow-[5px_5px_0px_0px_rgba(127,29,29,1)] border-red text-red p-4 leading-none text-2xl absolute">
-        Whoops, something went wrong.
+      <div className="text-red text-2xl">
+        Sorry, something went wrong.
       </div>
     </div>
   )
@@ -103,7 +90,7 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
         <Eyebrow>Exclusive Free Mint</Eyebrow>
         <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{token.name}</h2>
         <p className="my-8 satoshi text-xl leading-relaxed">{token.description}</p>
-        {<div className="flex flex-row w-full mt-16">{getButton}</div>}
+        {content}  
       </div>
     </div>
   )

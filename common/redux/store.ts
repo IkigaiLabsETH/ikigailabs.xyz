@@ -3,6 +3,9 @@ import {
   combineReducers,
   configureStore,
   createListenerMiddleware,
+  isFulfilled,
+  isPending,
+  isRejected,
   TypedAddListener,
   TypedStartListening,
 } from '@reduxjs/toolkit'
@@ -34,10 +37,11 @@ import {
   burnToMintReducer,
   getTokenBalanceSuccessMiddleware,
 } from '../../modules/BurnToMint'
-import { allowlistApi } from '../../modules/Allowlist/allowlist.api'
+import { allowlistApi, signUp } from '../../modules/Allowlist/allowlist.api'
 import { tokenBalanceReducer } from '../web3'
 import { notificationMiddleware } from '../notification'
 import { burnToMint } from '../../modules/BurnToMint/burnToMint.slice'
+import { claim } from '../../modules/FreeMint/freeMint.slice'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -53,7 +57,12 @@ export const startAppListening = listenerMiddleware.startListening as AppStartLi
 export const addAppListener = addListener as TypedAddListener<RootState, AppDispatch>
 
 const notifications = {
+  [burnToMint.fulfilled.type]: 'You have successfully swapped your tokens',
   [burnToMint.rejected.type]: 'Failed to burn token',
+  [claim.fulfilled.type]: 'You have successfully claimed your token',
+  [claim.rejected.type]: 'Failed to claim token',
+  'allowlistApi/executeMutation/fulfilled': 'You have successfully signed up',
+  'allowlistApi/executeMutation/rejected': 'Failed to sign up',
 }
 
 // startAppListening(NFTDropsMiddleware(web3))
@@ -65,7 +74,14 @@ startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions as any))
 startAppListening(freeMintMiddleware)
 startAppListening(checkTokenBalancesForCollectionMiddleware)
 startAppListening(getTokenBalanceSuccessMiddleware)
-startAppListening(notificationMiddleware(notifications)([burnToMint.rejected]))
+startAppListening(notificationMiddleware(notifications)([
+  isFulfilled(burnToMint),
+  isRejected(burnToMint),
+  isFulfilled(claim),
+  isRejected(claim),
+  signUp.matchFulfilled,
+  signUp.matchRejected,
+]))
 
 const store = configureStore({
   reducer: combineReducers({
