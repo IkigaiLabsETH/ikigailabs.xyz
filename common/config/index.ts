@@ -8,6 +8,17 @@ export const FREE_MINT_TOKEN_ID = 0
 export const BURN_TO_MINT_1155 = '0xd6aC136fC352eB4EF372095CC9fe9ED7dfEdF504'
 export const BURN_TO_MINT_721 = '0xf76afb63f9A808cF6A0F05Ea888C014e89d82F0C'
 
+export const BURN_TO_MINT = {
+  odessyGenesisCollection: {
+    sourceContract: '0xd6aC136fC352eB4EF372095CC9fe9ED7dfEdF504',
+    targets: [
+      { tokenId: '0', targetContract: '' },
+      { tokenId: '1', targetContract: '' },
+      { tokenId: '2', targetContract: '' },
+    ],
+  },
+}
+
 export const CONFETTI_CONFIG = {
   particles: {
     number: {

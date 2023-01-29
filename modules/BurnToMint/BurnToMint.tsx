@@ -1,44 +1,98 @@
-import { isNil } from 'ramda'
-import React, { ChangeEvent, FC } from 'react'
+import { equals, isNil, map, pluck, prop } from 'ramda'
+import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
-import { useAppDispatch } from '../../common/redux/store'
+import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { useWallet } from '../../common/useWallet'
 import { Button } from '../Button'
-import { burnToMint } from './burnToMint.slice'
+import { burnToMint, checkTokenBalancesForCollection } from './burnToMint.slice'
+import { selectContractCallStatus, selectTokensWithBalancesForAddress } from '../../common/web3/tokenBalance.slice'
+import { selector } from '../Collection/Token/token.api'
+import { addOrReplace } from '../../common/utils/utils'
+import { Token } from '../../common/types'
 
 interface BurnToMintProps {
-  elevenFiftyFiveContractAddress: string
-  sevenTwentyOneContractAddress: string
+  sourceContract: string,
+  targets: {
+    tokenId: number
+    targetContract: string
+  }[]
 }
 
-export const BurnToMint:FC<BurnToMintProps> = ({ elevenFiftyFiveContractAddress, sevenTwentyOneContractAddress }) => {
+export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => {
   const dispatch = useAppDispatch()
   const { address, connect } = useWallet()
+  const tokensWithBalance = useAppSelector(selectTokensWithBalancesForAddress(address))
+  const tokenSelector = useAppSelector(selector) as any
+  const contractCallStatus = useAppSelector(selectContractCallStatus)
+  const [tokensToBurn, setTokensToBurn] = useState([]) 
 
   const handleConnect = (event: ChangeEvent<HTMLButtonElement>) => {
     event.preventDefault()
     connect()
   }
 
-  const handleBurnToMint = async (event: ChangeEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    dispatch(burnToMint({ address, elevenFiftyFiveContractAddress, sevenTwentyOneContractAddress, tokenId: '0' }))
+  const startBurn = async (tokenId: number) => {
+    const target = targets.find(target => target.tokenId === tokenId)
+    dispatch(burnToMint({ address, sourceContract, targetContract: target?.targetContract, tokenId: tokenId.toString() }))
   }
-  
-  return (
-    <div className='flex relative justify-center items-center lg:min-h-screen bg-white text-black min'>
-      <div className='w-full lg:w-2/3 p-16 flex justify-center items-center flex-col'>
-        <h1 className="boska lg:text-[6rem]">Token Swap</h1>
-        <p className='text-gray-800 text-xl text-justify'>
-          Swap your Dimitri Artwork
-        </p>
-        {match(address)
-          .when(isNil, () => <Button onClick={handleConnect} label="Connect" />)
-          .otherwise(() => <Button onClick={handleBurnToMint} label="Start token swap" />)
+
+  const checkEligibility = async (event: ChangeEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    dispatch(checkTokenBalancesForCollection({ address, collection: { contract: sourceContract, tokenIds: pluck('tokenId')(targets) } }))
+  }
+
+  useEffect(() => {
+    if (tokensWithBalance.length > 0) {
+      map(({ contract, tokenId }: { contract: string, tokenId: string }) => {
+        const { data } = tokenSelector({ contract, tokenId })
+
+        if (data?.token) {
+          const tokenData = addOrReplace(tokensToBurn, data.token, 'tokenId')
+          setTokensToBurn(tokenData)
         }
-        <div className="border-2 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-black mt-8">
-          <video autoPlay={true} className="" controls={true} controlsList="nodownload" loop={true} muted={true} playsInline={true} poster="https://i.seadn.io/gcs/files/c0272ec89d3bd2e950c5de4ea4aba9d3.jpg?w=500&amp;auto=format" preload="metadata" style={{objectFit: 'contain', borderRadius: 'initial' }}><source src="https://openseauserdata.com/files/a5571cf9ab8fe256ad77ea34b8fe6a05.mp4#t=0.001" type="video/mp4" /></video>
+      })(tokensWithBalance)
+    }
+  }, [tokensWithBalance, tokenSelector])
+
+  const tokenList = (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        map((token: Token) => (
+          <div key={token.tokenId} className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+            <div className="overflow-clip h-52">
+            <img src={token.image} alt={token.name} />
+          </div>
+          <div className="p-4">
+            <h5 className="font-bold text-2xl mb-4">{token.name}</h5>
+            <p className="text-black line-clamp-5">{token.description}</p>
+            <div className="flex justify-center items-center">
+              <button className='font-bold text-red' onClick={() => startBurn(token.tokenId)}> Start Swap &rarr; </button>
+            </div>
+          </div>
+          </div>
+        ))(tokensToBurn)
+      }
+    </div>
+  )
+
+  return (
+    <div className="flex flex-col relative justify-center items-center lg:min-h-screen bg-white text-black min">
+      <div className="lg:w-2/3 p-16">
+        <h1 className="boska lg:text-[6rem]">Odyssey Genesis Collection Contract Swap</h1>
+        <p className="text-gray-800 text-xl">Swap your Dimitri Artwork</p>
+        <div className='flex flex-row w-full'>
+          { 
+            contractCallStatus === 'succeeded' ? (
+              tokensToBurn.length > 0 ? tokenList : 'No eligible tokens found'
+            ) : (
+              match(address)
+                .when(isNil, () => <Button onClick={handleConnect} label="Connect" />)
+                .otherwise(() => (
+                  <Button onClick={checkEligibility} label="Check eligibility" loading={equals(contractCallStatus, 'pending') ? true : false }/>
+                ))
+            )
+          }
         </div>
       </div>
     </div>

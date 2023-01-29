@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { path } from 'ramda'
+import { flip, path, uncurryN } from 'ramda'
 
 export const collectionTokenApi = createApi({
   reducerPath: 'collectionTokenApi',
@@ -14,3 +14,5 @@ export const collectionTokenApi = createApi({
 })
 
 export const { reducer } = collectionTokenApi
+
+export const selector = flip(uncurryN(2, collectionTokenApi.endpoints.getTokenByContractAndTokenId.select))

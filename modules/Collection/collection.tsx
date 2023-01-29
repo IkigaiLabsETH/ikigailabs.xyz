@@ -1,11 +1,11 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import debounce from 'lodash.debounce'
-import { assocPath, equals, findIndex, map, mergeRight, path, pathOr, pipe, propEq, propOr, tap, unless } from 'ramda'
+import { assocPath, equals, findIndex, map, mergeRight, path, pathOr, pipe, propEq, propOr, unless } from 'ramda'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import { fetchCollection, getCollectionByContract } from './collection.api'
+import { fetchCollection } from './collection.api'
 import { Facet } from '../../common/types'
 import { Loader } from '../Loader'
 import { Activity } from '../Activity'
@@ -38,7 +38,7 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
   const [facets, setFacets] = useState<Facet[]>([])
 
-  const { data: collection, status: collectionStatus } = useAppSelector(selectCollection(contract))
+  const { data: collection } = useAppSelector(selectCollection(contract))
   const { data: nfts, status: nftsStatus } = useAppSelector(
     selectNFTS({ contract, attributes: formatAttributes(facets) }),
   )

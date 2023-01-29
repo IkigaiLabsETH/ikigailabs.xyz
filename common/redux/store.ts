@@ -29,8 +29,9 @@ import {
 } from '../../modules/Drop'
 import { dropMiddleware } from '../../modules/Drop'
 import { freeMintMiddleware, freeMintReducer } from '../../modules/FreeMint'
-import { burnToMintReducer } from '../../modules/BurnToMint'
+import { checkTokenBalancesForCollectionMiddleware, burnToMintReducer, getTokenBalanceSuccessMiddleware } from '../../modules/BurnToMint'
 import { allowlistApi } from '../../modules/Allowlist/allowlist.api'
+import { tokenBalanceReducer } from '../web3'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -52,6 +53,8 @@ startAppListening(collectionMiddleware)
 startAppListening(dropMiddleware)
 startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions as any))
 startAppListening(freeMintMiddleware)
+startAppListening(checkTokenBalancesForCollectionMiddleware)
+startAppListening(getTokenBalanceSuccessMiddleware)
 
 const store = configureStore({
   reducer: combineReducers({
@@ -72,11 +75,12 @@ const store = configureStore({
     claims: claimsReducer,
     freeMint: freeMintReducer,
     burnToMint: burnToMintReducer,
+    tokenBalance: tokenBalanceReducer,
   }),
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
       .prepend(listenerMiddleware.middleware)
-      .concat(collectionApi.middleware, allowlistApi.middleware),
+      .concat(collectionApi.middleware, allowlistApi.middleware, collectionTokenApi.middleware),
   devTools: true,
 })
 

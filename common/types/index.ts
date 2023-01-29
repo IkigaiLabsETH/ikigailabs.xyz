@@ -67,11 +67,11 @@ export enum ActivityType {
   buy = 'buy',
 }
 
-export interface Token {
-  tokenId: string
-  tokenImage: string
-  tokenName: string
-}
+// export interface Token {
+//   tokenId: string
+//   tokenImage: string
+//   tokenName: string
+// }
 
 export interface Collection {
   collectionId: string
@@ -115,6 +115,16 @@ export interface Price {
   currency: string
 }
 
+export interface Token {
+  rarity: number
+  description: string
+  name: string
+  image: string
+  owner: string
+  rarityRank: number
+  tokenId: number
+}
+
 export interface NFT {
   market: {
     floorAsk: {
@@ -124,13 +134,5 @@ export interface NFT {
       price: Price | null
     }
   }
-  token: {
-    rarity: number
-    description: string
-    name: string
-    image: string
-    owner: string
-    rarityRank: number
-    tokenId: number
-  }
+  token: Token
 }

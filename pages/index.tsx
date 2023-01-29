@@ -12,6 +12,8 @@ import { BurnToMint } from '../modules/BurnToMint'
 import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
 import { FreeMint } from '../modules/FreeMint'
+import { BURN_TO_MINT } from '../common/config'
+import { path, pathOr, prop } from 'ramda'
 
 const Home: FC = () => {
   const dispatch = useAppDispatch()
@@ -39,7 +41,11 @@ const Home: FC = () => {
             </div>
           </div>
           <div className="mt-10 text-lg justify-center flex items-center">
-            <button type="button" className="italic bold text-2xl hover:text-yellow" onClick={() => dispatch(showAllowlist())}>
+            <button
+              type="button"
+              className="italic bold text-2xl hover:text-yellow"
+              onClick={() => dispatch(showAllowlist())}
+            >
               Get on the allowlist!
             </button>
           </div>
@@ -60,7 +66,10 @@ const Home: FC = () => {
       </header>
       <main className="w-full">
         <FreeMint contract={FREE_MINT_CONTRACT} tokenId={FREE_MINT_TOKEN_ID} />
-        <BurnToMint elevenFiftyFiveContractAddress={BURN_TO_MINT_1155} sevenTwentyOneContractAddress={BURN_TO_MINT_721} />
+        <BurnToMint
+          sourceContract={pathOr('', ['odessyGenesisCollection', 'sourceContract'])(BURN_TO_MINT)}
+          targets={pathOr([], ['odessyGenesisCollection', 'targets'])(BURN_TO_MINT)} 
+        />
       </main>
       <Footer />
     </div>

@@ -1,9 +1,11 @@
 import { formatDuration, intervalToDuration } from 'date-fns'
 import {
   addIndex,
+  adjust,
   append,
   concat,
   curry,
+  findIndex,
   gt,
   ifElse,
   includes,
@@ -13,6 +15,7 @@ import {
   map,
   modulo,
   pipe,
+  propEq,
   propSatisfies,
   reduce,
   set,
@@ -67,3 +70,8 @@ export const formatAttributes = reduce(
     concat(reduce((acc, value: string) => concat(`&attributes[${facet.key}]=${value}`)(acc), '')(facet.selected))(acc),
   '',
 )
+
+export const addOrReplace = (array: any[], object: {}, prop: string) => pipe(
+  findIndex(propEq(prop, object[prop])),
+  index => index === -1 ? append(object, array) : adjust(index, () => object, array)
+)(array)
