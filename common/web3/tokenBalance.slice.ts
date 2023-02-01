@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { BigNumber } from 'ethers'
-import { append, both, filter, find, has, pipe, prop, propEq, propOr, reject } from 'ramda'
+import { append, both, find, pipe, propEq, propOr, reject } from 'ramda'
 
 import { web3, Web3 } from '.'
 import { RootState } from '../redux/store'

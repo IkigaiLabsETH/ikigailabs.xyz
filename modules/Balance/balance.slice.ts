@@ -4,16 +4,19 @@ import { lensProp, set } from 'ramda'
 
 import { RootState } from '../../common/redux/store'
 import { Token } from '../../common/types'
+import { web3, Web3 } from '../../common/web3'
 
-export const fetchBalance = createAsyncThunk<
+export const fetchBalance = (web3: Web3) => createAsyncThunk<
   Promise<Partial<Token>>,
-  { getBalance: (contract?: string) => Promise<any>; contract: string },
+  { address: string },
   { rejectValue: string }
->('balance/fetch', ({ getBalance, contract }, { rejectWithValue }) =>
-  promiseRetry(retry => getBalance(contract).catch(retry))
+>('balance/fetch', ({ address }, { rejectWithValue }) =>
+  promiseRetry(retry => web3.getBalance(address).catch(retry))
     .then(response => set(lensProp('value' as never), response.value.toString())(response))
     .catch((error: Error) => rejectWithValue(error.message)),
 )
+
+export const fetchEthBalance = fetchBalance(web3)
 
 interface BalanceState {
   entities: Partial<Token>
@@ -36,16 +39,16 @@ export const balanceSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchBalance.pending, (state, action) => {
+      .addCase(fetchEthBalance.pending, (state, action) => {
         state.status = 'loading'
       })
-      .addCase(fetchBalance.fulfilled, (state, action) => {
+      .addCase(fetchEthBalance.fulfilled, (state, action) => {
         const { payload } = action
         state.status = 'succeeded'
         // @ts-ignore
         state.entities = payload
       })
-      .addCase(fetchBalance.rejected, (state, action) => {
+      .addCase(fetchEthBalance.rejected, (state, action) => {
         const { payload } = action
         state.status = 'failed'
         if (payload) {
