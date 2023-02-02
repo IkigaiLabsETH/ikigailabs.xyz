@@ -22,7 +22,7 @@ export const fetchDropMetadataTh = (web3: Web3) =>
     ({ contract }, { rejectWithValue }) =>
       promiseRetry(retry =>
         web3
-          .getSignatureDrop(contract)
+          .getContract(contract, 'nft-drop')
           .then(response => response.metadata.get())
           .catch(retry),
       )
@@ -37,7 +37,7 @@ export const fetchDropTokensTh = (web3: Web3) =>
     ({ contract }, { rejectWithValue }) =>
       promiseRetry(retry =>
         web3
-          .getSignatureDrop(contract)
+          .getContract(contract, 'nft-drop')
           .then(response => response.getAll())
           .catch(retry),
       )
@@ -64,7 +64,7 @@ export const fetchDropClaimedSupplyTh = (web3: Web3) =>
     ({ contract }, { rejectWithValue }) =>
       promiseRetry(retry =>
         web3
-          .getSignatureDrop(contract)
+          .getContract(contract, 'nft-drop')
           .then(response => response.totalClaimedSupply())
           .catch(retry),
       )
@@ -80,7 +80,7 @@ export const fetchDropUnclaimedSupplyTh = (web3: Web3) =>
     ({ contract }, { rejectWithValue }) =>
       promiseRetry(retry =>
         web3
-          .getSignatureDrop(contract)
+          .getContract(contract, 'nft-drop')
           .then(response => response.totalUnclaimedSupply())
           .catch(retry)
           .then((unclaimedSupply: BigNumber) => ({ unclaimedSupply: unclaimedSupply.toString(), id: contract }))
@@ -96,7 +96,7 @@ export const fetchDropOwnedTokenIds = createAsyncThunk<
 >('drop/ownedTokenIds/fetch', ({ contract, wallet }, { rejectWithValue }) =>
   promiseRetry(retry =>
     web3
-      .getSignatureDrop(contract)
+      .getContract(contract, 'nft-drop')
       .then(response => response.getOwnedTokenIds(wallet))
       .catch(retry),
   )
@@ -110,7 +110,7 @@ export const fetchDropClaimConditionsTh = (web3: Web3) =>
     ({ contract }, { rejectWithValue }) =>
       promiseRetry(retry =>
         web3
-          .getSignatureDrop(contract)
+          .getContract(contract, 'nft-drop')
           .then(response => response.claimConditions.getAll())
           .catch(retry),
       )
@@ -136,13 +136,10 @@ const claimTokenTh = (web3: Web3) =>
     ({ contract, quantity, address }, { rejectWithValue }) =>
       promiseRetry(retry =>
         web3
-          .getSignatureDrop(contract)
+          .getContract(contract, 'nft-drop')
           .then(response => response.claimTo(address, quantity))
           .catch(retry),
-      ).catch((error: Error) => {
-        console.log(error)
-        return rejectWithValue(error.message)
-      }),
+      ).catch((error: Error) => rejectWithValue(error.message)),
   )
 
 export const claimToken = claimTokenTh(web3)

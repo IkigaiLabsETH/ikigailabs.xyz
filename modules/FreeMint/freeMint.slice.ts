@@ -9,10 +9,10 @@ import { Web3, web3 } from '../../common/web3'
 export const claimTh = (web3: Web3) =>
   createAsyncThunk<Promise<{} | Error>, { contract: string; address: string; tokenId: number; amount: number }>(
     'freeMint/claim',
-    ({ contract, address, tokenId, amount }, { rejectWithValue }) =>
+    ({ contract, address, amount }, { rejectWithValue }) =>
       web3
-        .getContract(contract, 'edition-drop')
-        .then(response => response.claimTo(address, tokenId, amount))
+        .getContract(contract, 'nft-drop')
+        .then(response => response.claimTo(address, amount))
         .then(response => response)
         .catch(error => rejectWithValue(error.message)),
   )
@@ -22,10 +22,10 @@ export const claim = claimTh(web3)
 export const fetchTokenTh = (web3: Web3) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: number }>(
     'freeMint/fetchToken',
-    ({ contract, tokenId }, { rejectWithValue }) =>
+    ({ contract }, { rejectWithValue }) =>
       promiseRetry(retry =>
         web3
-          .getContract(contract, 'edition-drop')
+          .getContract(contract, 'nft-drop')
           .then(response => response.metadata.get())
           .catch(retry),
       )

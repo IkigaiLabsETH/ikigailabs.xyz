@@ -2,7 +2,7 @@ export const FEATURED_DROP = '0x3C9A5EeB4D7126D759B64B9129C23012CF802313'
 
 export const NFTDrops = ['0xcE998593C8f0790ff41a488c83B2Af5E47C27258', '0x025c59a275Ca6DB964eeE1694c6614AcE62F1568']
 
-export const FREE_MINT_CONTRACT = '0x764261bdE25B4390e3366174b65FAE6c2fC2c420'
+export const FREE_MINT_CONTRACT = '0x5c30FBF1e294b76f27FdcAA4F5A21379d4A8D442'
 export const FREE_MINT_TOKEN_ID = 0
 
 export const BURN_TO_MINT_1155 = '0xd6aC136fC352eB4EF372095CC9fe9ED7dfEdF504'
@@ -12,7 +12,7 @@ export const BURN_TO_MINT = {
   odessyGenesisCollection: {
     sourceContract: '0xd6aC136fC352eB4EF372095CC9fe9ED7dfEdF504',
     targets: [
-      { tokenId: '0', targetContract: '' },
+      { tokenId: '0', targetContract: '0xf76afb63f9A808cF6A0F05Ea888C014e89d82F0C' },
       { tokenId: '1', targetContract: '' },
       { tokenId: '2', targetContract: '' },
     ],
