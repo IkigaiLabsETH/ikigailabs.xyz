@@ -13,7 +13,6 @@ export const claimTh = (web3: Web3) =>
       web3
         .getContract(contract, 'nft-drop')
         .then(response => response.claimTo(address, amount))
-        .then(response => response)
         .catch(error => rejectWithValue(error.message)),
   )
 

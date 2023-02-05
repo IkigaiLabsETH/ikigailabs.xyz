@@ -1,5 +1,5 @@
 import { add, propOr } from 'ramda'
-import React, { FC, useEffect } from 'react'
+import React, { FC, MouseEvent, useEffect } from 'react'
 import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
@@ -41,7 +41,8 @@ export const Drop: FC<DropProps> = ({ contract }) => {
     dispatch(fetchDrop({ contract }))
   }, [contract])
 
-  const handleClaim = () => {
+  const handleClaim = (event: MouseEvent) => {
+    event.preventDefault()
     dispatch(claimToken({ contract, address, quantity: 1 }))
   }
 
