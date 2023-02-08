@@ -6,6 +6,7 @@ import { Profile } from '../Profile'
 import { useWallet } from '../../common/useWallet'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { Button } from '../Button'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
@@ -42,9 +43,8 @@ export const Header: FC = () => {
             <div className="hidden md:flex">
               <Profile />
             </div>
-            <button
-              type="button"
-              className="z-20 ml-1 text-lg text-black bg-white p-4 border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all"
+            <Button
+              className="z-20 ml-1"
               onClick={() => setExpanded(!expanded)}
               aria-expanded={expanded ? 'true' : 'false'}
             >
@@ -77,7 +77,7 @@ export const Header: FC = () => {
                   </svg>
                 </span>
               )}
-            </button>
+            </Button>
           </div>
         </nav>
 

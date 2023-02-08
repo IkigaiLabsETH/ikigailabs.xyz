@@ -28,12 +28,12 @@ export const MintPasses: FC = () => {
   }
 
   const getButton = match(address)
-    .when(isNil, () => <Button onClick={handleConnect} label="Connect" />)
-    .otherwise(() => <Button onClick={join} label="Join allowlist" />)
+    .when(isNil, () => <Button onClick={handleConnect} >Connect</Button>)
+    .otherwise(() => <Button onClick={join} loading={allowlistLoadingState === 'loading'}>Join allowlist</Button>)
 
   const cta = match(allowlistLoadingState)
     .with('idle', () => getButton)
-    .with('loading', () => <Loader />)
+    .with('loading', () => getButton)
     .with('succeeded', () => <div>Epic! You're all set.</div>)
     .with('failed', () => <div>Whoops, something went wrong. Are you sure you aren't already on the list?</div>)
     .exhaustive()
@@ -55,12 +55,12 @@ export const MintPasses: FC = () => {
               key={name}
               className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-5"
             >
-              <button
+              <Button
                 onClick={() => dispatch(showMintPassDetails({ pass: name }))}
                 className="w-full text-left flex justify-between items-center p-2 hover:text-red transition-colors"
               >
                 {name} <ChevronRightIcon className="w-8" />
-              </button>
+              </Button>
             </div>
           ))(mintPasses)}
 

@@ -2,7 +2,7 @@ import React, { FC, ReactNode, MouseEvent } from 'react'
 import { match } from 'ts-pattern'
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { showAllowlist } from '../Allowlist'
-import { showMintPassDetails } from '../MintPasses'
+import { Button } from '../Button'
 import { hide, selectModal } from './modal.slice'
 
 interface ModalProps {
@@ -27,12 +27,12 @@ export const Modal: FC<ModalProps> = ({ modals }) => {
       <div className="border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]">
         <div className="bg-white text-black w-full">{modal(data)}</div>
       </div>
-      <button
+      <Button
         onClick={() => dispatch(hide())}
-        className="text-black text-3xl leading-none ml-3 bg-white border-2 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] h-9 w-9 px-1 pb-1 block border-black"
+        className="text-3xl leading-none ml-3 p-1.5"
       >
         &times;
-      </button>
+      </Button>
     </div>
   )
 

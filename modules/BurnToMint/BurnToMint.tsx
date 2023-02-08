@@ -1,15 +1,17 @@
-import { equals, isNil, map, pluck, prop } from 'ramda'
+import clsx from 'clsx'
+import { isNil, map, pluck } from 'ramda'
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { useWallet } from '../../common/useWallet'
 import { Button } from '../Button'
-import { burnToMint, checkTokenBalancesForCollection } from './burnToMint.slice'
+import { burnToMint, checkTokenBalancesForCollection, selectBurnToMint } from './burnToMint.slice'
 import { selectContractCallStatus, selectTokensWithBalancesForAddress } from '../../common/web3/tokenBalance.slice'
 import { selector } from '../Collection/Token/token.api'
 import { addOrReplace } from '../../common/utils/utils'
 import { Token } from '../../common/types'
+import { Loader, Size } from '../Loader'
 
 interface BurnToMintProps {
   sourceContract: string
@@ -25,6 +27,7 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
   const tokensWithBalance = useAppSelector(selectTokensWithBalancesForAddress(address))
   const tokenSelector = useAppSelector(selector) as any
   const contractCallStatus = useAppSelector(selectContractCallStatus)
+  const { burnToMintStatus } = useAppSelector(selectBurnToMint)
   const [tokensToBurn, setTokensToBurn] = useState([])
 
   const handleConnect = (event: ChangeEvent<HTMLButtonElement>) => {
@@ -75,10 +78,10 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
           <div className="p-4">
             <h5 className="font-bold text-2xl mb-4">{token.name}</h5>
             <p className="text-black line-clamp-5">{token.description}</p>
-            <div className="flex justify-center items-center">
-              <button className="font-bold text-red" onClick={() => startBurn(token.tokenId)}>
+            <div className="flex justify-start items-start font-bold">
+              <button onClick={() => startBurn(token.tokenId)}>
                 {' '}
-                Start Swap &rarr;{' '}
+                <span className={clsx('overflow-hidden inline-block translate-y-2 -translate-x-0.5', burnToMintStatus === 'loading' ? 'w-5' : 'w-5')}><Loader size={Size.s} /></span> Start Swap &rarr;{' '}
               </button>
             </div>
           </div>
@@ -98,13 +101,11 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
               ? tokenList
               : 'No eligible tokens found'
             : match(address)
-                .when(isNil, () => <Button onClick={handleConnect} label="Connect" />)
+                .when(isNil, () => <Button onClick={handleConnect}>Connect</Button>)
                 .otherwise(() => (
                   <Button
                     onClick={checkEligibility}
-                    label="Check eligibility"
-                    loading={equals(contractCallStatus, 'pending') ? true : false}
-                  />
+                  >Check eligibility</Button>
                 ))}
         </div>
       </div>

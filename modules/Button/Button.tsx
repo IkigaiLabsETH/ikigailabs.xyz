@@ -1,54 +1,66 @@
-import { match } from 'ts-pattern'
-import React, { FC } from 'react'
-import { Loader } from '../Loader'
+import clsx from 'clsx'
+import Link from 'next/link'
+import React from 'react'
+import { FC } from 'react'
+import { Loader, Size } from '../Loader'
 
 interface ButtonProps {
-  label: string
-  onClick: Function
-  type?: 'solid' | 'ghost'
+  variant?: 'solid' | 'outline'
+  color?: 'yellow' | 'white'
+  href?: string
+  className?: string
+  children: React.ReactNode
+  onClick?: (arg: unknown) => void
   loading?: boolean
 }
 
-export const Button: FC<ButtonProps> = ({ label, onClick, type = 'solid', loading }) => {
-  const solid = (
-    <a
-      href=""
-      title={label}
-      className={`text-2xl active:translate-x-1 active:translate-y-1 font-semibold tracking-tight text-center border-2 border-yellow shadow-[5px_5px_0px_0px_rgba(255,255,255,1)] active:shadow-[0px_0px_0px_0px_rgba(255,255,255,1)] group h-[52px] overflow-clip whitespace-nowrap`}
-      role="button"
-      onClick={e => onClick(e)}
-    >
-      <div className="text-yellow bg-black">
-        <div className={`px-4 py-2 flex flex-row justify-center ${loading ? 'text-black' : ''}`}>{label}</div>
-        <div className={`px-4 py-2 flex-row justify-center -translate-y-full ${loading ? 'flex' : 'hidden'}`}>
-          <Loader color="white" />
-        </div>
-      </div>
-      <div className="text-black bg-yellow -translate-y-full w-0 group-hover:w-full transition-width overflow-x-hidden">
-        <div className="px-4 py-2 flex flex-row justify-center">{label}</div>
-      </div>
-    </a>
-  )
+const baseStyles = {
+  solid:
+    'shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]',
+  outline: 'group inline-flex ring-1 items-center justify-center py-2 px-4 text-sm focus:outline-none',
+}
 
-  const ghost = (
-    <a
-      href="#"
-      title={label}
-      className="text-lg active:translate-x-1 active:translate-y-1 text-black bg-white border-2 border-black text-center shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] active:shadow-[0px_0px_0px_0px_rgba(255,255,255,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all group overflow-clip whitespace-nowrap h-[64px]"
-      role="button"
-      onClick={e => onClick(e)}
-    >
-      <div className="text-black bg-white h-[64px] flex items-center">
-        <div className="px-4 py-2">{label}</div>
-      </div>
-      <div className="text-white bg-red -translate-y-full w-0 group-hover:w-full transition-width overflow-x-hidden h-[64px] flex items-center">
-        <div className="px-4 py-2">{label}</div>
-      </div>
-    </a>
-  )
+const variantStyles = {
+  solid: {
+    yellow:
+      ['text-yellow border-yellow active:text-white focus-visible:outline-yellow', 'bg-yellow', 'group-hover:text-black'],
+    white:
+      ['text-black border-black active:text-white focus-visible:outline-black bg-white', 'bg-black', 'group-hover:text-white'],
+  },
+  outline: {
+    slate:
+      'ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-slate-300',
+    white:
+      'ring-slate-700 text-white hover:ring-slate-500 active:ring-slate-700 active:text-slate-400 focus-visible:outline-white',
+  },
+}
 
-  return match(type)
-    .with('solid', () => solid)
-    .with('ghost', () => ghost)
-    .exhaustive()
+export const Button: FC<ButtonProps> = ({
+  variant = 'solid',
+  color = 'white',
+  className,
+  href,
+  children,
+  onClick,
+  loading = false,
+  ...props
+}) => {
+  className = clsx(baseStyles[variant], variantStyles[variant][color][0], className)
+
+  return href ? (
+    <Link href={href} className={`relative inline-flex items-center justify-start p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`} {...props}>
+      <span className={clsx('absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full', variantStyles[variant][color][1])}></span>
+      <span className={clsx('relative w-full text-center transition-colors duration-200 ease-in-out', variantStyles[variant][color][2])}>
+        {children}
+      </span>
+    </Link>
+  ) : (
+    <button onClick={onClick} className={`relative inline-flex items-center justify-center p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`}>
+      <span className={clsx('absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full', variantStyles[variant][color][1])}></span>
+      <span className={clsx('relative w-full text-center transition-colors duration-200 ease-in-out leading-none pb-1', variantStyles[variant][color][2])}>
+        <span className={clsx('overflow-hidden inline-block translate-y-1 -translate-x-0.5', loading ? 'w-5' : 'w-0')}><Loader size={Size.s} /></span>
+        {' '}{children}
+      </span>
+    </button>
+  )
 }

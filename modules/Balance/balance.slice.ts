@@ -6,15 +6,14 @@ import { RootState } from '../../common/redux/store'
 import { Token } from '../../common/types'
 import { web3, Web3 } from '../../common/web3'
 
-export const fetchBalance = (web3: Web3) => createAsyncThunk<
-  Promise<Partial<Token>>,
-  { address: string },
-  { rejectValue: string }
->('balance/fetch', ({ address }, { rejectWithValue }) =>
-  promiseRetry(retry => web3.getBalance(address).catch(retry))
-    .then(response => set(lensProp('value' as never), response.value.toString())(response))
-    .catch((error: Error) => rejectWithValue(error.message)),
-)
+export const fetchBalance = (web3: Web3) =>
+  createAsyncThunk<Promise<Partial<Token>>, { address: string }, { rejectValue: string }>(
+    'balance/fetch',
+    ({ address }, { rejectWithValue }) =>
+      promiseRetry(retry => web3.getBalance(address).catch(retry))
+        .then(response => set(lensProp('value' as never), response.value.toString())(response))
+        .catch((error: Error) => rejectWithValue(error.message)),
+  )
 
 export const fetchEthBalance = fetchBalance(web3)
 

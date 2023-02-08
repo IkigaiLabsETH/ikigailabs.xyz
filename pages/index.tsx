@@ -13,6 +13,7 @@ import { BurnToMint } from '../modules/BurnToMint'
 import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
 import { FreeMint } from '../modules/FreeMint'
+import { Button } from '../modules/Button'
 
 const Home: FC = () => {
   const dispatch = useAppDispatch()
@@ -40,13 +41,12 @@ const Home: FC = () => {
             </div>
           </div>
           <div className="mt-10 text-lg justify-center flex items-center">
-            <button
-              type="button"
+            <Button
               className="italic bold text-2xl hover:text-yellow"
               onClick={() => dispatch(showAllowlist())}
             >
               Get on the allowlist!
-            </button>
+            </Button>
           </div>
         </div>
         <div className="pb-10 flex justify-center items-center flex-col">

@@ -28,20 +28,10 @@ export const Allowlist: FC<AllowlistProps> = ({}) => {
   }
 
   const getButton = match(address)
-    .when(isNil, () => <Button onClick={handleConnect} label="Connect" />)
-    .otherwise(() => <Button onClick={handleSubmission} label="Sign up" />)
-
-  const loading = (
-    <div className="flex font-extrabold w-full">
-      <Loader />
-    </div>
-  )
+    .when(isNil, () => <Button onClick={handleConnect}>Connect</Button>)
+    .otherwise(() => <Button onClick={handleSubmission} loading={isLoading}>Sign up</Button>)
 
   const getAction = () => {
-    if (isLoading) {
-      return loading
-    }
-
     if (isError) {
       return <p className="text-black">Something went wrong</p>
     }

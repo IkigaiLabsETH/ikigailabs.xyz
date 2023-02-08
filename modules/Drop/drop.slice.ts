@@ -5,6 +5,7 @@ import promiseRetry from 'promise-retry'
 
 import { ClaimCondition, ContractMetadata, TransactionResultWithId } from '../../common/types'
 import { web3, Web3 } from '../../common/web3'
+import { RootState } from '../../common/redux/store'
 
 export const fetchDrop = createAction<{ contract: string }>('drop/fetch')
 
@@ -299,3 +300,5 @@ export const unclaimedSupplyReducer = unclaimedSupplySlice.reducer
 export const ownedTokenIdsReducer = ownedTokenIdsSlice.reducer
 export const claimConditionsReducer = claimConditionsSlice.reducer
 export const claimsReducer = claimsSlice.reducer
+
+export const selectClaim = (state: RootState) => state.claims

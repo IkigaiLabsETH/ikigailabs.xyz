@@ -16,7 +16,7 @@ import {
   selectUniqueOwnersCount,
   unclaimedSupplySelectors,
 } from './drop.selectors'
-import { claimToken, fetchDrop } from './drop.slice'
+import { claimToken, fetchDrop, selectClaim } from './drop.slice'
 
 interface DropProps {
   contract: string
@@ -36,6 +36,7 @@ export const Drop: FC<DropProps> = ({ contract }) => {
   )
   const totalSupply = add((claimedSupply as number) || 0, (unclaimedSupply as number) || 0)
   const claimConditions = useAppSelector(state => claimConditionsSelectors.selectById(state, contract) as any)
+  const { status } = useAppSelector(selectClaim)
 
   useEffect(() => {
     dispatch(fetchDrop({ contract }))
@@ -67,10 +68,9 @@ export const Drop: FC<DropProps> = ({ contract }) => {
             </div>
           </div>
           <div className="flex flex-col w-full mt-8">
-            <Button
-              onClick={handleClaim}
-              label={`Mint for ${claimConditions?.claimConditions[0]?.currencyMetadata?.displayValue} `}
-            />
+            <Button onClick={handleClaim} color='yellow' loading={status === 'loading'}>
+              Mint for ${claimConditions?.claimConditions[0]?.currencyMetadata?.displayValue}
+            </Button>
           </div>
         </CollectionHeader>
       </>

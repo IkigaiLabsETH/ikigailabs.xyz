@@ -23,6 +23,7 @@ import { collectionApi } from './collection.api'
 import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
 import { format, parseISO } from 'date-fns/fp'
+import { Button } from '../Button'
 
 interface CollectionProps {
   contract: string
@@ -133,16 +134,16 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
             <nav className="flex space-x-4 font-bold border-b border-b-gray-400 w-full" aria-label="Tabs">
               <button
                 onClick={() => setActiveTab(Tab.collection)}
-                className={`p-4 border-b-2 transition-colors hover:text-red hover:border-b-red ${
-                  activeTab === Tab.collection ? 'text-black border-b-black' : 'text-gray-400 border-b-white'
+                className={`p-4 border-b-4 border-white hover:border-black hover:text-black transition-all ${
+                  activeTab === Tab.collection ? 'text-black' : 'text-gray-400 border-b-white'
                 }`}
               >
                 Collection
               </button>
               <button
                 onClick={() => setActiveTab(Tab.activity)}
-                className={`p-4 border-b-2 transition-colors hover:text-red hover:border-b-red ${
-                  activeTab === Tab.activity ? 'text-black border-b-black' : 'text-gray-400 border-b-white'
+                className={`p-4 border-b-4 border-white hover:border-black hover:text-black transition-all ${
+                  activeTab === Tab.activity ? 'text-black' : 'text-gray-400 border-b-white'
                 }`}
               >
                 Activity

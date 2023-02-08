@@ -44,16 +44,10 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
   }
 
   const getButton = match(address)
-    .when(isNil, () => <Button onClick={handleConnect} label="Connect" />)
-    .otherwise(() => <Button onClick={handleClaim} label="Mint for free" />)
+    .when(isNil, () => <Button onClick={handleConnect} >Connect</Button>)
+    .otherwise(() => <Button onClick={handleClaim} loading={claimLoadingState === 'loading'}>Mint for free</Button>)
 
   const idle = <>{<div className="flex flex-row w-full mt-16">{getButton}</div>}</>
-
-  const loading = (
-    <div className="flex font-extrabold w-full">
-      <Loader color="white" />
-    </div>
-  )
 
   const succeeded = (
     <>
@@ -69,7 +63,7 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
 
   const content = match(claimLoadingState)
     .with('idle', () => idle)
-    .with('loading', () => loading)
+    .with('loading', () => idle)
     .with('succeeded', () => succeeded)
     .with('failed', () => failed)
     .exhaustive()
