@@ -43,7 +43,7 @@ export const Header: FC = () => {
             <div className="hidden md:flex">
               <Profile />
             </div>
-            <Button
+            <button
               className="z-20 ml-1"
               onClick={() => setExpanded(!expanded)}
               aria-expanded={expanded ? 'true' : 'false'}
@@ -77,7 +77,7 @@ export const Header: FC = () => {
                   </svg>
                 </span>
               )}
-            </Button>
+            </button>
           </div>
         </nav>
 

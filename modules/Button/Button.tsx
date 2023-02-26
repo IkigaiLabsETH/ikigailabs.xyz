@@ -16,16 +16,22 @@ interface ButtonProps {
 
 const baseStyles = {
   solid:
-    'shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]',
-  outline: 'group inline-flex ring-1 items-center justify-center py-2 px-4 text-sm focus:outline-none',
+    'shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]  hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]',
+  outline: 'group inline-flex ring-1 items-center justify-center py-2 px-4 text-sm',
 }
 
 const variantStyles = {
   solid: {
-    yellow:
-      ['text-yellow border-yellow active:text-white focus-visible:outline-yellow', 'bg-yellow', 'group-hover:text-black'],
-    white:
-      ['text-black border-black active:text-white focus-visible:outline-black bg-white', 'bg-black', 'group-hover:text-white'],
+    yellow: [
+      'text-yellow border-yellow active:text-white focus-visible:outline-yellow',
+      'bg-yellow',
+      'group-hover:text-black',
+    ],
+    white: [
+      'text-black border-black active:text-white bg-white',
+      'bg-black',
+      'group-hover:text-white',
+    ],
   },
   outline: {
     slate:
@@ -48,18 +54,47 @@ export const Button: FC<ButtonProps> = ({
   className = clsx(baseStyles[variant], variantStyles[variant][color][0], className)
 
   return href ? (
-    <Link href={href} className={`relative inline-flex items-center justify-start p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`} {...props}>
-      <span className={clsx('absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full', variantStyles[variant][color][1])}></span>
-      <span className={clsx('relative w-full text-center transition-colors duration-200 ease-in-out', variantStyles[variant][color][2])}>
+    <Link
+      href={href}
+      className={`relative inline-flex items-center justify-start p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`}
+      {...props}
+    >
+      <span
+        className={clsx(
+          'absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full',
+          variantStyles[variant][color][1],
+        )}
+      ></span>
+      <span
+        className={clsx(
+          'relative w-full text-center transition-colors duration-200 ease-in-out',
+          variantStyles[variant][color][2],
+        )}
+      >
         {children}
       </span>
     </Link>
   ) : (
-    <button onClick={onClick} className={`relative inline-flex items-center justify-center p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`}>
-      <span className={clsx('absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full', variantStyles[variant][color][1])}></span>
-      <span className={clsx('relative w-full text-center transition-colors duration-200 ease-in-out leading-none pb-1', variantStyles[variant][color][2])}>
-        <span className={clsx('overflow-hidden inline-block translate-y-1 -translate-x-0.5', loading ? 'w-5' : 'w-0')}><Loader size={Size.s} /></span>
-        {' '}{children}
+    <button
+      onClick={onClick}
+      className={`relative inline-flex items-center justify-center p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`}
+    >
+      <span
+        className={clsx(
+          'absolute bottom-0 left-0 flex w-full h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-purple-600 group-hover:h-full opacity-90',
+          variantStyles[variant][color][1],
+        )}
+      ></span>
+      <span
+        className={clsx(
+          'relative w-full text-center transition-colors duration-200 ease-in-out leading-none pb-1',
+          variantStyles[variant][color][2],
+        )}
+      >
+        <span className={clsx('overflow-hidden inline-block translate-y-1 -translate-x-0.5', loading ? 'w-5' : 'w-0')}>
+          <Loader size={Size.s} />
+        </span>{' '}
+        {children}
       </span>
     </button>
   )

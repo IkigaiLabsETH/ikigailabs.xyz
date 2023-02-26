@@ -28,8 +28,12 @@ export const MintPasses: FC = () => {
   }
 
   const getButton = match(address)
-    .when(isNil, () => <Button onClick={handleConnect} >Connect</Button>)
-    .otherwise(() => <Button onClick={join} loading={allowlistLoadingState === 'loading'}>Join allowlist</Button>)
+    .when(isNil, () => <Button onClick={handleConnect}>Connect</Button>)
+    .otherwise(() => (
+      <Button onClick={join} loading={allowlistLoadingState === 'loading'}>
+        Join allowlist
+      </Button>
+    ))
 
   const cta = match(allowlistLoadingState)
     .with('idle', () => getButton)

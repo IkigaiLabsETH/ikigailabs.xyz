@@ -2,18 +2,14 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { FC } from 'react'
+import { FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID } from '../common/config'
 
-import { pathOr } from 'ramda'
-import { FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID, BURN_TO_MINT } from '../common/config'
 import { withLayout } from '../common/layouts/MainLayout/withLayout'
 import { useAppDispatch } from '../common/redux/store'
 import { Layout } from '../common/types'
-import { showAllowlist } from '../modules/Allowlist'
-import { BurnToMint } from '../modules/BurnToMint'
 import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
 import { FreeMint } from '../modules/FreeMint'
-import { Button } from '../modules/Button'
 
 const Home: FC = () => {
   const dispatch = useAppDispatch()
@@ -40,17 +36,14 @@ const Home: FC = () => {
               <Image src="/assets/images/ltl-logo-white-small.png" width="80px" height="80px" />
             </div>
           </div>
-          <div className="mt-10 text-lg justify-center flex items-center">
-            <Button
-              className="italic bold text-2xl hover:text-yellow"
-              onClick={() => dispatch(showAllowlist())}
-            >
+          {/* <div className="mt-10 text-lg justify-center flex items-center">
+            <Button className="italic bold text-2xl hover:text-yellow" onClick={() => dispatch(showAllowlist())}>
               Get on the allowlist!
             </Button>
-          </div>
+          </div> */}
         </div>
         <div className="pb-10 flex justify-center items-center flex-col">
-          <Eyebrow>Free mint</Eyebrow>
+          <Eyebrow>NFT Paris Free mint</Eyebrow>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -65,10 +58,10 @@ const Home: FC = () => {
       </header>
       <main className="w-full">
         <FreeMint contract={FREE_MINT_CONTRACT} tokenId={FREE_MINT_TOKEN_ID} />
-        <BurnToMint
+        {/* <BurnToMint
           sourceContract={pathOr('', ['odessyGenesisCollection', 'sourceContract'])(BURN_TO_MINT)}
           targets={pathOr([], ['odessyGenesisCollection', 'targets'])(BURN_TO_MINT)}
-        />
+        /> */}
       </main>
       <Footer />
     </div>

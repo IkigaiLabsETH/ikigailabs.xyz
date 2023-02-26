@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 
 import { useWallet } from '../../common/useWallet'
 import { Button } from '../Button'
-import { Loader } from '../Loader'
 import { selectAllowlistSignUp, signUp } from './allowlist.api'
 
 interface AllowlistProps {}
@@ -29,7 +28,11 @@ export const Allowlist: FC<AllowlistProps> = ({}) => {
 
   const getButton = match(address)
     .when(isNil, () => <Button onClick={handleConnect}>Connect</Button>)
-    .otherwise(() => <Button onClick={handleSubmission} loading={isLoading}>Sign up</Button>)
+    .otherwise(() => (
+      <Button onClick={handleSubmission} loading={isLoading}>
+        Sign up
+      </Button>
+    ))
 
   const getAction = () => {
     if (isError) {

@@ -7,6 +7,7 @@ import {
   curry,
   findIndex,
   gt,
+  identity,
   ifElse,
   includes,
   join,
@@ -19,6 +20,8 @@ import {
   propSatisfies,
   reduce,
   set,
+  sortBy,
+  splitEvery,
   take,
   takeLast,
   when,
@@ -75,3 +78,12 @@ export const addOrReplace = (array: any[], object: {}, prop: string) =>
   pipe(findIndex(propEq(prop, object[prop])), index =>
     index === -1 ? append(object, array) : adjust(index, () => object, array),
   )(array)
+
+export const shuffleArray = (strings: string[]) =>
+  sortBy(
+    identity,
+    map(() => Math.random(), strings),
+  )
+
+export const batchArray = (strings: string[]) => (batchSize: number) =>
+  map(splitEvery(batchSize), splitEvery(batchSize, strings))

@@ -4,7 +4,6 @@ import {
   configureStore,
   createListenerMiddleware,
   isFulfilled,
-  isPending,
   isRejected,
   TypedAddListener,
   TypedStartListening,
@@ -42,6 +41,7 @@ import { tokenBalanceReducer } from '../web3'
 import { notificationMiddleware } from '../notification'
 import { burnToMint } from '../../modules/BurnToMint/burnToMint.slice'
 import { claim } from '../../modules/FreeMint/freeMint.slice'
+import { collectionsApi } from '../../modules/Collections/collections.api'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -95,6 +95,7 @@ const store = configureStore({
     modal: modalReducer,
     [collectionApi.reducerPath]: prop('reducer')(collectionApi),
     [allowlistApi.reducerPath]: prop('reducer')(allowlistApi),
+    [collectionsApi.reducerPath]: prop('reducer')(collectionsApi),
     dropMetadata: metadataReducer,
     dropTokens: tokensReducer,
     dropClaimedSupply: claimedSupplyReducer,
@@ -109,7 +110,12 @@ const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
       .prepend(listenerMiddleware.middleware)
-      .concat(collectionApi.middleware, allowlistApi.middleware, collectionTokenApi.middleware),
+      .concat(
+        collectionApi.middleware,
+        allowlistApi.middleware,
+        collectionTokenApi.middleware,
+        collectionsApi.middleware,
+      ),
   devTools: true,
 })
 

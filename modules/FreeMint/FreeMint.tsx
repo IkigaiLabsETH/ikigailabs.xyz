@@ -44,8 +44,12 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
   }
 
   const getButton = match(address)
-    .when(isNil, () => <Button onClick={handleConnect} >Connect</Button>)
-    .otherwise(() => <Button onClick={handleClaim} loading={claimLoadingState === 'loading'}>Mint for free</Button>)
+    .when(isNil, () => <Button onClick={handleConnect}>Connect</Button>)
+    .otherwise(() => (
+      <Button onClick={handleClaim} loading={claimLoadingState === 'loading'}>
+        Mint for free
+      </Button>
+    ))
 
   const idle = <>{<div className="flex flex-row w-full mt-16">{getButton}</div>}</>
 

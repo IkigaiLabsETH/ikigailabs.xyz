@@ -13,9 +13,11 @@ export const Profile: FC<ProfileProps> = ({ connectLabel = 'Connect', disconnect
   const { address, connect, disconnect } = useWallet()
 
   return !address ? (
-    <Button onClick={connect} className="mr-2">{connectLabel}</Button>
+    <Button onClick={connect} className="mr-2">
+      {connectLabel}
+    </Button>
   ) : (
-    <Button className='mr-2'>
+    <Button className="mr-2">
       {truncateAddress(address)} <span className="pl-1">|</span> <Balance address={address} />
     </Button>
   )

@@ -68,7 +68,7 @@ export const Drop: FC<DropProps> = ({ contract }) => {
             </div>
           </div>
           <div className="flex flex-col w-full mt-8">
-            <Button onClick={handleClaim} color='yellow' loading={status === 'loading'}>
+            <Button onClick={handleClaim} color="yellow" loading={status === 'loading'}>
               Mint for ${claimConditions?.claimConditions[0]?.currencyMetadata?.displayValue}
             </Button>
           </div>

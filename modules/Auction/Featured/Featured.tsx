@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import useWeb3 from '../../../common/useWeb3'
 import { getRemainingTime } from '../../../common/utils'
 import { Loader } from '../../Loader'
-import { fetchFeaturedAuction, selectFeaturedAuction, selectLoadingState } from './featured.slice'
+import { selectFeaturedAuction, selectLoadingState } from './featured.slice'
 
 interface FeaturedAuctionProps {
   contract: string

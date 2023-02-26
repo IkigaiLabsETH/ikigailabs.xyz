@@ -27,10 +27,7 @@ export const Modal: FC<ModalProps> = ({ modals }) => {
       <div className="border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]">
         <div className="bg-white text-black w-full">{modal(data)}</div>
       </div>
-      <Button
-        onClick={() => dispatch(hide())}
-        className="text-3xl leading-none ml-3 p-1.5"
-      >
+      <Button onClick={() => dispatch(hide())} className="text-3xl leading-none ml-3 p-1.5">
         &times;
       </Button>
     </div>

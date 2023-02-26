@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import '../styles/globals.css'
 import { store } from '../common/redux'
-import { appInit } from '../modules/App/app.reducer'
 import { Modal } from '../modules/Modal'
 import { MODALS } from '../common/modal'
 
@@ -37,4 +36,4 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => (
 
 export default LTLMarketplace
 
-store.dispatch(appInit())
+// store.dispatch(appInit())

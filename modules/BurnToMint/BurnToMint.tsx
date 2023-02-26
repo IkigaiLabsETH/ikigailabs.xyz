@@ -81,7 +81,15 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
             <div className="flex justify-start items-start font-bold">
               <button onClick={() => startBurn(token.tokenId)}>
                 {' '}
-                <span className={clsx('overflow-hidden inline-block translate-y-2 -translate-x-0.5', burnToMintStatus === 'loading' ? 'w-5' : 'w-5')}><Loader size={Size.s} /></span> Start Swap &rarr;{' '}
+                <span
+                  className={clsx(
+                    'overflow-hidden inline-block translate-y-2 -translate-x-0.5',
+                    burnToMintStatus === 'loading' ? 'w-5' : 'w-5',
+                  )}
+                >
+                  <Loader size={Size.s} />
+                </span>{' '}
+                Start Swap &rarr;{' '}
               </button>
             </div>
           </div>
@@ -102,11 +110,7 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
               : 'No eligible tokens found'
             : match(address)
                 .when(isNil, () => <Button onClick={handleConnect}>Connect</Button>)
-                .otherwise(() => (
-                  <Button
-                    onClick={checkEligibility}
-                  >Check eligibility</Button>
-                ))}
+                .otherwise(() => <Button onClick={checkEligibility}>Check eligibility</Button>)}
         </div>
       </div>
     </div>
