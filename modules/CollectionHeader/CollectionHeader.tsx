@@ -23,9 +23,6 @@ export const CollectionHeader: FC<CollectionHeaderProps> = ({ children, eyebrow,
         <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{name}</h2>
         <p className="my-8 satoshi text-xl leading-relaxed">{description}</p>
         {children}
-        <div className="text-small mt-8 italic text-gray-400">
-          This is a blind drop. When you buy, you'll receive a random NFT from the collection.
-        </div>
       </div>
     </div>
   </>

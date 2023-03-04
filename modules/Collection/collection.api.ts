@@ -8,7 +8,7 @@ export const fetchCollection = createAction<{ contract: string }>('collection/fe
 
 export const collectionApi = createApi({
   reducerPath: 'collectionApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://api-goerli.reservoir.tools' }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://api.reservoir.tools' }),
   endpoints: builder => ({
     getCollectionByContract: builder.query<{ collection: any }, string>({
       query: (contract: string) =>

@@ -1,5 +1,6 @@
 import {
   addListener,
+  AnyAction,
   combineReducers,
   configureStore,
   createListenerMiddleware,
@@ -9,6 +10,7 @@ import {
   TypedStartListening,
 } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import {createWrapper, Context, HYDRATE} from 'next-redux-wrapper';
 import { prop } from 'ramda'
 
 import { balanceReducer } from '../../modules/Balance'
@@ -42,10 +44,12 @@ import { notificationMiddleware } from '../notification'
 import { burnToMint } from '../../modules/BurnToMint/burnToMint.slice'
 import { claim } from '../../modules/FreeMint/freeMint.slice'
 import { collectionsApi } from '../../modules/Collections/collections.api'
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 export const listenerMiddleware = createListenerMiddleware()
 
 export type AppDispatch = typeof store.dispatch
+export type AppStore = ReturnType<typeof makeStore>;
 export type RootState = ReturnType<typeof store.getState>
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -85,28 +89,32 @@ startAppListening(
   ]),
 )
 
-const store = configureStore({
-  reducer: combineReducers({
-    balance: balanceReducer,
-    featuredAuction: featuredAuctionReducer,
-    featuredDrop: featuredDropReducer,
-    mintPasses: mintPassesReducer,
-    [collectionTokenApi.reducerPath]: prop('reducer')(collectionTokenApi),
-    modal: modalReducer,
-    [collectionApi.reducerPath]: prop('reducer')(collectionApi),
-    [allowlistApi.reducerPath]: prop('reducer')(allowlistApi),
-    [collectionsApi.reducerPath]: prop('reducer')(collectionsApi),
-    dropMetadata: metadataReducer,
-    dropTokens: tokensReducer,
-    dropClaimedSupply: claimedSupplyReducer,
-    dropUnclaimedSupply: unclaimedSupplyReducer,
-    dropOwnedTokenIds: ownedTokenIdsReducer,
-    dropClaimConditions: claimConditionsReducer,
-    claims: claimsReducer,
-    freeMint: freeMintReducer,
-    burnToMint: burnToMintReducer,
-    tokenBalance: tokenBalanceReducer,
-  }),
+const combinedReducer = combineReducers({
+  balance: balanceReducer,
+  featuredAuction: featuredAuctionReducer,
+  featuredDrop: featuredDropReducer,
+  mintPasses: mintPassesReducer,
+  [collectionTokenApi.reducerPath]: prop('reducer')(collectionTokenApi),
+  modal: modalReducer,
+  [collectionApi.reducerPath]: prop('reducer')(collectionApi),
+  [allowlistApi.reducerPath]: prop('reducer')(allowlistApi),
+  [collectionsApi.reducerPath]: prop('reducer')(collectionsApi),
+  dropMetadata: metadataReducer,
+  dropTokens: tokensReducer,
+  dropClaimedSupply: claimedSupplyReducer,
+  dropUnclaimedSupply: unclaimedSupplyReducer,
+  dropOwnedTokenIds: ownedTokenIdsReducer,
+  dropClaimConditions: claimConditionsReducer,
+  claims: claimsReducer,
+  freeMint: freeMintReducer,
+  burnToMint: burnToMintReducer,
+  tokenBalance: tokenBalanceReducer,
+})
+
+const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => combinedReducer(state, action)
+
+const makeStore = () => configureStore({
+  reducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
       .prepend(listenerMiddleware.middleware)
@@ -119,4 +127,6 @@ const store = configureStore({
   devTools: true,
 })
 
-export { store }
+export const store = makeStore()
+setupListeners(store.dispatch)
+export const wrapper = createWrapper<AppStore>(makeStore, {debug: true});

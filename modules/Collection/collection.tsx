@@ -23,7 +23,7 @@ import { collectionApi } from './collection.api'
 import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
 import { format, parseISO } from 'date-fns/fp'
-import { Button } from '../Button'
+import { Eth } from '../Eth'
 
 interface CollectionProps {
   contract: string
@@ -78,11 +78,13 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   }, [contract])
 
   const nftsDisplay = () => (
-    <div className="flex flex-col">
-      <div className="md:px-6 lg:px-8 mb-8">
+    <div className="flex flex-row">
+      <div className="w-1/4">
         <Facets facets={facets} onClick={updateFacets} />
       </div>
-      <NFTGrid nfts={nfts.tokens} />
+      <div className='w-3/4'>
+        <NFTGrid nfts={nfts.tokens} />
+      </div>
     </div>
   )
 
@@ -114,17 +116,16 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
       >
         <div className="flex border-y border-y-gray-700 py-8 mt-6">
           <div className="grid grid-cols-4 gap-4 w-full">
-            <CollectionStat label="Floor Price" value={pathOr('—', ['floorAsk', 'tokenCount'])(collection)} />
-            <CollectionStat label="Top Offer" value={pathOr('—', ['topBid', 'price'])(collection)} />
-            <CollectionStat label="Volume" value={pathOr('—', ['volume', 'allTime'])(collection)} />
-            <CollectionStat label="Supply" value={propOr('—', 'tokenCount')(collection)} />
+            <CollectionStat label="Floor Price"><Eth amount={pipe(pathOr('—', ['floorAsk', 'price', 'amount', 'decimal']), parseFloat)(collection)}/></CollectionStat>
+            <CollectionStat label="Top Offer" ><Eth amount={pipe(pathOr('—', ['topBid', 'price', 'amount', 'decimal']), parseFloat)(collection)} /></CollectionStat>
+            <CollectionStat label="Volume"><Eth amount={pipe(pathOr('—', ['volume', 'allTime']), parseFloat)(collection)} /></CollectionStat>
+            <CollectionStat label="Supply">{propOr('—', 'tokenCount')(collection)}</CollectionStat>
             <CollectionStat
               label="Created On"
-              value={pipe(
-                propOr('—', 'createdAt'),
-                unless(equals('—'), pipe(parseISO, format('yyyy-MM-dd'))),
-              )(collection)}
-            />
+            >{pipe(
+              propOr('—', 'createdAt'),
+              unless(equals('—'), pipe(parseISO, format('yyyy-MM-dd'))),
+            )(collection)}</CollectionStat>
           </div>
         </div>
       </CollectionHeader>
@@ -151,7 +152,7 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
             </nav>
           </div>
         </div>
-        <div className="max-w-screen-2xl w-full m-4">
+        <div className="max-w-screen-2xl w-full m-4 md:px-6 lg:px-8">
           {match(activeTab)
             .with(Tab.collection, () => collectionComponent)
             .with(Tab.activity, () => activityComponent)

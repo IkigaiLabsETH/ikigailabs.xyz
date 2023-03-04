@@ -3,7 +3,7 @@ import { flip, path, uncurryN } from 'ramda'
 
 export const collectionTokenApi = createApi({
   reducerPath: 'collectionTokenApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://api-goerli.reservoir.tools' }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://api.reservoir.tools' }),
   endpoints: builder => ({
     getTokenByContractAndTokenId: builder.query<{ token: any }, {}>({
       query: ({ contract, tokenId }: { contract: string; tokenId: string }) =>

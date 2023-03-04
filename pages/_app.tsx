@@ -10,11 +10,12 @@ import '../styles/globals.css'
 import { store } from '../common/redux'
 import { Modal } from '../modules/Modal'
 import { MODALS } from '../common/modal'
+import { wrapper } from '../common/redux/store'
 
 const chain = parseInt(process.env.NEXT_CHAIN, 10) || ChainId.Goerli
 
-const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => (
-  <Provider store={store}>
+const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
+  return <Provider store={store}>
     <ThirdwebProvider desiredChainId={chain} autoConnect>
       <Component {...pageProps} />
       <Modal modals={MODALS} />
@@ -32,8 +33,6 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => (
       />
     </ThirdwebProvider>
   </Provider>
-)
+}
 
 export default LTLMarketplace
-
-// store.dispatch(appInit())
