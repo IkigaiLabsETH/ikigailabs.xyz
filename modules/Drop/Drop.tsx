@@ -36,7 +36,7 @@ export const Drop: FC<DropProps> = ({ contract }) => {
   )
   const totalSupply = add((claimedSupply as number) || 0, (unclaimedSupply as number) || 0)
   const claimConditions = useAppSelector(state => claimConditionsSelectors.selectById(state, contract) as any)
-  const { status } = useAppSelector(selectClaim)
+  const { loading } = useAppSelector(selectClaim)
 
   useEffect(() => {
     dispatch(fetchDrop({ contract }))
@@ -58,13 +58,12 @@ export const Drop: FC<DropProps> = ({ contract }) => {
         >
           <div className="flex border-y border-y-gray-700 py-8 mt-6">
             <div className="grid grid-cols-4 gap-4 w-full">
-              <CollectionStat label="Total Supply" value={totalSupply?.toString()} />
-              <CollectionStat label="Claimed" value={claimedSupply?.toString()} />
-              <CollectionStat label="Unique Owners" value={ownersCount?.toString()} />
-              <CollectionStat
-                label="Available:"
-                value={new Date(claimConditions?.claimConditions[0]?.startTime).toLocaleDateString()}
-              />
+              <CollectionStat label="Total Supply">{totalSupply?.toString()}</CollectionStat>
+              <CollectionStat label="Claimed">{claimedSupply?.toString()}</CollectionStat>
+              <CollectionStat label="Unique Owners">{ownersCount?.toString()}</CollectionStat>
+              <CollectionStat label="Available:">
+                {new Date(claimConditions?.claimConditions[0]?.startTime).toLocaleDateString()}
+              </CollectionStat>
             </div>
           </div>
           <div className="flex flex-col w-full mt-8">

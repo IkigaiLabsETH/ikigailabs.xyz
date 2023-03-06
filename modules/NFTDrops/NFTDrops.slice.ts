@@ -34,7 +34,7 @@ const initialState = {
 
 // Then, handle actions in your reducers:
 export const NFTDropsSlice = createSlice({
-  name: 'fetchNFTDrops',
+  name: 'NFTDrops',
   initialState,
   reducers: {
     // standard reducer logic, with auto-generated action types per reducer

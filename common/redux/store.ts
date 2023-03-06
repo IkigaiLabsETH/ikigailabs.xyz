@@ -10,7 +10,7 @@ import {
   TypedStartListening,
 } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import {createWrapper, Context, HYDRATE} from 'next-redux-wrapper';
+import { createWrapper } from 'next-redux-wrapper'
 import { prop } from 'ramda'
 
 import { balanceReducer } from '../../modules/Balance'
@@ -44,12 +44,13 @@ import { notificationMiddleware } from '../notification'
 import { burnToMint } from '../../modules/BurnToMint/burnToMint.slice'
 import { claim } from '../../modules/FreeMint/freeMint.slice'
 import { collectionsApi } from '../../modules/Collections/collections.api'
-import { setupListeners } from '@reduxjs/toolkit/dist/query';
+import { setupListeners } from '@reduxjs/toolkit/dist/query'
+import { NFTDropsReducer } from '../../modules/NFTDrops'
 
 export const listenerMiddleware = createListenerMiddleware()
 
 export type AppDispatch = typeof store.dispatch
-export type AppStore = ReturnType<typeof makeStore>;
+export type AppStore = ReturnType<typeof makeStore>
 export type RootState = ReturnType<typeof store.getState>
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -109,24 +110,26 @@ const combinedReducer = combineReducers({
   freeMint: freeMintReducer,
   burnToMint: burnToMintReducer,
   tokenBalance: tokenBalanceReducer,
+  NFTDrops: NFTDropsReducer,
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => combinedReducer(state, action)
 
-const makeStore = () => configureStore({
-  reducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware()
-      .prepend(listenerMiddleware.middleware)
-      .concat(
-        collectionApi.middleware,
-        allowlistApi.middleware,
-        collectionTokenApi.middleware,
-        collectionsApi.middleware,
-      ),
-  devTools: true,
-})
+const makeStore = () =>
+  configureStore({
+    reducer,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware()
+        .prepend(listenerMiddleware.middleware)
+        .concat(
+          collectionApi.middleware,
+          allowlistApi.middleware,
+          collectionTokenApi.middleware,
+          collectionsApi.middleware,
+        ),
+    devTools: true,
+  })
 
 export const store = makeStore()
 setupListeners(store.dispatch)
-export const wrapper = createWrapper<AppStore>(makeStore, {debug: true});
+export const wrapper = createWrapper<AppStore>(makeStore, { debug: true })

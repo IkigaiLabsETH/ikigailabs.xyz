@@ -27,7 +27,7 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
   const tokensWithBalance = useAppSelector(selectTokensWithBalancesForAddress(address))
   const tokenSelector = useAppSelector(selector) as any
   const contractCallStatus = useAppSelector(selectContractCallStatus)
-  const { burnToMintStatus } = useAppSelector(selectBurnToMint)
+  const { status } = useAppSelector(selectBurnToMint)
   const [tokensToBurn, setTokensToBurn] = useState([])
 
   const handleConnect = (event: ChangeEvent<HTMLButtonElement>) => {
@@ -84,7 +84,7 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
                 <span
                   className={clsx(
                     'overflow-hidden inline-block translate-y-2 -translate-x-0.5',
-                    burnToMintStatus === 'loading' ? 'w-5' : 'w-5',
+                    status === 'loading' ? 'w-5' : 'w-5',
                   )}
                 >
                   <Loader size={Size.s} />

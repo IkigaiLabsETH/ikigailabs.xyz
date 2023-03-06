@@ -1,5 +1,20 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
-import { assocPath, equals, findIndex, map, mergeRight, path, pathOr, pick, pipe, pluck, project, propEq, propOr, unless } from 'ramda'
+import {
+  assocPath,
+  equals,
+  findIndex,
+  map,
+  mergeRight,
+  path,
+  pathOr,
+  pick,
+  pipe,
+  pluck,
+  project,
+  propEq,
+  propOr,
+  unless,
+} from 'ramda'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
@@ -48,13 +63,16 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
 
   useEffect(() => {
     console.log('dispatching getCollectionTokensByContractWithAttributes', contract)
-    contract && dispatch(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
-      contract,
-      attributes: '',
-    }))
+    contract &&
+      dispatch(
+        collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
+          contract,
+          attributes: '',
+        }),
+      )
   }, [contract])
 
-  const updateFacets = (selection) => {
+  const updateFacets = selection => {
     console.log(selection)
     // return collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
     //   contract,
@@ -71,7 +89,7 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
       <div className="w-1/4">
         <Facets facets={attributes.attributes} onUpdateFacets={updateFacets} />
       </div>
-      <div className='w-3/4'>
+      <div className="w-3/4">
         <NFTGrid nfts={nfts.tokens} />
       </div>
     </div>
@@ -105,16 +123,19 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
       >
         <div className="flex border-y border-y-gray-700 py-8 mt-6">
           <div className="grid grid-cols-4 gap-4 w-full">
-            <CollectionStat label="Floor Price"><Eth amount={pipe(pathOr('—', ['floorAsk', 'price', 'amount', 'decimal']), parseFloat)(collection)}/></CollectionStat>
-            <CollectionStat label="Top Offer" ><Eth amount={pipe(pathOr('—', ['topBid', 'price', 'amount', 'decimal']), parseFloat)(collection)} /></CollectionStat>
-            <CollectionStat label="Volume"><Eth amount={pipe(pathOr('—', ['volume', 'allTime']), parseFloat)(collection)} /></CollectionStat>
+            <CollectionStat label="Floor Price">
+              <Eth amount={pipe(pathOr('—', ['floorAsk', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
+            </CollectionStat>
+            <CollectionStat label="Top Offer">
+              <Eth amount={pipe(pathOr('—', ['topBid', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
+            </CollectionStat>
+            <CollectionStat label="Volume">
+              <Eth amount={pipe(pathOr('—', ['volume', 'allTime']), parseFloat)(collection)} />
+            </CollectionStat>
             <CollectionStat label="Supply">{propOr('—', 'tokenCount')(collection)}</CollectionStat>
-            <CollectionStat
-              label="Created On"
-            >{pipe(
-              propOr('—', 'createdAt'),
-              unless(equals('—'), pipe(parseISO, format('yyyy-MM-dd'))),
-            )(collection)}</CollectionStat>
+            <CollectionStat label="Created On">
+              {pipe(propOr('—', 'createdAt'), unless(equals('—'), pipe(parseISO, format('yyyy-MM-dd'))))(collection)}
+            </CollectionStat>
           </div>
         </div>
       </CollectionHeader>

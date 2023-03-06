@@ -5,7 +5,6 @@ import { FC } from 'react'
 import { FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID } from '../common/config'
 
 import { withLayout } from '../common/layouts/MainLayout/withLayout'
-import { useAppDispatch } from '../common/redux/store'
 import { Layout } from '../common/types'
 import { Button } from '../modules/Button'
 import { Eyebrow } from '../modules/Eyebrow'
@@ -13,8 +12,6 @@ import { Footer } from '../modules/Footer'
 import { FreeMint } from '../modules/FreeMint'
 
 const Home: FC = () => {
-  const dispatch = useAppDispatch()
-
   return (
     <div className="flex items-center flex-col">
       <Head>
@@ -43,7 +40,9 @@ const Home: FC = () => {
             </Button>
           </div> */}
           <div className="mt-10 text-lg justify-center flex items-center">
-            <Button href="https://premint.xyz/livethelifetv" target="_blank">Get on allowlist</Button>
+            <Button href="https://premint.xyz/livethelifetv" target="_blank">
+              Get on allowlist
+            </Button>
           </div>
         </div>
         <div className="pb-10 flex justify-center items-center flex-col">

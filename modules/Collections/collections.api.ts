@@ -13,7 +13,6 @@ export const collectionsSetApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_AIRTABLE_URL || 'https://api.airtable.com' }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
-
       return action.payload[reducerPath]
     }
   },
@@ -28,7 +27,7 @@ export const collectionsSetApi = createApi({
       transformResponse: (response: any): string => {
         console.log('response', response)
         return prop('id', response.records[0].fields.Value)
-      }
+      },
     }),
   }),
 })
@@ -40,16 +39,20 @@ export const collectionsApi = createApi({
     getCollectionsBySetId: builder.query({
       query: (setId: string) => ({
         url: `collections/v5?collectionsSetId=${setId}`,
-      })
+      }),
     }),
   }),
 })
 
-export const _getCollectionsSetId = (http: HTTP) => () => http.get(`https://api.airtable.com/v0/app1IHvYXPgyenQuv/Configuration?maxRecords=3`, {
-  headers: {
-    Authorization: `Bearer ${process.env.NEXT_AIRTABLE_API_KEY || 'keyQWirC3t48lEo7b'}`,
-  },
-}).then(path(['data', 'records', 0, 'fields', 'Value'])).catch(console.error)
+export const _getCollectionsSetId = (http: HTTP) => () =>
+  http
+    .get(`https://api.airtable.com/v0/app1IHvYXPgyenQuv/Configuration?maxRecords=3`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_AIRTABLE_API_KEY || 'keyQWirC3t48lEo7b'}`,
+      },
+    })
+    .then(path(['data', 'records', 0, 'fields', 'Value']))
+    .catch(console.error)
 
 export const getCollectionsSetId = _getCollectionsSetId(http)
 

@@ -30,32 +30,33 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
   // }, 500, [selection])
 
   return (
-    <ul className='flex flex-col'>
+    <ul className="flex flex-col">
       {map(({ key, values }: IFacet) => {
-        const selectedValues = !query[key] || query[key] === ''
-        ? values
-        : values.filter((value) => {
-            return value.value.toLowerCase().includes(query[key].toLowerCase())
-          })
+        const selectedValues =
+          !query[key] || query[key] === ''
+            ? values
+            : values.filter(value => {
+                return value.value.toLowerCase().includes(query[key].toLowerCase())
+              })
         return (
-          <li className='mb-4' key={key}>
-            
-            <Combobox as="div" value={''} onChange={(value) => updateSelection(key, value)}>
+          <li className="mb-4" key={key}>
+            <Combobox as="div" value={''} onChange={value => updateSelection(key, value)}>
               <Combobox.Label className="block font-bold leading-6 text-gray-900">{key}</Combobox.Label>
               <ul className="flex flex-row flex-wrap my-2">
-              {map((value: string) => (
-                <li
-                  key={value}
-                  className={`text-xs font-bold  text-white bg-black py-1 px-2 group hover:text-yellow rounded-full transition-colors hover:cursor-pointer mr-2`}
-                  onClick={() => updateSelection(key, value)}
-                >
-                  {value} &times;
-                </li>))(selection[key] || [])}
+                {map((value: string) => (
+                  <li
+                    key={value}
+                    className={`text-xs font-bold  text-white bg-black py-1 px-2 group hover:text-yellow rounded-full transition-colors hover:cursor-pointer mr-2`}
+                    onClick={() => updateSelection(key, value)}
+                  >
+                    {value} &times;
+                  </li>
+                ))(selection[key] || [])}
               </ul>
               <div className="relative mt-2">
                 <Combobox.Input
                   className="w-full border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
-                  onChange={(event) => updateQuery(key, event.target.value)}
+                  onChange={event => updateQuery(key, event.target.value)}
                   displayValue={() => query[key]}
                 />
                 <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
@@ -64,14 +65,14 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
 
                 {selectedValues.length > 0 && (
                   <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                    {selectedValues.map((value) => (
+                    {selectedValues.map(value => (
                       <Combobox.Option
                         key={value.value}
                         value={value.value}
                         className={({ active }) =>
                           clsx(
                             'relative cursor-default select-none py-2 pl-3 pr-9',
-                            active ? 'bg-black text-white' : 'text-gray-900'
+                            active ? 'bg-black text-white' : 'text-gray-900',
                           )
                         }
                       >
@@ -82,7 +83,7 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
                               <span
                                 className={clsx(
                                   'ml-2 truncate text-gray-500',
-                                  active ? 'text-gray-200' : 'text-gray-500'
+                                  active ? 'text-gray-200' : 'text-gray-500',
                                 )}
                               >
                                 {value.count}
@@ -93,7 +94,7 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
                               <span
                                 className={clsx(
                                   'absolute inset-y-0 right-0 flex items-center pr-4',
-                                  active ? 'text-white' : 'text-black'
+                                  active ? 'text-white' : 'text-black',
                                 )}
                               >
                                 <CheckIcon className="h-5 w-5" aria-hidden="true" />

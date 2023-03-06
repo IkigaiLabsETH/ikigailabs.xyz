@@ -12,12 +12,11 @@ interface ButtonProps {
   children: React.ReactNode
   onClick?: (arg: unknown) => void
   loading?: boolean
-  target?: '_blank' | "_self"
+  target?: '_blank' | '_self'
 }
 
 const baseStyles = {
-  solid:
-    'shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]  hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]',
+  solid: 'shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]  hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]',
   outline: 'group inline-flex ring-1 items-center justify-center py-2 px-4 text-sm',
 }
 
@@ -28,11 +27,7 @@ const variantStyles = {
       'bg-yellow',
       'group-hover:text-black',
     ],
-    white: [
-      'text-black border-black active:text-white bg-white',
-      'bg-black',
-      'group-hover:text-white',
-    ],
+    white: ['text-black border-black active:text-white bg-white', 'bg-black', 'group-hover:text-white'],
   },
   outline: {
     slate:
@@ -61,7 +56,10 @@ export const Button: FC<ButtonProps> = ({
       className={`relative inline-flex items-center justify-start p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`}
       {...props}
     >
-      <a className={`relative inline-flex items-center justify-center p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`} target={target}>
+      <a
+        className={`relative inline-flex items-center justify-center p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`}
+        target={target}
+      >
         <span
           className={clsx(
             'absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full',
