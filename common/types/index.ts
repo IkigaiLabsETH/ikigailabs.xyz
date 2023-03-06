@@ -111,7 +111,6 @@ export interface FacetValue {
 export interface Facet {
   key: string
   values: FacetValue[]
-  selected: string[]
 }
 
 export interface Price {

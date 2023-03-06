@@ -1,6 +1,5 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
-import debounce from 'lodash.debounce'
-import { assocPath, equals, findIndex, map, mergeRight, path, pathOr, pipe, propEq, propOr, unless } from 'ramda'
+import { assocPath, equals, findIndex, map, mergeRight, path, pathOr, pick, pipe, pluck, project, propEq, propOr, unless } from 'ramda'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
@@ -37,41 +36,31 @@ enum Tab {
 export const Collection: FC<CollectionProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
   const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
-  const [facets, setFacets] = useState<Facet[]>([])
+  const [facets, setFacets] = useState<any[]>([])
 
   const { data: collection } = useAppSelector(selectCollection(contract))
   const { data: nfts, status: nftsStatus } = useAppSelector(
     selectNFTS({ contract, attributes: formatAttributes(facets) }),
   )
+  console.log(nftsStatus)
   const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity(contract))
   const { data: attributes, status: attributesStatus } = useAppSelector(selectCollectionAttributes(contract))
 
   useEffect(() => {
-    if (equals(attributesStatus, 'fulfilled')) {
-      setFacets(map(mergeRight({ selected: [] }))(attributes.attributes))
-    }
-  }, [attributesStatus])
+    console.log('dispatching getCollectionTokensByContractWithAttributes', contract)
+    contract && dispatch(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
+      contract,
+      attributes: '',
+    }))
+  }, [contract])
 
-  const updateFacets = (key: string, facet: string) => {
-    const index = findIndex(propEq('key', key))(facets)
-    const f = assocPath([index, 'selected'], toggleListItem(facet)(path([index, 'selected'])(facets)))(facets)
-    return setFacets(f as any)
+  const updateFacets = (selection) => {
+    console.log(selection)
+    // return collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
+    //   contract,
+    //   attributes: formatAttributes(selection),
+    // })
   }
-
-  const loadFacets = useCallback(
-    debounce(() => {
-      contract &&
-        dispatch(
-          collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
-            contract,
-            attributes: formatAttributes(facets),
-          }),
-        )
-    }, 1500),
-    [facets, contract],
-  )
-
-  useEffect(loadFacets, [facets, contract])
 
   useEffect(() => {
     contract && dispatch(fetchCollection({ contract }))
@@ -80,7 +69,7 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   const nftsDisplay = () => (
     <div className="flex flex-row">
       <div className="w-1/4">
-        <Facets facets={facets} onClick={updateFacets} />
+        <Facets facets={attributes.attributes} onUpdateFacets={updateFacets} />
       </div>
       <div className='w-3/4'>
         <NFTGrid nfts={nfts.tokens} />

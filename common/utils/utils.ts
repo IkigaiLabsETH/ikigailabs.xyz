@@ -69,8 +69,7 @@ export const formatNFTMetadata = (metadata: any) =>
 export const toggleListItem = curry((value, list) => ifElse(includes(value), without([value]), append(value))(list))
 
 export const formatAttributes = reduce(
-  (acc, facet: { key: string; selected: string[] }) =>
-    concat(reduce((acc, value: string) => concat(`&attributes[${facet.key}]=${value}`)(acc), '')(facet.selected))(acc),
+  (acc, facet: { key: string; values: string[] }) => concat(reduce((acc, value: any) => concat(`&attributes[${facet.key}]=${value.value}`)(acc), '')(facet.values))(acc),
   '',
 )
 
