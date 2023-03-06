@@ -103,4 +103,4 @@ export const getStaticProps = async () => {
   return { props: { collectionsSetId } }
 }
 
-export default withLayout(Layout.main)(Collections)
+export default withLayout(Layout.main)(Collections as any)
