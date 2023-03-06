@@ -12,6 +12,7 @@ interface ButtonProps {
   children: React.ReactNode
   onClick?: (arg: unknown) => void
   loading?: boolean
+  target?: '_blank' | "_self"
 }
 
 const baseStyles = {
@@ -49,6 +50,7 @@ export const Button: FC<ButtonProps> = ({
   children,
   onClick,
   loading = false,
+  target = '_self',
   ...props
 }) => {
   className = clsx(baseStyles[variant], variantStyles[variant][color][0], className)
@@ -59,20 +61,22 @@ export const Button: FC<ButtonProps> = ({
       className={`relative inline-flex items-center justify-start p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`}
       {...props}
     >
-      <span
-        className={clsx(
-          'absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full',
-          variantStyles[variant][color][1],
-        )}
-      ></span>
-      <span
-        className={clsx(
-          'relative w-full text-center transition-colors duration-200 ease-in-out',
-          variantStyles[variant][color][2],
-        )}
-      >
-        {children}
-      </span>
+      <a className={`relative inline-flex items-center justify-center p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`} target={target}>
+        <span
+          className={clsx(
+            'absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full',
+            variantStyles[variant][color][1],
+          )}
+        ></span>
+        <span
+          className={clsx(
+            'relative w-full text-center transition-colors duration-200 ease-in-out',
+            variantStyles[variant][color][2],
+          )}
+        >
+          {children}
+        </span>
+      </a>
     </Link>
   ) : (
     <button

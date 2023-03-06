@@ -7,6 +7,7 @@ import { FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID } from '../common/config'
 import { withLayout } from '../common/layouts/MainLayout/withLayout'
 import { useAppDispatch } from '../common/redux/store'
 import { Layout } from '../common/types'
+import { Button } from '../modules/Button'
 import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
 import { FreeMint } from '../modules/FreeMint'
@@ -41,9 +42,12 @@ const Home: FC = () => {
               Get on the allowlist!
             </Button>
           </div> */}
+          <div className="mt-10 text-lg justify-center flex items-center">
+            <Button href="https://premint.xyz/livethelifetv" target="_blank">Get on allowlist</Button>
+          </div>
         </div>
         <div className="pb-10 flex justify-center items-center flex-col">
-          <Eyebrow>NFT Paris Free mint</Eyebrow>
+          <Eyebrow>Free mint</Eyebrow>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
