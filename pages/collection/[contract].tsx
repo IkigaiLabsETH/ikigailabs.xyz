@@ -16,9 +16,9 @@ const SignatureCollection: FC = () => {
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>LiveTheLifeTV - The future of Photography</title>
-        <meta name="description" content="The future of Photography" />
-        <link rel="icon" href="/assets/images/ltl-logo-white-small.png" />
+        <title>Ikigai Labs - Shaped by Photography</title>
+        <meta name="description" content="Shaped by Photography" />
+        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
       <main className="w-full">
         <Collection contract={contract as string} />

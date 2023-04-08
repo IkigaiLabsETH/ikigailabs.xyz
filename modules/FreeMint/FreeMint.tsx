@@ -1,20 +1,16 @@
 import { isNil } from 'ramda'
 import React, { ChangeEvent, FC, useEffect } from 'react'
 import { match } from 'ts-pattern'
-import Particles from 'react-tsparticles'
-import { loadFull } from 'tsparticles'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { useWallet } from '../../common/useWallet'
 import { Button } from '../Button'
-import { Loader } from '../Loader'
 import { claim, fetchToken, selectClaimLoadingState, selectToken } from './freeMint.slice'
-import { CONFETTI_CONFIG } from '../../common/config'
 import { Eyebrow } from '../Eyebrow'
 
 interface FreeMintProps {
   contract: string
-  tokenId: number
+  tokenId?: number
 }
 
 export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
@@ -26,10 +22,6 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
   useEffect(() => {
     dispatch(fetchToken({ contract, tokenId }))
   }, [])
-
-  const particlesInit = async (main: any) => {
-    await loadFull(main)
-  }
 
   const handleClaim = (event: ChangeEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -45,19 +37,11 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
 
   const getButton = match(address)
     .when(isNil, () => <Button onClick={handleConnect}>Connect</Button>)
-    .otherwise(() => (
-      <Button onClick={handleClaim} loading={claimLoadingState === 'loading'}>
-        Mint for free
-      </Button>
-    ))
+    .otherwise(() => <Button href={`/drop/${contract}`}>Mint for free</Button>)
 
   const idle = <>{<div className="flex flex-row w-full mt-16">{getButton}</div>}</>
 
-  const succeeded = (
-    <>
-      <Particles id="tsparticles" options={CONFETTI_CONFIG as any} init={particlesInit} />
-    </>
-  )
+  const succeeded = <></>
 
   const failed = (
     <div className="flex">

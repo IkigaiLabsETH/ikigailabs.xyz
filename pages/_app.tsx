@@ -10,13 +10,14 @@ import '../styles/globals.css'
 import { store } from '../common/redux'
 import { Modal } from '../modules/Modal'
 import { MODALS } from '../common/modal'
+import { Confetti } from '../modules/Confetti'
 
 const chain = parseInt(process.env.NEXT_CHAIN, 10) || ChainId.Goerli
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <Provider store={store}>
-      <ThirdwebProvider desiredChainId={chain} autoConnect>
+      <ThirdwebProvider desiredChainId={chain as any} autoConnect>
         <Component {...pageProps} />
         <Modal modals={MODALS} />
         <ToastContainer
@@ -31,6 +32,7 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
           pauseOnHover
           theme="light"
         />
+        <Confetti />
       </ThirdwebProvider>
     </Provider>
   )

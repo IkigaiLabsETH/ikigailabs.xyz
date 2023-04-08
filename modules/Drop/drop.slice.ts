@@ -3,9 +3,8 @@ import { BigNumber } from 'ethers'
 import { assoc, lensPath, lensProp, map, pipe, set } from 'ramda'
 import promiseRetry from 'promise-retry'
 
-import { ClaimCondition, ContractMetadata, TransactionResultWithId } from '../../common/types'
+import { ClaimCondition, ContractMetadata } from '../../common/types'
 import { web3, Web3 } from '../../common/web3'
-import { RootState } from '../../common/redux/store'
 
 export const fetchDrop = createAction<{ contract: string }>('drop/fetch')
 
@@ -67,10 +66,16 @@ export const fetchDropClaimedSupplyTh = (web3: Web3) =>
         web3
           .getContract(contract, 'nft-drop')
           .then(response => response.totalClaimedSupply())
-          .catch(retry),
+          .catch((error) => {
+            console.log(error) 
+            return retry
+          }),
       )
         .then((claimedSupply: BigNumber) => ({ claimedSupply: claimedSupply.toString(), id: contract }))
-        .catch((error: Error) => rejectWithValue(error.message)),
+        .catch((error: Error) => {
+          console.log(error)
+          return rejectWithValue(error.message)
+        }),
   )
 
 export const fetchDropClaimedSupply = fetchDropClaimedSupplyTh(web3)
@@ -102,7 +107,10 @@ export const fetchDropOwnedTokenIds = createAsyncThunk<
       .catch(retry),
   )
     .then((tokens: []) => ({ tokens: map((x: BigNumber) => x.toString())(tokens), id: contract }))
-    .catch((error: Error) => rejectWithValue(error.message)),
+    .catch((error: Error) => {
+      console.log(error)
+      return rejectWithValue(error.message)
+    }),
 )
 
 export const fetchDropClaimConditionsTh = (web3: Web3) =>
@@ -132,15 +140,26 @@ export const fetchDropClaimConditionsTh = (web3: Web3) =>
 export const fetchDropClaimConditions = fetchDropClaimConditionsTh(web3)
 
 const claimTokenTh = (web3: Web3) =>
-  createAsyncThunk<TransactionResultWithId<any>[], { contract: string; quantity: number; address: string }>(
+  createAsyncThunk<{ id: string, contract: string, quantity: number, address: string, tokenId: number }, { contract: string; quantity: number; address: string }>(
     'drop/nft/claim',
     ({ contract, quantity, address }, { rejectWithValue }) =>
-      promiseRetry(retry =>
-        web3
-          .getContract(contract, 'nft-drop')
-          .then(response => response.claimTo(address, quantity))
-          .catch(retry),
-      ).catch((error: Error) => rejectWithValue(error.message)),
+      web3
+        .getContract(contract, 'nft-drop')
+        .then(response => {
+          // return new Promise(resolve => {
+          //   setTimeout(() => {
+          //     resolve([{ id: BigNumber.from('2'), contract, quantity, address, tokenId: BigNumber.from('2') }])
+          //   }, 1500)
+          // })
+          return response.claim(quantity)
+        })
+        .then((transaction: any) => (
+          { id: `${address}/${contract}/${transaction[0].id.toString()}`, contract, quantity, address, tokenId: transaction[0].id.toString() }
+        ))
+        .catch((error: Error) => {
+          console.log(error)
+          return rejectWithValue(error.message)
+        })
   )
 
 export const claimToken = claimTokenTh(web3)
@@ -169,63 +188,68 @@ export const metadataSlice = createSlice({
 export const tokensSlice = createSlice({
   name: 'tokens',
   initialState: tokensAdapter.getInitialState({
-    loading: 'idle',
+    status: 'idle',
   }),
   reducers: {},
   extraReducers: builder => {
     builder
       .addCase(fetchDropTokens.pending, state => {
-        state.loading = 'pending'
+        state.status = 'pending'
       })
       .addCase(fetchDropTokens.fulfilled, (state, action) => {
         const { payload } = action
-        state.loading = 'succeeded'
+        console.log(payload)
+        state.status = 'succeeded'
         tokensAdapter.upsertOne(state, payload)
       })
       .addCase(fetchDropTokens.rejected, state => {
-        state.loading = 'failed'
+        state.status = 'failed'
       })
   },
 })
 export const claimedSupplySlice = createSlice({
   name: 'claimedSupply',
   initialState: claimedSupplyAdapter.getInitialState({
-    loading: 'idle',
+    ids: [],
+    entities: {},
+    status: 'idle',
   }),
   reducers: {},
   extraReducers: builder => {
     builder
       .addCase(fetchDropClaimedSupply.pending, state => {
-        state.loading = 'pending'
+        state.status = 'pending'
       })
       .addCase(fetchDropClaimedSupply.fulfilled, (state, action) => {
         const { payload } = action
-        state.loading = 'succeeded'
+        state.status = 'succeeded'
         claimedSupplyAdapter.upsertOne(state, payload)
       })
       .addCase(fetchDropClaimedSupply.rejected, state => {
-        state.loading = 'failed'
+        state.status = 'failed'
       })
   },
 })
 export const unclaimedSupplySlice = createSlice({
   name: 'unclaimedSupply',
   initialState: unclaimedSupplyAdapter.getInitialState({
-    loading: 'idle',
+    ids: [],
+    entities: {},
+    status: 'idle',
   }),
   reducers: {},
   extraReducers: builder => {
     builder
       .addCase(fetchDropUnclaimedSupply.pending, state => {
-        state.loading = 'pending'
+        state.status = 'pending'
       })
       .addCase(fetchDropUnclaimedSupply.fulfilled, (state, action) => {
         const { payload } = action
-        state.loading = 'succeeded'
+        state.status = 'succeeded'
         unclaimedSupplyAdapter.upsertOne(state, payload)
       })
-      .addCase(fetchDropUnclaimedSupply.rejected, state => {
-        state.loading = 'failed'
+      .addCase(fetchDropUnclaimedSupply.rejected, (state, action) => {
+        state.status = 'failed'
       })
   },
 })
@@ -253,42 +277,42 @@ export const ownedTokenIdsSlice = createSlice({
 export const claimConditionsSlice = createSlice({
   name: 'claimConditions',
   initialState: claimConditionsAdapter.getInitialState({
-    loading: 'idle',
+    status: 'idle',
   }),
   reducers: {},
   extraReducers: builder => {
     builder
       .addCase(fetchDropClaimConditions.pending, state => {
-        state.loading = 'pending'
+        state.status = 'pending'
       })
       .addCase(fetchDropClaimConditions.fulfilled, (state, action) => {
         const { payload } = action
-        state.loading = 'succeeded'
+        state.status = 'succeeded'
         ownedTokenIdsAdapter.upsertOne(state, payload)
       })
       .addCase(fetchDropClaimConditions.rejected, state => {
-        state.loading = 'failed'
+        state.status = 'failed'
       })
   },
 })
 export const claimsSlice = createSlice({
   name: 'claims',
   initialState: claimsAdapter.getInitialState({
-    loading: 'idle',
+    status: 'idle',
   }),
   reducers: {},
   extraReducers: builder => {
     builder
       .addCase(claimToken.pending, state => {
-        state.loading = 'pending'
+        state.status = 'pending'
       })
       .addCase(claimToken.fulfilled, (state, action) => {
         const { payload } = action
-        state.loading = 'succeeded'
-        claimsAdapter.upsertOne(state, payload)
+        state.status = 'succeeded'
+        claimsAdapter.addOne(state, payload)
       })
       .addCase(claimToken.rejected, state => {
-        state.loading = 'failed'
+        state.status = 'failed'
       })
   },
 })
@@ -300,5 +324,3 @@ export const unclaimedSupplyReducer = unclaimedSupplySlice.reducer
 export const ownedTokenIdsReducer = ownedTokenIdsSlice.reducer
 export const claimConditionsReducer = claimConditionsSlice.reducer
 export const claimsReducer = claimsSlice.reducer
-
-export const selectClaim = (state: RootState) => state.claims

@@ -19,12 +19,13 @@ import { featuredDropReducer } from '../../modules/FeaturedDrop'
 import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
 import { collectionTokenMiddleware } from '../../modules/Collection/Token'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
-import { modalActions, MODAL_MAPPING } from '../modal'
+import { modalActions } from '../modal'
 import { collectionApi, collectionMiddleware } from '../../modules/Collection'
 import { collectionTokenApi } from '../../modules/Collection/Token/token.api'
 import {
   claimConditionsReducer,
   claimedSupplyReducer,
+  claimMiddleware,
   claimsReducer,
   metadataReducer,
   ownedTokenIdsReducer,
@@ -46,6 +47,9 @@ import { claim } from '../../modules/FreeMint/freeMint.slice'
 import { collectionsApi } from '../../modules/Collections/collections.api'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
+import { confettiMiddleware, confettiReducer } from '../../modules/Confetti'
+import { confettiActions } from '../confetti'
+import { dropTokenReducer } from '../../modules/Drop/Token'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -75,7 +79,7 @@ startAppListening(mintPassesMiddleware)
 startAppListening(collectionTokenMiddleware)
 startAppListening(collectionMiddleware)
 startAppListening(dropMiddleware)
-startAppListening(modalMiddleware(MODAL_MAPPING)(modalActions as any))
+startAppListening(modalMiddleware(modalActions as any))
 startAppListening(freeMintMiddleware)
 startAppListening(checkTokenBalancesForCollectionMiddleware)
 startAppListening(getTokenBalanceSuccessMiddleware)
@@ -89,6 +93,8 @@ startAppListening(
     signUp.matchRejected,
   ]),
 )
+startAppListening(claimMiddleware),
+startAppListening(confettiMiddleware(confettiActions as any))
 
 const combinedReducer = combineReducers({
   balance: balanceReducer,
@@ -102,6 +108,7 @@ const combinedReducer = combineReducers({
   [collectionsApi.reducerPath]: prop('reducer')(collectionsApi),
   dropMetadata: metadataReducer,
   dropTokens: tokensReducer,
+  dropToken: dropTokenReducer,
   dropClaimedSupply: claimedSupplyReducer,
   dropUnclaimedSupply: unclaimedSupplyReducer,
   dropOwnedTokenIds: ownedTokenIdsReducer,
@@ -111,6 +118,7 @@ const combinedReducer = combineReducers({
   burnToMint: burnToMintReducer,
   tokenBalance: tokenBalanceReducer,
   NFTDrops: NFTDropsReducer,
+  confetti: confettiReducer,
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => combinedReducer(state, action)

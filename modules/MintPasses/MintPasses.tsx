@@ -48,7 +48,7 @@ export const MintPasses: FC = () => {
         <div className="w-full">
           <h1 className="text-[4rem] lg:text-[6rem] boska">Join the crew</h1>
           <p className="text-black text-xl lg:text-2xl">
-            LiveTheLifeTV is a curatorial platform and community that helps bring incredible works of photography to
+            Ikigai Labs is a curatorial platform and community that helps bring incredible works of photography to
             discerning collectors. Mint Passes act as access cards to our community of digital artists and collectors as
             well as its exclusive events, including art and cultural trips, private auctions, gallery openings, and
             artist dinners. It unlocks priority mints from our roster of iconic and emerging artists!{' '}
@@ -73,16 +73,16 @@ export const MintPasses: FC = () => {
               Holders of The Founders Mint Pass NFTs have allowlist access to all our drops.
             </li>
             <li className="text-lg p-4 border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all">
-              Free gift of our upcoming limited edition LiveTheLifeTV Merch &amp; Print
+              Free gift of our upcoming limited edition Ikigai Labs Merch &amp; Print
             </li>
             <li className="text-lg p-4 border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all">
-              Access to Founders Mint Pass raffle giveaways on the LiveTheLifeTV Discord.
+              Access to Founders Mint Pass raffle giveaways on the Ikigai Labs Discord.
             </li>
             <li className="text-lg p-4 border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all">
               Access to Collectors Club Discord channel only for Founders Mint Pass owners.
             </li>
             <li className="text-lg p-4 border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all">
-              Discount at all current, future, and affiliate LiveTheLifeTV co-work locations.
+              Discount at all current, future, and affiliate Ikigai Labs co-work locations.
             </li>
             <li className="text-lg p-4 border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all">
               Access to exclusive experiences, one example is our photogrammetry workshop.

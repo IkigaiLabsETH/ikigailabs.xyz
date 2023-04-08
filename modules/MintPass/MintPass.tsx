@@ -1,5 +1,4 @@
 import { useAddress } from '@thirdweb-dev/react'
-import { split } from 'ramda'
 import React, { FC } from 'react'
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { Button } from '../Button'

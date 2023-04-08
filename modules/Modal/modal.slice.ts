@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../common/redux/store'
-import { Modal } from '../../common/types'
 
 interface ModalState {
   modal: string | null
@@ -18,7 +17,7 @@ export const modalSlice = createSlice({
   name: 'Modal',
   initialState,
   reducers: {
-    show(state, action: PayloadAction<{ modal: Modal; payload: any }>) {
+    show(state, action: PayloadAction<{ modal: string; payload: any }>) {
       state.modal = action.payload.modal
       state.data = action.payload.payload
       state.open = true

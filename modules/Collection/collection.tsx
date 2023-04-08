@@ -57,12 +57,10 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   const { data: nfts, status: nftsStatus } = useAppSelector(
     selectNFTS({ contract, attributes: formatAttributes(facets) }),
   )
-  console.log(nftsStatus)
   const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity(contract))
   const { data: attributes, status: attributesStatus } = useAppSelector(selectCollectionAttributes(contract))
 
   useEffect(() => {
-    console.log('dispatching getCollectionTokensByContractWithAttributes', contract)
     contract &&
       dispatch(
         collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
@@ -73,7 +71,6 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   }, [contract])
 
   const updateFacets = selection => {
-    console.log(selection)
     // return collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
     //   contract,
     //   attributes: formatAttributes(selection),

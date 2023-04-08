@@ -1,79 +1,57 @@
-import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { lensPath, path, set } from 'ramda'
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
+import { assoc, lensPath, path, pipe, prop, set } from 'ramda'
+import { RootState } from '../../../common/redux/store'
 
-import { ErrorType, Status } from '../../../common/types'
 import { web3, Web3 } from '../../../common/web3'
+import { tokensAdapter } from '../drop.slice'
 
-export const fetchDropNFT = createAction<{ contract: string; tokenId: string }>('drop/nft/fetch')
+export const dropTokenAdapter = createEntityAdapter({})
 
-export const fetchDropNFTMetadataTh = (web3: Web3) =>
+export const fetchDropTokenMetadataTh = (web3: Web3) =>
   createAsyncThunk<any, { contract: string; tokenId: string }, { rejectValue: string }>(
-    'drop/nft/fetch',
+    'drop/token/fetch',
     ({ contract, tokenId }, { rejectWithValue }) =>
       web3
-        .getSignatureDrop(contract)
+        .getContract(contract, 'nft-drop')
         .then(response => response.get(tokenId))
-        .then(response => set(lensPath(['metadata', 'id'] as never), response.metadata.id.toString())(response) as any)
-        .catch(error => rejectWithValue(error.message)),
+        .then(response => 
+          pipe(
+            set(lensPath(['metadata', 'id'] as never), response.metadata.id.toString()),
+            assoc('id', `${contract}/${response.metadata.id}`),
+          )(response) as any
+        )
+        .catch(error => rejectWithValue(error.message))
   )
-export const fetchDropNFTMetadata = fetchDropNFTMetadataTh(web3)
-
-interface DropNFTState {
-  entities: {
-    nft: any
-  }
-  status: {
-    nft: Status
-  }
-  error: {
-    nft: ErrorType
-  }
-}
-
-const initialState = {
-  entities: {
-    nft: {},
-  },
-  status: {
-    nft: 'idle',
-  },
-  error: {
-    nft: null,
-  },
-} as DropNFTState
+export const fetchDropTokenMetadata = fetchDropTokenMetadataTh(web3)
 
 // Then, handle actions in your reducers:
-export const dropNFTSlice = createSlice({
-  name: 'drop',
-  initialState,
+export const DropTokenSlice = createSlice({
+  name: 'dropToken',
+  initialState: dropTokenAdapter.getInitialState({
+    status: 'idle',
+  }),
   reducers: {
     // standard reducer logic, with auto-generated action types per reducer
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchDropNFTMetadata.pending, (state, action) => {
-        state.status.nft = 'loading'
+      .addCase(fetchDropTokenMetadata.pending, (state, action) => {
+        state.status = 'loading'
       })
-      .addCase(fetchDropNFTMetadata.fulfilled, (state, action) => {
+      .addCase(fetchDropTokenMetadata.fulfilled, (state, action) => {
         const { payload } = action
-        state.status.nft = 'succeeded'
+        state.status = 'succeeded'
         // @ts-ignore
-        state.entities.nft = payload
-        state.error.nft = null
+        dropTokenAdapter.upsertOne(state, payload)
       })
-      .addCase(fetchDropNFTMetadata.rejected, (state, action) => {
-        const { payload } = action
-        state.status.nft = 'failed'
-        if (payload) {
-          state.error.nft = action.payload
-        } else {
-          state.error.nft = action.error.message
-        }
+      .addCase(fetchDropTokenMetadata.rejected, (state, action) => {
+        state.status = 'failed'
       })
   },
 })
 
-export const { reducer } = dropNFTSlice
+export const { reducer } = DropTokenSlice
 
-export const selectNft = path(['signatureNFT', 'entities', 'nft'])
-export const selectNftLoadingState = path(['signatureNFT', 'status', 'nft'])
+export const dropTokenSelectors = tokensAdapter.getSelectors(prop('dropToken'))
+export const selectDropTokenById = (contract: string, tokenId: string) => (state: RootState) => dropTokenSelectors.selectById(state, `${contract}/${tokenId}`)
+export const selectDropTokenStatus = (state: RootState) => state.dropToken.status

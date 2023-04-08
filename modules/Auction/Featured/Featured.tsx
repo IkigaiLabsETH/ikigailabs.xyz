@@ -72,7 +72,7 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, listingId 
           <div>
             <div className="max-w-xs mx-auto overflow-hidden bg-white border border-gray-100 rounded-lg shadow-xl shadow-gray-500/10">
               <div className="p-4">
-                <span className="block w-full px-4 py-1.5 text-sm font-medium text-center text-white rounded-md bg-rose-500">
+                <span className="block w-full px-4 py-1.5 text-sm font-medium text-center text-yellow rounded-md bg-rose-500">
                   {remainingTime}
                 </span>
 
@@ -99,14 +99,14 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, listingId 
                 <div className="flex items-center justify-between mt-4 space-x-4">
                   <button
                     type="button"
-                    className="inline-flex items-center justify-center w-full px-4 py-3 text-xs font-bold tracking-widest text-gray-900 uppercase transition-all duration-200 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-white"
+                    className="inline-flex items-center justify-center w-full px-4 py-3 text-xs font-bold tracking-widest text-gray-900 uppercase transition-all duration-200 bg-transparent border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:border-gray-900 hover:bg-gray-900 hover:text-yellow"
                   >
                     See All Bid
                   </button>
 
                   <button
                     type="button"
-                    className="inline-flex items-center justify-center w-full px-4 py-3 text-xs font-bold tracking-widest text-white uppercase transition-all duration-200 bg-gray-900 border border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:bg-gray-700"
+                    className="inline-flex items-center justify-center w-full px-4 py-3 text-xs font-bold tracking-widest text-yellow uppercase transition-all duration-200 bg-gray-900 border border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 hover:bg-gray-700"
                   >
                     Place Bid
                   </button>

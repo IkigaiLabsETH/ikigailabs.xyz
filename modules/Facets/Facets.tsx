@@ -46,7 +46,7 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
                 {map((value: string) => (
                   <li
                     key={value}
-                    className={`text-xs font-bold  text-white bg-black py-1 px-2 group hover:text-yellow rounded-full transition-colors hover:cursor-pointer mr-2`}
+                    className={`text-xs font-bold  text-yellow bg-black py-1 px-2 group hover:text-yellow rounded-full transition-colors hover:cursor-pointer mr-2`}
                     onClick={() => updateSelection(key, value)}
                   >
                     {value} &times;
@@ -72,7 +72,7 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
                         className={({ active }) =>
                           clsx(
                             'relative cursor-default select-none py-2 pl-3 pr-9',
-                            active ? 'bg-black text-white' : 'text-gray-900',
+                            active ? 'bg-black text-yellow' : 'text-gray-900',
                           )
                         }
                       >
@@ -94,7 +94,7 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
                               <span
                                 className={clsx(
                                   'absolute inset-y-0 right-0 flex items-center pr-4',
-                                  active ? 'text-white' : 'text-black',
+                                  active ? 'text-yellow' : 'text-black',
                                 )}
                               >
                                 <CheckIcon className="h-5 w-5" aria-hidden="true" />

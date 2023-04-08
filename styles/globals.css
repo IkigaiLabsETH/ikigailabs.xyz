@@ -62,13 +62,15 @@
        font-style: italic;
 }
 
-body {
-  font-family: 'satoshi';
-  color: white;
-  background-color: #121212;
-}
+
 
 @layer base {
+  body {
+    font-family: 'satoshi';
+    @apply text-yellow;
+    background-color: #121212;
+  }
+
   h1, h2, h3, h4 {
     @apply font-bold;
     @apply leading-none;
@@ -123,7 +125,7 @@ body {
   }
 
   .tab.active {
-    @apply border-white hover:text-white text-white bg-black hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-[10px];
+    @apply border-white hover:text-yellow text-yellow bg-black hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-[10px];
   }
 }
 

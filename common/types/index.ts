@@ -7,11 +7,6 @@ export enum Layout {
   main = 'main',
 }
 
-export enum Modal {
-  mintPass = 'mintPass',
-  allowlist = 'allowlist',
-}
-
 export type {
   ContractType,
   NFTDrop,
@@ -23,12 +18,31 @@ export type {
   ClaimCondition,
 } from '@thirdweb-dev/sdk'
 
+export enum Chain {
+  Ethereum = 'Ethereum',
+}
+
+export enum CurrencyChain {
+  GOR = Chain.Ethereum,
+  ETH = Chain.Ethereum,
+}
+
 export interface Token {
   symbol: string
   name: string
   value: BigNumber
   decimals: number
   displayValue: string
+}
+
+export enum DropTypes {
+  NFT = 'NFT',
+  Edition = 'Edition',
+}
+
+export enum DropTypeStandards {
+  Edition = 'ERC1155',
+  NFT = 'ERC721',
 }
 
 export interface ContractMetadata {

@@ -1,3 +1,4 @@
+import { useSigner } from '@thirdweb-dev/react'
 import { ChainId, ChainOrRpc, ThirdwebSDK } from '@thirdweb-dev/sdk'
 import { ethers } from 'ethers'
 
@@ -17,6 +18,6 @@ const sdk = new ThirdwebSDK(chain, {
   },
 })
 
-sdk.updateSignerOrProvider(signer)
+signer && sdk.updateSignerOrProvider(signer)
 
 export { sdk }

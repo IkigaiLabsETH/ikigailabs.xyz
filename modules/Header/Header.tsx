@@ -35,7 +35,7 @@ export const Header: FC = () => {
         <nav className="flex items-center justify-between">
           <div className="w-52 z-20">
             <a href="/" title="" className="flex items-center">
-              <Image src="/assets/images/ltl-logo-white-small.png" alt="logo" width="64" height="64" />
+              <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="64" height="64" />
             </a>
           </div>
 
@@ -87,7 +87,7 @@ export const Header: FC = () => {
           }`}
         >
           <div
-            className={`p-5 text-4xl md:text-6xl text-white font-bold transition-all ${
+            className={`p-5 text-4xl md:text-6xl text-yellow font-bold transition-all ${
               expanded ? 'translate-x-0' : 'translate-x-full'
             }`}
           >

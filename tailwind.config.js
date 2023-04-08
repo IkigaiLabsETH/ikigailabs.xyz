@@ -12,6 +12,7 @@ module.exports = {
       black: colors.black,
       white: colors.white,
       gray: colors.gray,
+      slate: colors.slate,
       red: {
         ...colors.red,
         DEFAULT: '#A1100F',

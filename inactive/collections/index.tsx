@@ -31,11 +31,11 @@ const Collections: FC<CollectionsProps> = ({ collectionsSetId }) => {
   return (
     <div className="flex items-center flex-col ">
       <Head>
-        <title>LiveTheLifeTV - The future of Photography</title>
+        <title>Ikigai Labs - Shaped by Photography</title>
         <meta name="description" content="Live the life - Collections" />
-        <link rel="icon" href="/assets/images/ltl-logo-white-small.png" />
+        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
-      <h1 className="text-white text-8xl text-left p-8 w-full pt-32 max-w-screen-2xl">Collections</h1>
+      <h1 className="text-yellow text-8xl text-left p-8 w-full pt-32 max-w-screen-2xl">Collections</h1>
       <main className="w-full bg-white ">
         <div className="max-w-screen-2xl text-black mx-auto p-8">
           <div className="px-4 sm:px-6 lg:px-8">

@@ -23,17 +23,17 @@ const baseStyles = {
 const variantStyles = {
   solid: {
     yellow: [
-      'text-yellow border-yellow active:text-white focus-visible:outline-yellow',
+      'text-yellow border-yellow active:text-yellow focus-visible:outline-yellow',
       'bg-yellow',
       'group-hover:text-black',
     ],
-    white: ['text-black border-black active:text-white bg-white', 'bg-black', 'group-hover:text-white'],
+    white: ['text-black border-black active:text-yellow bg-yellow', 'bg-black', 'group-hover:text-yellow'],
   },
   outline: {
     slate:
       'ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-slate-300',
     white:
-      'ring-slate-700 text-white hover:ring-slate-500 active:ring-slate-700 active:text-slate-400 focus-visible:outline-white',
+      'ring-slate-700 text-yellow hover:ring-slate-500 active:ring-slate-700 active:text-slate-400 focus-visible:outline-white',
   },
 }
 
@@ -94,7 +94,7 @@ export const Button: FC<ButtonProps> = ({
         )}
       >
         <span className={clsx('overflow-hidden inline-block translate-y-1 -translate-x-0.5', loading ? 'w-5' : 'w-0')}>
-          <Loader size={Size.s} />
+          <Loader size={Size.s} color={color === 'yellow' ? 'white' : 'black'} />
         </span>{' '}
         {children}
       </span>

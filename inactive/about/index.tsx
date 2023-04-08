@@ -7,9 +7,9 @@ import { Layout } from '../../common/types'
 const About: FC = () => (
   <div className="flex items-center flex-col">
     <Head>
-      <title>LiveTheLifeTV - The future of Photography | About</title>
-      <meta name="description" content="The future of Photography | About" />
-      <link rel="icon" href="/assets/images/ltl-logo-white-small.png" />
+      <title>Ikigai Labs - Shaped by Photography | About</title>
+      <meta name="description" content="Shaped by Photography | About" />
+      <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
     </Head>
     <main className="max-w-screen-2xl w-full">
       <div className="flex relative flex-col text-lg my-48 max-w-3xl mx-auto p-8">
@@ -27,7 +27,7 @@ const About: FC = () => (
           work with artists and commission them to do exclusive mints under the LTL Mint Pass. The goal is as much
           financial as it is about living life. We want to express a feeling of community where people who love food,
           wine, art, and tech come together. Resident artist Dimitri Daniloff has bestowed us with his artwork to
-          support the movement. LiveTheLifeTV will curate upcoming artists to join the initiative. The LTL brand needs
+          support the movement. Ikigai Labs will curate upcoming artists to join the initiative. The LTL brand needs
           to be bold, powerful, full of style, and express freedom. This is just the genesis, those with our Values will
           always feel at HOHM with us.
         </p>
