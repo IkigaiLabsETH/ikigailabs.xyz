@@ -53,9 +53,9 @@ import { dropTokenReducer } from '../../modules/Drop/Token'
 
 export const listenerMiddleware = createListenerMiddleware()
 
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = any
 export type AppStore = ReturnType<typeof makeStore>
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = any
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 

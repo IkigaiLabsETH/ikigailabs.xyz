@@ -11,7 +11,6 @@ import { CollectionStat } from '../CollectionStat'
 import { Loader } from '../Loader'
 import {
   claimConditionsSelectors,
-  selectClaim,
   selectClaimConditionsStatus,
   selectClaimedSupplyById,
   selectClaimedSupplyStatus,
@@ -41,10 +40,10 @@ export const Drop: FC<DropProps> = ({ contract }) => {
   const ownersCount = useAppSelector(selectUniqueOwnersCount(contract))
 
   // supply
-  const claimedSupply = useAppSelector(selectClaimedSupplyById(contract))
+  const claimedSupply = useAppSelector(selectClaimedSupplyById(contract)) as any
   const claimedSupplyStatus = useAppSelector(selectClaimedSupplyStatus)
 
-  const unclaimedSupply = useAppSelector(selectUnclaimedSupplyById(contract))
+  const unclaimedSupply = useAppSelector(selectUnclaimedSupplyById(contract)) as any
 
   const totalSupply = add(
     (claimedSupply?.claimedSupply as number) || 0,
@@ -56,7 +55,7 @@ export const Drop: FC<DropProps> = ({ contract }) => {
   const claimConditionsStatus = useAppSelector(selectClaimConditionsStatus)
 
   // claim
-  const claim = useAppSelector(selectLatestClaimForAddress(address))
+  const claim = useAppSelector(selectLatestClaimForAddress(address)) as any
   const claimStatus = useAppSelector(selectClaimStatus)
 
   useEffect(() => {
