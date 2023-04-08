@@ -11,10 +11,6 @@ export const CollectionStat: FC<CollectionStatProps> = ({ label, children, loadi
   <div>
     <h4 className="text-xs uppercase tracking-widest m-0 grey">{label}</h4>
 
-    {loading ? (
-      <SkeletonLoader />
-    ) : (
-      <span className="font-bold text-2xl tracking-tight">{children}</span>
-    )}
+    {loading ? <SkeletonLoader /> : <span className="font-bold text-2xl tracking-tight">{children}</span>}
   </div>
 )

@@ -93,8 +93,7 @@ startAppListening(
     signUp.matchRejected,
   ]),
 )
-startAppListening(claimMiddleware),
-startAppListening(confettiMiddleware(confettiActions as any))
+startAppListening(claimMiddleware), startAppListening(confettiMiddleware(confettiActions as any))
 
 const combinedReducer = combineReducers({
   balance: balanceReducer,

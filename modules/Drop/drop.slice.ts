@@ -66,8 +66,8 @@ export const fetchDropClaimedSupplyTh = (web3: Web3) =>
         web3
           .getContract(contract, 'nft-drop')
           .then(response => response.totalClaimedSupply())
-          .catch((error) => {
-            console.log(error) 
+          .catch(error => {
+            console.log(error)
             return retry
           }),
       )
@@ -140,26 +140,31 @@ export const fetchDropClaimConditionsTh = (web3: Web3) =>
 export const fetchDropClaimConditions = fetchDropClaimConditionsTh(web3)
 
 const claimTokenTh = (web3: Web3) =>
-  createAsyncThunk<{ id: string, contract: string, quantity: number, address: string, tokenId: number }, { contract: string; quantity: number; address: string }>(
-    'drop/nft/claim',
-    ({ contract, quantity, address }, { rejectWithValue }) =>
-      web3
-        .getContract(contract, 'nft-drop')
-        .then(response => {
-          // return new Promise(resolve => {
-          //   setTimeout(() => {
-          //     resolve([{ id: BigNumber.from('2'), contract, quantity, address, tokenId: BigNumber.from('2') }])
-          //   }, 1500)
-          // })
-          return response.claim(quantity)
-        })
-        .then((transaction: any) => (
-          { id: `${address}/${contract}/${transaction[0].id.toString()}`, contract, quantity, address, tokenId: transaction[0].id.toString() }
-        ))
-        .catch((error: Error) => {
-          console.log(error)
-          return rejectWithValue(error.message)
-        })
+  createAsyncThunk<
+    { id: string; contract: string; quantity: number; address: string; tokenId: number },
+    { contract: string; quantity: number; address: string }
+  >('drop/nft/claim', ({ contract, quantity, address }, { rejectWithValue }) =>
+    web3
+      .getContract(contract, 'nft-drop')
+      .then(response => {
+        // return new Promise(resolve => {
+        //   setTimeout(() => {
+        //     resolve([{ id: BigNumber.from('2'), contract, quantity, address, tokenId: BigNumber.from('2') }])
+        //   }, 1500)
+        // })
+        return response.claim(quantity)
+      })
+      .then((transaction: any) => ({
+        id: `${address}/${contract}/${transaction[0].id.toString()}`,
+        contract,
+        quantity,
+        address,
+        tokenId: transaction[0].id.toString(),
+      }))
+      .catch((error: Error) => {
+        console.log(error)
+        return rejectWithValue(error.message)
+      }),
   )
 
 export const claimToken = claimTokenTh(web3)

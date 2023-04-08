@@ -36,18 +36,21 @@ export const Drop: FC<DropProps> = ({ contract }) => {
   // drop
   const dropStatus = useAppSelector(selectMetadataStatus)
   const drop = useAppSelector(selectMetadataById(contract))
-  
+
   // owners
   const ownersCount = useAppSelector(selectUniqueOwnersCount(contract))
-  
+
   // supply
   const claimedSupply = useAppSelector(selectClaimedSupplyById(contract))
   const claimedSupplyStatus = useAppSelector(selectClaimedSupplyStatus)
-  
+
   const unclaimedSupply = useAppSelector(selectUnclaimedSupplyById(contract))
 
-  const totalSupply = add((claimedSupply?.claimedSupply as number) || 0, (unclaimedSupply?.unclaimedSupply as number) || 0)
-  
+  const totalSupply = add(
+    (claimedSupply?.claimedSupply as number) || 0,
+    (unclaimedSupply?.unclaimedSupply as number) || 0,
+  )
+
   // claimconditions
   const claimConditions = useAppSelector(state => claimConditionsSelectors.selectById(state, contract) as any)
   const claimConditionsStatus = useAppSelector(selectClaimConditionsStatus)
@@ -55,7 +58,7 @@ export const Drop: FC<DropProps> = ({ contract }) => {
   // claim
   const claim = useAppSelector(selectLatestClaimForAddress(address))
   const claimStatus = useAppSelector(selectClaimStatus)
-    
+
   useEffect(() => {
     dispatch(fetchDrop({ contract }))
   }, [contract])
@@ -76,12 +79,16 @@ export const Drop: FC<DropProps> = ({ contract }) => {
         >
           <div className="flex flex-col">
             <div className="grid grid-cols-3 gap-4 w-full border-y border-y-gray-700 py-8 mt-6">
-              
               <CollectionStat label="Price" loading={claimConditionsStatus === 'pending'}>
                 {claimConditions?.claimConditions[0]?.currencyMetadata?.displayValue}
               </CollectionStat>
-              <CollectionStat label="Minted" loading={claimedSupplyStatus === 'pending'}>{`${claimedSupply?.claimedSupply.toString()}/${totalSupply?.toString()}`}</CollectionStat>
-              <CollectionStat label="Unique Owners" loading={isNil(ownersCount)}>{ownersCount?.toString()}</CollectionStat>
+              <CollectionStat
+                label="Minted"
+                loading={claimedSupplyStatus === 'pending'}
+              >{`${claimedSupply?.claimedSupply.toString()}/${totalSupply?.toString()}`}</CollectionStat>
+              <CollectionStat label="Unique Owners" loading={isNil(ownersCount)}>
+                {ownersCount?.toString()}
+              </CollectionStat>
             </div>
             <div className="grid grid-cols-1 gap-4 w-full border-b border-b-gray-700 py-8">
               <CollectionStat label="Opens:" loading={claimConditionsStatus === 'pending'}>

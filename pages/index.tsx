@@ -2,7 +2,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { FC } from 'react'
-import { FREE_MINT_CONTRACT, FREE_MINT_TOKEN_ID } from '../common/config'
+import { FREE_MINT_CONTRACT } from '../common/config'
 
 import { withLayout } from '../common/layouts/MainLayout/withLayout'
 import { Layout } from '../common/types'
@@ -23,11 +23,11 @@ const Home: FC = () => {
         <div className="flex flex-grow flex-col justify-center">
           <div className="flex flex-col md:flex-row">
             <div className="md:border-r md:pr-16">
-              <h1 className="text-[3rem] md:text-[6rem] font-bold tracking-tighter leading-none text-yellow">Ikigai Labs</h1>
+              <h1 className="text-[3rem] md:text-[6rem] font-bold tracking-tighter leading-none text-yellow">
+                Ikigai Labs
+              </h1>
               <div className="flex justify-end translate-x-4 -mt-6">
-                <h2 className="text-2xl bg-black text-yellow inline-block leading-none p-2">
-                  Shaped by Photography
-                </h2>
+                <h2 className="text-2xl bg-black text-yellow inline-block leading-none p-2">Shaped by Photography</h2>
               </div>
             </div>
             <div className="mt-4 md:mt-0 md:pl-16 flex justify-center items-center">

@@ -1,1 +1,1 @@
-export { modalActions, MODALS, MODAL_MAPPING } from './modal'
+export { modalActions, MODALS } from './modal'

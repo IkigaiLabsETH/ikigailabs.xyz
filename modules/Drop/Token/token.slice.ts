@@ -14,13 +14,14 @@ export const fetchDropTokenMetadataTh = (web3: Web3) =>
       web3
         .getContract(contract, 'nft-drop')
         .then(response => response.get(tokenId))
-        .then(response => 
-          pipe(
-            set(lensPath(['metadata', 'id'] as never), response.metadata.id.toString()),
-            assoc('id', `${contract}/${response.metadata.id}`),
-          )(response) as any
+        .then(
+          response =>
+            pipe(
+              set(lensPath(['metadata', 'id'] as never), response.metadata.id.toString()),
+              assoc('id', `${contract}/${response.metadata.id}`),
+            )(response) as any,
         )
-        .catch(error => rejectWithValue(error.message))
+        .catch(error => rejectWithValue(error.message)),
   )
 export const fetchDropTokenMetadata = fetchDropTokenMetadataTh(web3)
 
@@ -53,5 +54,6 @@ export const DropTokenSlice = createSlice({
 export const { reducer } = DropTokenSlice
 
 export const dropTokenSelectors = tokensAdapter.getSelectors(prop('dropToken'))
-export const selectDropTokenById = (contract: string, tokenId: string) => (state: RootState) => dropTokenSelectors.selectById(state, `${contract}/${tokenId}`)
+export const selectDropTokenById = (contract: string, tokenId: string) => (state: RootState) =>
+  dropTokenSelectors.selectById(state, `${contract}/${tokenId}`)
 export const selectDropTokenStatus = (state: RootState) => state.dropToken.status
