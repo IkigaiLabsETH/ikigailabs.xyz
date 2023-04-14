@@ -16,7 +16,6 @@ export const middleware = (notifications: Record<string, string>) => (actionCrea
   // @ts-ignore
   matcher: isAnyOf(...actionCreators),
   effect: (action: PayloadAction<string>) => {
-    console.log(action)
     if (isRejected(action)) {
       toast.error(notifications[action.type])
       return

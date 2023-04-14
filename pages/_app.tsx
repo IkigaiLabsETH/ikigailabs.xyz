@@ -17,7 +17,7 @@ const chain = parseInt(process.env.NEXT_CHAIN, 10) || ChainId.Goerli
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <Provider store={store}>
-      <ThirdwebProvider desiredChainId={chain as any} autoConnect>
+      <ThirdwebProvider activeChain={chain as any} autoConnect>
         <Component {...pageProps} />
         <Modal modals={MODALS} />
         <ToastContainer

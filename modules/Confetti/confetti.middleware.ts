@@ -8,7 +8,6 @@ export const middleware = (actionCreators: ActionCreatorWithPayload<string>[]) =
   // @ts-ignore
   matcher: isAnyOf(...actionCreators),
   effect: (action: PayloadAction<string>, listenerApi: ListenerEffectAPI<RootState, AppDispatch>) => {
-    console.log(action)
     listenerApi.dispatch(show())
 
     if (action.type === hideModal.type) {

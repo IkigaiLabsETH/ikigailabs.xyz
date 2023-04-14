@@ -18,7 +18,7 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts }) => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-screen-2xl p-8 pt-0 text-black">
       {map(({ token }: NFT) => (
         <div
-          key={token.name}
+          key={token.tokenId}
           className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
         >
           <div className="overflow-clip h-52">

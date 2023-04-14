@@ -23,13 +23,25 @@ export const collectionApi = createApi({
       query: (contract: string) => `collections/${contract}/attributes/all/v2`,
     }),
     getCollectionTokensByContractWithAttributes: builder.query<
-      { tokens: NFT[] },
-      { contract: string; attributes: string }
+      { tokens: NFT[], continuation: string },
+      { contract: string; attributes: string; continuation: string }
     >({
-      query: ({ contract, attributes }) =>
-        `tokens/v5?collection=${contract}&includeOwnerCount=true&includeTopBid=true&sortBy=floorAskPrice${
+      query: ({ contract, attributes, continuation }) =>
+        `tokens/v6?collection=${contract}&includeOwnerCount=true&includeTopBid=true&sortBy=floorAskPrice${continuation ? `&continuation=${continuation}` : ''}${
           attributes && attributes
         }&limit=20`,
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName
+      },
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        currentCache.tokens.push(...newItems.tokens)
+        currentCache.continuation = newItems.continuation
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg
+      },
     }),
   }),
 })

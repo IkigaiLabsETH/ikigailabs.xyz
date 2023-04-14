@@ -25,7 +25,6 @@ export const collectionsSetApi = createApi({
         },
       }),
       transformResponse: (response: any): string => {
-        console.log('response', response)
         return prop('id', response.records[0].fields.Value)
       },
     }),

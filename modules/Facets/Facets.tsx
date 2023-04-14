@@ -16,7 +16,7 @@ interface FacetProps {
 export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
   const [query, setQuery] = useState({})
   const [selection, setSelection] = useState({})
-  console.log('facets', facets)
+  
   const updateSelection = (key: string, value: string) => {
     const facetSelection = selection[key] || []
     setSelection({ ...selection, [key]: toggleListItem(value, facetSelection) })
@@ -63,7 +63,7 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
                   <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                 </Combobox.Button>
 
-                {selectedValues.length > 0 && (
+                {selectedValues?.length > 0 && (
                   <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {selectedValues.map(value => (
                       <Combobox.Option

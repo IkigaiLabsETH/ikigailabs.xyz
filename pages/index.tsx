@@ -15,7 +15,7 @@ const Home: FC = () => {
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs- Shaped by Photography</title>
+        <title>Ikigai Labs - Shaped by Photography</title>
         <meta name="description" content="Shaped by Photography" />
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
