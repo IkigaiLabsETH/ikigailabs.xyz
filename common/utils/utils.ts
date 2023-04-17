@@ -19,11 +19,13 @@ import {
   propEq,
   propSatisfies,
   reduce,
+  replace,
   set,
   sortBy,
   splitEvery,
   take,
   takeLast,
+  toPairs,
   when,
   without,
   __,
@@ -68,11 +70,13 @@ export const formatNFTMetadata = (metadata: any) =>
 
 export const toggleListItem = curry((value, list) => ifElse(includes(value), without([value]), append(value))(list))
 
-export const formatAttributes = reduce(
-  (acc, facet: { key: string; values: string[] }) =>
-    concat(reduce((acc, value: any) => concat(`&attributes[${facet.key}]=${value.value}`)(acc), '')(facet.values))(acc),
+export const formatAttributes = pipe(
+  toPairs,
+  reduce((acc, facet: any) => {
+    return concat(reduce((acc, value) => concat(`&attributes[${facet[0]}]=${value}`)(acc), '')(facet[1]))(acc)
+  },
   '',
-)
+))
 
 export const addOrReplace = (array: any[], object: {}, prop: string) =>
   pipe(findIndex(propEq(prop, object[prop])), index =>
@@ -87,3 +91,5 @@ export const shuffleArray = (strings: string[]) =>
 
 export const batchArray = (strings: string[]) => (batchSize: number) =>
   map(splitEvery(batchSize), splitEvery(batchSize, strings))
+
+export const replaceImageResolution = (resolution: number) => replace(/w=\d+/, `w=${resolution}`)

@@ -1,12 +1,11 @@
 import { map } from 'ramda'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { Combobox } from '@headlessui/react'
 import clsx from 'clsx'
 
 import { Facet as IFacet } from '../../common/types'
 import { toggleListItem } from '../../common/utils'
-import { useDebounce } from '../../common/useDebounce'
 
 interface FacetProps {
   facets: IFacet[]
@@ -25,9 +24,9 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
     setQuery({ ...query, [key]: value })
   }
 
-  // useDebounce(() => {
-  //   onUpdateFacets(selection)
-  // }, 500, [selection])
+  useEffect(() => {
+    onUpdateFacets(selection)
+  }, [selection])
 
   return (
     <ul className="flex flex-col">

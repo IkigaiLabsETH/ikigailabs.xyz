@@ -1,5 +1,4 @@
 /* eslint-disable react/function-component-definition */
-import Head from 'next/head'
 import React, { FC, useEffect } from 'react'
 import { map } from 'ramda'
 
@@ -15,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { Link } from '../../modules/Link'
 import { Eth } from '../../modules/Eth'
 import { Percentage } from '../../modules/Percentage'
+import { Table, Head, HeaderCell, Row, Cell, Body } from '../../modules/Table'
 
 interface CollectionsProps {
   collectionsSetId: string
@@ -40,69 +40,65 @@ const Collections: FC<CollectionsProps> = ({ collectionsSetId }) => {
         <div className="max-w-screen-2xl text-black mx-auto p-8">
           <div className="px-4 sm:px-6 lg:px-8">
             <div className="-mx-4 mt-8 sm:-mx-0">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      colSpan={2}
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+              <Table>
+                <Head>
+                  <Row key='header'>
+                    <HeaderCell
+                      colspan={2}
                     >
                       Collection
-                    </th>
-                    <th
-                      scope="col"
-                      className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                    </HeaderCell>
+                    <HeaderCell
+                      hiddenOnSmall={true}
                     >
                       Volume
-                    </th>
-                    <th
-                      scope="col"
-                      className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                    </HeaderCell>
+                    <HeaderCell
+                      hiddenOnSmall={true}
                     >
                       Floor price
-                    </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    </HeaderCell>
+                    <HeaderCell>
                       Supply
-                    </th>
-                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                    </HeaderCell>
+                    <HeaderCell>
                       <span className="sr-only">Edit</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                    </HeaderCell>
+                  </Row>
+                </Head>
+                <Body>
                   {map((collection: any) => (
-                    <tr key={collection.name} className="hover:bg-gray-50 p-1">
-                      <td className="whitespace-nowrap py-4 pl-4 font-medium text-gray-900 sm:pl-0">
+                    <Row key={collection.name}>
+                      <Cell>
                         <img src={collection.image} alt={collection.name} className="h-12 w-12 rounded-full" />
-                      </td>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 font-bold text-gray-900 sm:pl-0">
+                      </Cell>
+                      <Cell>
                         {collection.name}
-                      </td>
-                      <td className="hidden whitespace-nowrap px-3 py-4 text-gray-500 sm:table-cell">
+                      </Cell>
+                      <Cell>
                         <span className="font-bold">
                           <Eth amount={collection.volume['1day']} />
                         </span>{' '}
                         <Percentage amount={collection.volumeChange['1day']} />
-                      </td>
-                      <td className="hidden whitespace-nowrap px-3 py-4 text-gray-500 lg:table-cell">
+                      </Cell>
+                      <Cell>
                         <span className="font-bold">
                           <Eth amount={collection.floorSale['1day']} />
                         </span>{' '}
                         <Percentage amount={collection.floorSaleChange['1day']} />
-                      </td>
-                      <td className="hidden whitespace-nowrap px-3 py-4 text-gray-500 lg:table-cell">
+                      </Cell>
+                      <Cell>
                         {collection.tokenCount}
-                      </td>
-                      <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right font-medium sm:pr-0">
+                      </Cell>
+                      <Cell>
                         <Link href={`/collection/${collection.id}`} title={collection.name}>
                           View &rarr;{' '}
                         </Link>
-                      </td>
-                    </tr>
+                      </Cell>
+                    </Row>
                   ))(data?.collections || [])}
-                </tbody>
-              </table>
+                </Body>
+              </Table>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { path } from 'ramda'
+import { path, uniq } from 'ramda'
 
 import { Activity, NFT } from '../../common/types'
 
@@ -23,19 +23,19 @@ export const collectionApi = createApi({
       query: (contract: string) => `collections/${contract}/attributes/all/v2`,
     }),
     getCollectionTokensByContractWithAttributes: builder.query<
-      { tokens: NFT[], continuation: string },
+      { tokens: NFT[], continuation: string, attributes: string },
       { contract: string; attributes: string; continuation: string }
     >({
       query: ({ contract, attributes, continuation }) =>
         `tokens/v6?collection=${contract}&includeOwnerCount=true&includeTopBid=true&sortBy=floorAskPrice${continuation ? `&continuation=${continuation}` : ''}${
           attributes && attributes
         }&limit=20`,
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName
+      serializeQueryArgs: ({ endpointName, queryArgs: { attributes } }) => {
+        return `${endpointName}-${attributes}`
       },
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
-        currentCache.tokens.push(...newItems.tokens)
+        currentCache.tokens = uniq([...currentCache.tokens, ...newItems.tokens])
         currentCache.continuation = newItems.continuation
       },
       // Refetch when the page arg changes

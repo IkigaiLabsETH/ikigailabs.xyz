@@ -1,31 +1,21 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import {
-  assocPath,
   equals,
-  findIndex,
-  map,
-  mergeRight,
-  path,
   pathOr,
-  pick,
   pipe,
-  pluck,
-  project,
-  propEq,
   propOr,
   unless,
 } from 'ramda'
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { fetchCollection } from './collection.api'
-import { Facet } from '../../common/types'
 import { Loader } from '../Loader'
 import { Activity } from '../Activity'
 import { NFTGrid } from '../NFTGrid'
 import { Facets } from '../Facets'
-import { formatAttributes, toggleListItem } from '../../common/utils/utils'
+import { formatAttributes } from '../../common/utils/utils'
 import {
   selectNFTS,
   selectCollection,
@@ -52,15 +42,15 @@ enum Tab {
 export const Collection: FC<CollectionProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
   const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
+  const [selectedAttributes, setSelectedAttributes] = useState<string>('')
+  const [nfts, setNfts] = useState({ tokens: [], continuation: '', status: 'idle' })
+  const { data: nftData, status } = useAppSelector(
+    selectNFTS({ contract, attributes: selectedAttributes, continuation: ''  }),
+  )
 
-  const [facets, setFacets] = useState<any[]>([])
-  
   const { data: collection, status: collectionDataStatus } = useAppSelector(selectCollection(contract))
-  const { data: nfts, status: nftsStatus } = useAppSelector(
-    selectNFTS({ contract, attributes: formatAttributes(facets), continuation: ''  }),
-    )
   const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity(contract))
-  const { data: attributes, status: attributesStatus } = useAppSelector(selectCollectionAttributes(contract))
+  const { data: attributes } = useAppSelector(selectCollectionAttributes(contract))
     
   const { ref } = useInfiniteLoading(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
     contract,
@@ -79,12 +69,18 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
       )
   }, [contract])
 
+  useEffect(() => {
+    nftData && setNfts({ tokens: nftData.tokens, continuation: nftData.continuation, status })
+  }, [nftData])
+
   const updateFacets = selection => {
-    // return collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
-    //   contract,
-    //   attributes: formatAttributes(selection),
-    // })
-  }
+      setSelectedAttributes(formatAttributes(selection))
+      return dispatch(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
+      contract,
+      attributes: formatAttributes(selection),
+      continuation: nfts?.continuation || '',
+  }))}
+
 
   useEffect(() => {
     contract && dispatch(fetchCollection({ contract }))
@@ -97,7 +93,7 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
       </div>
       <div className="w-3/4">
         {nfts?.tokens.length && <NFTGrid nfts={nfts.tokens} />}
-        {nftsStatus === 'pending' && 
+        {nfts?.status === 'pending' && 
           <div className='w-full text-center'>
             <Loader />
           </div>

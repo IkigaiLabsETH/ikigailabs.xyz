@@ -1,10 +1,9 @@
 import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { flip, path, prop, uncurryN } from 'ramda'
+import { path, prop } from 'ramda'
 import { HYDRATE } from 'next-redux-wrapper'
 import { http } from '../../common/http'
 import { HTTP } from '../../common/types'
-import { RootState } from '../../common/redux/store'
 
 export const loadCollections = createAction('collections/loadCollections')
 

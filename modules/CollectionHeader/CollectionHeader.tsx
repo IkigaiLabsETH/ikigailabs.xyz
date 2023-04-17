@@ -1,5 +1,6 @@
 import { propOr } from 'ramda'
 import React, { FC, ReactNode } from 'react'
+import { replaceImageResolution } from '../../common/utils/utils'
 import { CollectionStat } from '../CollectionStat'
 import { Eyebrow } from '../Eyebrow'
 
@@ -16,7 +17,7 @@ export const CollectionHeader: FC<CollectionHeaderProps> = ({ children, eyebrow,
     <div className="flex relative flex-col lg:flex-row-reverse lg:h-screen items-center lg:min-h-[55rem]">
       <div
         className="w-full lg:w-1/2 h-96 lg:h-screen lg:min-h-[55rem] bg-no-repeat bg-center bg-cover"
-        style={{ backgroundImage: `url(${coverImage})` }}
+        style={{ backgroundImage: `url(${replaceImageResolution(2000)(coverImage)})` }}
       ></div>
       <div className="w-full lg:w-1/2 p-16 max-w-3xl">
         <Eyebrow>{eyebrow}</Eyebrow>

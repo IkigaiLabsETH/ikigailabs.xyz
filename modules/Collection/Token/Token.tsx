@@ -1,11 +1,14 @@
 import { match } from 'ts-pattern'
-import React, { FC, useEffect } from 'react'
-import { isEmpty, map, path, pathOr, prop, propOr } from 'ramda'
+import React, { FC } from 'react'
+import { isEmpty, map, pathOr, prop, propOr } from 'ramda'
 
 import { useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
 import { selectCollectionToken } from './token.selectors'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
+import { Head, HeaderCell, Row, Table, Body, Cell } from '../../Table'
+import { Eth } from '../../Eth'
+import { replaceImageResolution } from '../../../common/utils/utils'
 
 interface TokenProps {
   contract: string
@@ -29,14 +32,54 @@ export const Token: FC<TokenProps> = ({ contract, tokenId }) => {
     const topBidSource = prop('source')(topBid)
     return (
       <div className="w-full bg-white flex items-center flex-col">
-        <img src={image} title={name as string} className="w-full" />
+        <img src={replaceImageResolution(2000)(image)} title={name as string} className="w-full" />
         <div className="p-16 max-w-screen-2xl">
           <div className="mb-8">
-            <h1 className="boska text-[2rem] lg:text-[4rem] text-black mb-0">{name}</h1>
+            <h1 className="boska text-[4rem] lg:text-[6rem] text-black mb-0">{name}</h1>
+            { owner && <p className="text-s text-black pl-1 mb-0 mt-4">
+              <span className="font-bold">Owner:</span> {owner}
+            </p> }
           </div>
           <div className="flex bg-white text-black">
-            <div className="w-2/3">
+            <div className="w-2/3 mr-8">
               <p className="text-lg text-black pr-16">{description}</p>
+              {attributes && (
+                <Table>
+                  <Head>
+                    <Row key="header">
+                      <HeaderCell>Attribute</HeaderCell>
+                      <HeaderCell>&nbsp;</HeaderCell>
+                      <HeaderCell>Floor Price</HeaderCell>
+                      <HeaderCell>Tokens</HeaderCell>
+                      <HeaderCell>On sale</HeaderCell>
+                    </Row>
+                  </Head>
+                  <Body>
+                    {map(
+                      (attribute: {
+                        key: string
+                        value: string
+                        floorAskPrice: number | null
+                        onSaleCount: number
+                        tokenCount: number
+                      }) => (
+                        <Row
+                          key={attribute.value}
+                        >
+                          <Cell>
+                            {attribute.key}
+                          </Cell>  
+                          <Cell>{attribute.value}</Cell>
+                          <Cell>{ attribute.floorAskPrice ? attribute.floorAskPrice : '—'}</Cell>
+                          <Cell>{ attribute.tokenCount ? attribute.tokenCount : '—'}</Cell>
+                          <Cell>{ attribute.onSaleCount ? attribute.onSaleCount : '—'}</Cell>
+                        </Row>
+                      ),
+                    )(attributes as [])}
+                  </Body>
+                </Table>
+                  
+              )}
               <div className="border-t-2 mt-8 border-black mr-16">
                 <ul className="text-gray-800 text-xs p-4 pl-0">
                   <li className="mb-1">
@@ -52,50 +95,18 @@ export const Token: FC<TokenProps> = ({ contract, tokenId }) => {
               </div>
             </div>
             <div className="w-1/3">
-              <div className="border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-4 mb-6">
-                <div className="grid grid-cols-2 gap-5 mb-8">
-                  <div>
-                    <div className="font-bold">Floor price:</div>
-                    {pathOr('—', ['price', 'amount', 'native'])(floorAsk)}
-                    {isEmpty(floorPriceSource) ? '' : `on ${propOr('', 'name')(floorPriceSource)}`}
-                  </div>
-                  <div>
-                    <div className="font-bold">Top bid:</div>
-                    {pathOr('—', ['price', 'amount', 'native'])(topBid)}
-                    {isEmpty(topBidSource) ? '' : `on ${propOr('', 'name')(topBidSource)}`}
-                  </div>
+              <div className='border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-4 mb-6'>
+                <div className="text-2xl mb-1 font-bold">Floor price:
+                  <div className='font-bold text-4xl my-4'><Eth amount={pathOr('—', ['price', 'amount', 'native'])(floorAsk)} /></div>
+                  <div className='text-sm text-gray-700 italic'>{isEmpty(floorPriceSource) ? '' : ` on ${propOr('', 'name')(floorPriceSource)}`}</div>
                 </div>
-                <p className="text-s text-black pl-1 mb-0">
-                  <span className="font-bold">Owner:</span> {owner}
-                </p>
               </div>
-              {attributes && (
-                <ul className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
-                  {map(
-                    (attribute: {
-                      key: string
-                      value: string
-                      floorAskPrice: number | null
-                      onSaleCount: number
-                      tokenCount: number
-                    }) => (
-                      <li
-                        key={attribute.value}
-                        className="border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-4"
-                      >
-                        <div className="flex justify-between">
-                          <div className="font-bold">{attribute.key}</div>
-                        </div>
-                        <div>{attribute.value}</div>
-                        <div className="flex justify-between text-xs mt-2">
-                          <div>Floor Price: {attribute.floorAskPrice ? attribute.floorAskPrice : '—'}</div>
-                          <div>On sale: {attribute.onSaleCount}</div>
-                        </div>
-                      </li>
-                    ),
-                  )(attributes as [])}
-                </ul>
-              )}
+              <div className='border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-4 mb-6'>
+                <div className="text-2xl mb-1 font-bold">Top bid:
+                  <div className='font-bold text-4xl my-4'><Eth amount={pathOr('—', ['price', 'amount', 'native'])(topBid)} /></div>
+                  <div className='text-sm text-gray-700 italic'>{isEmpty(topBidSource) ? '' : ` on ${propOr('', 'name')(topBidSource)}`}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
