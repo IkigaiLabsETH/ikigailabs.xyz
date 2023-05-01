@@ -49,7 +49,7 @@ export const placeBidTh = (client: any, signer: any) =>
           signer,
           onProgress: steps => {
             console.log(steps)
-          }
+          },
         })
         .then((res: any) => {
           console.log(res)

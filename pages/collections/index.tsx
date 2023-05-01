@@ -1,6 +1,7 @@
 /* eslint-disable react/function-component-definition */
 import React, { FC, useEffect } from 'react'
 import { map } from 'ramda'
+import Head from 'next/head'
 
 import { Footer } from '../../modules/Footer'
 import { withLayout } from '../../common/layouts/MainLayout/withLayout'
@@ -15,7 +16,6 @@ import { Link } from '../../modules/Link'
 import { Eth } from '../../modules/Eth'
 import { Percentage } from '../../modules/Percentage'
 import { Table, Head as THead, HeaderCell, Row, Cell, Body } from '../../modules/Table'
-import Head from 'next/head'
 
 interface CollectionsProps {
   collectionsSetId: string
@@ -98,6 +98,7 @@ export const getStaticProps = async () => {
   } catch (error) {
     console.log(error.message)
   }
+  return { props: { collectionsSetId: '' } }
 }
 
 export default withLayout(Layout.main)(Collections as any)

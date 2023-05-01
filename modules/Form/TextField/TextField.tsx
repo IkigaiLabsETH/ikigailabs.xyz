@@ -11,12 +11,24 @@ interface TextFieldProps {
   eth?: boolean
 }
 
-export const TextField: FC<TextFieldProps> = ({ id, label, type, value, onChange, step = 1, eth = false, valid = true }) => {
+export const TextField: FC<TextFieldProps> = ({
+  id,
+  label,
+  type,
+  value,
+  onChange,
+  step = 1,
+  eth = false,
+  valid = true,
+}) => {
   return (
     <div className="mt-4 flex leading-6 text-black w-full mb-3">
-      <label htmlFor={id} className="relative cursor-pointer bg-white font-bold p-3 text-xl text-black border-black border-2 focus-within:outline-none focus-within:ring-2 focus-within:ring-gray-600 w-full">
-        <span className='sr-only'>{label}</span>
-        <div className='flex'>
+      <label
+        htmlFor={id}
+        className="relative cursor-pointer bg-white font-bold p-3 text-xl text-black border-black border-2 focus-within:outline-none focus-within:ring-2 focus-within:ring-gray-600 w-full"
+      >
+        <span className="sr-only">{label}</span>
+        <div className="flex">
           <img src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2 mt-2" />
           {type === 'number' ? (
             <input
