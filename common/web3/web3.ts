@@ -1,4 +1,5 @@
 import { ChainId, ChainOrRpc, ThirdwebSDK } from '@thirdweb-dev/sdk'
+import { createClient, getClient } from '@reservoir0x/reservoir-sdk'
 import { ethers } from 'ethers'
 
 let ethProvider = null
@@ -19,4 +20,18 @@ const sdk = new ThirdwebSDK(chain, {
 
 signer && sdk.updateSignerOrProvider(signer)
 
-export { sdk }
+createClient({
+  chains: [
+    {
+      id: 5,
+      baseApiUrl: 'https://api.reservoir.tools',
+      default: true,
+      apiKey: 'Y4c46f1f7-9c33-5a7b-bd4d-682a1d3e8ff0',
+    },
+  ],
+  source: 'localhost',
+})
+
+const client = getClient()
+
+export { sdk, signer, client }

@@ -1,9 +1,7 @@
-import { createAction, createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
-import { getClient } from '@reservoir0x/reservoir-sdk'
-import { ethers } from 'ethers'
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 
-import { createClient } from '@reservoir0x/reservoir-sdk'
 import { RootState } from '../../../common/redux/store'
+import { client, signer } from '../../../common/web3/web3'
 
 export const tokenAdapter = createEntityAdapter({})
 
@@ -11,7 +9,7 @@ export const buyTokenTh = (client: any, signer: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string }>(
     'collection/token/buy',
     ({ contract, tokenId }, { rejectWithValue }) => {
-      return client()
+      return client
         ?.actions.buyToken({
           items: [{ token: `${contract}:${tokenId}`, quantity: 1 }],
           signer,
@@ -30,7 +28,7 @@ export const buyTokenTh = (client: any, signer: any) =>
     },
   )
 
-export const buyToken = buyTokenTh(getClient, signer)
+export const buyToken = buyTokenTh(client, signer)
 
 export const placeBidTh = (client: any, signer: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string }>(
@@ -62,7 +60,7 @@ export const placeBidTh = (client: any, signer: any) =>
     },
   )
 
-export const placeBid = placeBidTh(getClient, signer)
+export const placeBid = placeBidTh(client, signer)
 
 export const tokenSlice = createSlice({
   name: 'collectionTokenInteraction',
