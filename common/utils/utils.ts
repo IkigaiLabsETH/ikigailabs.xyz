@@ -74,9 +74,8 @@ export const formatAttributes = pipe(
   toPairs,
   reduce((acc, facet: any) => {
     return concat(reduce((acc, value) => concat(`&attributes[${facet[0]}]=${value}`)(acc), '')(facet[1]))(acc)
-  },
-  '',
-))
+  }, ''),
+)
 
 export const addOrReplace = (array: any[], object: {}, prop: string) =>
   pipe(findIndex(propEq(prop, object[prop])), index =>
@@ -93,3 +92,5 @@ export const batchArray = (strings: string[]) => (batchSize: number) =>
   map(splitEvery(batchSize), splitEvery(batchSize, strings))
 
 export const replaceImageResolution = (resolution: number) => replace(/w=\d+/, `w=${resolution}`)
+
+export const ethToWei = (eth: number) => eth * 10 ** 18

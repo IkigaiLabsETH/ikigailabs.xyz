@@ -1,15 +1,4 @@
-import {
-  ActionCreatorWithPayload,
-  isAnyOf,
-  isFulfilled,
-  isRejected,
-  ListenerEffectAPI,
-  PayloadAction,
-} from '@reduxjs/toolkit'
-import {
-  AsyncThunkFulfilledActionCreator,
-  AsyncThunkRejectedActionCreator,
-} from '@reduxjs/toolkit/dist/createAsyncThunk'
+import { isAnyOf, isFulfilled, isRejected, PayloadAction } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 
 export const middleware = (notifications: Record<string, string>) => (actionCreators: any[]) => ({
@@ -17,6 +6,7 @@ export const middleware = (notifications: Record<string, string>) => (actionCrea
   matcher: isAnyOf(...actionCreators),
   effect: (action: PayloadAction<string>) => {
     if (isRejected(action)) {
+      console.log(action.error)
       toast.error(notifications[action.type])
       return
     }

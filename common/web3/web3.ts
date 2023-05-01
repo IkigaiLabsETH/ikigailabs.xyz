@@ -1,4 +1,3 @@
-import { useSigner } from '@thirdweb-dev/react'
 import { ChainId, ChainOrRpc, ThirdwebSDK } from '@thirdweb-dev/sdk'
 import { ethers } from 'ethers'
 

@@ -14,7 +14,8 @@ import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { Link } from '../../modules/Link'
 import { Eth } from '../../modules/Eth'
 import { Percentage } from '../../modules/Percentage'
-import { Table, Head, HeaderCell, Row, Cell, Body } from '../../modules/Table'
+import { Table, Head as THead, HeaderCell, Row, Cell, Body } from '../../modules/Table'
+import Head from 'next/head'
 
 interface CollectionsProps {
   collectionsSetId: string
@@ -41,40 +42,24 @@ const Collections: FC<CollectionsProps> = ({ collectionsSetId }) => {
           <div className="px-4 sm:px-6 lg:px-8">
             <div className="-mx-4 mt-8 sm:-mx-0">
               <Table>
-                <Head>
-                  <Row key='header'>
-                    <HeaderCell
-                      colspan={2}
-                    >
-                      Collection
-                    </HeaderCell>
-                    <HeaderCell
-                      hiddenOnSmall={true}
-                    >
-                      Volume
-                    </HeaderCell>
-                    <HeaderCell
-                      hiddenOnSmall={true}
-                    >
-                      Floor price
-                    </HeaderCell>
-                    <HeaderCell>
-                      Supply
-                    </HeaderCell>
+                <THead>
+                  <Row>
+                    <HeaderCell colspan={2}>Collection</HeaderCell>
+                    <HeaderCell>Volume</HeaderCell>
+                    <HeaderCell>Floor price</HeaderCell>
+                    <HeaderCell>Supply</HeaderCell>
                     <HeaderCell>
                       <span className="sr-only">Edit</span>
                     </HeaderCell>
                   </Row>
-                </Head>
+                </THead>
                 <Body>
                   {map((collection: any) => (
-                    <Row key={collection.name}>
+                    <Row key={collection.id}>
                       <Cell>
                         <img src={collection.image} alt={collection.name} className="h-12 w-12 rounded-full" />
                       </Cell>
-                      <Cell>
-                        {collection.name}
-                      </Cell>
+                      <Cell>{collection.name}</Cell>
                       <Cell>
                         <span className="font-bold">
                           <Eth amount={collection.volume['1day']} />
@@ -87,9 +72,7 @@ const Collections: FC<CollectionsProps> = ({ collectionsSetId }) => {
                         </span>{' '}
                         <Percentage amount={collection.floorSaleChange['1day']} />
                       </Cell>
-                      <Cell>
-                        {collection.tokenCount}
-                      </Cell>
+                      <Cell>{collection.tokenCount}</Cell>
                       <Cell>
                         <Link href={`/collection/${collection.id}`} title={collection.name}>
                           View &rarr;{' '}
@@ -109,8 +92,12 @@ const Collections: FC<CollectionsProps> = ({ collectionsSetId }) => {
 }
 
 export const getStaticProps = async () => {
-  const collectionsSetId = await getCollectionsSetId()
-  return { props: { collectionsSetId } }
+  try {
+    const collectionsSetId = await getCollectionsSetId()
+    return { props: { collectionsSetId } }
+  } catch (error) {
+    console.log(error.message)
+  }
 }
 
 export default withLayout(Layout.main)(Collections as any)

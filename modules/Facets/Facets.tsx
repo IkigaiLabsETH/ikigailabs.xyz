@@ -15,7 +15,7 @@ interface FacetProps {
 export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
   const [query, setQuery] = useState({})
   const [selection, setSelection] = useState({})
-  
+
   const updateSelection = (key: string, value: string) => {
     const facetSelection = selection[key] || []
     setSelection({ ...selection, [key]: toggleListItem(value, facetSelection) })
@@ -45,7 +45,7 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
                 {map((value: string) => (
                   <li
                     key={value}
-                    className={`text-xs font-bold  text-yellow bg-black py-1 px-2 group hover:text-yellow rounded-full transition-colors hover:cursor-pointer mr-2`}
+                    className={`text-xs font-bold  text-yellow bg-black py-1 px-2 group hover:text-yellow rounded-full transition-colors hover:cursor-pointer m-1 mr-2`}
                     onClick={() => updateSelection(key, value)}
                   >
                     {value} &times;

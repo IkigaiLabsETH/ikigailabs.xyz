@@ -4,8 +4,4 @@ interface HeadProps {
   children: ReactNode
 }
 
-export const Head:FC<HeadProps> = ({ children }) => (
-  <thead>
-    { children }
-  </thead>
-)
+export const Head: FC<HeadProps> = ({ children }) => <thead>{children}</thead>

@@ -13,6 +13,7 @@ interface ButtonProps {
   onClick?: (arg: unknown) => void
   loading?: boolean
   target?: '_blank' | '_self'
+  disabled?: boolean
 }
 
 const baseStyles = {
@@ -46,6 +47,7 @@ export const Button: FC<ButtonProps> = ({
   onClick,
   loading = false,
   target = '_self',
+  disabled = false,
   ...props
 }) => {
   className = clsx(baseStyles[variant], variantStyles[variant][color][0], className)
@@ -79,7 +81,8 @@ export const Button: FC<ButtonProps> = ({
   ) : (
     <button
       onClick={onClick}
-      className={`relative inline-flex items-center justify-center p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`}
+      className={`relative inline-flex items-center justify-center p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className} disabled:cursor-not-allowed`}
+      disabled={disabled}
     >
       <span
         className={clsx(

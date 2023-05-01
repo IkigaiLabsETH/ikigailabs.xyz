@@ -1,1 +1,1 @@
-export { truncate, truncateAddress, getRemainingTime, toggleListItem } from './utils'
+export { truncate, truncateAddress, getRemainingTime, toggleListItem, ethToWei } from './utils'

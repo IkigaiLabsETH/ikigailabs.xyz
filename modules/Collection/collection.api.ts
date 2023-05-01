@@ -23,13 +23,13 @@ export const collectionApi = createApi({
       query: (contract: string) => `collections/${contract}/attributes/all/v2`,
     }),
     getCollectionTokensByContractWithAttributes: builder.query<
-      { tokens: NFT[], continuation: string, attributes: string },
+      { tokens: NFT[]; continuation: string; attributes: string },
       { contract: string; attributes: string; continuation: string }
     >({
       query: ({ contract, attributes, continuation }) =>
-        `tokens/v6?collection=${contract}&includeOwnerCount=true&includeTopBid=true&sortBy=floorAskPrice${continuation ? `&continuation=${continuation}` : ''}${
-          attributes && attributes
-        }&limit=20`,
+        `tokens/v6?collection=${contract}&includeOwnerCount=true&includeTopBid=true&sortBy=floorAskPrice${
+          continuation ? `&continuation=${continuation}` : ''
+        }${attributes && attributes}&limit=20`,
       serializeQueryArgs: ({ endpointName, queryArgs: { attributes } }) => {
         return `${endpointName}-${attributes}`
       },

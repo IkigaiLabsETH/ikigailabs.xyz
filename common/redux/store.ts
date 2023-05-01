@@ -17,7 +17,7 @@ import { balanceReducer } from '../../modules/Balance'
 import { featuredAuctionReducer } from '../../modules/Auction/Featured'
 import { featuredDropReducer } from '../../modules/FeaturedDrop'
 import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
-import { collectionTokenMiddleware } from '../../modules/Collection/Token'
+import { buyToken, collectionTokenMiddleware, placeBid } from '../../modules/Collection'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
 import { modalActions } from '../modal'
 import { collectionApi, collectionMiddleware } from '../../modules/Collection'
@@ -50,6 +50,7 @@ import { NFTDropsReducer } from '../../modules/NFTDrops'
 import { confettiMiddleware, confettiReducer } from '../../modules/Confetti'
 import { confettiActions } from '../confetti'
 import { dropTokenReducer } from '../../modules/Drop/Token'
+import { collectionTokenInteractionReducer } from '../../modules/Collection/Token/token.slice'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -70,6 +71,10 @@ const notifications = {
   [burnToMint.rejected.type]: 'Failed to burn token',
   [claim.fulfilled.type]: 'You have successfully claimed your token',
   [claim.rejected.type]: 'Failed to claim token',
+  [buyToken.fulfilled.type]: 'You have successfully bought your token',
+  [buyToken.rejected.type]: 'Token buy failed',
+  [placeBid.fulfilled.type]: 'You have successfully made an offer',
+  [placeBid.rejected.type]: 'Failed to make an offer',
   'allowlistApi/executeMutation/fulfilled': 'You have successfully signed up',
   'allowlistApi/executeMutation/rejected': 'Failed to sign up',
 }
@@ -89,6 +94,10 @@ startAppListening(
     isRejected(burnToMint),
     isFulfilled(claim),
     isRejected(claim),
+    isFulfilled(buyToken),
+    isRejected(buyToken),
+    isFulfilled(placeBid),
+    isRejected(placeBid),
     signUp.matchFulfilled,
     signUp.matchRejected,
   ]),
@@ -105,6 +114,7 @@ const combinedReducer = combineReducers({
   [collectionApi.reducerPath]: prop('reducer')(collectionApi),
   [allowlistApi.reducerPath]: prop('reducer')(allowlistApi),
   [collectionsApi.reducerPath]: prop('reducer')(collectionsApi),
+  collectionTokenInteraction: collectionTokenInteractionReducer,
   dropMetadata: metadataReducer,
   dropTokens: tokensReducer,
   dropToken: dropTokenReducer,

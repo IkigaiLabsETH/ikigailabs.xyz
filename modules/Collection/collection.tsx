@@ -1,11 +1,5 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
-import {
-  equals,
-  pathOr,
-  pipe,
-  propOr,
-  unless,
-} from 'ramda'
+import { equals, pathOr, pipe, propOr, unless } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
@@ -45,19 +39,21 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   const [selectedAttributes, setSelectedAttributes] = useState<string>('')
   const [nfts, setNfts] = useState({ tokens: [], continuation: '', status: 'idle' })
   const { data: nftData, status } = useAppSelector(
-    selectNFTS({ contract, attributes: selectedAttributes, continuation: ''  }),
+    selectNFTS({ contract, attributes: selectedAttributes, continuation: '' }),
   )
 
   const { data: collection, status: collectionDataStatus } = useAppSelector(selectCollection(contract))
   const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity(contract))
   const { data: attributes } = useAppSelector(selectCollectionAttributes(contract))
-    
-  const { ref } = useInfiniteLoading(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
-    contract,
-    attributes: '',
-    continuation: nfts?.continuation,
-  }))
-  
+
+  const { ref } = useInfiniteLoading(
+    collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
+      contract,
+      attributes: '',
+      continuation: nfts?.continuation,
+    }),
+  )
+
   useEffect(() => {
     contract &&
       dispatch(
@@ -74,13 +70,15 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   }, [nftData])
 
   const updateFacets = selection => {
-      setSelectedAttributes(formatAttributes(selection))
-      return dispatch(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
-      contract,
-      attributes: formatAttributes(selection),
-      continuation: nfts?.continuation || '',
-  }))}
-
+    setSelectedAttributes(formatAttributes(selection))
+    return dispatch(
+      collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
+        contract,
+        attributes: formatAttributes(selection),
+        continuation: nfts?.continuation || '',
+      }),
+    )
+  }
 
   useEffect(() => {
     contract && dispatch(fetchCollection({ contract }))
@@ -89,15 +87,15 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
   const nftsDisplay = (
     <div className="flex flex-row">
       <div className="w-1/4">
-        {attributes && <Facets facets={attributes?.attributes} onUpdateFacets={updateFacets} />}
+        {attributes ? <Facets facets={attributes?.attributes} onUpdateFacets={updateFacets} /> : <></>}
       </div>
       <div className="w-3/4">
-        {nfts?.tokens.length && <NFTGrid nfts={nfts.tokens} />}
-        {nfts?.status === 'pending' && 
-          <div className='w-full text-center'>
+        {nfts?.tokens.length ? <NFTGrid nfts={nfts.tokens} /> : <div>No results found</div>}
+        {nfts?.status === 'pending' && (
+          <div className="w-full text-center">
             <Loader />
           </div>
-        }
+        )}
         <div ref={ref} />
       </div>
     </div>
@@ -131,7 +129,9 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
             <CollectionStat label="Volume" loading={collectionDataStatus === 'pending'}>
               <Eth amount={pipe(pathOr('—', ['volume', 'allTime']), parseFloat)(collection)} />
             </CollectionStat>
-            <CollectionStat label="Supply" loading={collectionDataStatus === 'pending'}>{propOr('—', 'tokenCount')(collection)}</CollectionStat>
+            <CollectionStat label="Supply" loading={collectionDataStatus === 'pending'}>
+              {propOr('—', 'tokenCount')(collection)}
+            </CollectionStat>
             <CollectionStat label="Created On" loading={collectionDataStatus === 'pending'}>
               {pipe(propOr('—', 'createdAt'), unless(equals('—'), pipe(parseISO, format('yyyy-MM-dd'))))(collection)}
             </CollectionStat>
