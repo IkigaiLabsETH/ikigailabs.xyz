@@ -4,7 +4,7 @@ import axios from 'axios'
 export const explorerClient = createClient({
   apiBase: process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://api-goerli.reservoir.tools',
   apiKey: process.env.NEXT_EXPLORER_API_KEY || '',
-  source: process.env.NEXT_EXPLORER_SOURCE || 'https://livethelife.tv',
+  source: process.env.NEXT_EXPLORER_SOURCE || 'https://ikigai.com',
 })
 
 export const explorerApi = axios.create({

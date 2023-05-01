@@ -13,6 +13,7 @@ import { Button } from '../../Button'
 import { buyToken, placeBid, selectCollectionTokenInteractionStatus } from './token.slice'
 import { TextField } from '../../Form'
 import { useAddress } from '@thirdweb-dev/react'
+import Link from 'next/link'
 
 interface TokenProps {
   contract: string
@@ -58,6 +59,9 @@ export const Token: FC<TokenProps> = ({ contract, tokenId }) => {
         <img src={replaceImageResolution(2000)(image)} title={name as string} className="w-full" />
         <div className="p-16 max-w-screen-2xl">
           <div className="mb-8">
+            <div className='pb-4 text-red font-bold'>
+              <Link href={`/collection/${contract}`}>&larr; Back to collection</Link>
+            </div>
             <h1 className="boska text-[4rem] lg:text-[6rem] text-black mb-0">{name}</h1>
             {owner && (
               <p className="text-s text-gray-500 pl-1 mb-0 mt-4">
@@ -114,6 +118,9 @@ export const Token: FC<TokenProps> = ({ contract, tokenId }) => {
                     <span className="font-bold">Standard:</span> {kind}
                   </li>
                 </ul>
+              </div>
+              <div className='pt-8 text-red font-bold'>
+                <Link href={`/collection/${contract}`}>&larr; Back to collection</Link>
               </div>
             </div>
             <div className="w-1/3">

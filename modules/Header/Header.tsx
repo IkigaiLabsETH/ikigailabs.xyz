@@ -35,7 +35,7 @@ export const Header: FC = () => {
         <nav className="flex items-center justify-between">
           <div className="w-52 z-20">
             <a href="/" title="" className="flex items-center">
-              <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="64" height="64" />
+              <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="32" height="32" />
             </a>
           </div>
 

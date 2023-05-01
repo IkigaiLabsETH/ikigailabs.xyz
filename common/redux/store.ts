@@ -89,6 +89,7 @@ startAppListening(freeMintMiddleware)
 startAppListening(checkTokenBalancesForCollectionMiddleware)
 startAppListening(getTokenBalanceSuccessMiddleware)
 startAppListening(
+  // @ts-ignore
   notificationMiddleware(notifications)([
     isFulfilled(burnToMint),
     isRejected(burnToMint),

@@ -1,20 +1,22 @@
-import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
+import { createAction, createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 
 import { RootState } from '../../../common/redux/store'
 import { client, signer } from '../../../common/web3/web3'
 
 export const tokenAdapter = createEntityAdapter({})
 
+export const interactionProgressAction = createAction('collection/interaction/progress')
+
 export const buyTokenTh = (client: any, signer: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string }>(
     'collection/token/buy',
-    ({ contract, tokenId }, { rejectWithValue }) => {
-      return client
-        ?.actions.buyToken({
+    ({ contract, tokenId }, { rejectWithValue, dispatch }) => {
+      return client?.actions
+        .buyToken({
           items: [{ token: `${contract}:${tokenId}`, quantity: 1 }],
           signer,
           onProgress: steps => {
-            console.log(steps)
+            dispatch(interactionProgressAction(steps))
           },
         })
         .then((res: any) => {
@@ -22,8 +24,7 @@ export const buyTokenTh = (client: any, signer: any) =>
           return res
         })
         .catch((err: any) => {
-          console.log(err)
-          return rejectWithValue(err.message)
+          return rejectWithValue(err.response.data)
         })
     },
   )
@@ -33,9 +34,9 @@ export const buyToken = buyTokenTh(client, signer)
 export const placeBidTh = (client: any, signer: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string }>(
     'collection/makeOffer',
-    ({ contract, tokenId, wei }, { rejectWithValue }) => {
-      return client()
-        ?.actions.placeBid({
+    ({ contract, tokenId, wei }, { rejectWithValue, dispatch }) => {
+      return client?.actions
+        .placeBid({
           bids: [
             {
               token: `${contract}:${tokenId}`,
@@ -46,7 +47,7 @@ export const placeBidTh = (client: any, signer: any) =>
           ],
           signer,
           onProgress: steps => {
-            console.log(steps)
+            dispatch(interactionProgressAction(steps))
           },
         })
         .then((res: any) => {
@@ -54,8 +55,7 @@ export const placeBidTh = (client: any, signer: any) =>
           return res
         })
         .catch((err: any) => {
-          console.log(err)
-          return rejectWithValue(err)
+          return rejectWithValue(err.response.data)
         })
     },
   )
@@ -91,8 +91,6 @@ export const tokenSlice = createSlice({
       })
       .addCase(placeBid.rejected, (state, action) => {
         state.status = 'failed'
-        console.log(action)
-        tokenAdapter.upsertOne(state, { id: '1', name: action.payload })
       })
   },
 })
