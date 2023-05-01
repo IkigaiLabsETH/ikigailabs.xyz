@@ -11,8 +11,8 @@ const _getTokenBalance = (web3: Web3) =>
     async ({ contract, tokenId, address }, { rejectWithValue }) =>
       web3
         .getContract(contract)
-        .then(contract => contract.call('balanceOf', address, tokenId))
-        .then((balance: BigNumber) => balance.toNumber())
+        .then(contract => contract.call('balanceOf', [ address, tokenId ]))
+        .then((tx) => console.log(tx))
         .catch(error => rejectWithValue(error.message)),
   )
 

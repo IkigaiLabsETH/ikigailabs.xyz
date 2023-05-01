@@ -5,11 +5,18 @@ import { toast } from 'react-toastify'
 export const middleware = (notifications: Record<string, string>) => (actionCreators: any[]) => ({
   // @ts-ignore
   matcher: isAnyOf(...actionCreators),
-  effect: (action: PayloadAction<{ message: string, errors?: string[] }>) => {
+  effect: (action: PayloadAction<{ message: string; errors?: string[] }>) => {
     if (isRejected(action)) {
       if (action.payload?.message) {
         if (action.payload?.errors) {
-          toast.error(`${action.payload?.message}: ${pipe(path(['payload', 'errors']), values, pluck('message'), join(', '))(action)}`)
+          toast.error(
+            `${action.payload?.message}: ${pipe(
+              path(['payload', 'errors']),
+              values,
+              pluck('message'),
+              join(', '),
+            )(action)}`,
+          )
           return
         }
 
