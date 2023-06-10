@@ -7,6 +7,7 @@ import { useWallet } from '../../common/useWallet'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Button } from '../Button'
+import { NetworkSelector } from '../NetworkSelector/NetworkSelector'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
@@ -40,6 +41,9 @@ export const Header: FC = () => {
           </div>
 
           <div className="flex flex-row justify-end">
+            <div className="hidden md:flex">
+              <NetworkSelector />
+            </div>
             <div className="hidden md:flex">
               <Profile />
             </div>

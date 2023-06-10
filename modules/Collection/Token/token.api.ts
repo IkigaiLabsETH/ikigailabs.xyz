@@ -1,9 +1,11 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { flip, path, uncurryN } from 'ramda'
+
+import { getDynamicAPIUrl } from '../../../common/redux/utils';
 
 export const collectionTokenApi = createApi({
   reducerPath: 'collectionTokenApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://api.reservoir.tools' }),
+  baseQuery: getDynamicAPIUrl('reservoir'),
   endpoints: builder => ({
     getTokenByContractAndTokenId: builder.query<{ token: any }, {}>({
       query: ({ contract, tokenId }: { contract: string; tokenId: string }) =>

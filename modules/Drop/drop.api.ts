@@ -1,0 +1,25 @@
+import { createAction } from '@reduxjs/toolkit'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+import { Network, ContractType, Drop, Claim } from '../../common/types'
+
+export const fetchdrop = createAction<{ contract: string }>('drop/fetch')
+
+export const dropApi = createApi({
+  reducerPath: 'dropApi',
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  tagTypes: ['Drop', 'Claim'],
+  endpoints: builder => ({
+    getDropMetadataByContract: builder.query<Drop, {}>({
+      query: ({ contract, network, type = "" }: { contract: string, network: Network, type: ContractType | ""}) => `drop/${contract}/metadata?network=${network}${type ? `&type=${type}` : ""}`,
+    }),
+    getDropByContract: builder.query<Drop, {}>({
+      query: ({ contract, network, type = "" }: { contract: string, network: Network, type: ContractType | ""}) => `drop/${contract}?network=${network}${type ? `&type=${type}` : ""}`,
+    }),
+  }),
+})
+
+export const { getDropByContract, getDropMetadataByContract } = dropApi.endpoints
+
+export const selectDropMetadata = dropApi.endpoints.getDropMetadataByContract.select
+export const selectDrop = dropApi.endpoints.getDropByContract.select

@@ -1,7 +1,7 @@
 import { ListenerEffectAPI, PayloadAction } from '@reduxjs/toolkit'
 import { map } from 'ramda'
 import { AppDispatch, RootState } from '../../common/redux/store'
-import { getTokenBalance } from '../../common/web3/tokenBalance.slice'
+import { getTokenBalance } from '../../common/web3/wallet.api'
 import { collectionTokenApi } from '../Collection/Token/token.api'
 import { checkTokenBalancesForCollection } from './burnToMint.slice'
 

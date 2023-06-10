@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 
 import { RootState } from '../../../common/redux/store'
-import { client, signer } from '../../../common/web3/web3'
+import { reservoirClient, signer } from '../../../common/web3/web3'
 
 export const tokenAdapter = createEntityAdapter({})
 
@@ -29,7 +29,7 @@ export const buyTokenTh = (client: any, signer: any) =>
     },
   )
 
-export const buyToken = buyTokenTh(client, signer)
+export const buyToken = buyTokenTh(reservoirClient, signer)
 
 export const placeBidTh = (client: any, signer: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string }>(
@@ -60,7 +60,7 @@ export const placeBidTh = (client: any, signer: any) =>
     },
   )
 
-export const placeBid = placeBidTh(client, signer)
+export const placeBid = placeBidTh(reservoirClient, signer)
 
 export const tokenSlice = createSlice({
   name: 'collectionTokenInteraction',
@@ -76,6 +76,7 @@ export const tokenSlice = createSlice({
       .addCase(buyToken.fulfilled, (state, action) => {
         const { payload } = action
         state.status = 'succeeded'
+        console.log(payload)
         tokenAdapter.addOne(state, payload)
       })
       .addCase(buyToken.rejected, state => {

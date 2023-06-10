@@ -34,7 +34,7 @@ export const NFT: FC<NFTProps> = ({ contract, tokenId }) => {
     return (
       <div className="w-full bg-yellow flex items-center flex-col">
         <img src={image} title={name as string} className="w-full" />
-        <div className="p-16 max-w-screen-2xl">
+        <div className="p-16 max-w-screen-2xl w-full">
           <h1 className="boska text-[3rem] lg:text-[8rem] text-black my-16 -ml-16">{name}</h1>
           <div className="flex bg-yellow text-black">
             <div className="w-2/3">

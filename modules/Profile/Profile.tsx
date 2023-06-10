@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { useWallet } from '../../common/useWallet'
 import { truncateAddress } from '../../common/utils'
 import { Balance } from '../Balance'
@@ -17,7 +17,7 @@ export const Profile: FC<ProfileProps> = ({ connectLabel = 'Connect', disconnect
       {connectLabel}
     </Button>
   ) : (
-    <Button className="mr-2">
+    <Button className="mr-2" onClick={disconnect}>
       {truncateAddress(address)} <span className="pl-1">|</span> <Balance address={address} />
     </Button>
   )

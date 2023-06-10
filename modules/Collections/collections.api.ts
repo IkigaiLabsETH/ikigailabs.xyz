@@ -2,8 +2,10 @@ import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { path, prop } from 'ramda'
 import { HYDRATE } from 'next-redux-wrapper'
+
 import { http } from '../../common/http'
 import { HTTP } from '../../common/types'
+import { getDynamicAPIUrl } from '../../common/redux/utils'
 
 export const loadCollections = createAction('collections/loadCollections')
 
@@ -23,17 +25,14 @@ export const collectionsSetApi = createApi({
           Authorization: `Bearer ${process.env.NEXT_AIRTABLE_API_KEY || 'keyQWirC3t48lEo7b'}`,
         },
       }),
-      transformResponse: (response: any): string => {
-        console.log(response)
-        return prop('id', response.records[0].fields.Value)
-      },
+      transformResponse: (response: any): string => prop('id', response.records[0].fields.Value),
     }),
   }),
 })
 
 export const collectionsApi = createApi({
   reducerPath: 'collectionsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://api.reservoir.tools' }),
+  baseQuery: getDynamicAPIUrl('reservoir'),
   endpoints: builder => ({
     getCollectionsBySetId: builder.query({
       query: (setId: string) => ({

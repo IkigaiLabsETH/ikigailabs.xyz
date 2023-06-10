@@ -2,6 +2,7 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
+  important: true,
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./modules/**/*.{js,ts,jsx,tsx}",
@@ -52,6 +53,5 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('@tailwindcss/line-clamp'),
   ],
 }

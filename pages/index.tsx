@@ -10,8 +10,12 @@ import { Button } from '../modules/Button'
 import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
 import { FreeMint } from '../modules/FreeMint'
+import { selectedNetwork } from '../modules/NetworkSelector'
+import { useAppSelector } from '../common/redux/store'
 
 const Home: FC = () => {
+  const network = useAppSelector(selectedNetwork)
+  
   return (
     <div className="flex items-center flex-col">
       <Head>
@@ -60,7 +64,7 @@ const Home: FC = () => {
         </div>
       </header>
       <main className="w-full">
-        <FreeMint contract={FREE_MINT_CONTRACT} />
+        <FreeMint contract={FREE_MINT_CONTRACT} network={network}/>
         {/* <BurnToMint
           sourceContract={pathOr('', ['odessyGenesisCollection', 'sourceContract'])(BURN_TO_MINT)}
           targets={pathOr([], ['odessyGenesisCollection', 'targets'])(BURN_TO_MINT)}

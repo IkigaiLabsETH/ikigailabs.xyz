@@ -5,68 +5,35 @@ import { match } from 'ts-pattern'
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { useWallet } from '../../common/useWallet'
 import { Button } from '../Button'
-import { claim, fetchToken, selectClaimLoadingState, selectToken } from './freeMint.slice'
 import { Eyebrow } from '../Eyebrow'
+import { Network } from '../../common/types'
+import { getDropMetadataByContract, selectDropMetadata } from '../Drop'
 
 interface FreeMintProps {
   contract: string
   tokenId?: number
+  network: Network
 }
 
-export const FreeMint: FC<FreeMintProps> = ({ contract, tokenId }) => {
+export const FreeMint: FC<FreeMintProps> = ({ contract, network }) => {
   const dispatch = useAppDispatch()
-  const claimLoadingState = useAppSelector(selectClaimLoadingState(`${contract}_${tokenId}`))
-  const token = useAppSelector(selectToken(`${contract}_${tokenId}`))
-  const { address, connect } = useWallet()
+  const { data } = useAppSelector(selectDropMetadata({ contract, network, type: 'nft-drop' }))
 
   useEffect(() => {
-    dispatch(fetchToken({ contract, tokenId }))
+    dispatch(getDropMetadataByContract.initiate({ contract, network, type: 'nft-drop' }))
   }, [])
-
-  const handleClaim = (event: ChangeEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    if (address) {
-      dispatch(claim({ contract, address, tokenId, amount: 1 }))
-    }
-  }
-
-  const handleConnect = (event: ChangeEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    connect()
-  }
-
-  const getButton = match(address)
-    .when(isNil, () => <Button onClick={handleConnect}>Connect</Button>)
-    .otherwise(() => <Button href={`/drop/${contract}`}>Mint for free</Button>)
-
-  const idle = <>{<div className="flex flex-row w-full mt-16">{getButton}</div>}</>
-
-  const succeeded = <></>
-
-  const failed = (
-    <div className="flex">
-      <div className="text-red text-2xl">Sorry, something went wrong.</div>
-    </div>
-  )
-
-  const content = match(claimLoadingState)
-    .with('idle', () => idle)
-    .with('loading', () => idle)
-    .with('succeeded', () => succeeded)
-    .with('failed', () => failed)
-    .exhaustive()
 
   return (
     <div className="flex relative flex-col lg:flex-row-reverse lg:h-screen items-center lg:min-h-min">
       <div
         className="w-full lg:w-1/2 h-96 lg:h-screen bg-no-repeat bg-center bg-cover"
-        style={{ backgroundImage: `url(${token.image})` }}
+        style={{ backgroundImage: `url(${data?.image})` }}
       ></div>
       <div className="w-full lg:w-1/2 p-16">
         <Eyebrow>Exclusive Free Mint</Eyebrow>
-        <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{token.name}</h2>
-        <p className="my-8 satoshi text-xl leading-relaxed">{token.description}</p>
-        {content}
+        <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{data?.name}</h2>
+        <p className="my-8 satoshi text-xl leading-relaxed">{data?.description}</p>
+        <Button href={`/drop/${contract}`}>Mint for free</Button>
       </div>
     </div>
   )

@@ -10,10 +10,11 @@ import {
   TypedStartListening,
 } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { persistStore, persistReducer, REGISTER, PERSIST } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import { createWrapper } from 'next-redux-wrapper'
 import { prop } from 'ramda'
 
-import { balanceReducer } from '../../modules/Balance'
 import { featuredAuctionReducer } from '../../modules/Auction/Featured'
 import { featuredDropReducer } from '../../modules/FeaturedDrop'
 import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
@@ -37,10 +38,9 @@ import { freeMintMiddleware, freeMintReducer } from '../../modules/FreeMint'
 import {
   checkTokenBalancesForCollectionMiddleware,
   burnToMintReducer,
-  getTokenBalanceSuccessMiddleware,
 } from '../../modules/BurnToMint'
 import { allowlistApi, signUp } from '../../modules/Allowlist/allowlist.api'
-import { tokenBalanceReducer } from '../web3'
+import { walletApi, walletMiddleware } from '../web3'
 import { notificationMiddleware } from '../notification'
 import { burnToMint } from '../../modules/BurnToMint/burnToMint.slice'
 import { claim } from '../../modules/FreeMint/freeMint.slice'
@@ -51,6 +51,8 @@ import { confettiMiddleware, confettiReducer } from '../../modules/Confetti'
 import { confettiActions } from '../confetti'
 import { dropTokenReducer } from '../../modules/Drop/Token'
 import { collectionTokenInteractionReducer } from '../../modules/Collection/Token/token.slice'
+import { changeNetwork, NetworkSelectorReducer } from '../../modules/NetworkSelector'
+import { dropApi } from '../../modules/Drop/drop.api'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -79,7 +81,6 @@ const notifications = {
   'allowlistApi/executeMutation/rejected': 'Failed to sign up',
 }
 
-// startAppListening(NFTDropsMiddleware(web3))
 startAppListening(mintPassesMiddleware)
 startAppListening(collectionTokenMiddleware)
 startAppListening(collectionMiddleware)
@@ -87,7 +88,6 @@ startAppListening(dropMiddleware)
 startAppListening(modalMiddleware(modalActions as any))
 startAppListening(freeMintMiddleware)
 startAppListening(checkTokenBalancesForCollectionMiddleware)
-startAppListening(getTokenBalanceSuccessMiddleware)
 startAppListening(
   // @ts-ignore
   notificationMiddleware(notifications)([
@@ -104,9 +104,9 @@ startAppListening(
   ]),
 )
 startAppListening(claimMiddleware), startAppListening(confettiMiddleware(confettiActions as any))
+startAppListening(walletMiddleware([changeNetwork] as any))
 
 const combinedReducer = combineReducers({
-  balance: balanceReducer,
   featuredAuction: featuredAuctionReducer,
   featuredDrop: featuredDropReducer,
   mintPasses: mintPassesReducer,
@@ -115,6 +115,7 @@ const combinedReducer = combineReducers({
   [collectionApi.reducerPath]: prop('reducer')(collectionApi),
   [allowlistApi.reducerPath]: prop('reducer')(allowlistApi),
   [collectionsApi.reducerPath]: prop('reducer')(collectionsApi),
+  [dropApi.reducerPath]: prop('reducer')(dropApi),
   collectionTokenInteraction: collectionTokenInteractionReducer,
   dropMetadata: metadataReducer,
   dropTokens: tokensReducer,
@@ -126,28 +127,44 @@ const combinedReducer = combineReducers({
   claims: claimsReducer,
   freeMint: freeMintReducer,
   burnToMint: burnToMintReducer,
-  tokenBalance: tokenBalanceReducer,
+  [walletApi.reducerPath]: prop('reducer')(walletApi),
   NFTDrops: NFTDropsReducer,
   confetti: confettiReducer,
+  network: NetworkSelectorReducer,
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => combinedReducer(state, action)
 
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['network'],
+}
+
+const persistedReducer = persistReducer(persistConfig, reducer)
+
 const makeStore = () =>
   configureStore({
-    reducer,
+    reducer: persistedReducer,
     middleware: getDefaultMiddleware =>
-      getDefaultMiddleware()
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [PERSIST],
+        },
+      })
         .prepend(listenerMiddleware.middleware)
         .concat(
           collectionApi.middleware,
           allowlistApi.middleware,
           collectionTokenApi.middleware,
           collectionsApi.middleware,
+          walletApi.middleware,
+          dropApi.middleware,
         ),
     devTools: true,
   })
 
 export const store = makeStore()
+export const persistor = persistStore(store)
 setupListeners(store.dispatch)
 export const wrapper = createWrapper<AppStore>(makeStore, { debug: true })

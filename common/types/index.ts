@@ -7,6 +7,15 @@ export enum Layout {
   main = 'main',
 }
 
+export enum Network {
+  MAINNET = 'Mainnet',
+  Goerli = 'Goerli',
+  POLYGON = 'Polygon',
+  POLYGON_MUMBAI = 'Mumbai',
+  ARBITRUM = 'Arbitrum',
+  ARBITRUM_GOERLI = 'Arbitrum Goerli',
+}
+
 export type {
   ContractType,
   NFTDrop,
@@ -18,13 +27,23 @@ export type {
   ClaimCondition,
 } from '@thirdweb-dev/sdk'
 
-export enum Chain {
-  Ethereum = 'Ethereum',
+export interface Drop {
+  name: string
+  description: string
+  image: string
+  app_uri: string
+  seller_fee_basis_points: number
+  fee_recipient: string
+  symbol: string
+}
+
+export interface Claim {
+  id: string
 }
 
 export enum CurrencyChain {
-  GOR = Chain.Ethereum,
-  ETH = Chain.Ethereum,
+  'Goerli Ether' = Network.Goerli,
+  'Ether' = Network.MAINNET,
 }
 
 export interface Token {

@@ -1,5 +1,5 @@
 import { isAnyOf, isFulfilled, isRejected, PayloadAction } from '@reduxjs/toolkit'
-import { join, path, pipe, pluck, tap, unnest, values } from 'ramda'
+import { join, path, pipe, pluck, values } from 'ramda'
 import { toast } from 'react-toastify'
 
 export const middleware = (notifications: Record<string, string>) => (actionCreators: any[]) => ({

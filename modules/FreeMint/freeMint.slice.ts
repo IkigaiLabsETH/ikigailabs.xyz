@@ -4,7 +4,7 @@ import { find, findIndex, isNil, path, pipe, propEq, propOr } from 'ramda'
 import { RootState } from '../../common/redux/store'
 
 import { ErrorType, Status } from '../../common/types'
-import { Web3, web3 } from '../../common/web3'
+import { Web3, getTWClient } from '../../common/web3'
 
 export const claimTh = (web3: Web3) =>
   createAsyncThunk<Promise<{} | Error>, { contract: string; address: string; tokenId: number; amount: number }>(
@@ -16,7 +16,7 @@ export const claimTh = (web3: Web3) =>
         .catch(error => rejectWithValue(error.message)),
   )
 
-export const claim = claimTh(web3)
+export const claim = claimTh(getTWClient)
 
 export const fetchTokenTh = (web3: Web3) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: number }>(
@@ -29,10 +29,13 @@ export const fetchTokenTh = (web3: Web3) =>
           .catch(retry),
       )
         .then(response => response)
-        .catch(error => rejectWithValue(error.message)),
+        .catch(error => {
+          console.log(error)
+          return rejectWithValue(error.message)
+        }),
   )
 
-export const fetchToken = fetchTokenTh(web3)
+export const fetchToken = fetchTokenTh(getTWClient)
 
 interface FreeMintState {
   entities: {

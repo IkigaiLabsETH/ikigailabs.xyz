@@ -1,19 +1,19 @@
 import { match } from 'ts-pattern'
 import React, { FC, useState } from 'react'
 import { isEmpty, map, pathOr, prop, propOr } from 'ramda'
+import { QueryStatus } from '@reduxjs/toolkit/dist/query'
+import { useAddress } from '@thirdweb-dev/react'
+import Link from 'next/link'
 
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
 import { selectCollectionToken } from './token.selectors'
-import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { Head, HeaderCell, Row, Table, Body, Cell } from '../../Table'
 import { Eth } from '../../Eth'
 import { ethToWei, replaceImageResolution } from '../../../common/utils/utils'
 import { Button } from '../../Button'
 import { buyToken, placeBid, selectCollectionTokenInteractionStatus } from './token.slice'
 import { TextField } from '../../Form'
-import { useAddress } from '@thirdweb-dev/react'
-import Link from 'next/link'
 
 interface TokenProps {
   contract: string
@@ -47,6 +47,19 @@ export const Token: FC<TokenProps> = ({ contract, tokenId }) => {
   )
 
   const component = () => {
+
+    if (!token) {
+      return (
+        <div className="w-full bg-white flex items-center flex-col">
+          <div className="p-16 max-w-screen-2xl w-full h-screen text-black flex justify-center items-center">
+            <h1>
+              Token not found
+            </h1>
+          </div>
+        </div>
+      )
+    }
+
     const {
       token: { image, name, description, attributes, owner, contract, tokenId, kind },
       market: { floorAsk, topBid },
@@ -57,7 +70,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId }) => {
     return (
       <div className="w-full bg-white flex items-center flex-col">
         <img src={replaceImageResolution(2000)(image)} title={name as string} className="w-full" />
-        <div className="p-16 max-w-screen-2xl">
+        <div className="p-16 max-w-screen-2xl w-full">
           <div className="mb-8">
             <div className="pb-4 text-red font-bold">
               <Link href={`/collection/${contract}`}>&larr; Back to collection</Link>

@@ -1,3 +1,38 @@
+import { Network } from "../types"
+
+export const URLS = {
+  [Network.MAINNET]: {
+    reservoir: 'https://api.reservoir.tools',
+    tw: '',
+    alchemy: 'https://eth-mainnet.g.alchemy.com',
+  },
+  [Network.Goerli]: {
+    reservoir: 'https://api-goerli.reservoir.tools',
+    tw: '',
+    alchemy: 'https://eth-goerli.g.alchemy.com',
+  },
+  [Network.POLYGON]: {
+    reservoir: '',
+    tw: '',
+    alchemy: 'https://polygon-mainnet.g.alchemy.com',
+  },
+  [Network.POLYGON_MUMBAI]: {
+    reservoir: '',
+    tw: '',
+    alchemy: 'https://polygon-mumbai.g.alchemy.com',
+  },
+  [Network.ARBITRUM]: {
+    reservoir: '',
+    tw: '',
+    alchemy: 'https://arb-mainnet.g.alchemy.com',
+  },
+  [Network.ARBITRUM_GOERLI]: {
+    reservoir: '',
+    tw: '',
+    alchemy: 'https://arb-goerli.g.alchemy.com',
+  },
+}
+
 export const FEATURED_DROP = '0x3C9A5EeB4D7126D759B64B9129C23012CF802313'
 
 export const NFTDrops = ['0xcE998593C8f0790ff41a488c83B2Af5E47C27258', '0x025c59a275Ca6DB964eeE1694c6614AcE62F1568']
