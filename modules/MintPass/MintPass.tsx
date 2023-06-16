@@ -3,6 +3,7 @@ import React, { FC } from 'react'
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { Button } from '../Button'
 import { claim, selectToken } from '../MintPasses/mintPasses.slice'
+import { selectedNetwork } from '../NetworkSelector'
 
 interface MintPassProps {
   pass: string
@@ -12,6 +13,7 @@ export const MintPass: FC<MintPassProps> = ({ pass }) => {
   const { name, image, description, contract, tokenId } = useAppSelector(selectToken(pass))
   const dispatch = useAppDispatch()
   const address = useAddress()
+  const network = useAppSelector(selectedNetwork)
 
   const claimPass = () => {
     dispatch(
@@ -20,6 +22,7 @@ export const MintPass: FC<MintPassProps> = ({ pass }) => {
         tokenId,
         address,
         amount: 1,
+        network,
       }),
     )
   }

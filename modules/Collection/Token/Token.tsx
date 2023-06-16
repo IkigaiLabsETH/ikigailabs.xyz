@@ -47,14 +47,11 @@ export const Token: FC<TokenProps> = ({ contract, tokenId }) => {
   )
 
   const component = () => {
-
     if (!token) {
       return (
         <div className="w-full bg-white flex items-center flex-col">
           <div className="p-16 max-w-screen-2xl w-full h-screen text-black flex justify-center items-center">
-            <h1>
-              Token not found
-            </h1>
+            <h1>Token not found</h1>
           </div>
         </div>
       )

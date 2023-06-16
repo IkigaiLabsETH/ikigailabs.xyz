@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getTWClient } from '../../../../../../common/web3'
 import { ChainId } from '@thirdweb-dev/sdk'
+import { getTWClient } from '../../../../../../common/web3'
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { contract, tokenId, address, network } = req.query
@@ -14,7 +14,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const client = getTWClient(ChainId[network as string])
     const balance = await client
       .getContract(contract as string)
-      .then(contract => contract.call('balanceOf', [ address, tokenId ]))
+      .then(response => response.call('balanceOf', [address, tokenId]))
 
     res.status(200).json({ balance })
   } catch (error) {

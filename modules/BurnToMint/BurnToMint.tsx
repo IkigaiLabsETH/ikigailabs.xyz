@@ -7,11 +7,12 @@ import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { useWallet } from '../../common/useWallet'
 import { Button } from '../Button'
 import { burnToMint, checkTokenBalancesForCollection, selectBurnToMint } from './burnToMint.slice'
-import { selectContractCallStatus, selectTokensWithBalancesForAddress } from '../../common/web3/wallet.api'
+// import { selectContractCallStatus, selectTokensWithBalancesForAddress } from '../../common/web3/wallet.api'
 import { selector } from '../Collection/Token/token.api'
 import { addOrReplace } from '../../common/utils/utils'
 import { Token } from '../../common/types'
 import { Loader, Size } from '../Loader'
+import { selectedNetwork } from '../NetworkSelector'
 
 interface BurnToMintProps {
   sourceContract: string
@@ -24,11 +25,12 @@ interface BurnToMintProps {
 export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => {
   const dispatch = useAppDispatch()
   const { address, connect } = useWallet()
-  const tokensWithBalance = useAppSelector(selectTokensWithBalancesForAddress(address))
+  // const tokensWithBalance = useAppSelector(selectTokensWithBalancesForAddress(address)) as { contract: string; tokenId: string }[]
   const tokenSelector = useAppSelector(selector) as any
-  const contractCallStatus = useAppSelector(selectContractCallStatus)
+  // const contractCallStatus = useAppSelector(selectContractCallStatus)
   const { status } = useAppSelector(selectBurnToMint)
   const [tokensToBurn, setTokensToBurn] = useState([])
+  const network = useAppSelector(selectedNetwork)
 
   const handleConnect = (event: ChangeEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -38,7 +40,13 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
   const startBurn = async (tokenId: number) => {
     const target = targets.find(target => target.tokenId === tokenId)
     dispatch(
-      burnToMint({ address, sourceContract, targetContract: target?.targetContract, tokenId: tokenId.toString() }),
+      burnToMint({
+        address,
+        sourceContract,
+        targetContract: target?.targetContract,
+        tokenId: tokenId.toString(),
+        network,
+      }),
     )
   }
 
@@ -52,18 +60,18 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
     )
   }
 
-  useEffect(() => {
-    if (tokensWithBalance.length > 0) {
-      map(({ contract, tokenId }: { contract: string; tokenId: string }) => {
-        const { data } = tokenSelector({ contract, tokenId })
+  // useEffect(() => {
+  //   if (tokensWithBalance.length > 0) {
+  //     map(({ contract, tokenId }: { contract: string; tokenId: string }) => {
+  //       const { data } = tokenSelector({ contract, tokenId })
 
-        if (data?.token) {
-          const tokenData = addOrReplace(tokensToBurn, data.token, 'tokenId')
-          setTokensToBurn(tokenData)
-        }
-      })(tokensWithBalance)
-    }
-  }, [tokensWithBalance, tokenSelector])
+  //       if (data?.token) {
+  //         const tokenData = addOrReplace(tokensToBurn, data.token, 'tokenId')
+  //         setTokensToBurn(tokenData)
+  //       }
+  //     })(tokensWithBalance)
+  //   }
+  // }, [tokensWithBalance, tokenSelector])
 
   const tokenList = (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -104,13 +112,13 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
         <h1 className="boska lg:text-[6rem]">Odyssey Genesis Collection Contract Swap</h1>
         <p className="text-gray-800 text-xl">Swap your Dimitri Artwork</p>
         <div className="flex flex-row w-full">
-          {contractCallStatus === 'succeeded'
+          {/* {contractCallStatus === 'succeeded'
             ? tokensToBurn.length > 0
               ? tokenList
               : 'No eligible tokens found'
             : match(address)
                 .when(isNil, () => <Button onClick={handleConnect}>Connect</Button>)
-                .otherwise(() => <Button onClick={checkEligibility}>Check eligibility</Button>)}
+                .otherwise(() => <Button onClick={checkEligibility}>Check eligibility</Button>)} */}
         </div>
       </div>
     </div>

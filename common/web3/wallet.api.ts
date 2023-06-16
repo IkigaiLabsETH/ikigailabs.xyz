@@ -5,18 +5,26 @@ export const walletApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
   endpoints: builder => ({
     getBalance: builder.query<{ balance: { displayValue: string } }, {}>({
-      query: ({ address, network }: {address: string, network: string}) =>
+      query: ({ address, network }: { address: string; network: string }) =>
         `wallet/${address}/balance?network=${network}`,
     }),
-    getTokenBalance: builder.query<{ contract: string, tokenId: string, address: string, network: string }, {}>({
-      query: ({ contract, tokenId, address, network }: {contract: string, tokenId: string, address: string, network: string}) =>
-        `wallet/${address}/${contract}/${tokenId}/balance?network=${network}`,
+    getTokenBalance: builder.query<{ contract: string; tokenId: string; address: string; network: string }, {}>({
+      query: ({
+        contract,
+        tokenId,
+        address,
+        network,
+      }: {
+        contract: string
+        tokenId: string
+        address: string
+        network: string
+      }) => `wallet/${address}/${contract}/${tokenId}/balance?network=${network}`,
     }),
   }),
 })
 
-export const { getTokenBalance, getBalance } =
-  walletApi.endpoints
+export const { getTokenBalance, getBalance } = walletApi.endpoints
 
 export const { reducer } = walletApi
 

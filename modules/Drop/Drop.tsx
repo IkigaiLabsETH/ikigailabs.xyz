@@ -1,12 +1,11 @@
 import { add, pathOr, propOr } from 'ramda'
-import React, { FC, MouseEvent, useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import { match } from 'ts-pattern'
 import { Web3Button, useClaimNFT, useContract } from '@thirdweb-dev/react'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { CurrencyChain, DropTypeStandards } from '../../common/types'
 import { useWallet } from '../../common/useWallet'
-import { Button } from '../Button'
 import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
 import { Loader } from '../Loader'
@@ -14,7 +13,7 @@ import { getDropByContract, selectDrop } from './drop.api'
 import { selectedNetwork } from '../NetworkSelector'
 
 interface DropProps {
-  contract: string 
+  contract: string
   tokenId: string
 }
 
@@ -22,8 +21,8 @@ export const Drop: FC<DropProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
   const { address } = useWallet()
   const network = useAppSelector(selectedNetwork)
-  const { contract: c } = useContract(contract);
-  const { mutate: claimNft, isLoading, error } = useClaimNFT(c);
+  const { contract: c } = useContract(contract)
+  const { mutate: claimNft, isLoading, error } = useClaimNFT(c)
 
   const { data, status } = useAppSelector(selectDrop({ contract, network, type: 'nft-drop' }))
 
@@ -35,10 +34,7 @@ export const Drop: FC<DropProps> = ({ contract }) => {
   const claimedSupply = propOr(0, 'claimedSupply')(data) as number
   const unclaimedSupply = propOr(0, 'unclaimedSupply')(data) as number
 
-  const totalSupply = add(
-    claimedSupply,
-    unclaimedSupply
-  )
+  const totalSupply = add(claimedSupply, unclaimedSupply)
 
   const header = match('succeeded')
     .with('succeeded', () => (
@@ -52,7 +48,8 @@ export const Drop: FC<DropProps> = ({ contract }) => {
           <div className="flex flex-col">
             <div className="grid grid-cols-3 gap-4 w-full border-y border-y-gray-700 py-8 mt-6">
               <CollectionStat label="Price" loading={status === 'pending'}>
-                {pathOr('', ['claimConditions', 0, 'currencyMetadata', 'displayValue'])(data)} {pathOr('', ['claimConditions', 0, 'currencyMetadata', 'symbol'])(data)}
+                {pathOr('', ['claimConditions', 0, 'currencyMetadata', 'displayValue'])(data)}{' '}
+                {pathOr('', ['claimConditions', 0, 'currencyMetadata', 'symbol'])(data)}
               </CollectionStat>
               <CollectionStat
                 label="Minted"
@@ -78,7 +75,7 @@ export const Drop: FC<DropProps> = ({ contract }) => {
                     quantity: 1,
                   })
                 }
-                className='hover:text-yellow border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow'
+                className="hover:text-yellow border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow"
               >
                 Mint Now
               </Web3Button>

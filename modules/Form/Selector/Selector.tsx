@@ -10,7 +10,7 @@ interface SelectorProps {
 }
 
 export const Selector: FC<SelectorProps> = ({ options, onChange, selected }) => {
-    return (
+  return (
     <Listbox value={selected} onChange={onChange}>
       {({ open }) => (
         <>
@@ -35,23 +35,22 @@ export const Selector: FC<SelectorProps> = ({ options, onChange, selected }) => 
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute right-0 z-10 mt-2 w-72 origin-top-right divide-y divide-black overflow-hidden bg-yellow shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-white">
-                {options.map((option) => (
+                {options.map(option => (
                   <Listbox.Option
                     key={option}
                     className={({ active }) =>
-                      clsx(
-                        active ? 'bg-yellow text-black' : 'text-gray-900',
-                        'cursor-default select-none p-4 text-sm'
-                      )
+                      clsx(active ? 'bg-yellow text-black' : 'text-gray-900', 'cursor-default select-none p-4 text-sm')
                     }
                     value={option}
                   >
                     {({ selected }) => (
                       <div className="flex flex-col">
                         <div className="flex justify-between">
-                          <p className={clsx('text-black mb-0 pb-0', selected ? 'font-semibold' : 'font-normal')}>{option}</p>
+                          <p className={clsx('text-black mb-0 pb-0', selected ? 'font-semibold' : 'font-normal')}>
+                            {option}
+                          </p>
                           {selected ? (
-                            <span className='text-black'>
+                            <span className="text-black">
                               <CheckIcon className="h-5 w-5" aria-hidden="true" />
                             </span>
                           ) : null}

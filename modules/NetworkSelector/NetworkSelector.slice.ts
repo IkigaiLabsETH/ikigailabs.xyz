@@ -25,5 +25,5 @@ const networkSlice = createSlice({
 })
 
 export const { changeNetwork } = networkSlice.actions
-export  const reducer = networkSlice.reducer
+export const reducer = networkSlice.reducer
 export const selectedNetwork = (state: { network: NetworkState }) => state.network.selectedNetwork

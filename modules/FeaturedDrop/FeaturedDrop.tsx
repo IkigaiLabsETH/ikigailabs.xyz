@@ -3,8 +3,10 @@ import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { Loader, Size } from '../Loader'
-import { fetchFeaturedDrop, selectfeaturedDrop, selectLoadingState } from './featuredDrop.slice'
 import { NFTDropSummary } from '../NFTDrop'
+import { getDropByContract, selectDrop } from '../Drop'
+import { selectedNetwork } from '../NetworkSelector'
+import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
 interface featuredDropProps {
   contract: string
@@ -12,11 +14,13 @@ interface featuredDropProps {
 
 export const FeaturedDrop: FC<featuredDropProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
-  const featuredDrop = useAppSelector(selectfeaturedDrop)
-  const loadingState = useAppSelector(selectLoadingState)
+  const network = useAppSelector(selectedNetwork)
+  const { data: featuredDrop, status: loadingState } = useAppSelector(
+    selectDrop({ contract, network, type: 'nft-drop' }),
+  )
 
   useEffect(() => {
-    dispatch(fetchFeaturedDrop({ contract }))
+    dispatch(getDropByContract.initiate({ contract, network, type: 'nft-drop' }))
   }, [])
 
   const loader = (
@@ -31,7 +35,7 @@ export const FeaturedDrop: FC<featuredDropProps> = ({ contract }) => {
   )
 
   return match(loadingState)
-    .with('loading', () => loader)
-    .with('succeeded', () => component)
+    .with(QueryStatus.pending, () => loader)
+    .with(QueryStatus.fulfilled, () => component)
     .otherwise(() => <></>)
 }

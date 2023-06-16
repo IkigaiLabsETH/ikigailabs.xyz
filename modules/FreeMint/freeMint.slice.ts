@@ -1,64 +1,35 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import promiseRetry from 'promise-retry'
 import { find, findIndex, isNil, path, pipe, propEq, propOr } from 'ramda'
-import { RootState } from '../../common/redux/store'
+import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
-import { ErrorType, Status } from '../../common/types'
+import { RootState } from '../../common/redux/store'
+import { Network, Status } from '../../common/types'
 import { Web3, getTWClient } from '../../common/web3'
 
-export const claimTh = (web3: Web3) =>
-  createAsyncThunk<Promise<{} | Error>, { contract: string; address: string; tokenId: number; amount: number }>(
-    'freeMint/claim',
-    ({ contract, address, amount }, { rejectWithValue }) =>
-      web3
-        .getContract(contract, 'nft-drop')
-        .then(response => response.claimTo(address, amount))
-        .catch(error => rejectWithValue(error.message)),
-  )
+export const claimTh = (web3Client: (chain: Network) => Web3) =>
+  createAsyncThunk<
+    Promise<{} | Error>,
+    { contract: string; address: string; tokenId: number; amount: number; network: Network }
+  >('freeMint/claim', ({ contract, address, amount, network }, { rejectWithValue }) => {
+    const web3 = web3Client(network)
+    return web3
+      .getContract(contract, 'nft-drop')
+      .then(response => response.claimTo(address, amount))
+      .catch(error => rejectWithValue(error.message))
+  })
 
 export const claim = claimTh(getTWClient)
 
-export const fetchTokenTh = (web3: Web3) =>
-  createAsyncThunk<Promise<any>, { contract: string; tokenId: number }>(
-    'freeMint/fetchToken',
-    ({ contract }, { rejectWithValue }) =>
-      promiseRetry(retry =>
-        web3
-          .getContract(contract, 'nft-drop')
-          .then(response => response.metadata.get())
-          .catch(retry),
-      )
-        .then(response => response)
-        .catch(error => {
-          console.log(error)
-          return rejectWithValue(error.message)
-        }),
-  )
-
-export const fetchToken = fetchTokenTh(getTWClient)
-
 interface FreeMintState {
-  entities: {
-    tokens: {
-      id: string
-      status?: Status
-      error?: ErrorType
-      data?: {}
-    }[]
-    claims: {
-      id: string
-      status?: Status
-      error?: ErrorType
-      data?: {}
-    }[]
-  }
+  entities: []
+  loading: QueryStatus
+  error: string | null
 }
 
 const initialState = {
-  entities: {
-    tokens: [],
-    claims: [],
-  },
+  entities: [],
+  loading: QueryStatus.uninitialized,
+  error: null,
 } as FreeMintState
 
 // Then, handle actions in your reducers:
@@ -70,28 +41,8 @@ export const freeMintSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(claim.pending, (state, action) => {
-        const {
-          meta: {
-            arg: { contract, tokenId },
-          },
-        } = action
-
-        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
-        if (isNil(claim)) {
-          state.entities.claims.push({
-            id: `${contract}_${tokenId}`,
-            status: 'loading',
-            data: {},
-            error: null,
-          })
-        } else {
-          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
-          state.entities.claims[claimIndex] = {
-            ...claim,
-            status: 'loading',
-          }
-        }
+      .addCase(claim.pending, state => {
+        state.loading = QueryStatus.pending
       })
       .addCase(claim.fulfilled, (state, action) => {
         const {
@@ -101,22 +52,12 @@ export const freeMintSlice = createSlice({
           payload,
         } = action
 
-        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
+        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.entities)
         if (isNil(claim)) {
-          state.entities.claims.push({
-            id: `${contract}_${tokenId}`,
-            status: 'succeeded',
-            data: payload,
-            error: null,
-          })
+          state.entities.push(payload as never)
         } else {
-          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
-          state.entities.claims[claimIndex] = {
-            id: `${contract}_${tokenId}`,
-            error: null,
-            status: 'succeeded',
-            data: payload,
-          }
+          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities)
+          state.entities[claimIndex] = payload as never
         }
       })
       .addCase(claim.rejected, (state, action) => {
@@ -127,112 +68,16 @@ export const freeMintSlice = createSlice({
           payload,
           error: { message },
         } = action
-        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
-        if (isNil(claim)) {
-          state.entities.claims.push({
-            id: `${contract}_${tokenId}`,
-            status: 'failed',
-            data: {},
-            error: payload ? (payload as string) : message,
-          })
-        } else {
-          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities.claims)
-          state.entities.claims[claimIndex] = {
-            ...claim,
-            status: 'failed',
-            error: payload ? (payload as string) : message,
-          }
-        }
-      })
-      .addCase(fetchToken.pending, (state, action) => {
-        const {
-          meta: {
-            arg: { contract, tokenId },
-          },
-        } = action
 
-        const token = find(propEq('id', `${contract}_${tokenId}`))(state.entities.tokens)
-        if (isNil(token)) {
-          state.entities.tokens.push({
-            id: `${contract}_${tokenId}`,
-            status: 'loading',
-            data: {},
-            error: null,
-          })
-        } else {
-          const tokenIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities.tokens)
-          state.entities.tokens[tokenIndex] = {
-            ...token,
-            status: 'loading',
-          }
-        }
-      })
-      .addCase(fetchToken.fulfilled, (state, action) => {
-        const {
-          meta: {
-            arg: { contract, tokenId },
-          },
-          payload,
-        } = action
-
-        const token = find(propEq('id', `${contract}_${tokenId}`))(state.entities.tokens)
-        if (isNil(token)) {
-          state.entities.tokens.push({
-            id: `${contract}_${tokenId}`,
-            status: 'succeeded',
-            data: payload,
-            error: null,
-          })
-        } else {
-          const tokenIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities.tokens)
-          state.entities.tokens[tokenIndex] = {
-            ...token,
-            status: 'succeeded',
-            data: payload,
-          }
-        }
-      })
-      .addCase(fetchToken.rejected, (state, action) => {
-        const {
-          meta: {
-            arg: { contract, tokenId },
-          },
-          payload,
-          error: { message },
-        } = action
-
-        const token = find(propEq('id', `${contract}_${tokenId}`))(state.entities.tokens)
-        if (isNil(token)) {
-          state.entities.tokens.push({
-            id: `${contract}_${tokenId}`,
-            status: 'failed',
-            data: {},
-            error: payload ? (payload as string) : message,
-          })
-        } else {
-          const tokenIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities.tokens)
-          state.entities.tokens[tokenIndex] = {
-            ...token,
-            status: 'failed',
-            error: payload ? (payload as string) : message,
-          }
-        }
+        state.error = payload ? (payload as string) : message
       })
   },
 })
 
 export const { reducer } = freeMintSlice
 
-export const selectTokenLoadingState = (tokenId: string) => (state: RootState) =>
-  pipe(path(['freeMint', 'entities', 'tokens']), find(propEq('id', tokenId)), propOr('idle', 'status'))(state) as Status
 export const selectClaimLoadingState = (tokenId: string) => (state: RootState) =>
   pipe(path(['freeMint', 'entities', 'claims']), find(propEq('id', tokenId)), propOr('idle', 'status'))(state) as Status
-
-export const selectToken = (tokenId: string) => (state: RootState) =>
-  pipe(path(['freeMint', 'entities', 'tokens']), find(propEq('id', tokenId)), propOr({}, 'data'))(state) as Record<
-    string,
-    any
-  >
 export const selectClaim = (tokenId: string) => (state: RootState) =>
   pipe(path(['freeMint', 'entities', 'claims']), find(propEq('id', tokenId)), propOr({}, 'data'))(state) as Record<
     string,

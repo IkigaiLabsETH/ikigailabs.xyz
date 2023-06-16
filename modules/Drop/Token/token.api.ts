@@ -5,10 +5,12 @@ export const token = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
   endpoints: builder => ({
     getToken: builder.query<{ token: any }, {}>({
-      query: ({ contract, tokenId }: { contract: string, tokenId: string }) => `drop/${contract}/token/${tokenId}?network={network}`,
+      query: ({ contract, tokenId }: { contract: string; tokenId: string }) =>
+        `drop/${contract}/token/${tokenId}?network={network}`,
     }),
     getTokenMetadata: builder.query<{ token: any }, {}>({
-      query: ({ contract, tokenId }: { contract: string, tokenId: string }) => `drop/${contract}/token/${tokenId}/metadata?network={network}`,
+      query: ({ contract, tokenId }: { contract: string; tokenId: string }) =>
+        `drop/${contract}/token/${tokenId}/metadata?network={network}`,
     }),
   }),
 })

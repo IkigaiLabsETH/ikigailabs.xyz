@@ -16,29 +16,14 @@ import { createWrapper } from 'next-redux-wrapper'
 import { prop } from 'ramda'
 
 import { featuredAuctionReducer } from '../../modules/Auction/Featured'
-import { featuredDropReducer } from '../../modules/FeaturedDrop'
 import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
 import { buyToken, collectionTokenMiddleware, placeBid } from '../../modules/Collection'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
 import { modalActions } from '../modal'
 import { collectionApi, collectionMiddleware } from '../../modules/Collection'
 import { collectionTokenApi } from '../../modules/Collection/Token/token.api'
-import {
-  claimConditionsReducer,
-  claimedSupplyReducer,
-  claimMiddleware,
-  claimsReducer,
-  metadataReducer,
-  ownedTokenIdsReducer,
-  tokensReducer,
-  unclaimedSupplyReducer,
-} from '../../modules/Drop'
-import { dropMiddleware } from '../../modules/Drop'
-import { freeMintMiddleware, freeMintReducer } from '../../modules/FreeMint'
-import {
-  checkTokenBalancesForCollectionMiddleware,
-  burnToMintReducer,
-} from '../../modules/BurnToMint'
+import { freeMintReducer } from '../../modules/FreeMint'
+import { checkTokenBalancesForCollectionMiddleware, burnToMintReducer } from '../../modules/BurnToMint'
 import { allowlistApi, signUp } from '../../modules/Allowlist/allowlist.api'
 import { walletApi, walletMiddleware } from '../web3'
 import { notificationMiddleware } from '../notification'
@@ -47,9 +32,7 @@ import { claim } from '../../modules/FreeMint/freeMint.slice'
 import { collectionsApi } from '../../modules/Collections/collections.api'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
-import { confettiMiddleware, confettiReducer } from '../../modules/Confetti'
-import { confettiActions } from '../confetti'
-import { dropTokenReducer } from '../../modules/Drop/Token'
+import { confettiReducer } from '../../modules/Confetti'
 import { collectionTokenInteractionReducer } from '../../modules/Collection/Token/token.slice'
 import { changeNetwork, NetworkSelectorReducer } from '../../modules/NetworkSelector'
 import { dropApi } from '../../modules/Drop/drop.api'
@@ -84,9 +67,7 @@ const notifications = {
 startAppListening(mintPassesMiddleware)
 startAppListening(collectionTokenMiddleware)
 startAppListening(collectionMiddleware)
-startAppListening(dropMiddleware)
 startAppListening(modalMiddleware(modalActions as any))
-startAppListening(freeMintMiddleware)
 startAppListening(checkTokenBalancesForCollectionMiddleware)
 startAppListening(
   // @ts-ignore
@@ -103,12 +84,10 @@ startAppListening(
     signUp.matchRejected,
   ]),
 )
-startAppListening(claimMiddleware), startAppListening(confettiMiddleware(confettiActions as any))
 startAppListening(walletMiddleware([changeNetwork] as any))
 
 const combinedReducer = combineReducers({
   featuredAuction: featuredAuctionReducer,
-  featuredDrop: featuredDropReducer,
   mintPasses: mintPassesReducer,
   [collectionTokenApi.reducerPath]: prop('reducer')(collectionTokenApi),
   modal: modalReducer,
@@ -117,14 +96,6 @@ const combinedReducer = combineReducers({
   [collectionsApi.reducerPath]: prop('reducer')(collectionsApi),
   [dropApi.reducerPath]: prop('reducer')(dropApi),
   collectionTokenInteraction: collectionTokenInteractionReducer,
-  dropMetadata: metadataReducer,
-  dropTokens: tokensReducer,
-  dropToken: dropTokenReducer,
-  dropClaimedSupply: claimedSupplyReducer,
-  dropUnclaimedSupply: unclaimedSupplyReducer,
-  dropOwnedTokenIds: ownedTokenIdsReducer,
-  dropClaimConditions: claimConditionsReducer,
-  claims: claimsReducer,
   freeMint: freeMintReducer,
   burnToMint: burnToMintReducer,
   [walletApi.reducerPath]: prop('reducer')(walletApi),

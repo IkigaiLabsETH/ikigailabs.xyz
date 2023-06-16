@@ -2,11 +2,11 @@ import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../common/redux/store'
 import promiseRetry from 'promise-retry'
 
-import { ErrorType, HTTP, Status } from '../../common/types'
+import { ErrorType, HTTP, Network, Status } from '../../common/types'
 import { http } from '../../common/http'
 import { ContractTokenId } from '../../common/config'
 import { find, findIndex, isNil, map, path, pipe, propEq } from 'ramda'
-import { web3, Web3 } from '../../common/web3'
+import { getTWClient, Web3 } from '../../common/web3'
 
 export const showMintPassDetails = createAction<any>('MintPassess/show')
 
@@ -22,44 +22,50 @@ export const joinAllowlistTh = (http: HTTP) =>
 
 export const joinAllowlist = joinAllowlistTh(http)
 
-export const fetchMintpassesTh = (web3: Web3) =>
-  createAsyncThunk<any, { mintPasses: ContractTokenId[] }>('MintPasses/fetch', ({ mintPasses }, { rejectWithValue }) =>
-    Promise.all(
-      map(([contract, tokenId]) =>
-        promiseRetry(retry =>
-          web3
-            .getEditionDrop(contract)
-            .then(response => response.metadata.get())
-            .catch(retry),
-        )
-          .then(({ name, description, image, symbol }) => ({
-            contract,
-            tokenId,
-            name,
-            description,
-            image,
-            symbol,
-          }))
-          .catch(error => rejectWithValue(error.message)),
-      )(mintPasses),
-    ),
+export const fetchMintpassesTh = (web3Client: (network: Network) => Web3) =>
+  createAsyncThunk<any, { mintPasses: ContractTokenId[]; network: Network }>(
+    'MintPasses/fetch',
+    ({ mintPasses, network }, { rejectWithValue }) => {
+      const web3 = web3Client(network)
+      return Promise.all(
+        map(([contract, tokenId]) =>
+          promiseRetry(retry =>
+            web3
+              .getContract(contract, 'edition-drop')
+              .then(response => response.metadata.get())
+              .catch(retry),
+          )
+            .then(({ name, description, image, symbol }) => ({
+              contract,
+              tokenId,
+              name,
+              description,
+              image,
+              symbol,
+            }))
+            .catch(error => rejectWithValue(error.message)),
+        )(mintPasses),
+      )
+    },
   )
 
-export const fetchMintpasses = fetchMintpassesTh(web3)
+export const fetchMintpasses = fetchMintpassesTh(getTWClient)
 
-export const claimTh = (web3: Web3) =>
-  createAsyncThunk<Promise<{} | Error>, { contract: string; address: string; tokenId: number; amount: number }>(
-    'MintPasses/claim',
-    ({ contract, address, tokenId, amount }, { rejectWithValue }) =>
-      promiseRetry(retry =>
-        web3
-          .getEditionDrop(contract)
-          .then(response => response.claimTo(address, tokenId, amount))
-          .catch(retry),
-      ).catch(error => rejectWithValue(error.message)),
-  )
+export const claimTh = (web3Client: (network: Network) => Web3) =>
+  createAsyncThunk<
+    Promise<{} | Error>,
+    { contract: string; address: string; tokenId: number; amount: number; network: Network }
+  >('MintPasses/claim', ({ contract, address, tokenId, amount, network }, { rejectWithValue }) => {
+    const web3 = web3Client(network)
+    return promiseRetry(retry =>
+      web3
+        .getContract(contract, 'edition-drop')
+        .then(response => response.claimTo(address, tokenId, amount))
+        .catch(retry),
+    ).catch(error => rejectWithValue(error.message))
+  })
 
-export const claim = claimTh(web3)
+export const claim = claimTh(getTWClient)
 
 interface MintPassesState {
   allowlist: {

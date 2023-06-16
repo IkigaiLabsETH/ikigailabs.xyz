@@ -2,12 +2,13 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { ChainId } from '@thirdweb-dev/sdk'
 import { match } from 'ts-pattern'
 
-import { getTWClient } from '../../../common/web3'
+import { BigNumber } from 'ethers'
+import { getTWClient } from '../../../../common/web3'
 
 const get = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { contract, network, type } = req.query
+  const { contract, network, type, tokenId } = req.query
 
-  if (!contract || !network) {
+  if (!contract || !network || !tokenId) {
     res.status(400).json({ error: 'Bad Request' })
     return
   }
@@ -20,21 +21,13 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     const client = getTWClient(ChainId[network as string])
 
     const clientContract = await client.getContract(...args)
-    const result = {} as any
 
-    const metadataPromise = clientContract.metadata.get()
+    let result = {}
 
     if (type === 'nft-drop') {
-      const claimedSupplyPromise = clientContract.erc721.totalClaimedSupply()
-      const unclaimedSupplyPromise = clientContract.erc721.totalUnclaimedSupply()
-      const claimConditionsPromise = clientContract.erc721.claimConditions.getAll()
-
-      result.claimedSupply = await claimedSupplyPromise.then(supply => parseInt(supply.toString(), 10))
-      result.unclaimedSupply = await unclaimedSupplyPromise.then(supply => parseInt(supply.toString(), 10))
-      result.claimConditions = await claimConditionsPromise
+      const tokenPromise = clientContract.erc721.get(BigNumber.from(tokenId))
+      result = await tokenPromise
     }
-
-    result.metadata = await metadataPromise
 
     res.status(200).json(result)
   } catch (error) {

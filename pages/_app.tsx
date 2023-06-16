@@ -5,15 +5,15 @@ import { Provider } from 'react-redux'
 import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import '../styles/globals.css'
+import { PersistGate } from 'redux-persist/integration/react'
 import { store } from '../common/redux'
 import { Modal } from '../modules/Modal'
 import { MODALS } from '../common/modal'
 import { Confetti } from '../modules/Confetti'
-import { PersistGate } from 'redux-persist/integration/react'
-import { persistor, useAppSelector } from '../common/redux/store'
+import { persistor } from '../common/redux/store'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   const network = store.getState().network.selectedNetwork

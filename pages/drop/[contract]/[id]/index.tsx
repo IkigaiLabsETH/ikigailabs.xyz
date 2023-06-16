@@ -7,8 +7,11 @@ import { withLayout } from '../../../../common/layouts/MainLayout/withLayout'
 import { Layout } from '../../../../common/types'
 import { NFT } from '../../../../modules/Drop/Token'
 import { Footer } from '../../../../modules/Footer'
+import { useAppSelector } from '../../../../common/redux/store'
+import { selectedNetwork } from '../../../../modules/NetworkSelector'
 
 const DropPage: FC = () => {
+  const network = useAppSelector(selectedNetwork)
   const {
     query: { contract, id },
   } = useRouter()
@@ -21,7 +24,7 @@ const DropPage: FC = () => {
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
       <main className="w-full">
-        <NFT contract={contract as string} tokenId={id as string} />
+        {contract && id ? <NFT contract={contract as string} tokenId={id as string} network={network} /> : null}
       </main>
       <Footer />
     </div>

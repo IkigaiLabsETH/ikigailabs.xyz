@@ -1,5 +1,6 @@
-import { ListenerEffectAPI, PayloadAction } from '@reduxjs/toolkit'
+import { ListenerEffectAPI, PayloadAction, isFulfilled } from '@reduxjs/toolkit'
 import { map } from 'ramda'
+
 import { AppDispatch, RootState } from '../../common/redux/store'
 import { getTokenBalance } from '../../common/web3/wallet.api'
 import { collectionTokenApi } from '../Collection/Token/token.api'
@@ -21,12 +22,12 @@ export const checkTokenBalancesForCollectionMiddleware = {
       address,
       collection: { contract, tokenIds },
     } = action.payload
-    map((tokenId: string) => listenerApi.dispatch(getTokenBalance({ contract, tokenId, address })))(tokenIds)
+    map((tokenId: string) => listenerApi.dispatch(getTokenBalance.initiate({ contract, tokenId, address })))(tokenIds)
   },
 }
 
 export const getTokenBalanceSuccessMiddleware = {
-  actionCreator: getTokenBalance.fulfilled,
+  actionCreator: isFulfilled(getTokenBalance),
   effect: (action: any, listenerApi: ListenerEffectAPI<RootState, AppDispatch>) => {
     const {
       payload,

@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { flip, path, uncurryN } from 'ramda'
 
-import { getDynamicAPIUrl } from '../../../common/redux/utils';
+import { getDynamicAPIUrl } from '../../../common/redux/utils'
 
 export const collectionTokenApi = createApi({
   reducerPath: 'collectionTokenApi',

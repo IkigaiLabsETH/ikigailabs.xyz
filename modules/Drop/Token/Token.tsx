@@ -3,25 +3,26 @@ import React, { FC, useEffect } from 'react'
 import { map } from 'ramda'
 
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
-import { fetchDropTokenMetadata, selectDropTokenById, selectDropTokenStatus } from './token.slice'
 import { Loader } from '../../Loader'
-import { fetchDropMetadata } from '../drop.slice'
+import { getDropTokenByContractAndTokenId, selectToken } from '../drop.api'
+import { Network } from '../../../common/types'
+import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
 interface NFTProps {
   contract: string
   tokenId: string
+  network: Network
 }
 
-export const NFT: FC<NFTProps> = ({ contract, tokenId }) => {
-  const token = useAppSelector(selectDropTokenById(contract, tokenId)) as any
-  const tokenLoadingStatus = useAppSelector(selectDropTokenStatus)
+export const NFT: FC<NFTProps> = ({ contract, tokenId, network }) => {
+  const { data: token, status } = useAppSelector(selectToken({ contract, tokenId, network })) as any
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (!token) {
-      dispatch(fetchDropTokenMetadata({ contract, tokenId }))
+      dispatch(getDropTokenByContractAndTokenId.initiate({ contract, tokenId, network }))
     }
-  }, [contract, tokenId])
+  }, [contract, tokenId, network])
 
   const loader = (
     <div className="flex w-screen h-screen justify-center items-center bg-yellow">
@@ -30,6 +31,7 @@ export const NFT: FC<NFTProps> = ({ contract, tokenId }) => {
   )
 
   const component = () => {
+    console.log(token)
     const { image, name, description, attributes } = token.metadata
     return (
       <div className="w-full bg-yellow flex items-center flex-col">
@@ -59,9 +61,9 @@ export const NFT: FC<NFTProps> = ({ contract, tokenId }) => {
     )
   }
 
-  return match(tokenLoadingStatus)
-    .with('idle', () => loader)
-    .with('pending', () => loader)
-    .with('succeeded', component)
+  return match(status)
+    .with(QueryStatus.uninitialized, () => loader)
+    .with(QueryStatus.pending, () => loader)
+    .with(QueryStatus.fulfilled, component)
     .otherwise(() => <></>)
 }

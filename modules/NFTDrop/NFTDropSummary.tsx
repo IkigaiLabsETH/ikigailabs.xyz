@@ -21,7 +21,7 @@ export const NFTDropSummary: FC<NFTDropSummaryProps> = ({ address, metadata: { n
       <p className="my-8 satoshi text-xl leading-relaxed">{description}</p>
       {
         <div className="flex flex-row w-full mt-16">
-          <Link href={`drops/${address}`} title="Visit drop">
+          <Link href={`drop/${address}`} title="Visit drop">
             Visit Drop &rarr;
           </Link>
         </div>

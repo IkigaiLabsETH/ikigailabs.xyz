@@ -1,5 +1,5 @@
 import { ChainId, ThirdwebSDK } from '@thirdweb-dev/sdk'
-import { Ethereum, Goerli, Polygon, Arbitrum, ArbitrumGoerli, Mumbai } from "@thirdweb-dev/chains"
+import { Ethereum, Goerli, Polygon, Arbitrum, ArbitrumGoerli, Mumbai } from '@thirdweb-dev/chains'
 import { createClient } from '@reservoir0x/reservoir-sdk'
 import { ethers } from 'ethers'
 
