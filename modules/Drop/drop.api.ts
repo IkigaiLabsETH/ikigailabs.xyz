@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { Network, ContractType, Drop } from '../../common/types'
+import { Network, ContractType, Drop, Token } from '../../common/types'
 
 export const fetchdrop = createAction<{ contract: string }>('drop/fetch')
 
@@ -18,7 +18,7 @@ export const dropApi = createApi({
       query: ({ contract, network, type = 'nft-drop' }: { contract: string; network: Network; type: ContractType }) =>
         `drop/${contract}?network=${network}${type ? `&type=${type}` : ''}`,
     }),
-    getDropTokenByContractAndTokenId: builder.query<Drop, {}>({
+    getDropTokenByContractAndTokenId: builder.query<any, {}>({
       query: ({
         contract,
         tokenId,

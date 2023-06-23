@@ -1,2 +1,2 @@
-export { showAllowlist } from './allowlist.api'
+export { showAllowlist, signUp, selectAllowlistSignUp } from './allowlist.api'
 export { Allowlist } from './Allowlist'

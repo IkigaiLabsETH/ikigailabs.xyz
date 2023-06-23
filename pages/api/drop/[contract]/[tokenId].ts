@@ -29,6 +29,11 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
       result = await tokenPromise
     }
 
+    if (type === 'edition-drop') {
+      const tokenPromise = clientContract.erc1155.get(BigNumber.from(tokenId))
+      result = await tokenPromise
+    }
+
     res.status(200).json(result)
   } catch (error) {
     res.status(500).json({ error: error.message })

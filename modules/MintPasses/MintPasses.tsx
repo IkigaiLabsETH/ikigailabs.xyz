@@ -1,46 +1,40 @@
-import { isNil, map } from 'ramda'
-import React, { ChangeEvent, FC } from 'react'
-import { match } from 'ts-pattern'
-import { ChevronRightIcon } from '@heroicons/react/24/outline'
+import React, { FC, useEffect } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import { useWallet } from '../../common/useWallet'
+import { getDropTokenByContractAndTokenId, selectToken } from '../Drop'
+import { MINT_PASSES } from '../../common/config'
+import { showMintPassDetails } from './mintPasses.slice'
+import { map } from 'ramda'
 import { Button } from '../Button'
-import { Loader } from '../Loader'
-import { joinAllowlist, selectAllowlistLoadingState, selectTokens, showMintPassDetails } from './mintPasses.slice'
+import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
 export const MintPasses: FC = () => {
   const dispatch = useAppDispatch()
-  const allowlistLoadingState = useAppSelector(selectAllowlistLoadingState)
-  const { data: mintPasses, status: mintPassesStatus, error: mintPassesError } = useAppSelector(selectTokens)
-  const { address, connect } = useWallet()
+  const foundersMintPassContractData = MINT_PASSES[0]
+  const artistsMintPassContractData = MINT_PASSES[1]
+  const collectorsMintPassContractData = MINT_PASSES[2]
 
-  const join = (event: ChangeEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    if (address) {
-      dispatch(joinAllowlist({ address }))
+  const { data: { metadata: foundersMintPass }, status: foundersMintPassStatus } = useAppSelector(selectToken({ contract: foundersMintPassContractData[0], tokenId: foundersMintPassContractData[1], network: foundersMintPassContractData[2], type: 'edition-drop' }))
+  const { data: { metadata: artistsMintPass }, status: artistsMintPassStatus } = useAppSelector(selectToken({ contract: artistsMintPassContractData[0], tokenId: artistsMintPassContractData[1], network: artistsMintPassContractData[2], type: 'edition-drop' }))
+  const { data: { metadata: collectorsMintPass }, status: collectorsMintPassStatus } = useAppSelector(selectToken({ contract: collectorsMintPassContractData[0], tokenId: collectorsMintPassContractData[1], network: collectorsMintPassContractData[2], type: 'edition-drop' }))
+
+  useEffect(() => {
+    if (!foundersMintPass) {
+      dispatch(getDropTokenByContractAndTokenId.initiate({ contract: foundersMintPassContractData[0], tokenId: foundersMintPassContractData[1], network: foundersMintPassContractData[2], type: 'edition-drop' }))
     }
-  }
+  }, [foundersMintPass])
 
-  const handleConnect = (event: ChangeEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    connect().then(console.log)
-  }
+  useEffect(() => {
+    if (!artistsMintPass) {
+      dispatch(getDropTokenByContractAndTokenId.initiate({ contract: artistsMintPassContractData[0], tokenId: artistsMintPassContractData[1], network: artistsMintPassContractData[2], type: 'edition-drop' }))
+    }
+  }, [artistsMintPass])
 
-  const getButton = match(address)
-    .when(isNil, () => <Button onClick={handleConnect}>Connect</Button>)
-    .otherwise(() => (
-      <Button onClick={join} loading={allowlistLoadingState === 'loading'}>
-        Join allowlist
-      </Button>
-    ))
-
-  const cta = match(allowlistLoadingState)
-    .with('idle', () => getButton)
-    .with('loading', () => getButton)
-    .with('succeeded', () => <div>Epic! You're all set.</div>)
-    .with('failed', () => <div>Whoops, something went wrong. Are you sure you aren't already on the list?</div>)
-    .exhaustive()
+  useEffect(() => {
+    if (!collectorsMintPass) {
+      dispatch(getDropTokenByContractAndTokenId.initiate({ contract: collectorsMintPassContractData[0], tokenId: collectorsMintPassContractData[1], network: collectorsMintPassContractData[2], type: 'edition-drop' }))
+    }
+  }, [collectorsMintPass])
 
   return (
     <div className="flex flex-col px-8 md:px-24 lg:px-48 bg-white text-black min-h-screen justify-center items-center">
@@ -54,7 +48,7 @@ export const MintPasses: FC = () => {
             artist dinners. It unlocks priority mints from our roster of iconic and emerging artists!{' '}
           </p>
 
-          {map(({ name }: { name: string }) => (
+          {foundersMintPass && artistsMintPass && collectorsMintPass ? map(({ name }: { name: string }) => (
             <div
               key={name}
               className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-5"
@@ -66,7 +60,7 @@ export const MintPasses: FC = () => {
                 {name} <ChevronRightIcon className="w-8" />
               </Button>
             </div>
-          ))(mintPasses)}
+          ))([foundersMintPass?.metadata, artistsMintPass?.metadata, collectorsMintPass?.metadata]) : null}
 
           {/* <ul className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-14">
             <li className="text-lg p-4 border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all">
@@ -88,7 +82,6 @@ export const MintPasses: FC = () => {
               Access to exclusive experiences, one example is our photogrammetry workshop.
             </li>
           </ul> */}
-          <div className="flex font-extrabold justify-center items-center mt-16">{cta}</div>
         </div>
       </div>
       <div className="flex flex-col items-center mt-16">

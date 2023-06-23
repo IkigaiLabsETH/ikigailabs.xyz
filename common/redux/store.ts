@@ -10,13 +10,13 @@ import {
   TypedStartListening,
 } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { persistStore, persistReducer, REGISTER, PERSIST } from 'redux-persist'
+import { persistStore, persistReducer, PERSIST } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { createWrapper } from 'next-redux-wrapper'
 import { prop } from 'ramda'
 
 import { featuredAuctionReducer } from '../../modules/Auction/Featured'
-import { mintPassesReducer, mintPassesMiddleware } from '../../modules/MintPasses'
+import { mintPassesReducer } from '../../modules/MintPasses'
 import { buyToken, collectionTokenMiddleware, placeBid } from '../../modules/Collection'
 import { modalMiddleware, modalReducer } from '../../modules/Modal'
 import { modalActions } from '../modal'
@@ -64,7 +64,6 @@ const notifications = {
   'allowlistApi/executeMutation/rejected': 'Failed to sign up',
 }
 
-startAppListening(mintPassesMiddleware)
 startAppListening(collectionTokenMiddleware)
 startAppListening(collectionMiddleware)
 startAppListening(modalMiddleware(modalActions as any))

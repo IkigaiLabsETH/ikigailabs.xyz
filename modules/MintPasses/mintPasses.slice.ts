@@ -10,47 +10,6 @@ import { getTWClient, Web3 } from '../../common/web3'
 
 export const showMintPassDetails = createAction<any>('MintPassess/show')
 
-export const joinAllowlistTh = (http: HTTP) =>
-  createAsyncThunk<Promise<{} | Error>, { address: string }>(
-    'MintPasses/joinAllowList',
-    ({ address }, { rejectWithValue }) =>
-      http
-        .post('allowlist', { address })
-        .then(response => response)
-        .catch(error => rejectWithValue(error.response.data.error)),
-  )
-
-export const joinAllowlist = joinAllowlistTh(http)
-
-export const fetchMintpassesTh = (web3Client: (network: Network) => Web3) =>
-  createAsyncThunk<any, { mintPasses: ContractTokenId[]; network: Network }>(
-    'MintPasses/fetch',
-    ({ mintPasses, network }, { rejectWithValue }) => {
-      const web3 = web3Client(network)
-      return Promise.all(
-        map(([contract, tokenId]) =>
-          promiseRetry(retry =>
-            web3
-              .getContract(contract, 'edition-drop')
-              .then(response => response.metadata.get())
-              .catch(retry),
-          )
-            .then(({ name, description, image, symbol }) => ({
-              contract,
-              tokenId,
-              name,
-              description,
-              image,
-              symbol,
-            }))
-            .catch(error => rejectWithValue(error.message)),
-        )(mintPasses),
-      )
-    },
-  )
-
-export const fetchMintpasses = fetchMintpassesTh(getTWClient)
-
 export const claimTh = (web3Client: (network: Network) => Web3) =>
   createAsyncThunk<
     Promise<{} | Error>,
@@ -107,26 +66,6 @@ export const mintPassesSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(joinAllowlist.pending, (state, action) => {
-        state.allowlist.status = 'loading'
-      })
-      .addCase(joinAllowlist.fulfilled, (state, action) => {
-        const { payload } = action
-        state.allowlist.status = 'succeeded'
-        // @ts-ignore
-        state.entities = { address: payload.data.data }
-      })
-      .addCase(joinAllowlist.rejected, (state, action) => {
-        const { payload } = action
-        state.allowlist.status = 'failed'
-        if (payload) {
-          // @ts-ignore
-          state.error = payload
-          state.allowlist.entities = {}
-        } else {
-          state.allowlist.error = action.error.message
-        }
-      })
       .addCase(claim.pending, (state, action) => {
         const {
           meta: {
@@ -200,25 +139,6 @@ export const mintPassesSlice = createSlice({
           }
         }
       })
-      .addCase(fetchMintpasses.pending, (state, action) => {
-        state.tokens.status = 'loading'
-      })
-      .addCase(fetchMintpasses.fulfilled, (state, action) => {
-        const { payload } = action
-        state.tokens.entities = payload
-        state.tokens.status = 'succeeded'
-      })
-      .addCase(fetchMintpasses.rejected, (state, action) => {
-        const { payload } = action
-
-        state.tokens.entities = []
-        state.tokens.status = 'failed'
-        if (payload) {
-          state.tokens.error = action.payload as string
-        } else {
-          state.tokens.error = action.error.message
-        }
-      })
   },
 })
 
@@ -241,5 +161,3 @@ export const selectToken = (pass: string) => (state: RootState) =>
     tokenId: number
     contract: string
   }
-
-// export const selectClaim = (tokenId: string) => (state: RootState) => state.mintPasses.claims
