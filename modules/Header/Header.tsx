@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -6,7 +6,7 @@ import { Profile } from '../Profile'
 import { useWallet } from '../../common/useWallet'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { Button } from '../Button'
+// import { Button } from '../Button'
 import { NetworkSelector } from '../NetworkSelector/NetworkSelector'
 
 export const Header: FC = () => {
@@ -102,13 +102,13 @@ export const Header: FC = () => {
                 </a>
               </Link>
             </div>
-            <div className="flex justify-end">
+            {/* <div className="flex justify-end">
               <Link href="/collections">
                 <a title="Collections" className="p-4 bg-black mb-1 inline-block">
                   Collections
                 </a>
               </Link>
-            </div>
+            </div> */}
             <div className="flex justify-end">
               <Link href="/about">
                 <a title="About" className="p-4 bg-black mb-1 inline-block">
