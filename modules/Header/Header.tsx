@@ -41,9 +41,9 @@ export const Header: FC = () => {
           </div>
 
           <div className="flex flex-row justify-end">
-            <div className="hidden md:flex">
+            {/* <div className="hidden md:flex">
               <NetworkSelector />
-            </div>
+            </div> */}
             <div className="hidden md:flex">
               <Profile />
             </div>
