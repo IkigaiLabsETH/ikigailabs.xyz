@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { Network, ContractType, Drop, Token } from '../../common/types'
+import { Network, ContractType, Drop } from '../../common/types'
 
 export const fetchdrop = createAction<{ contract: string }>('drop/fetch')
 

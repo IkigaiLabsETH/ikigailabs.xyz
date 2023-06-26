@@ -6,13 +6,13 @@ export const URLS = {
     tw: '',
     alchemy: 'https://eth-mainnet.g.alchemy.com',
   },
-  [Network.Goerli]: {
+  [Network.GOERLI]: {
     reservoir: 'https://api-goerli.reservoir.tools',
     tw: '',
     alchemy: 'https://eth-goerli.g.alchemy.com',
   },
   [Network.POLYGON]: {
-    reservoir: '',
+    reservoir: 'https://api-polygon.reservoir.tools',
     tw: '',
     alchemy: 'https://polygon-mainnet.g.alchemy.com',
   },
@@ -22,7 +22,7 @@ export const URLS = {
     alchemy: 'https://polygon-mumbai.g.alchemy.com',
   },
   [Network.ARBITRUM]: {
-    reservoir: '',
+    reservoir: 'https://api-arbitrum.reservoir.tools',
     tw: '',
     alchemy: 'https://arb-mainnet.g.alchemy.com',
   },
@@ -31,6 +31,61 @@ export const URLS = {
     tw: '',
     alchemy: 'https://arb-goerli.g.alchemy.com',
   },
+  [Network.OPTIMISM]: {
+    reservoir: 'https://api-optimism.reservoir.tools',
+    tw: '',
+    alchemy: '',
+  }
+}
+
+export const COLLECTIONS = {
+  [Network.MAINNET]: [{
+    id: '9a0618e5f1129aacb45390c7498fbd27ca2fad8e6469bf08595590aacddd4b27',
+    name: 'Curated',
+  }, {
+    id: '4e9d6844db1a1f932b7c74923bf94f558c2ce81e6131b7e890c052519ee62a01',
+    name: 'Iconic Gems',
+  }, {
+    id: '340e5ea8e4d9623efc48f6397246645fe3c84e4b580dfa8974cd6d92b2cf4568',
+    name: 'AI Inspired',
+  }, {
+    id: '49cfe7d24b6697f937f0da4f30884016234be646fbdba298b1176e889a37d0e6',
+    name: 'Generative',
+  }, {
+    id: 'c0b535eb34769e565aa5a03751a41fb4dea837909801db3fd6ad7d530d2742ce',
+    name: 'Pixel Art',
+  }, {
+    id: '837f348d4241ee0112c505c1e6bd8e2031eb5485e3c99f0c2a453dbb0f54588e',
+    name: 'PFP',
+  }, {
+    id: 'c1da47054f5f18aed45e64e30b1c4190a44ec6104ad819dcdc480117fe726c87',
+    name: 'Brands',
+  }, {
+    id: 'ded234c0851bf132b6fe0f5c6b73ca030c57818fb732cd9578d80ea879307423',
+    name: 'Memberships',
+  }, {
+    id: '3504c180837e79b99dd251ecb16b34f34dba862b2675e0683a0750856b889677',
+    name: 'Metavers',
+  }, {
+    id: 'be442cf7f246d8300544f092296c39f0986b5fd86959820edca867c751715125',
+    name: 'Degens',
+  }],
+  [Network.GOERLI]: [{
+    id: 'a85336cbd06421c67cefe53cd16b1f3dc4d340eaed6680a433279027005aa614',
+    name: 'Curated',
+  }],
+  [Network.POLYGON]: [{
+    id: '5bc9be317c2b9d36e7ec0ceff90f9c86443862391d96f5569377abd1463d4271',
+    name: 'Top',
+  }],
+  [Network.ARBITRUM]: [{
+    id: 'e7491360f8ea4f48278f2836057028e04e4e5203de9d3141af17b2d8eac1f702',
+    name: 'Curated',
+  }],
+  [Network.OPTIMISM]: [{
+    id: '2e6f356700068babbb4e2d802c03c3f3212ca7149065b655b18564f561f0af5a',
+    name: 'Curated',
+  }]
 }
 
 export const FEATURED_DROP = '0x3C9A5EeB4D7126D759B64B9129C23012CF802313'
@@ -55,9 +110,9 @@ export const BURN_TO_MINT = {
 }
 
 export const MINT_PASSES = [
-  ['0x272991224665Dc0F905e525ce0e2e1E4BA108B71', 0, Network.Goerli],
-  ['0x4C390E37031c2AB8f5F036E21f1D19f0794415E3', 0, Network.Goerli],
-  ['0xB323669aFD9094189893cBFB535E2837abDb58f1', 0, Network.Goerli],
+  ['0x272991224665Dc0F905e525ce0e2e1E4BA108B71', 0, Network.GOERLI],
+  ['0x4C390E37031c2AB8f5F036E21f1D19f0794415E3', 0, Network.GOERLI],
+  ['0xB323669aFD9094189893cBFB535E2837abDb58f1', 0, Network.GOERLI],
 ]
 
 export type ContractTokenId = [string, number]

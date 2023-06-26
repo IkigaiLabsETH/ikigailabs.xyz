@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { path, prop } from 'ramda'
+import { path, prop, uniq } from 'ramda'
 import { HYDRATE } from 'next-redux-wrapper'
 
 import { http } from '../../common/http'
@@ -34,10 +34,18 @@ export const collectionsApi = createApi({
   reducerPath: 'collectionsApi',
   baseQuery: getDynamicAPIUrl('reservoir'),
   endpoints: builder => ({
-    getCollectionsBySetId: builder.query({
-      query: (setId: string) => ({
-        url: `collections/v5?collectionsSetId=${setId}`,
-      }),
+    getCollectionsBySetId: builder.query<any, {collectionSetId: string, continuation?: string}>({
+      query: ({ collectionSetId, continuation }: { collectionSetId: string, continuation?: string }) => `collections/v5?collectionsSetId=${collectionSetId}${continuation ? `&continuation=${continuation}` : ''}`,
+      serializeQueryArgs: ({ queryArgs: { collectionSetId } }) => collectionSetId,
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        currentCache.collections = uniq([...currentCache.collections, ...newItems.collections])
+        currentCache.continuation = newItems.continuation
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg
+      },
     }),
   }),
 })

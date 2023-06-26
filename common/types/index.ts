@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ContractType, ContractPrimarySale, ClaimCondition } from '@thirdweb-dev/sdk'
+import { ContractType, ContractPrimarySale, ClaimCondition, Currency, Amount } from '@thirdweb-dev/sdk'
 
 export type { Axios as HTTP } from 'axios'
 
@@ -9,7 +9,8 @@ export enum Layout {
 
 export enum Network {
   MAINNET = 'Mainnet',
-  Goerli = 'Goerli',
+  GOERLI = 'Goerli',
+  OPTIMISM = 'Optimism',
   POLYGON = 'Polygon',
   POLYGON_MUMBAI = 'Mumbai',
   ARBITRUM = 'Arbitrum',
@@ -42,7 +43,7 @@ export interface Claim {
 }
 
 export enum CurrencyChain {
-  'Goerli Ether' = Network.Goerli,
+  'Goerli Ether' = Network.GOERLI,
   'Ether' = Network.MAINNET,
 }
 
@@ -171,4 +172,118 @@ export interface NFT {
     }
   }
   token: Token
+}
+
+export interface CollectionSet {
+  id: string
+  name: string
+}
+
+export interface FloorAsk {
+
+}
+
+export interface RCurrency {
+  contract: string
+  name: string
+  symbol: string
+  decimals: number
+}
+export interface RAmount {
+  raw: string
+  decimal: number
+  usd: number
+  native: number
+}
+export interface RNetAmount {
+  raw: string
+  decimal: number
+  usd: number
+  native: number
+}
+export interface BidPrice {
+  curruncy: RCurrency
+  amount: RAmount
+  netAmount: RNetAmount
+}
+
+export interface TopBid {
+  id: string
+  sourceDomain: string 
+  price: BidPrice
+  maker: string
+  validFrom: number
+  validUntil: number
+}
+
+export interface Royalties {
+  recipient: string
+  bps: number
+  breakdown: {
+    recipient: string
+    bps: number
+  }[]
+}
+
+export interface DateInterval {
+  "1day": number
+  "7day": number
+  "30day": number
+}
+
+export interface DateIntervalAllTime {
+  "1day": number
+  "7day": number
+  "30day": number
+  allTime: number
+} 
+
+export interface MintStagePrice {
+  startTime: number
+  endTime: number
+  maxMintsPerWallet: number 
+}
+
+export interface Collection {
+  id: string
+  slug: string
+  createdAt: string
+  name: string
+  image: string
+  banner: string
+  discordUrl: string
+  externalUrl: string
+  twitterUsername: string
+  openseaVerificationStatus: string
+  description: string
+  sampleImages: string[]
+  tokenCount: string
+  onSaleCount: string
+  primaryContract: string
+  tokenSetId: string
+  royalties: Royalties
+  lastBuy: LastBuy
+  floorAsk: FloorAsk
+  topBid: TopBid
+  rank: DateIntervalAllTime
+  volume: DateIntervalAllTime
+  volumeChange: DateInterval
+  floorSale: DateInterval
+  floorSaleChange: DateInterval
+  salesCount: DateIntervalAllTime
+  collectionBidSupported: boolean
+  ownerCount: number
+  attributes: {
+    key: string
+    kind: 'string' | 'number' | 'date' | 'range'
+    count: number
+  }[]
+  count: number
+  contractKind: string
+  mintedTimestamp: number
+  mintStages: {
+    stage: string
+    kind: string
+    price: MintStagePrice
+  }[]
 }
