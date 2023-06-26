@@ -9,11 +9,11 @@ interface CollectionSetsProps {
   collectionSets: CollectionSet[]
 }
 
-export const CollectionSets:FC<CollectionSetsProps> = ({ collectionSets }) => (
-  <div className='w-full text-black mx-auto p-8 max-w-screen-2xl'>
+export const CollectionSets: FC<CollectionSetsProps> = ({ collectionSets }) => (
+  <div className="w-full text-black mx-auto p-8 max-w-screen-2xl">
     <ul>
       {map((collectionSet: CollectionSet) => (
-        <li className='p-4'>
+        <li className="p-4">
           <h1>
             <a href={`/collection-set/${collectionSet.id}`}>{collectionSet.name} &rarr;</a>
           </h1>

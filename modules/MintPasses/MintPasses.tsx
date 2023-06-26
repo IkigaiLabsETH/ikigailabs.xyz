@@ -14,25 +14,67 @@ export const MintPasses: FC = () => {
   const artistsMintPassContractData = MINT_PASSES[1]
   const collectorsMintPassContractData = MINT_PASSES[2]
 
-  const { data: foundersData, status: foundersMintPassStatus } = useAppSelector(selectToken({ contract: foundersMintPassContractData[0], tokenId: foundersMintPassContractData[1], network: foundersMintPassContractData[2], type: 'edition-drop' }))
-  const { data: artistsData, status: artistsMintPassStatus } = useAppSelector(selectToken({ contract: artistsMintPassContractData[0], tokenId: artistsMintPassContractData[1], network: artistsMintPassContractData[2], type: 'edition-drop' }))
-  const { data: collectorsData, status: collectorsMintPassStatus } = useAppSelector(selectToken({ contract: collectorsMintPassContractData[0], tokenId: collectorsMintPassContractData[1], network: collectorsMintPassContractData[2], type: 'edition-drop' }))
+  const { data: foundersData, status: foundersMintPassStatus } = useAppSelector(
+    selectToken({
+      contract: foundersMintPassContractData[0],
+      tokenId: foundersMintPassContractData[1],
+      network: foundersMintPassContractData[2],
+      type: 'edition-drop',
+    }),
+  )
+  const { data: artistsData, status: artistsMintPassStatus } = useAppSelector(
+    selectToken({
+      contract: artistsMintPassContractData[0],
+      tokenId: artistsMintPassContractData[1],
+      network: artistsMintPassContractData[2],
+      type: 'edition-drop',
+    }),
+  )
+  const { data: collectorsData, status: collectorsMintPassStatus } = useAppSelector(
+    selectToken({
+      contract: collectorsMintPassContractData[0],
+      tokenId: collectorsMintPassContractData[1],
+      network: collectorsMintPassContractData[2],
+      type: 'edition-drop',
+    }),
+  )
 
   useEffect(() => {
     if (!foundersData) {
-      dispatch(getDropTokenByContractAndTokenId.initiate({ contract: foundersMintPassContractData[0], tokenId: foundersMintPassContractData[1], network: foundersMintPassContractData[2], type: 'edition-drop' }))
+      dispatch(
+        getDropTokenByContractAndTokenId.initiate({
+          contract: foundersMintPassContractData[0],
+          tokenId: foundersMintPassContractData[1],
+          network: foundersMintPassContractData[2],
+          type: 'edition-drop',
+        }),
+      )
     }
   }, [foundersData])
 
   useEffect(() => {
     if (!artistsData) {
-      dispatch(getDropTokenByContractAndTokenId.initiate({ contract: artistsMintPassContractData[0], tokenId: artistsMintPassContractData[1], network: artistsMintPassContractData[2], type: 'edition-drop' }))
+      dispatch(
+        getDropTokenByContractAndTokenId.initiate({
+          contract: artistsMintPassContractData[0],
+          tokenId: artistsMintPassContractData[1],
+          network: artistsMintPassContractData[2],
+          type: 'edition-drop',
+        }),
+      )
     }
   }, [artistsData])
 
   useEffect(() => {
     if (!collectorsData) {
-      dispatch(getDropTokenByContractAndTokenId.initiate({ contract: collectorsMintPassContractData[0], tokenId: collectorsMintPassContractData[1], network: collectorsMintPassContractData[2], type: 'edition-drop' }))
+      dispatch(
+        getDropTokenByContractAndTokenId.initiate({
+          contract: collectorsMintPassContractData[0],
+          tokenId: collectorsMintPassContractData[1],
+          network: collectorsMintPassContractData[2],
+          type: 'edition-drop',
+        }),
+      )
     }
   }, [collectorsData])
 
@@ -48,19 +90,21 @@ export const MintPasses: FC = () => {
             artist dinners. It unlocks priority mints from our roster of iconic and emerging artists!{' '}
           </p>
 
-          {foundersData?.metadata && artistsData?.metadata && collectorsData?.metadata ? map(({ name }: { name: string }) => (
-            <div
-              key={name}
-              className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-5"
-            >
-              <Button
-                onClick={() => dispatch(showMintPassDetails({ pass: name }))}
-                className="w-full text-left flex justify-between items-center p-2 hover:text-red transition-colors"
-              >
-                {name} <ChevronRightIcon className="w-8" />
-              </Button>
-            </div>
-          ))([foundersData?.metadata, artistsData?.metadata, collectorsData?.metadata]) : null}
+          {foundersData?.metadata && artistsData?.metadata && collectorsData?.metadata
+            ? map(({ name }: { name: string }) => (
+                <div
+                  key={name}
+                  className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-5"
+                >
+                  <Button
+                    onClick={() => dispatch(showMintPassDetails({ pass: name }))}
+                    className="w-full text-left flex justify-between items-center p-2 hover:text-red transition-colors"
+                  >
+                    {name} <ChevronRightIcon className="w-8" />
+                  </Button>
+                </div>
+              ))([foundersData?.metadata, artistsData?.metadata, collectorsData?.metadata])
+            : null}
 
           {/* <ul className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-14">
             <li className="text-lg p-4 border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:border-red hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(127,29,29,1)] transition-all">

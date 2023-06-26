@@ -179,9 +179,7 @@ export interface CollectionSet {
   name: string
 }
 
-export interface FloorAsk {
-
-}
+export interface FloorAsk {}
 
 export interface RCurrency {
   contract: string
@@ -209,7 +207,7 @@ export interface BidPrice {
 
 export interface TopBid {
   id: string
-  sourceDomain: string 
+  sourceDomain: string
   price: BidPrice
   maker: string
   validFrom: number
@@ -226,22 +224,22 @@ export interface Royalties {
 }
 
 export interface DateInterval {
-  "1day": number
-  "7day": number
-  "30day": number
+  '1day': number
+  '7day': number
+  '30day': number
 }
 
 export interface DateIntervalAllTime {
-  "1day": number
-  "7day": number
-  "30day": number
-  allTime: number
-} 
+  '1day': number
+  '7day': number
+  '30day': number
+  'allTime': number
+}
 
 export interface MintStagePrice {
   startTime: number
   endTime: number
-  maxMintsPerWallet: number 
+  maxMintsPerWallet: number
 }
 
 export interface Collection {

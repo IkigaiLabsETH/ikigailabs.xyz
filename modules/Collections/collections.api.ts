@@ -34,8 +34,9 @@ export const collectionsApi = createApi({
   reducerPath: 'collectionsApi',
   baseQuery: getDynamicAPIUrl('reservoir'),
   endpoints: builder => ({
-    getCollectionsBySetId: builder.query<any, {collectionSetId: string, continuation?: string}>({
-      query: ({ collectionSetId, continuation }: { collectionSetId: string, continuation?: string }) => `collections/v5?collectionsSetId=${collectionSetId}${continuation ? `&continuation=${continuation}` : ''}`,
+    getCollectionsBySetId: builder.query<any, { collectionSetId: string; continuation?: string }>({
+      query: ({ collectionSetId, continuation }: { collectionSetId: string; continuation?: string }) =>
+        `collections/v5?collectionsSetId=${collectionSetId}${continuation ? `&continuation=${continuation}` : ''}`,
       serializeQueryArgs: ({ queryArgs: { collectionSetId } }) => collectionSetId,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {

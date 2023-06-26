@@ -28,7 +28,6 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
       // const claimedSupplyPromise = clientContract.erc721.totalClaimedSupply()
       // const unclaimedSupplyPromise = clientContract.erc721.totalUnclaimedSupply()
       // const claimConditionsPromise = clientContract.erc721.claimConditions.getAll()
-
       // result.claimedSupply = await claimedSupplyPromise.then(supply => parseInt(supply.toString(), 10))
       // result.unclaimedSupply = await unclaimedSupplyPromise.then(supply => parseInt(supply.toString(), 10))
       // result.claimConditions = await claimConditionsPromise
