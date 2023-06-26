@@ -44,13 +44,13 @@ const Home: FC = () => {
               Get on the allowlist!
             </Button>
           </div> */}
-          <div className="mt-10 text-lg justify-center flex items-center">
-            <Button href="https://premint.xyz/Ikigai Labs" target="_blank">
+          {/* <div className="mt-10 text-lg justify-center flex items-center">
+            <Button href="https://premint.xyz/IkigaiLabs" target="_blank">
               Get on allowlist
             </Button>
-          </div>
+          </div> */}
         </div>
-        <div className="pb-10 flex justify-center items-center flex-col">
+        {/* <div className="pb-10 flex justify-center items-center flex-col">
           <Eyebrow>Free mint</Eyebrow>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -62,10 +62,10 @@ const Home: FC = () => {
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5" />
           </svg>
-        </div>
+        </div> */}
       </header>
       <main className="w-full">
-        <FreeMint contract={FREE_MINT_CONTRACT} network={Network.GOERLI} />
+        {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.GOERLI} /> */}
         {/* <MintPasses /> */}
         {/* <BurnToMint
           sourceContract={pathOr('', ['odessyGenesisCollection', 'sourceContract'])(BURN_TO_MINT)}
