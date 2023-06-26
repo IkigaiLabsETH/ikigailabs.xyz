@@ -223,6 +223,11 @@ export interface Royalties {
   }[]
 }
 
+export interface LastBuy {
+  value: number
+  timestamp: number
+}
+
 export interface DateInterval {
   '1day': number
   '7day': number
