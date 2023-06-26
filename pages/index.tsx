@@ -5,7 +5,7 @@ import { FC } from 'react'
 // import { FREE_MINT_CONTRACT } from '../common/config'
 
 import { withLayout } from '../common/layouts/MainLayout/withLayout'
-import { Layout/*, Network*/ } from '../common/types'
+import { Layout /*, Network*/ } from '../common/types'
 // import { Button } from '../modules/Button'
 // import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
