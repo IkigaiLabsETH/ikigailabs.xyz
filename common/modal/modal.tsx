@@ -4,11 +4,14 @@ import { interactionProgressAction } from '../../modules/Collection/Token/token.
 import { InteractionSteps } from '../../modules/InteractionSteps'
 import { MintPass } from '../../modules/MintPass'
 import { showMintPassDetails } from '../../modules/MintPasses'
+import { mintSuccess } from '../../modules/Drop'
+import { SuccessfulModal } from '../../modules/Drop/SuccessModal'
 
-export const modalActions = [showMintPassDetails, showAllowlist, interactionProgressAction]
+export const modalActions = [showMintPassDetails, showAllowlist, interactionProgressAction, mintSuccess]
 
 export const MODALS = {
   [showMintPassDetails.type]: (data: any) => <MintPass {...data} />,
   [showAllowlist.type]: () => <Allowlist />,
   [interactionProgressAction.type]: (steps: any[]) => <InteractionSteps steps={values(steps)} />,
+  [mintSuccess.type]: (data: any) => <SuccessfulModal {...data} />,
 }

@@ -3,14 +3,14 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 
-import { withLayout } from '../../../common/layouts/MainLayout/withLayout'
-import { Layout } from '../../../common/types'
-import { Drop } from '../../../modules/Drop'
-import { Footer } from '../../../modules/Footer'
+import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
+import { Layout, Network } from '../../../../../common/types'
+import { NFT } from '../../../../../modules/Drop/Token'
+import { Footer } from '../../../../../modules/Footer'
 
 const DropPage: FC = () => {
   const {
-    query: { contract, id },
+    query: { contract, id, network },
   } = useRouter()
 
   return (
@@ -21,7 +21,7 @@ const DropPage: FC = () => {
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
       <main className="w-full">
-        <Drop contract={contract as string} tokenId={id as string} />
+        {contract && id ? <NFT contract={contract as string} tokenId={id as string} network={network as Network} /> : null}
       </main>
       <Footer />
     </div>

@@ -5,17 +5,17 @@ import React, { FC, useEffect, useState } from 'react'
 import { Footer } from '../../modules/Footer'
 import { withLayout } from '../../common/layouts/MainLayout/withLayout'
 import { CollectionSet, Layout } from '../../common/types'
-import { useAppSelector } from '../../common/redux/store'
-import { selectedNetwork } from '../../modules/NetworkSelector'
 import { CollectionSets } from '../../modules/CollectionSets'
 import { COLLECTIONS } from '../../common/config'
+import { useRouter } from 'next/router'
 
 const SignatureCollection: FC = () => {
-  const network = useAppSelector(selectedNetwork)
   const [collectionSets, setCollectionSets] = useState<CollectionSet[]>([])
+  const { query } = useRouter()
+  const { network } = query
 
   useEffect(() => {
-    setCollectionSets(COLLECTIONS[network])
+    setCollectionSets(COLLECTIONS[network as string])
   }, [network])
 
   return (

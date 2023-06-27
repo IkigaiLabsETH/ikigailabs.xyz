@@ -1,35 +1,46 @@
 import { add, pathOr, propOr } from 'ramda'
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
-import { Web3Button, useClaimNFT, useContract } from '@thirdweb-dev/react'
+import { Web3Button } from '@thirdweb-dev/react'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import { CurrencyChain, DropTypeStandards } from '../../common/types'
-import { useWallet } from '../../common/useWallet'
+import { TransactionResultWithId, TWNFT, CurrencyChain, DropTypeStandards, Network } from '../../common/types'
 import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
 import { Loader } from '../Loader'
 import { getDropByContract, selectDrop } from './drop.api'
-import { selectedNetwork } from '../NetworkSelector'
+import { mintSuccess } from './drop.actions'
 
 interface DropProps {
   contract: string
   tokenId: string
+  network: Network
 }
 
-export const Drop: FC<DropProps> = ({ contract }) => {
+export const Drop: FC<DropProps> = ({ contract, network }) => {
   const dispatch = useAppDispatch()
-  const { address } = useWallet()
-  const network = useAppSelector(selectedNetwork)
-  const { contract: c } = useContract(contract)
-  const { mutate: claimNft, isLoading, error } = useClaimNFT(c)
-
+  const [localClaimedSupply, setLocalClaimedSupply] = useState(0) 
   const { data, status } = useAppSelector(selectDrop({ contract, network, type: 'nft-drop' }))
 
   useEffect(() => {
     if (!contract) return
     dispatch(getDropByContract.initiate({ contract, network, type: 'nft-drop' }))
   }, [contract])
+
+  const onSuccess = (result: TransactionResultWithId<TWNFT>[]) => {
+    const data = {
+      id: result[0].id.toNumber(),
+      transactionHash: result[0].receipt.transactionHash,
+      network,
+    }
+    dispatch(mintSuccess(data))
+    setLocalClaimedSupply(localClaimedSupply + 1)
+  }
+
+  useEffect(() => {
+    const claimedSupply = propOr(0, 'claimedSupply')(data) as number
+    setLocalClaimedSupply(claimedSupply)
+  }, [data])
 
   const claimedSupply = propOr(0, 'claimedSupply')(data) as number
   const unclaimedSupply = propOr(0, 'unclaimedSupply')(data) as number
@@ -54,7 +65,7 @@ export const Drop: FC<DropProps> = ({ contract }) => {
               <CollectionStat
                 label="Minted"
                 loading={status === 'pending'}
-              >{`${claimedSupply.toString()}/${totalSupply?.toString()}`}</CollectionStat>
+              >{`${localClaimedSupply}/${totalSupply?.toString()}`}</CollectionStat>
               {/* <CollectionStat label="Unique Owners" loading={isNil(ownersCount)}>
                 {ownersCount?.toString()}
               </CollectionStat> */}
@@ -66,22 +77,15 @@ export const Drop: FC<DropProps> = ({ contract }) => {
             </div>
           </div>
           <div className="flex flex-col w-full mt-8">
-            {!isLoading ? (
               <Web3Button
                 contractAddress={contract}
-                action={() =>
-                  claimNft({
-                    to: address,
-                    quantity: 1,
-                  })
-                }
+                action={(contract) => contract.erc721.claim(1)}
+                onError={(e) => console.log(e)}
+                onSuccess={onSuccess}
                 className="hover:text-yellow border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow"
               >
                 Mint Now
               </Web3Button>
-            ) : (
-              <></>
-            )}
           </div>
           <div className="flex flex-col w-full mt-8 text-gray-600 border-y border-y-gray-700 py-8 text-sm">
             <ul>

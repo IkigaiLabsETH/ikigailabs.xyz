@@ -14,9 +14,17 @@ import { Modal } from '../modules/Modal'
 import { MODALS } from '../common/modal'
 import { Confetti } from '../modules/Confetti'
 import { persistor } from '../common/redux/store'
+import { useRouter } from 'next/router'
+import { Network } from '../common/types'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
-  const network = store.getState().network.selectedNetwork
+  let network = store.getState().network.selectedNetwork
+  const { query } = useRouter()
+
+  if (query.network) {
+    network = query.network as Network
+  }
+
   const queryClient = new QueryClient()
   return (
     <Provider store={store}>

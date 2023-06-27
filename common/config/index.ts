@@ -5,36 +5,43 @@ export const URLS = {
     reservoir: 'https://api.reservoir.tools',
     tw: '',
     alchemy: 'https://eth-mainnet.g.alchemy.com',
+    explorer: 'https://etherscan.io',
   },
   [Network.GOERLI]: {
     reservoir: 'https://api-goerli.reservoir.tools',
     tw: '',
     alchemy: 'https://eth-goerli.g.alchemy.com',
+    explorer: 'https://goerli.etherscan.io',
   },
   [Network.POLYGON]: {
     reservoir: 'https://api-polygon.reservoir.tools',
     tw: '',
     alchemy: 'https://polygon-mainnet.g.alchemy.com',
+    explorer: 'https://polygonscan.com',
   },
-  [Network.POLYGON_MUMBAI]: {
+  [Network.MUMBAI]: {
     reservoir: '',
     tw: '',
     alchemy: 'https://polygon-mumbai.g.alchemy.com',
+    explorer: 'https://mumbai.polygonscan.com',
   },
   [Network.ARBITRUM]: {
     reservoir: 'https://api-arbitrum.reservoir.tools',
     tw: '',
     alchemy: 'https://arb-mainnet.g.alchemy.com',
+    explorer: 'https://arbiscan.io',
   },
   [Network.ARBITRUM_GOERLI]: {
     reservoir: '',
     tw: '',
     alchemy: 'https://arb-goerli.g.alchemy.com',
+    explorer: 'https://goerli.arbiscan.io',
   },
   [Network.OPTIMISM]: {
     reservoir: 'https://api-optimism.reservoir.tools',
     tw: '',
     alchemy: '',
+    explorer: 'https://optimistic.etherscan.io',
   },
 }
 
@@ -111,7 +118,7 @@ export const FEATURED_DROP = '0x3C9A5EeB4D7126D759B64B9129C23012CF802313'
 
 export const NFTDrops = ['0xcE998593C8f0790ff41a488c83B2Af5E47C27258', '0x025c59a275Ca6DB964eeE1694c6614AcE62F1568']
 
-export const FREE_MINT_CONTRACT = '0xA6235A5A3599e3333CBd173dB3Eb7060c74f3Ced'
+export const FREE_MINT_CONTRACT = '0x7B4603c65909565aDdc91BB4B81696009b8847E4'
 export const FREE_MINT_TOKEN_ID = 0
 
 export const BURN_TO_MINT_1155 = '0xd6aC136fC352eB4EF372095CC9fe9ED7dfEdF504'

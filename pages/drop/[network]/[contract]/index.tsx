@@ -4,18 +4,14 @@ import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 
 import { withLayout } from '../../../../common/layouts/MainLayout/withLayout'
-import { Layout } from '../../../../common/types'
-import { NFT } from '../../../../modules/Drop/Token'
+import { Layout, Network } from '../../../../common/types'
+import { Drop } from '../../../../modules/Drop'
 import { Footer } from '../../../../modules/Footer'
-import { useAppSelector } from '../../../../common/redux/store'
-import { selectedNetwork } from '../../../../modules/NetworkSelector'
 
 const DropPage: FC = () => {
-  const network = useAppSelector(selectedNetwork)
   const {
-    query: { contract, id },
+    query: { contract, id, network },
   } = useRouter()
-
   return (
     <div className="flex items-center flex-col">
       <Head>
@@ -24,7 +20,7 @@ const DropPage: FC = () => {
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
       <main className="w-full">
-        {contract && id ? <NFT contract={contract as string} tokenId={id as string} network={network} /> : null}
+        <Drop contract={contract as string} tokenId={id as string} network={network as Network} />
       </main>
       <Footer />
     </div>

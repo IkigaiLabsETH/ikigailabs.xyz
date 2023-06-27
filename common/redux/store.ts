@@ -32,10 +32,12 @@ import { claim } from '../../modules/FreeMint/freeMint.slice'
 import { collectionsApi } from '../../modules/Collections/collections.api'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
-import { confettiReducer } from '../../modules/Confetti'
+import { confettiMiddleware, confettiReducer } from '../../modules/Confetti'
+import { confettiActions } from '../confetti'
 import { collectionTokenInteractionReducer } from '../../modules/Collection/Token/token.slice'
 import { changeNetwork, NetworkSelectorReducer } from '../../modules/NetworkSelector'
 import { dropApi } from '../../modules/Drop/drop.api'
+import { mintSuccess } from '../../modules/Drop'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -62,6 +64,7 @@ const notifications = {
   [placeBid.rejected.type]: 'Failed to make an offer',
   'allowlistApi/executeMutation/fulfilled': 'You have successfully signed up',
   'allowlistApi/executeMutation/rejected': 'Failed to sign up',
+  [mintSuccess.type]: 'You have successfully minted your token',
 }
 
 startAppListening(collectionTokenMiddleware)
@@ -81,9 +84,11 @@ startAppListening(
     isRejected(placeBid),
     signUp.matchFulfilled,
     signUp.matchRejected,
+    mintSuccess,
   ]),
 )
 startAppListening(walletMiddleware([changeNetwork] as any))
+startAppListening(confettiMiddleware(confettiActions as any))
 
 const combinedReducer = combineReducers({
   featuredAuction: featuredAuctionReducer,

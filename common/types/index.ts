@@ -12,9 +12,10 @@ export enum Network {
   GOERLI = 'Goerli',
   OPTIMISM = 'Optimism',
   POLYGON = 'Polygon',
-  POLYGON_MUMBAI = 'Mumbai',
+  POLYGON_MUMBAI = 'Polygon Mumbai',
   ARBITRUM = 'Arbitrum',
   ARBITRUM_GOERLI = 'Arbitrum Goerli',
+  MUMBAI = 'Mumbai',
 }
 
 export type {
@@ -26,6 +27,7 @@ export type {
   SignatureDrop,
   TransactionResultWithId,
   ClaimCondition,
+  NFT as TWNFT,
 } from '@thirdweb-dev/sdk'
 
 export interface Drop {
@@ -45,6 +47,7 @@ export interface Claim {
 export enum CurrencyChain {
   'Goerli Ether' = Network.GOERLI,
   'Ether' = Network.MAINNET,
+  'MATIC' = Network.POLYGON,
 }
 
 export interface Token {
@@ -290,3 +293,22 @@ export interface Collection {
     price: MintStagePrice
   }[]
 }
+
+// export interface TransactionReceipt {
+//   blockHash: string
+//   blockNumber: number
+//   status: number
+//   to: string
+//   from: string
+//   transactionHash: string
+//   transactionIndex: number
+//   contractAddress: string
+//   cumulativeGasUsed: number
+//   gasUsed: number
+//   logs: any[]
+// }
+
+// export interface ClaimResult {
+//   id: BigNumber
+//   receipt: TransactionReceipt
+// }
