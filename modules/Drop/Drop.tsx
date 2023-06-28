@@ -19,7 +19,7 @@ interface DropProps {
 
 export const Drop: FC<DropProps> = ({ contract, network }) => {
   const dispatch = useAppDispatch()
-  const [localClaimedSupply, setLocalClaimedSupply] = useState(0) 
+  const [localClaimedSupply, setLocalClaimedSupply] = useState(0)
   const { data, status } = useAppSelector(selectDrop({ contract, network, type: 'nft-drop' }))
 
   useEffect(() => {
@@ -77,15 +77,15 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
             </div>
           </div>
           <div className="flex flex-col w-full mt-8">
-              <Web3Button
-                contractAddress={contract}
-                action={(contract) => contract.erc721.claim(1)}
-                onError={(e) => console.log(e)}
-                onSuccess={onSuccess}
-                className="hover:text-yellow border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow"
-              >
-                Mint Now
-              </Web3Button>
+            <Web3Button
+              contractAddress={contract}
+              action={contract => contract.erc721.claim(1)}
+              onError={e => console.log(e)}
+              onSuccess={onSuccess}
+              className="hover:text-yellow border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow"
+            >
+              Mint Now
+            </Web3Button>
           </div>
           <div className="flex flex-col w-full mt-8 text-gray-600 border-y border-y-gray-700 py-8 text-sm">
             <ul>

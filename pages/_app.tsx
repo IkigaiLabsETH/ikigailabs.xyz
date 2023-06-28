@@ -6,6 +6,7 @@ import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useRouter } from 'next/router'
 
 import '../styles/globals.css'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -14,7 +15,6 @@ import { Modal } from '../modules/Modal'
 import { MODALS } from '../common/modal'
 import { Confetti } from '../modules/Confetti'
 import { persistor } from '../common/redux/store'
-import { useRouter } from 'next/router'
 import { Network } from '../common/types'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {

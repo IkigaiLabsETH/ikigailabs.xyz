@@ -1,13 +1,13 @@
 /* eslint-disable react/function-component-definition */
 import Head from 'next/head'
 import React, { FC, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 import { Footer } from '../../modules/Footer'
 import { withLayout } from '../../common/layouts/MainLayout/withLayout'
 import { CollectionSet, Layout } from '../../common/types'
 import { CollectionSets } from '../../modules/CollectionSets'
 import { COLLECTIONS } from '../../common/config'
-import { useRouter } from 'next/router'
 
 const SignatureCollection: FC = () => {
   const [collectionSets, setCollectionSets] = useState<CollectionSet[]>([])

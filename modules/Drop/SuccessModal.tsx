@@ -12,8 +12,12 @@ export const SuccessfulModal: FC<SuccessfulModalProps> = ({ transactionHash, net
   return (
     <div className="p-10">
       <h1>Mint successful</h1>
-      <p className="text-gray-800 text-xl">Your NFT has been minted. It will be revealed when all tokens have been minted</p>
-      <a href={`${URLS[network].explorer}/tx/${transactionHash}`} target="_blank" className="text-yellow text-xl">View your transaction</a>
+      <p className="text-gray-800 text-xl">
+        Your NFT has been minted. It will be revealed when all tokens have been minted
+      </p>
+      <a href={`${URLS[network].explorer}/tx/${transactionHash}`} target="_blank" className="text-yellow text-xl">
+        View your transaction
+      </a>
     </div>
   )
 }

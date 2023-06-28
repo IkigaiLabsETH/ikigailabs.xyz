@@ -21,7 +21,9 @@ const DropPage: FC = () => {
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
       <main className="w-full">
-        {contract && id ? <NFT contract={contract as string} tokenId={id as string} network={network as Network} /> : null}
+        {contract && id ? (
+          <NFT contract={contract as string} tokenId={id as string} network={network as Network} />
+        ) : null}
       </main>
       <Footer />
     </div>
