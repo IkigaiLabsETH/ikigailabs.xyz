@@ -10,6 +10,7 @@ import { CollectionStat } from '../CollectionStat'
 import { Loader } from '../Loader'
 import { getDropByContract, selectDrop } from './drop.api'
 import { mintSuccess } from './drop.actions'
+import { TextField } from '../Form'
 
 interface DropProps {
   contract: string
@@ -20,6 +21,7 @@ interface DropProps {
 export const Drop: FC<DropProps> = ({ contract, network }) => {
   const dispatch = useAppDispatch()
   const [localClaimedSupply, setLocalClaimedSupply] = useState(0)
+  const [amountToMint, setAmountToMint] = useState(1)
   const { data, status } = useAppSelector(selectDrop({ contract, network, type: 'nft-drop' }))
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
       network,
     }
     dispatch(mintSuccess(data))
-    setLocalClaimedSupply(localClaimedSupply + 1)
+    setLocalClaimedSupply(localClaimedSupply + amountToMint)
   }
 
   useEffect(() => {
@@ -76,10 +78,24 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
               </CollectionStat>
             </div>
           </div>
-          <div className="flex flex-col w-full mt-8">
+          <div className="flex flex-row w-full mt-8 items-center justify-center">
+            <div className='w-1/2 font-bold'>How many?</div>
+             
+            <TextField
+              type="number"
+              id="amountToMint"
+              label="Amount to Mint"
+              value={amountToMint}
+              onChange={e => setAmountToMint(Number(e.target.value))}
+              eth={false}
+              min={1}
+              max={pathOr(1, ['claimConditions', 0, 'maxClaimablePerWallet'])(data)}
+            />
+          </div>
+          <div className="flex flex-col w-full mt-1">
             <Web3Button
               contractAddress={contract}
-              action={contract => contract.erc721.claim(1)}
+              action={contract => contract.erc721.claim(amountToMint)}
               onError={e => console.log(e)}
               onSuccess={onSuccess}
               className="hover:text-yellow border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow"

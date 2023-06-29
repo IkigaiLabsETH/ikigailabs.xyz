@@ -9,6 +9,8 @@ interface TextFieldProps {
   value: string | number
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   eth?: boolean
+  min?: number | null
+  max?: number | null
 }
 
 export const TextField: FC<TextFieldProps> = ({
@@ -20,7 +22,25 @@ export const TextField: FC<TextFieldProps> = ({
   step = 1,
   eth = false,
   valid = true,
+  min = null,
+  max = null,
 }) => {
+  const attributes = {
+    id,
+    label,
+    type,
+    value,
+    onChange,
+    // valid,
+  }
+
+  if (type === 'number') {
+    step ? (attributes['step'] = step) : null
+    min ? (attributes['min'] = min) : null
+    max ? (attributes['max'] = max) : null
+    eth ? (attributes['eth'] = eth) : null
+  }
+
   return (
     <div className="mt-4 flex leading-6 text-black w-full mb-3">
       <label
@@ -29,15 +49,10 @@ export const TextField: FC<TextFieldProps> = ({
       >
         <span className="sr-only">{label}</span>
         <div className="flex">
-          <img src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2 mt-2" />
+          {eth ? <img src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2 mt-2" /> : null }
           {type === 'number' ? (
             <input
-              id={id}
-              name={id}
-              type={type}
-              step={step}
-              value={value}
-              onChange={onChange}
+              {...attributes}
               className="w-full lg:text-xl block flex-1 border-0 bg-transparent py-1 pl-1 text-black placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
             />
           ) : (
