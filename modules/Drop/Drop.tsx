@@ -11,6 +11,7 @@ import { Loader } from '../Loader'
 import { getDropByContract, selectDrop } from './drop.api'
 import { mintSuccess } from './drop.actions'
 import { TextField } from '../Form'
+import { Amount } from '../Form/Amount'
 
 interface DropProps {
   contract: string
@@ -43,6 +44,16 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
     const claimedSupply = propOr(0, 'claimedSupply')(data) as number
     setLocalClaimedSupply(claimedSupply)
   }, [data])
+
+  const onPlus = () => {
+    if (amountToMint >= pathOr(1, ['claimConditions', 0, 'maxClaimablePerWallet'])(data)) return
+    setAmountToMint(amountToMint + 1)
+  }
+
+  const onMinus = () => {
+    if (amountToMint <= 1) return
+    setAmountToMint(amountToMint - 1)
+  }
 
   const claimedSupply = propOr(0, 'claimedSupply')(data) as number
   const unclaimedSupply = propOr(0, 'unclaimedSupply')(data) as number
@@ -78,30 +89,22 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
               </CollectionStat>
             </div>
           </div>
-          <div className="flex flex-row w-full mt-8 items-center justify-center">
-            <div className='w-1/2 font-bold'>How many?</div>
-             
-            <TextField
-              type="number"
-              id="amountToMint"
-              label="Amount to Mint"
-              value={amountToMint}
-              onChange={e => setAmountToMint(Number(e.target.value))}
-              eth={false}
-              min={1}
-              max={pathOr(1, ['claimConditions', 0, 'maxClaimablePerWallet'])(data)}
-            />
-          </div>
-          <div className="flex flex-col w-full mt-1">
-            <Web3Button
-              contractAddress={contract}
-              action={contract => contract.erc721.claim(amountToMint)}
-              onError={e => console.log(e)}
-              onSuccess={onSuccess}
-              className="hover:text-yellow border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow"
-            >
-              Mint Now
-            </Web3Button>
+          <div className="flex flex-row w-full mt-1 justify-between items-center">
+            <div className="w-1/4 flex justify-center text-3xl font-bold">
+              <Amount amount={amountToMint} onMinus={onMinus} onPlus={onPlus}/>
+            </div>
+            <div className='w-3/4'>
+              <Web3Button
+                contractAddress={contract}
+                action={contract => contract.erc721.claim(amountToMint)}
+                onError={e => console.log(e)}
+                onSuccess={onSuccess}
+                isDisabled={totalSupply === localClaimedSupply}
+                className="hover:text-yellow w-full border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow"
+              >
+                {totalSupply === localClaimedSupply ? "Sold out!" : "Mint Now"}
+              </Web3Button>
+            </div>
           </div>
           <div className="flex flex-col w-full mt-8 text-gray-600 border-y border-y-gray-700 py-8 text-sm">
             <ul>
