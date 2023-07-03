@@ -92,7 +92,7 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
             <div className="w-1/4 flex justify-center text-3xl font-bold">
               <Amount amount={amountToMint} onMinus={onMinus} onPlus={onPlus} />
             </div>
-            <div className="w-3/4">
+            <div className="w-3/4 pl-4">
               <Web3Button
                 contractAddress={contract}
                 action={contract => contract.erc721.claim(amountToMint)}
@@ -105,7 +105,7 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
               </Web3Button>
             </div>
           </div>
-          <div className="flex flex-col w-full mt-8 text-gray-600 border-y border-y-gray-700 py-8 text-sm">
+          <div className="flex flex-col w-full mt-1 text-gray-600 border-y border-y-gray-700 py-8 text-sm">
             <ul>
               <li>
                 <span className="font-bold">Blockchain:</span>{' '}
