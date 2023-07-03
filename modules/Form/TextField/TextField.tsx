@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React, { FC } from 'react'
 
 interface TextFieldProps {
@@ -49,7 +50,7 @@ export const TextField: FC<TextFieldProps> = ({
       >
         <span className="sr-only">{label}</span>
         <div className="flex">
-          {eth ? <img src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2 mt-2" /> : null }
+          {eth ? <Image src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2 mt-2" alt="Eth" /> : null}
           {type === 'number' ? (
             <input
               {...attributes}

@@ -6,12 +6,16 @@ interface AmountProps {
   onMinus: (e: React.MouseEvent<HTMLElement>) => void
 }
 
-export const Amount:FC<AmountProps> = ({ amount, onPlus, onMinus }) => {
+export const Amount: FC<AmountProps> = ({ amount, onPlus, onMinus }) => {
   return (
     <div className="flex flex-row">
-      <button onClick={onMinus} className='p-4 hover:text-white'>&#8722;</button>
-      <div className='px-2 py-4'>{amount}</div>
-      <button onClick={onPlus} className='p-4 hover:text-white'>&#43;</button>
+      <button onClick={onMinus} className="p-4 hover:text-white">
+        &#8722;
+      </button>
+      <div className="px-2 py-4">{amount}</div>
+      <button onClick={onPlus} className="p-4 hover:text-white">
+        &#43;
+      </button>
     </div>
   )
 }

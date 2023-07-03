@@ -35,9 +35,9 @@ export const Header: FC = () => {
       <div className="px-4 mx-auto max-w-screen-2xl sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between">
           <div className="w-52 z-20">
-            <a href="/" title="" className="flex items-center">
+            <Link href="/" title="" className="flex items-center">
               <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="32" height="32" />
-            </a>
+            </Link>
           </div>
 
           <div className="flex flex-row justify-end">
@@ -115,6 +115,11 @@ export const Header: FC = () => {
                   About
                 </a>
               </Link>
+            </div>
+            <div className="flex justify-end">
+              <a title="About" href="https://livethelife.tv" className="p-4 bg-black mb-1 inline-block">
+                Edito
+              </a>
             </div>
             <div className="flex justify-end mt-16">
               {address ? (

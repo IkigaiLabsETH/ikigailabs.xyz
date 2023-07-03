@@ -1,9 +1,6 @@
-import { isNil } from 'ramda'
-import React, { ChangeEvent, FC, useEffect } from 'react'
-import { match } from 'ts-pattern'
+import React, { FC, useEffect } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import { useWallet } from '../../common/useWallet'
 import { Button } from '../Button'
 import { Eyebrow } from '../Eyebrow'
 import { Network } from '../../common/types'
@@ -21,7 +18,7 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, network }) => {
 
   useEffect(() => {
     dispatch(getDropMetadataByContract.initiate({ contract, network, type: 'nft-drop' }))
-  }, [])
+  }, [contract, dispatch, network])
 
   return (
     <div className="flex relative flex-col lg:flex-row-reverse lg:h-screen items-center lg:min-h-min">

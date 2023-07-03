@@ -10,7 +10,6 @@ import { CollectionStat } from '../CollectionStat'
 import { Loader } from '../Loader'
 import { getDropByContract, selectDrop } from './drop.api'
 import { mintSuccess } from './drop.actions'
-import { TextField } from '../Form'
 import { Amount } from '../Form/Amount'
 
 interface DropProps {
@@ -91,9 +90,9 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
           </div>
           <div className="flex flex-row w-full mt-1 justify-between items-center">
             <div className="w-1/4 flex justify-center text-3xl font-bold">
-              <Amount amount={amountToMint} onMinus={onMinus} onPlus={onPlus}/>
+              <Amount amount={amountToMint} onMinus={onMinus} onPlus={onPlus} />
             </div>
-            <div className='w-3/4'>
+            <div className="w-3/4">
               <Web3Button
                 contractAddress={contract}
                 action={contract => contract.erc721.claim(amountToMint)}
@@ -102,7 +101,7 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
                 isDisabled={totalSupply === localClaimedSupply}
                 className="hover:text-yellow w-full border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow"
               >
-                {totalSupply === localClaimedSupply ? "Sold out!" : "Mint Now"}
+                {totalSupply === localClaimedSupply ? 'Sold out!' : 'Mint Now'}
               </Web3Button>
             </div>
           </div>

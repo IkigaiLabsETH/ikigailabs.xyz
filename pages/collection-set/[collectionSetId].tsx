@@ -21,7 +21,7 @@ const CollectionsPage: FC = () => {
 
   useEffect(() => {
     dispatch(collectionsApi.endpoints.getCollectionsBySetId.initiate({ collectionSetId }))
-  }, [collectionSetId])
+  }, [collectionSetId, dispatch])
 
   const { ref } = useInfiniteLoading(
     collectionsApi.endpoints.getCollectionsBySetId.initiate({
