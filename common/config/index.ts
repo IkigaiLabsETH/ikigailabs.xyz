@@ -48,7 +48,7 @@ export const URLS = {
 export const COLLECTIONS = {
   [Network.MAINNET]: [
     {
-      id: '04ea2a333023ca6c5b720b4831b2d0133d545fbee1b3c700c30d272f817050dd',
+      id: '948d238e355bb57d29622db0ef59573d72b1d9f5936fd4e7edd8f95273a91c7d',
       name: 'Curated',
     },
     {
