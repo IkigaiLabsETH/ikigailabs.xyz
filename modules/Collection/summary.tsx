@@ -10,9 +10,9 @@ interface CollectionSummaryProps {
 }
 
 export const CollectionSummary: FC<CollectionSummaryProps> = ({ address, metadata: { name, description, image } }) => (
-  <div className="flex relative flex-col lg:flex-row-reverse lg:h-screen lg:min-h-min items-center">
+  <div className="flex relative flex-col lg:flex-row-reverse lg:min-h-screen lg:h-min items-stretch">
     <div
-      className="w-full lg:w-1/2 h-96 lg:h-screen bg-no-repeat bg-center bg-cover"
+      className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover"
       style={{ backgroundImage: `url(${image})` }}
     ></div>
     <div className="w-full lg:w-1/2 p-16 max-w-3xl">

@@ -21,9 +21,9 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, network }) => {
   }, [contract, dispatch, network])
 
   return (
-    <div className="flex relative flex-col lg:flex-row-reverse lg:h-screen items-center lg:min-h-min">
+    <div className="flex relative flex-col lg:flex-row-reverse lg:min-h-screen lg:h-min items-stretch">
       <div
-        className="w-full lg:w-1/2 h-96 lg:h-screen bg-no-repeat bg-center bg-cover"
+        className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover"
         style={{ backgroundImage: `url(${data?.image})` }}
       ></div>
       <div className="w-full lg:w-1/2 p-16">
