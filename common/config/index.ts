@@ -48,7 +48,7 @@ export const URLS = {
 export const COLLECTIONS = {
   [Network.MAINNET]: [
     {
-      id: '04ea2a333023ca6c5b720b4831b2d0133d545fbee1b3c700c30d272f817050dd',
+      id: '948d238e355bb57d29622db0ef59573d72b1d9f5936fd4e7edd8f95273a91c7d',
       name: 'Curated',
     },
     {
@@ -143,3 +143,5 @@ export const MINT_PASSES = [
 ]
 
 export type ContractTokenId = [string, number]
+
+export const relayerUrlConst = "https://api.defender.openzeppelin.com/autotasks/7378f7f3-be90-403b-8cc2-e014977f5c00/runs/webhook/aa080222-57c6-4eb2-8575-7ba295f1a9c1/7QC3TRvK4o3YTm5RA3YQ8L"; // OpenZeppelin relayer URL
