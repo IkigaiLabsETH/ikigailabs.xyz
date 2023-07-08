@@ -27,7 +27,7 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
   useEffect(() => {
     if (!contract) return
     dispatch(getDropByContract.initiate({ contract, network, type: 'nft-drop' }))
-  }, [contract])
+  }, [contract, dispatch, network])
 
   const onSuccess = (result: TransactionResultWithId<TWNFT>[]) => {
     const data = {
@@ -115,7 +115,7 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
                 <span className="font-bold">Contract Address:</span> {contract}
               </li>
               <li>
-                <span className="font-bold">Token Standard:</span> {DropTypeStandards.NFT}
+                <span className="font-bold">Token Standard:</span> {DropTypeStandards['nft-drop']}
               </li>
             </ul>
           </div>

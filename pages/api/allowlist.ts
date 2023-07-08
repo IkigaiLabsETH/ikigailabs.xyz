@@ -54,7 +54,7 @@ const allowlist = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req
   return match(method)
     .with('POST', () => add(req, res))
-    .otherwise(() => {}) 
+    .otherwise(() => {})
 }
 
 export default allowlist

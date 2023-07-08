@@ -1,4 +1,4 @@
-import { Network } from '../types'
+import { Network, ContractType } from '../types'
 
 export const URLS = {
   [Network.MAINNET]: {
@@ -141,22 +141,23 @@ export const MINT_PASSES = [
     contract: '0x8aaBDdBD9bB219781f53Ca0445F4C51ffe7D1D51',
     tokenId: '0',
     network: Network.MUMBAI,
-    type: 'nft-drop',
+    type: 'nft-drop' as ContractType,
   },
   {
     contract: '0x37333c2c07793Bf5E2006768C817c61b8224AF87',
     tokenId: '0',
     network: Network.MUMBAI,
-    type: 'nft-drop',
+    type: 'nft-drop' as ContractType,
   },
   {
     contract: '0xeFf660736FDAFDe5a2c596EFB5AF157A9cBaDec5',
     tokenId: '0',
     network: Network.MUMBAI,
-    type: 'nft-drop',
+    type: 'nft-drop' as ContractType,
   },
 ]
 
 export type ContractTokenId = [string, number]
 
-export const relayerUrlConst = "https://api.defender.openzeppelin.com/autotasks/7378f7f3-be90-403b-8cc2-e014977f5c00/runs/webhook/aa080222-57c6-4eb2-8575-7ba295f1a9c1/7QC3TRvK4o3YTm5RA3YQ8L"; // OpenZeppelin relayer URL
+export const relayerUrlConst =
+  'https://api.defender.openzeppelin.com/autotasks/7378f7f3-be90-403b-8cc2-e014977f5c00/runs/webhook/aa080222-57c6-4eb2-8575-7ba295f1a9c1/7QC3TRvK4o3YTm5RA3YQ8L' // OpenZeppelin relayer URL
