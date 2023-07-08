@@ -2,7 +2,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { FC } from 'react'
-import { FREE_MINT_CONTRACT } from '../common/config'
+import { FREE_MINT_CONTRACT, MINT_PASSES } from '../common/config'
 
 import { withLayout } from '../common/layouts/MainLayout/withLayout'
 import { Layout, Network } from '../common/types'
@@ -10,6 +10,7 @@ import { Button } from '../modules/Button'
 import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
 import { FreeMint } from '../modules/FreeMint'
+import { MintPasses } from '../modules/MintPasses'
 // import { selectedNetwork } from '../modules/NetworkSelector'
 // import { useAppSelector } from '../common/redux/store'
 // import { MintPasses } from '../modules/MintPasses'
@@ -66,7 +67,7 @@ const Home: FC = () => {
       </header>
       <main className="w-full">
         <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} />
-        {/* <MintPasses /> */}
+        <MintPasses contracts={MINT_PASSES} />
         {/* <BurnToMint
           sourceContract={pathOr('', ['odessyGenesisCollection', 'sourceContract'])(BURN_TO_MINT)}
           targets={pathOr([], ['odessyGenesisCollection', 'targets'])(BURN_TO_MINT)}

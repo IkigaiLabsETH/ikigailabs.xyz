@@ -59,13 +59,13 @@ export interface Token {
 }
 
 export enum DropTypes {
-  NFT = 'NFT',
-  Edition = 'Edition',
+  NFT = 'nft-drop',
+  Edition = 'edition-drop',
 }
 
 export enum DropTypeStandards {
-  Edition = 'ERC1155',
-  NFT = 'ERC721',
+  'edition-drop' = 'ERC1155',
+  'nft-drop' = 'ERC721',
 }
 
 export interface ContractMetadata {
@@ -294,21 +294,9 @@ export interface Collection {
   }[]
 }
 
-// export interface TransactionReceipt {
-//   blockHash: string
-//   blockNumber: number
-//   status: number
-//   to: string
-//   from: string
-//   transactionHash: string
-//   transactionIndex: number
-//   contractAddress: string
-//   cumulativeGasUsed: number
-//   gasUsed: number
-//   logs: any[]
-// }
-
-// export interface ClaimResult {
-//   id: BigNumber
-//   receipt: TransactionReceipt
-// }
+export interface TokenDefinition {
+  contract: string
+  tokenId: string
+  network: Network
+  type: ContractType
+}

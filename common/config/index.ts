@@ -137,9 +137,24 @@ export const BURN_TO_MINT = {
 }
 
 export const MINT_PASSES = [
-  ['0x8aaBDdBD9bB219781f53Ca0445F4C51ffe7D1D51', 0, Network.MUMBAI],
-  ['0x37333c2c07793Bf5E2006768C817c61b8224AF87', 0, Network.MUMBAI],
-  ['0xeFf660736FDAFDe5a2c596EFB5AF157A9cBaDec5', 0, Network.MUMBAI],
+  {
+    contract: '0x8aaBDdBD9bB219781f53Ca0445F4C51ffe7D1D51',
+    tokenId: '0',
+    network: Network.MUMBAI,
+    type: 'nft-drop',
+  },
+  {
+    contract: '0x37333c2c07793Bf5E2006768C817c61b8224AF87',
+    tokenId: '0',
+    network: Network.MUMBAI,
+    type: 'nft-drop',
+  },
+  {
+    contract: '0xeFf660736FDAFDe5a2c596EFB5AF157A9cBaDec5',
+    tokenId: '0',
+    network: Network.MUMBAI,
+    type: 'nft-drop',
+  },
 ]
 
 export type ContractTokenId = [string, number]
