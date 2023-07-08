@@ -25,7 +25,6 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
   const { status: artistsStatus, data: artistsData } = useAppSelector(selectToken(contracts[1]))
   const { status: collectorsStatus, data: collectorsData } = useAppSelector(selectToken(contracts[2]))
 
-
   return (
     <div className="flex flex-col px-8 md:px-24 lg:px-48 bg-white text-black min-h-screen justify-center items-center">
       <div className="flex flex-row space-x-6 mt-32">
@@ -44,9 +43,9 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
                 <Link href={`/drop/${contracts[0].network}/${contracts[0].contract}`}>
                   <a className="flex justify-between w-full">
                     <div>
-                      {foundersData.metadata.name}
-                      <p className="lg:text-2xl font-normal text-gray-600 mt-3 pl-1">
-                        {foundersData.metadata.description}
+                      {foundersData?.metadata?.name}
+                      <p className="lg:text-2xl font-normal text-gray-600 mt-3 pl-1 text-lg">
+                        {foundersData?.metadata?.description}
                       </p>
                     </div>{' '}
                     <ChevronRightIcon className="w-24 h-24 inline-block" />
@@ -59,9 +58,9 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
                 <Link href={`/drop/${contracts[0].network}/${contracts[0].contract}`}>
                   <a className="flex justify-between w-full">
                     <div>
-                      {artistsData.metadata.name}
-                      <p className="lg:text-2xl font-normal text-gray-600 mt-3 pl-1">
-                        {artistsData.metadata.description}
+                      {artistsData?.metadata?.name}
+                      <p className="lg:text-2xl font-normal text-gray-600 mt-3 pl-1 text-lg">
+                        {artistsData?.metadata?.description}
                       </p>
                     </div>{' '}
                     <ChevronRightIcon className="w-24 h-24 inline-block" />
@@ -74,9 +73,9 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
                 <Link href={`/drop/${contracts[0].network}/${contracts[0].contract}`}>
                   <a className="flex justify-between w-full">
                     <div>
-                      {artistsData.metadata.name}
-                      <p className="lg:text-2xl font-normal text-gray-600 mt-3 pl-1">
-                        {artistsData.metadata.description}
+                      {artistsData?.metadata?.name}
+                      <p className="lg:text-2xl text-lg font-normal text-gray-600 mt-3 pl-1">
+                        {artistsData?.metadata?.description}
                       </p>
                     </div>{' '}
                     <ChevronRightIcon className="w-24 h-24 inline-block" />

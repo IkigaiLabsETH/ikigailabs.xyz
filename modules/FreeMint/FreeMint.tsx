@@ -23,7 +23,7 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, network }) => {
   return (
     <div className="flex relative flex-col lg:flex-row-reverse lg:min-h-screen lg:h-min items-stretch">
       <div
-        className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover"
+        className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover sm:max-lg:h-96"
         style={{ backgroundImage: `url(${data?.image})` }}
       ></div>
       <div className="w-full lg:w-1/2 p-16">

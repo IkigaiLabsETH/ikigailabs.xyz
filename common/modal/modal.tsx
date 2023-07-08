@@ -6,8 +6,10 @@ import { MintPass } from '../../modules/MintPass'
 import { showMintPassDetails } from '../../modules/MintPasses'
 import { mintSuccess } from '../../modules/Drop'
 import { SuccessfulModal } from '../../modules/Drop/SuccessModal'
+import { changeRoute } from '../app'
 
 export const modalActions = [showMintPassDetails, showAllowlist, interactionProgressAction, mintSuccess]
+export const closeModalActions = [changeRoute]
 
 export const MODALS = {
   [showMintPassDetails.type]: (data: any) => <MintPass {...data} />,

@@ -16,7 +16,7 @@ export const CollectionHeader: FC<CollectionHeaderProps> = ({ children, eyebrow,
   <>
     <div className="flex relative flex-col lg:flex-row-reverse lg:min-h-screen lg:h-min items-stretch">
       <div
-        className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover"
+        className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover sm:max-lg:h-96"
         style={{ backgroundImage: `url(${replaceImageResolution(2000)(coverImage)})` }}
       ></div>
       <div className="w-full lg:w-1/2 p-16 max-w-3xl">

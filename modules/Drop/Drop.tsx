@@ -31,9 +31,10 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
 
   const onSuccess = (result: TransactionResultWithId<TWNFT>[]) => {
     const data = {
-      id: result[0].id.toNumber(),
+      tokenId: result[0].id.toString(),
       transactionHash: result[0].receipt.transactionHash,
       network,
+      contract,
     }
     dispatch(mintSuccess(data))
     setLocalClaimedSupply(localClaimedSupply + amountToMint)

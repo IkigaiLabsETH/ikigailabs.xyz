@@ -21,9 +21,7 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     const client = getTWClient(ChainId[network as string])
 
     const clientContract = await client.getContract(...args)
-    console.log(clientContract)
     let result = {}
-    console.log(type)
     if (type === 'nft-drop') {
       const tokenPromise = clientContract.erc721.get(BigNumber.from(tokenId))
       result = await tokenPromise
@@ -32,7 +30,6 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     if (type === 'edition-drop') {
       const tokenPromise = clientContract.erc1155.get(0)
       result = await tokenPromise
-      console.log(result)
     }
 
     res.status(200).json(result)
