@@ -4,12 +4,6 @@ import { RootState } from './store'
 
 export const getDynamicAPIUrl: (platform: string) => BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> =
   platform => (args, WebApi, extraOptions) => {
-    console.log(
-      URLS,
-      WebApi.getState() as RootState,
-      platform,
-      (WebApi.getState() as RootState).network.selectedNetwork,
-    )
     const baseUrl = URLS[(WebApi.getState() as RootState).network.selectedNetwork][platform]
 
     const rawBaseQuery = fetchBaseQuery({ baseUrl })

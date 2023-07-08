@@ -4,10 +4,9 @@ import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { getDropTokenByContractAndTokenId, selectToken } from '../Drop'
-import { showMintPassDetails } from './mintPasses.slice'
-import { Button } from '../Button'
 import { TokenDefinition } from '../../common/types'
 import Link from 'next/link'
+import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
 interface MintPassesProps {
   contracts: TokenDefinition[]
@@ -26,7 +25,6 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
   const { status: artistsStatus, data: artistsData } = useAppSelector(selectToken(contracts[1]))
   const { status: collectorsStatus, data: collectorsData } = useAppSelector(selectToken(contracts[2]))
 
-  console.log(foundersData, artistsData, collectorsData)
 
   return (
     <div className="flex flex-col px-8 md:px-24 lg:px-48 bg-white text-black min-h-screen justify-center items-center">
@@ -41,7 +39,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
           </p>
 
           <ul>
-            {foundersData ? (
+            {foundersStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
                 <Link href={`/drop/${contracts[0].network}/${contracts[0].contract}`}>
                   <a className="flex justify-between w-full">
@@ -56,7 +54,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
                 </Link>
               </li>
             ) : null}
-            {artistsData ? (
+            {artistsStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
                 <Link href={`/drop/${contracts[0].network}/${contracts[0].contract}`}>
                   <a className="flex justify-between w-full">
@@ -71,7 +69,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
                 </Link>
               </li>
             ) : null}
-            {collectorsData ? (
+            {collectorsStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
                 <Link href={`/drop/${contracts[0].network}/${contracts[0].contract}`}>
                   <a className="flex justify-between w-full">

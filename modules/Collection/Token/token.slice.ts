@@ -20,7 +20,6 @@ export const buyTokenTh = (client: any, signer: any) =>
           },
         })
         .then((res: any) => {
-          console.log(res)
           return res
         })
         .catch((err: any) => {
@@ -51,7 +50,6 @@ export const placeBidTh = (client: any, signer: any) =>
           },
         })
         .then((res: any) => {
-          console.log(res)
           return res
         })
         .catch((err: any) => {
@@ -76,7 +74,6 @@ export const tokenSlice = createSlice({
       .addCase(buyToken.fulfilled, (state, action) => {
         const { payload } = action
         state.status = 'succeeded'
-        console.log(payload)
         tokenAdapter.addOne(state, payload)
       })
       .addCase(buyToken.rejected, state => {
