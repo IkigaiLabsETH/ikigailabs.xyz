@@ -8,7 +8,7 @@ import { mintSuccess } from '../../modules/Drop'
 import { SuccessfulModal } from '../../modules/Drop/SuccessModal'
 import { changeRoute } from '../app'
 
-export const modalActions = [showMintPassDetails, showAllowlist, interactionProgressAction, mintSuccess]
+export const openModalActions = [showMintPassDetails, showAllowlist, interactionProgressAction, mintSuccess]
 export const closeModalActions = [changeRoute]
 
 export const MODALS = {

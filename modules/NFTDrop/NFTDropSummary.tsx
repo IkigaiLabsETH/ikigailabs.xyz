@@ -11,7 +11,10 @@ interface NFTDropSummaryProps {
 
 export const NFTDropSummary: FC<NFTDropSummaryProps> = ({ address, metadata: { name, description, image } }) => (
   <div className="flex relative flex-col lg:flex-row-reverse lg:min-h-screen lg:h-min items-stretch border-t-gray-800 border-t border-b border-b-black">
-    <div className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover sm:max-lg:h-96" style={{ backgroundImage: `url(${image})` }}></div>
+    <div
+      className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover sm:max-lg:h-96"
+      style={{ backgroundImage: `url(${image})` }}
+    ></div>
     <div className="w-full lg:w-1/2 p-16">
       <Eyebrow>Exclusive</Eyebrow>
       <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{name}</h2>

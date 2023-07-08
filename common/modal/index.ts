@@ -1,1 +1,1 @@
-export { modalActions, MODALS } from './modal'
+export { openModalActions, closeModalActions, MODALS } from './modal'

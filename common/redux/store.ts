@@ -18,8 +18,7 @@ import { prop } from 'ramda'
 import { featuredAuctionReducer } from '../../modules/Auction/Featured'
 import { mintPassesReducer } from '../../modules/MintPasses'
 import { buyToken, collectionTokenMiddleware, placeBid } from '../../modules/Collection'
-import { modalMiddleware, modalReducer } from '../../modules/Modal'
-import { modalActions } from '../modal'
+import { closeModalMiddleware, modalReducer, openModalMiddleware } from '../../modules/Modal'
 import { collectionApi, collectionMiddleware } from '../../modules/Collection'
 import { collectionTokenApi } from '../../modules/Collection/Token/token.api'
 import { freeMintReducer } from '../../modules/FreeMint'
@@ -38,6 +37,7 @@ import { collectionTokenInteractionReducer } from '../../modules/Collection/Toke
 import { changeNetwork, NetworkSelectorReducer } from '../../modules/NetworkSelector'
 import { dropApi } from '../../modules/Drop/drop.api'
 import { mintSuccess } from '../../modules/Drop'
+import { closeModalActions, openModalActions } from '../modal'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -69,7 +69,8 @@ const notifications = {
 
 startAppListening(collectionTokenMiddleware)
 startAppListening(collectionMiddleware)
-startAppListening(modalMiddleware(modalActions as any))
+startAppListening(openModalMiddleware(openModalActions as any))
+startAppListening(closeModalMiddleware(closeModalActions as any))
 startAppListening(checkTokenBalancesForCollectionMiddleware)
 startAppListening(
   // @ts-ignore
