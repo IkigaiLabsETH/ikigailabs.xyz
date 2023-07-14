@@ -1,1 +1,1 @@
-export { confettiActions } from './confetti'
+export { showConfettiActions, hideConfettiActions } from './confetti'

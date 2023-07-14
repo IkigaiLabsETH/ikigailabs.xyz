@@ -4,14 +4,18 @@ import { AppDispatch, RootState } from '../../common/redux/store'
 import { hideModal } from '../Modal'
 import { show, hide } from './confetti.slice'
 
-export const middleware = (actionCreators: ActionCreatorWithPayload<string>[]) => ({
+export const showConfettiMiddleware = (actionCreators: ActionCreatorWithPayload<string>[]) => ({
   // @ts-ignore
   matcher: isAnyOf(...actionCreators),
   effect: (action: PayloadAction<string>, listenerApi: ListenerEffectAPI<RootState, AppDispatch>) => {
     listenerApi.dispatch(show())
+  },
+})
 
-    if (action.type === hideModal.type) {
-      listenerApi.dispatch(hide())
-    }
+export const hideConfettiMiddleware = (actionCreators: ActionCreatorWithPayload<string>[]) => ({
+  // @ts-ignore
+  matcher: isAnyOf(...actionCreators),
+  effect: (action: PayloadAction<string>, listenerApi: ListenerEffectAPI<RootState, AppDispatch>) => {
+    listenerApi.dispatch(hide())
   },
 })

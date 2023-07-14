@@ -31,13 +31,13 @@ import { claim } from '../../modules/FreeMint/freeMint.slice'
 import { collectionsApi } from '../../modules/Collections/collections.api'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
-import { confettiMiddleware, confettiReducer } from '../../modules/Confetti'
-import { confettiActions } from '../confetti'
+import { confettiReducer, hideConfettiMiddleware, showConfettiMiddleware } from '../../modules/Confetti'
 import { collectionTokenInteractionReducer } from '../../modules/Collection/Token/token.slice'
 import { changeNetwork, NetworkSelectorReducer } from '../../modules/NetworkSelector'
 import { dropApi } from '../../modules/Drop/drop.api'
 import { mintSuccess } from '../../modules/Drop'
 import { closeModalActions, openModalActions } from '../modal'
+import { hideConfettiActions, showConfettiActions } from '../confetti'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -89,7 +89,8 @@ startAppListening(
   ]),
 )
 startAppListening(walletMiddleware([changeNetwork] as any))
-startAppListening(confettiMiddleware(confettiActions as any))
+startAppListening(showConfettiMiddleware(showConfettiActions as any))
+startAppListening(hideConfettiMiddleware(hideConfettiActions as any))
 
 const combinedReducer = combineReducers({
   featuredAuction: featuredAuctionReducer,
