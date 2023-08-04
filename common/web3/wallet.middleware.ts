@@ -11,7 +11,7 @@ export const middleware = (actionCreators: ActionCreator<string>[]) => ({
     action: PayloadAction<{ network: Network; address: string }>,
     listenerApi: ListenerEffectAPI<RootState, AppDispatch>,
   ) => {
-    location?.reload()
+    // location?.reload()
     // if (action.payload.address) {
     //   listenerApi.dispatch(getBalance.initiate({ address: action.payload.address, network: action.payload.network }))
     // }
