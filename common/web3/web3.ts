@@ -1,4 +1,4 @@
-import { ChainId, ThirdwebSDK } from '@thirdweb-dev/sdk'
+import { ThirdwebSDK } from '@thirdweb-dev/sdk'
 import { Ethereum, Goerli, Polygon, Arbitrum, ArbitrumGoerli, Mumbai } from '@thirdweb-dev/chains'
 import { createClient } from '@reservoir0x/reservoir-sdk'
 import { ethers } from 'ethers'
@@ -23,8 +23,10 @@ const getTWClient = (chain: Network) => {
       chainId: getChainIdFromNetwork(chain),
       rpcUrl: `${URLS[chain].alchemy}/v2/${process.env.ALCHEMY_KEY}`,
     },
+    clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
+    secretKey: process.env.THIRDWEB_SECRET_KEY,
   }
-
+  
   if (URLS[chain].openzeppelin) {
     settings['gassless'] = {
       openzeppelin: {

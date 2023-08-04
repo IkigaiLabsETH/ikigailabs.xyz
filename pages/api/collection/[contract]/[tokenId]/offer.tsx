@@ -19,7 +19,7 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
           orderKind: 'seaport-v1.5',
         },
       ],
-      wallet: walletClient(address, network as Network),
+      wallet: walletClient(address),
       onProgress: steps => {
         console.log('steps', steps)
         // dispatch(interactionProgressAction(steps))
