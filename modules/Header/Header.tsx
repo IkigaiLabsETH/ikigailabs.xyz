@@ -7,28 +7,17 @@ import { useWallet } from '../../common/useWallet'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 // import { Button } from '../Button'
-import { NetworkSelector } from '../NetworkSelector/NetworkSelector'
+import { selectedNetwork } from '../NetworkSelector'
+import { useAppSelector } from '../../common/redux/store'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
-  const { disconnect, connect, address } = useWallet()
   const { pathname } = useRouter()
+  const network = useAppSelector(selectedNetwork)
 
   useEffect(() => {
     setExpanded(false)
   }, [pathname])
-
-  const handleDisconnect = event => {
-    event.preventDefault()
-    disconnect()
-    setExpanded(!expanded)
-  }
-
-  const handleConnect = event => {
-    event.preventDefault()
-    connect()
-    setExpanded(!expanded)
-  }
 
   return (
     <header className="fixed py-4 sm:py-6 z-20 w-full">
@@ -104,13 +93,13 @@ export const Header: FC = () => {
                 </a>
               </Link>
             </div>
-            {/* <div className="flex justify-end">
-              <Link href="/collections">
-                <a title="Collections" className="p-4 bg-black mb-1 inline-block">
-                  Collections
+            <div className="flex justify-end">
+              <Link href={`/${network}/collection-sets`}>
+                <a title="Collection Sets" className="p-4 bg-black mb-1 inline-block">
+                  Collection Sets
                 </a>
               </Link>
-            </div> */}
+            </div>
             <div className="flex justify-end">
               <Link href="/about">
                 <a title="About" className="p-4 bg-black mb-1 inline-block">

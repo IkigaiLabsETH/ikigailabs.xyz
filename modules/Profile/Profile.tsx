@@ -18,7 +18,7 @@ export const Profile: FC<ProfileProps> = () => {
 
   return ( 
     <div className='border-2 border-yellow'>
-      <ConnectWallet theme='dark' className=" w-full rounded-none font-bold p-5 transition-colors border-2 bg-black text-yellow" networkSelector={{ onSwitch: ({ chain }) => dispatch(changeNetwork({ network: chain as Network })) }}/>
+      <ConnectWallet theme='dark' className=" w-full rounded-none font-bold p-5 transition-colors border-2 bg-black text-yellow" networkSelector={{ onSwitch: ({ slug }) => dispatch(changeNetwork({ network: slug as Network })) }}/>
     </div>
   )
 }
