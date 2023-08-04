@@ -21,6 +21,7 @@ import { changeRoute, initialPageLoad } from '../common/app'
 import { URLS } from '../common/config'
 import { getChainIdFromNetwork } from '../common/utils'
 import { signer } from '../common/web3'
+import { TW_SUPPORTED_CHAINS } from '../common/config/chains'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   let network = store.getState().network.selectedNetwork
@@ -63,6 +64,7 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
             signer={signer}
             clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
             supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect()]}
+            supportedChains={TW_SUPPORTED_CHAINS}
           >
             <Component {...pageProps} />
             <Modal modals={MODALS} />

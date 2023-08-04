@@ -8,7 +8,7 @@ const nextConfig = {
         hostname: '**.googleusercontent.com',
       },
     ],
-    domains: ['gateway.ipfscdn.io', '**.thirdwebcdn.com', '**.seadn.io', 'lh3.googleusercontent.com', 'i.seadn.io'],
+    domains: ['gateway.ipfscdn.io', '**.thirdwebcdn.com', '**.seadn.io', 'lh3.googleusercontent.com', 'i.seadn.io', 'openseauserdata.com'],
   },
   webpack(config) {
     config.module.rules.push({

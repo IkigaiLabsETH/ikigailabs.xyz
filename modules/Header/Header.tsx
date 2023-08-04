@@ -123,17 +123,6 @@ export const Header: FC = () => {
                 Edito
               </a>
             </div>
-            <div className="flex justify-end mt-16">
-              {address ? (
-                <a href="#" role="button" onClick={handleDisconnect} className="p-4 bg-black mb-1 inline-block">
-                  Disconnect
-                </a>
-              ) : (
-                <a href="#" role="button" onClick={handleConnect} className="p-4 bg-black mb-1 inline-block">
-                  Connect
-                </a>
-              )}
-            </div>
           </div>
         </nav>
       </div>

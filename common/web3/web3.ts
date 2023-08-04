@@ -1,12 +1,13 @@
 import { ThirdwebSDK } from '@thirdweb-dev/sdk'
-import { Ethereum, Goerli, Polygon, Arbitrum, ArbitrumGoerli, Mumbai } from '@thirdweb-dev/chains'
 import { createClient } from '@reservoir0x/reservoir-sdk'
 import { ethers } from 'ethers'
 
 import { Network } from '../types'
 import { URLS } from '../config'
 import { getChainIdFromNetwork } from '../utils'
-import { createWalletClient, custom, http } from 'viem'
+import { createWalletClient, custom } from 'viem'
+import { Chain } from '@thirdweb-dev/react'
+import { TW_SUPPORTED_CHAINS } from '../config/chains'
 
 let ethProvider = null
 let signer = null
@@ -18,7 +19,7 @@ if (typeof window !== 'undefined') {
 
 const getTWClient = (chain: Network) => {
   const settings = {
-    supportedChains: [Ethereum, Goerli, Polygon, Arbitrum, ArbitrumGoerli, Mumbai] as any,
+    supportedChains: TW_SUPPORTED_CHAINS,
     readonlySettings: {
       chainId: getChainIdFromNetwork(chain),
       rpcUrl: `${URLS[chain].alchemy}/v2/${process.env.ALCHEMY_KEY}`,
