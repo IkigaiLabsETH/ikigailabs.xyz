@@ -12,6 +12,7 @@ const DropPage: FC = () => {
   const {
     query: { contract, id, network },
   } = useRouter()
+
   return (
     <div className="flex items-center flex-col">
       <Head>

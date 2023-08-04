@@ -2,9 +2,10 @@ import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { equals, pathOr, pipe, propOr, unless } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
+import { format, parseISO } from 'date-fns/fp'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import { fetchCollection } from './collection.api'
+import { fetchCollection, collectionApi } from './collection.api'
 import { Loader } from '../Loader'
 import { Activity } from '../Activity'
 import { NFTGrid } from '../NFTGrid'
@@ -16,16 +17,15 @@ import {
   selectCollectionAttributes,
   selectCollectionActivity,
 } from './collection.selectors'
-
-import { collectionApi } from './collection.api'
 import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
-import { format, parseISO } from 'date-fns/fp'
 import { Eth } from '../Eth'
 import { useInfiniteLoading } from '../../common/useInfiniteLoading'
+import { Network } from '../../common/types'
 
 interface CollectionProps {
   contract: string
+  network: Network
 }
 
 enum Tab {
@@ -33,26 +33,25 @@ enum Tab {
   activity,
 }
 
-export const Collection: FC<CollectionProps> = ({ contract }) => {
+export const Collection: FC<CollectionProps> = ({ contract, network }) => {
   const dispatch = useAppDispatch()
   const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
   const [selectedAttributes, setSelectedAttributes] = useState<string>('')
   const [nfts, setNfts] = useState({ tokens: [], continuation: '', status: 'idle' })
   const { data: nftData, status } = useAppSelector(
-    selectNFTS({ contract, attributes: selectedAttributes, continuation: '' }),
+    selectNFTS({ contract, attributes: selectedAttributes, continuation: '', network }),
   )
 
-  const { data: collection, status: collectionDataStatus } = useAppSelector(selectCollection(contract))
-  const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity(contract))
-  const { data: attributes } = useAppSelector(selectCollectionAttributes(contract))
+  const { data: collection, status: collectionDataStatus } = useAppSelector(selectCollection({ contract, network }))
+  const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity({ contract, network }))
+  const { data: attributes } = useAppSelector(selectCollectionAttributes({ contract, network }))
 
-  const { ref } = useInfiniteLoading(
-    collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
-      contract,
-      attributes: '',
-      continuation: nfts?.continuation,
-    }),
-  )
+  const { ref } = useInfiniteLoading(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate, {
+    contract,
+    attributes: '',
+    continuation: nfts?.continuation,
+    network,
+  })
 
   useEffect(() => {
     contract &&
@@ -61,13 +60,14 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
           contract,
           attributes: '',
           continuation: '',
+          network,
         }),
       )
-  }, [contract])
+  }, [contract, network, dispatch])
 
   useEffect(() => {
     nftData && setNfts({ tokens: nftData.tokens, continuation: nftData.continuation, status })
-  }, [nftData])
+  }, [nftData, setNfts, status])
 
   const updateFacets = selection => {
     setSelectedAttributes(formatAttributes(selection))
@@ -76,13 +76,14 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
         contract,
         attributes: formatAttributes(selection),
         continuation: nfts?.continuation || '',
+        network,
       }),
     )
   }
 
   useEffect(() => {
-    contract && dispatch(fetchCollection({ contract }))
-  }, [contract])
+    contract && dispatch(fetchCollection({ contract, network }))
+  }, [contract, network, dispatch])
 
   const nftsDisplay = (
     <div className="flex flex-row">
@@ -90,7 +91,7 @@ export const Collection: FC<CollectionProps> = ({ contract }) => {
         {attributes ? <Facets facets={attributes?.attributes} onUpdateFacets={updateFacets} /> : <></>}
       </div>
       <div className="w-3/4">
-        {nfts?.tokens.length ? <NFTGrid nfts={nfts.tokens} /> : <div>No results found</div>}
+        {nfts?.tokens.length ? <NFTGrid nfts={nfts.tokens} network={network} /> : <div>No results found</div>}
         {nfts?.status === 'pending' && (
           <div className="w-full text-center">
             <Loader />

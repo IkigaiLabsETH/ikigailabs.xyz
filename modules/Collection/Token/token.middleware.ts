@@ -4,6 +4,7 @@ import { pathOr } from 'ramda'
 import { AppDispatch, RootState } from '../../../common/redux/store'
 import { fetchCollectionToken } from './token.actions'
 import { collectionTokenApi } from './token.api'
+import { Network } from '../../../common/types'
 
 export const middleware = {
   actionCreator: fetchCollectionToken,
@@ -11,11 +12,11 @@ export const middleware = {
     action: PayloadAction<{ contract: string; tokenId: string }>,
     listenerApi: ListenerEffectAPI<RootState, AppDispatch>,
   ) => {
-    listenerApi.dispatch(
-      collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate({
-        contract: pathOr('', ['payload', 'contract'])(action),
-        tokenId: pathOr('', ['payload', 'tokenId'])(action),
-      }),
-    )
+    const params = {
+      contract: pathOr('', ['payload', 'contract'])(action),
+      tokenId: pathOr('', ['payload', 'tokenId'])(action),
+      network: pathOr(Network.MAINNET, ['payload', 'network'])(action),
+    }
+    listenerApi.dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate(params))
   },
 }

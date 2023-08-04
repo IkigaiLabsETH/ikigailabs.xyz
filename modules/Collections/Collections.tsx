@@ -5,15 +5,17 @@ import { Link } from '../../modules/Link'
 import { Eth } from '../../modules/Eth'
 import { Percentage } from '../../modules/Percentage'
 import { Table, Head as THead, HeaderCell, Row, Cell, Body } from '../../modules/Table'
-import { Collection } from '../../common/types'
+import { Collection, Network } from '../../common/types'
 import { SkeletonLoader } from '../SkeletonLoader'
+import Image from 'next/image'
 
 interface CollectionsProps {
   collections: Collection[]
   isLoading: boolean
+  network: Network
 }
 
-export const Collections: FC<CollectionsProps> = ({ collections, isLoading }) => (
+export const Collections: FC<CollectionsProps> = ({ collections, isLoading, network }) => (
   <div className="w-full text-black mx-auto py-8 max-w-screen-2xl">
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="-mx-4 mt-8 sm:-mx-0">
@@ -33,7 +35,13 @@ export const Collections: FC<CollectionsProps> = ({ collections, isLoading }) =>
             {map((collection: any) => (
               <Row key={collection.id}>
                 <Cell>
-                  <img src={collection.image} alt={collection.name} className="h-12 w-12 rounded-full" />
+                  <Image
+                    src={collection.image}
+                    alt={collection.name}
+                    className="h-12 w-12 rounded-full"
+                    width="48"
+                    height="48"
+                  />
                 </Cell>
                 <Cell>{collection.name}</Cell>
                 <Cell>
@@ -50,7 +58,7 @@ export const Collections: FC<CollectionsProps> = ({ collections, isLoading }) =>
                 </Cell>
                 <Cell>{collection.tokenCount}</Cell>
                 <Cell>
-                  <Link href={`/collection/${collection.id}`} title={collection.name}>
+                  <Link href={`collection/${collection.id}`} title={collection.name}>
                     View &rarr;{' '}
                   </Link>
                 </Cell>

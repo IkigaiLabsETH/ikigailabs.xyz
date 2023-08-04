@@ -1,1 +1,1 @@
-export { selectedNetwork, reducer as NetworkSelectorReducer, changeNetwork } from './NetworkSelector.slice'
+export { selectedNetwork, reducer as networkSelectorReducer, changeNetwork } from './NetworkSelector.slice'

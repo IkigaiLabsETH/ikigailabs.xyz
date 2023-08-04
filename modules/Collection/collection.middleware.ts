@@ -1,5 +1,5 @@
 import { ListenerEffectAPI, PayloadAction } from '@reduxjs/toolkit'
-import { pathOr, prop } from 'ramda'
+import { pathOr } from 'ramda'
 
 import { AppDispatch, RootState } from '../../common/redux/store'
 import {
@@ -8,12 +8,20 @@ import {
   getCollectionByContract,
   getCollectionActivityByContract,
 } from './collection.api'
+import { Network } from '../../common/types'
 
 export const middleware = {
   actionCreator: fetchCollection,
-  effect: (action: PayloadAction<{ contract: string }>, listenerApi: ListenerEffectAPI<RootState, AppDispatch>) => {
-    listenerApi.dispatch(getCollectionByContract.initiate(pathOr('', ['payload', 'contract'])(action)))
-    listenerApi.dispatch(getCollectionActivityByContract.initiate(pathOr('', ['payload', 'contract'])(action)))
-    listenerApi.dispatch(getCollectionAttributesByContract.initiate(pathOr('', ['payload', 'contract'])(action)))
+  effect: (
+    action: PayloadAction<{ contract: string; network: Network }>,
+    listenerApi: ListenerEffectAPI<RootState, AppDispatch>,
+  ) => {
+    const params = {
+      contract: pathOr('', ['payload', 'contract'])(action),
+      network: pathOr(Network.MAINNET, ['payload', 'network'])(action),
+    }
+    listenerApi.dispatch(getCollectionByContract.initiate(params))
+    listenerApi.dispatch(getCollectionActivityByContract.initiate(params))
+    listenerApi.dispatch(getCollectionAttributesByContract.initiate(params))
   },
 }

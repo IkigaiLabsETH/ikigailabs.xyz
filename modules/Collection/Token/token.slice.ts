@@ -1,20 +1,22 @@
 import { createAction, createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 
 import { RootState } from '../../../common/redux/store'
-import { reservoirClient, signer } from '../../../common/web3/web3'
+import { reservoirClient, walletClient } from '../../../common/web3/web3'
+import { ReservoirClient } from '@reservoir0x/reservoir-sdk'
+import { Network } from '../../../common/types'
 
 export const tokenAdapter = createEntityAdapter({})
 
-export const interactionProgressAction = createAction('collection/interaction/progress')
+export const interactionProgressAction = createAction<any>('collection/interaction/progress')
 
-export const buyTokenTh = (client: any, signer: any) =>
-  createAsyncThunk<Promise<any>, { contract: string; tokenId: string }>(
+export const buyTokenTh = (client: (network: Network) => ReservoirClient, walletClient) =>
+  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; address: string; network: Network }>(
     'collection/token/buy',
-    ({ contract, tokenId }, { rejectWithValue, dispatch }) => {
-      return client?.actions
-        .buyToken({
+    ({ contract, tokenId, address, network }, { rejectWithValue, dispatch }) => {
+      return client(network)
+        ?.actions.buyToken({
           items: [{ token: `${contract}:${tokenId}`, quantity: 1 }],
-          signer,
+          wallet: walletClient(address, network),
           onProgress: steps => {
             dispatch(interactionProgressAction(steps))
           },
@@ -28,24 +30,26 @@ export const buyTokenTh = (client: any, signer: any) =>
     },
   )
 
-export const buyToken = buyTokenTh(reservoirClient, signer)
+export const buyToken = buyTokenTh(reservoirClient, walletClient)
 
-export const placeBidTh = (client: any, signer: any) =>
-  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string }>(
+export const placeBidTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
+  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network }>(
     'collection/makeOffer',
-    ({ contract, tokenId, wei }, { rejectWithValue, dispatch }) => {
-      return client?.actions
-        .placeBid({
+    ({ contract, tokenId, wei, address, network }, { rejectWithValue, dispatch }) => {
+      console.log('kjh', process.env.NEXT_PUBLIC_ALCHEMY_KEY)
+      return client(network)
+        ?.actions.placeBid({
           bids: [
             {
               token: `${contract}:${tokenId}`,
               weiPrice: wei,
               orderbook: 'reservoir',
-              orderKind: 'seaport-v1.4',
+              orderKind: 'seaport-v1.5',
             },
           ],
-          signer,
+          wallet: walletClient(address, network),
           onProgress: steps => {
+            console.log('steps', steps)
             dispatch(interactionProgressAction(steps))
           },
         })
@@ -53,12 +57,13 @@ export const placeBidTh = (client: any, signer: any) =>
           return res
         })
         .catch((err: any) => {
-          return rejectWithValue(err.response.data)
+          console.log(err.response)
+          return rejectWithValue(err.response)
         })
     },
   )
 
-export const placeBid = placeBidTh(reservoirClient, signer)
+export const placeBid = placeBidTh(reservoirClient, walletClient)
 
 export const tokenSlice = createSlice({
   name: 'collectionTokenInteraction',

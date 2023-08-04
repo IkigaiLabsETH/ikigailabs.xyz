@@ -1,3 +1,5 @@
+import { ChainId } from '@thirdweb-dev/sdk'
+import { Network } from '@thirdweb-dev/sdk/solana'
 import { formatDuration, intervalToDuration } from 'date-fns'
 import {
   addIndex,
@@ -29,6 +31,7 @@ import {
   when,
   without,
   __,
+  toUpper,
 } from 'ramda'
 
 export const truncate = (length: number) =>
@@ -94,3 +97,14 @@ export const batchArray = (strings: string[]) => (batchSize: number) =>
 export const replaceImageResolution = (resolution: number) => replace(/w=\d+/, `w=${resolution}`)
 
 export const ethToWei = (eth: number) => eth * 10 ** 18
+
+export const capitalize = replace(/^./, toUpper)
+
+export const getChainIdFromNetwork = (network: Network) => {
+  let capitalizedChain = capitalize(network)
+  if (capitalizedChain === 'Ethereum') {
+    capitalizedChain = 'Mainnet'
+  }
+
+  return ChainId[capitalizedChain]
+}

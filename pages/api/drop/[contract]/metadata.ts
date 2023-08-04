@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { ChainId } from '@thirdweb-dev/sdk'
 
 import { match } from 'ts-pattern'
 import { getTWClient } from '../../../../common/web3'
+import { Network } from '../../../../common/types'
 
 const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { contract, network, type } = req.query
@@ -17,7 +17,7 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     if (type) {
       args.push(type as string)
     }
-    const client = getTWClient(ChainId[network as string])
+    const client = getTWClient(network as Network)
     const result = await client
       .getContract(...args)
       .then(response => response.metadata.get())

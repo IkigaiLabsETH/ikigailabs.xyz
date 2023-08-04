@@ -8,7 +8,6 @@ interface NetworkState {
 
 interface ChangeNetworkPayload {
   network: Network
-  address: string
 }
 
 const initialState = { selectedNetwork: Network.MAINNET } as NetworkState

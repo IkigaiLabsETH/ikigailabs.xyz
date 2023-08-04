@@ -1,1 +1,1 @@
-export { changeRoute } from './app.action'
+export { changeRoute, initialPageLoad } from './app.action'

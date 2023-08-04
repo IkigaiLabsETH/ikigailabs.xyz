@@ -22,7 +22,7 @@ export const NFT: FC<NFTProps> = ({ contract, tokenId, network }) => {
     if (!token) {
       dispatch(getDropTokenByContractAndTokenId.initiate({ contract, tokenId, network }))
     }
-  }, [contract, tokenId, network])
+  }, [contract, tokenId, network, dispatch, token])
 
   const loader = (
     <div className="flex w-screen h-screen justify-center items-center bg-yellow">
@@ -31,13 +31,12 @@ export const NFT: FC<NFTProps> = ({ contract, tokenId, network }) => {
   )
 
   const component = () => {
-    console.log(token)
     const { image, name, description, attributes } = token.metadata
     return (
       <div className="w-full bg-yellow flex items-center flex-col">
-        <img src={image} title={name as string} className="w-full" />
+        <img src={image} title={name as string} className="w-full" alt={name as string} />
         <div className="p-16 max-w-screen-2xl w-full">
-          <h1 className="boska text-[3rem] lg:text-[8rem] text-black my-16 -ml-16">{name}</h1>
+          <h1 className="boska text-[4rem] lg:text-[8rem] text-black mt-16 mb-8 lg:mb-16">{name}</h1>
           <div className="flex bg-yellow text-black">
             <div className="w-2/3">
               <p className="text-2xl text-black pr-16 mb-16">{description}</p>
@@ -55,6 +54,7 @@ export const NFT: FC<NFTProps> = ({ contract, tokenId, network }) => {
                 </ul>
               )}
             </div>
+            <div></div>
           </div>
         </div>
       </div>

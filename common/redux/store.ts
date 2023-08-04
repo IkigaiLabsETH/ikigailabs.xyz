@@ -33,11 +33,12 @@ import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
 import { confettiReducer, hideConfettiMiddleware, showConfettiMiddleware } from '../../modules/Confetti'
 import { collectionTokenInteractionReducer } from '../../modules/Collection/Token/token.slice'
-import { changeNetwork, NetworkSelectorReducer } from '../../modules/NetworkSelector'
+import { changeNetwork, networkSelectorReducer } from '../../modules/NetworkSelector'
 import { dropApi } from '../../modules/Drop/drop.api'
 import { mintSuccess } from '../../modules/Drop'
 import { closeModalActions, openModalActions } from '../modal'
 import { hideConfettiActions, showConfettiActions } from '../confetti'
+import { initialPageLoad } from '../app'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -107,7 +108,7 @@ const combinedReducer = combineReducers({
   [walletApi.reducerPath]: prop('reducer')(walletApi),
   NFTDrops: NFTDropsReducer,
   confetti: confettiReducer,
-  network: NetworkSelectorReducer,
+  network: networkSelectorReducer,
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => combinedReducer(state, action)

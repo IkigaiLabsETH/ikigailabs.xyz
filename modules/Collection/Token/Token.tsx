@@ -14,26 +14,28 @@ import { ethToWei, replaceImageResolution } from '../../../common/utils/utils'
 import { Button } from '../../Button'
 import { buyToken, placeBid, selectCollectionTokenInteractionStatus } from './token.slice'
 import { TextField } from '../../Form'
+import { Network } from '../../../common/types'
 
 interface TokenProps {
   contract: string
   tokenId: string
+  network: Network
 }
 
-export const Token: FC<TokenProps> = ({ contract, tokenId }) => {
+export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
   const address = useAddress()
-  const { data: token, status: tokenStatus } = useAppSelector(selectCollectionToken({ contract, tokenId }))
+  const { data: token, status: tokenStatus } = useAppSelector(selectCollectionToken({ contract, tokenId, network }))
   const { status: tokenInteractionStatus } = useAppSelector(selectCollectionTokenInteractionStatus)
   const [eth, setEth] = useState<string>('0')
   const dispatch = useAppDispatch()
 
   const onBuyToken = () => {
-    return dispatch(buyToken({ contract, tokenId }))
+    return dispatch(buyToken({ contract, tokenId, address, network }))
   }
 
   const onCreateBid = () => {
     const wei = ethToWei(parseFloat(eth)).toString()
-    return dispatch(placeBid({ contract, tokenId, wei }))
+    return dispatch(placeBid({ contract, tokenId, wei, address, network }))
   }
 
   const onSetEth = (e: React.ChangeEvent<HTMLInputElement>) => {

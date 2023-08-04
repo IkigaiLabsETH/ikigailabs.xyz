@@ -1,13 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { ChainId } from '@thirdweb-dev/sdk'
 import { match } from 'ts-pattern'
 
 import { BigNumber } from 'ethers'
 import { getTWClient } from '../../../../common/web3'
+import { Network } from '../../../../common/types'
 
 const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { contract, network, type, tokenId } = req.query
-
   if (!contract || !network || !tokenId) {
     res.status(400).json({ error: 'Bad Request' })
     return
@@ -18,7 +17,8 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     if (type) {
       args.push(type as string)
     }
-    const client = getTWClient(ChainId[network as string])
+
+    const client = getTWClient(network as Network)
 
     const clientContract = await client.getContract(...args)
     let result = {}

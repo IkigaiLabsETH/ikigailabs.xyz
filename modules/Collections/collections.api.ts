@@ -4,7 +4,7 @@ import { path, prop, uniq } from 'ramda'
 import { HYDRATE } from 'next-redux-wrapper'
 
 import { http } from '../../common/http'
-import { HTTP } from '../../common/types'
+import { HTTP, Network } from '../../common/types'
 import { getDynamicAPIUrl } from '../../common/redux/utils'
 
 export const loadCollections = createAction('collections/loadCollections')
@@ -32,11 +32,13 @@ export const collectionsSetApi = createApi({
 
 export const collectionsApi = createApi({
   reducerPath: 'collectionsApi',
-  baseQuery: getDynamicAPIUrl('reservoir'),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/reservoir' }),
   endpoints: builder => ({
-    getCollectionsBySetId: builder.query<any, { collectionSetId: string; continuation?: string }>({
-      query: ({ collectionSetId, continuation }: { collectionSetId: string; continuation?: string }) =>
-        `collections/v5?collectionsSetId=${collectionSetId}${continuation ? `&continuation=${continuation}` : ''}`,
+    getCollectionsBySetId: builder.query<any, { collectionSetId: string; continuation?: string; network: Network }>({
+      query: ({ collectionSetId, continuation, network }) =>
+        `${network}/collections/v5?collectionsSetId=${collectionSetId}${
+          continuation ? `&continuation=${continuation}` : ''
+        }`,
       serializeQueryArgs: ({ queryArgs: { collectionSetId } }) => collectionSetId,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {

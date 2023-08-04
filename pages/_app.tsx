@@ -2,7 +2,7 @@
 import type { AppProps } from 'next/app'
 import { FC, useEffect } from 'react'
 import { Provider } from 'react-redux'
-import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
+import { ThirdwebProvider } from '@thirdweb-dev/react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -17,7 +17,9 @@ import { MODALS } from '../common/modal'
 import { Confetti } from '../modules/Confetti'
 import { persistor } from '../common/redux/store'
 import { Network } from '../common/types'
-import { changeRoute } from '../common/app'
+import { changeRoute, initialPageLoad } from '../common/app'
+import { URLS } from '../common/config'
+import { getChainIdFromNetwork } from '../common/utils'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   let network = store.getState().network.selectedNetwork
@@ -27,19 +29,38 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
     network = query.network as Network
   }
 
+  const sdkOptions = {}
+
+  if (URLS[network]?.openzeppelin) {
+    sdkOptions['gassless'] = {
+      openzeppelin: {
+        relayerUrl: URLS[network].openzeppelin,
+      },
+    }
+  }
+
   useEffect(() => {
     events.on('routeChangeStart', (requestedRoute: string) => {
-      console.log(requestedRoute)
       store.dispatch(changeRoute(requestedRoute))
     })
   }, [events])
 
+  useEffect(() => {
+    query && store.dispatch(initialPageLoad(query))
+  }, [query])
+
   const queryClient = new QueryClient()
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <ThirdwebProvider activeChain={ChainId[network]} queryClient={queryClient} autoConnect>
+          <ThirdwebProvider
+            activeChain={getChainIdFromNetwork(network)}
+            queryClient={queryClient}
+            autoConnect
+            sdkOptions={sdkOptions}
+          >
             <Component {...pageProps} />
             <Modal modals={MODALS} />
             <ToastContainer

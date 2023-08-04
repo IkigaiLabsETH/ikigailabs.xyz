@@ -1,47 +1,58 @@
 import { Network, ContractType } from '../types'
 
+export { supportedChains, defaultChain } from './chains'
+export { wrappedContracts } from './wrappedContracts'
+
 export const URLS = {
   [Network.MAINNET]: {
     reservoir: 'https://api.reservoir.tools',
     tw: '',
     alchemy: 'https://eth-mainnet.g.alchemy.com',
     explorer: 'https://etherscan.io',
+    openzeppelin: '',
   },
   [Network.GOERLI]: {
     reservoir: 'https://api-goerli.reservoir.tools',
     tw: '',
     alchemy: 'https://eth-goerli.g.alchemy.com',
     explorer: 'https://goerli.etherscan.io',
+    openzeppelin: '',
   },
   [Network.POLYGON]: {
     reservoir: 'https://api-polygon.reservoir.tools',
     tw: '',
     alchemy: 'https://polygon-mainnet.g.alchemy.com',
     explorer: 'https://polygonscan.com',
+    openzeppelin: '',
   },
   [Network.MUMBAI]: {
-    reservoir: '',
+    reservoir: 'https://api-mumbai.reservoir.tools',
     tw: '',
     alchemy: 'https://polygon-mumbai.g.alchemy.com',
     explorer: 'https://mumbai.polygonscan.com',
+    openzeppelin:
+      'https://api.defender.openzeppelin.com/autotasks/3d39e44f-5ed0-4c66-9107-8f45e4c1b918/runs/webhook/d3bad3c5-947c-4dde-8868-915e797a8bc4/SkSiPovrShFkTHST4cPCHw',
   },
   [Network.ARBITRUM]: {
     reservoir: 'https://api-arbitrum.reservoir.tools',
     tw: '',
     alchemy: 'https://arb-mainnet.g.alchemy.com',
     explorer: 'https://arbiscan.io',
+    openzeppelin: '',
   },
   [Network.ARBITRUM_GOERLI]: {
     reservoir: '',
     tw: '',
     alchemy: 'https://arb-goerli.g.alchemy.com',
     explorer: 'https://goerli.arbiscan.io',
+    openzeppelin: '',
   },
   [Network.OPTIMISM]: {
     reservoir: 'https://api-optimism.reservoir.tools',
     tw: '',
     alchemy: '',
     explorer: 'https://optimistic.etherscan.io',
+    openzeppelin: '',
   },
 }
 
@@ -158,6 +169,3 @@ export const MINT_PASSES = [
 ]
 
 export type ContractTokenId = [string, number]
-
-export const relayerUrlConst =
-  'https://api.defender.openzeppelin.com/autotasks/7378f7f3-be90-403b-8cc2-e014977f5c00/runs/webhook/aa080222-57c6-4eb2-8575-7ba295f1a9c1/7QC3TRvK4o3YTm5RA3YQ8L' // OpenZeppelin relayer URL

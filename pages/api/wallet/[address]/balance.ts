@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { lensProp, set } from 'ramda'
-import { ChainId } from '@thirdweb-dev/sdk'
 
 import { getTWClient } from '../../../../common/web3'
+import { Network } from '../../../../common/types'
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { address, network } = req.query
@@ -12,7 +12,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const client = getTWClient(ChainId[network as string])
+    const client = getTWClient(network as Network)
     const balance = await client
       .getBalance(address as string)
       .then(response => set(lensProp('value' as never), response.value.toString())(response))
@@ -20,7 +20,6 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json({ balance })
   } catch (error) {
-    console.log(error)
     res.status(500).json({ error: error.message })
   }
 }

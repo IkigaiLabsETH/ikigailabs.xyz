@@ -40,7 +40,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
           <ul>
             {foundersStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
-                <Link href={`/drop/${contracts[0].network}/${contracts[0].contract}`}>
+                <Link href={`/${contracts[0].network}/drop/${contracts[0].contract}`}>
                   <a className="flex justify-between w-full">
                     <div>
                       {foundersData?.metadata?.name}
@@ -55,7 +55,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
             ) : null}
             {artistsStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
-                <Link href={`/drop/${contracts[0].network}/${contracts[0].contract}`}>
+                <Link href={`/${contracts[0].network}/drop/${contracts[0].contract}`}>
                   <a className="flex justify-between w-full">
                     <div>
                       {artistsData?.metadata?.name}
@@ -70,12 +70,12 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
             ) : null}
             {collectorsStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
-                <Link href={`/drop/${contracts[0].network}/${contracts[0].contract}`}>
+                <Link href={`/${contracts[0].network}/drop/${contracts[0].contract}`}>
                   <a className="flex justify-between w-full">
                     <div>
-                      {artistsData?.metadata?.name}
+                      {collectorsData?.metadata?.name}
                       <p className="lg:text-2xl text-lg font-normal text-gray-600 mt-3 pl-1">
-                        {artistsData?.metadata?.description}
+                        {collectorsData?.metadata?.description}
                       </p>
                     </div>{' '}
                     <ChevronRightIcon className="w-24 h-24 inline-block" />

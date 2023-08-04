@@ -8,14 +8,13 @@ export enum Layout {
 }
 
 export enum Network {
-  MAINNET = 'Mainnet',
-  GOERLI = 'Goerli',
-  OPTIMISM = 'Optimism',
-  POLYGON = 'Polygon',
-  POLYGON_MUMBAI = 'Polygon Mumbai',
-  ARBITRUM = 'Arbitrum',
-  ARBITRUM_GOERLI = 'Arbitrum Goerli',
-  MUMBAI = 'Mumbai',
+  MAINNET = 'ethereum',
+  GOERLI = 'goerli',
+  OPTIMISM = 'optimism',
+  POLYGON = 'polygon',
+  ARBITRUM = 'arbitrum',
+  ARBITRUM_GOERLI = 'arbitrum-goerli',
+  MUMBAI = 'mumbai',
 }
 
 export type {

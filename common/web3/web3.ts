@@ -5,6 +5,8 @@ import { ethers } from 'ethers'
 
 import { Network } from '../types'
 import { URLS } from '../config'
+import { getChainIdFromNetwork } from '../utils'
+import { createWalletClient, custom, http } from 'viem'
 
 let ethProvider = null
 let signer = null
@@ -15,27 +17,42 @@ if (typeof window !== 'undefined') {
 }
 
 const getTWClient = (chain: Network) => {
-  const sdk = new ThirdwebSDK(Ethereum, {
+  const settings = {
     supportedChains: [Ethereum, Goerli, Polygon, Arbitrum, ArbitrumGoerli, Mumbai] as any,
     readonlySettings: {
-      chainId: chain as any,
-      rpcUrl: `${URLS[ChainId[chain]].alchemy}/v2/uyDSscPAsHMY0vIhs7zKzF3XatffJMyi`,
+      chainId: getChainIdFromNetwork(chain),
+      rpcUrl: `${URLS[chain].alchemy}/v2/${process.env.ALCHEMY_KEY}`,
     },
-  })
+  }
+
+  if (URLS[chain].openzeppelin) {
+    settings['gassless'] = {
+      openzeppelin: {
+        relayerUrl: URLS[chain].openzeppelin,
+      },
+    }
+  }
+  const sdk = new ThirdwebSDK(getChainIdFromNetwork(chain), settings)
   signer && sdk.updateSignerOrProvider(signer)
   return sdk
 }
 
-const reservoirClient = createClient({
-  chains: [
-    {
-      id: ChainId.Mainnet,
-      baseApiUrl: URLS.Mainnet.reservoir,
-      default: true,
-      apiKey: 'Y4c46f1f7-9c33-5a7b-bd4d-682a1d3e8ff0',
-    },
-  ],
-  source: process.env.NEXT_PUBLIC_APP_NAME || 'localhost',
-})
+const reservoirClient = (chain: Network) =>
+  createClient({
+    chains: [
+      {
+        id: getChainIdFromNetwork(chain),
+        baseApiUrl: URLS.ethereum.reservoir,
+        active: true,
+      },
+    ],
+    source: process.env.NEXT_PUBLIC_APP_NAME || 'localhost',
+  })
 
-export { getTWClient, signer, reservoirClient }
+const walletClient = (address: `0x${string}`) =>
+  createWalletClient({
+    account: address,
+    transport: custom(window?.ethereum),
+  })
+
+export { getTWClient, signer, reservoirClient, walletClient }

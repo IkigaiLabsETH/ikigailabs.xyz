@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query'
 
 export const walletApi = createApi({
   reducerPath: 'walletApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
   endpoints: builder => ({
     getBalance: builder.query<{ balance: { displayValue: string } }, {}>({
       query: ({ address, network }: { address: string; network: string }) =>

@@ -30,7 +30,7 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, network }) => {
         <Eyebrow>Exclusive Free Mint</Eyebrow>
         <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{data?.name}</h2>
         <p className="my-8 satoshi text-xl leading-relaxed">{data?.description}</p>
-        <Button href={`/drop/${network}/${contract}`}>Mint for free</Button>
+        <Button href={`/${network}/drop/${contract}`}>Mint for free</Button>
       </div>
     </div>
   )

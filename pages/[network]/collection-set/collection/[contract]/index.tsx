@@ -3,14 +3,14 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 
-import { Footer } from '../../modules/Footer'
-import { Collection } from '../../modules/Collection'
-import { withLayout } from '../../common/layouts/MainLayout/withLayout'
-import { Layout } from '../../common/types'
+import { Footer } from '../../../../../modules/Footer'
+import { Collection } from '../../../../../modules/Collection'
+import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
+import { Layout, Network } from '../../../../../common/types'
 
 const SignatureCollection: FC = () => {
   const {
-    query: { contract },
+    query: { contract, network },
   } = useRouter()
 
   return (
@@ -21,7 +21,7 @@ const SignatureCollection: FC = () => {
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
       <main className="w-full">
-        <Collection contract={contract as string} />
+        <Collection contract={contract as string} network={network as Network} />
       </main>
       <Footer />
     </div>

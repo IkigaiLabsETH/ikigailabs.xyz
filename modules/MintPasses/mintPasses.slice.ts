@@ -2,10 +2,8 @@ import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../common/redux/store'
 import promiseRetry from 'promise-retry'
 
-import { ErrorType, HTTP, Network, Status } from '../../common/types'
-import { http } from '../../common/http'
-import { ContractTokenId } from '../../common/config'
-import { find, findIndex, isNil, map, path, pipe, propEq } from 'ramda'
+import { ErrorType, Network, Status } from '../../common/types'
+import { find, findIndex, isNil, path, pipe, propEq } from 'ramda'
 import { getTWClient, Web3 } from '../../common/web3'
 
 export const showMintPassDetails = createAction<any>('MintPassess/show')
