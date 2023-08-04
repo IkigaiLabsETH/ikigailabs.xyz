@@ -36,7 +36,6 @@ export const placeBidTh = (client: (network: Network) => ReservoirClient, wallet
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network }>(
     'collection/makeOffer',
     ({ contract, tokenId, wei, address, network }, { rejectWithValue, dispatch }) => {
-      console.log('kjh', process.env.NEXT_PUBLIC_ALCHEMY_KEY)
       return client(network)
         ?.actions.placeBid({
           bids: [
@@ -49,7 +48,7 @@ export const placeBidTh = (client: (network: Network) => ReservoirClient, wallet
           ],
           wallet: walletClient(address, network),
           onProgress: steps => {
-            console.log('steps', steps)
+            console.log(steps)
             dispatch(interactionProgressAction(steps))
           },
         })

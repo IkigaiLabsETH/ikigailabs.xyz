@@ -32,11 +32,11 @@ export const getTokenBalanceSuccessMiddleware = {
     const {
       payload,
       meta: {
-        arg: { contract, tokenId },
+        arg: { contract, tokenId, network },
       },
     } = action
     if (payload > 0) {
-      listenerApi.dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate({ contract, tokenId }))
+      listenerApi.dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate({ contract, tokenId, network }))
     }
   },
 }
