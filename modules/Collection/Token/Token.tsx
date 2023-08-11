@@ -15,6 +15,7 @@ import { Button } from '../../Button'
 import { buyToken, placeBid, selectCollectionTokenInteractionStatus } from './token.slice'
 import { TextField } from '../../Form'
 import { Network } from '../../../common/types'
+import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
 
 interface TokenProps {
   contract: string
@@ -35,6 +36,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
 
   const onCreateBid = () => {
     const wei = ethToWei(parseFloat(eth)).toString()
+    console.log('onCreateBid', wei, network)
     return dispatch(placeBid({ contract, tokenId, wei, address, network }))
   }
 
@@ -162,14 +164,13 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                 <div className="mb-6">
                   {pathOr('—', ['price', 'amount', 'native'])(floorAsk) !== '—' ? (
                     <div>
-                      <Button
+                      <ReservoirActionButton
                         onClick={onBuyToken}
-                        className="w-full text-xl"
                         loading={tokenInteractionStatus === 'pending'}
                         disabled={!address}
-                      >
-                        Buy Now
-                      </Button>
+                        label='Buy Token'
+                        network={network}
+                      ></ReservoirActionButton>
                     </div>
                   ) : (
                     <></>
@@ -186,14 +187,13 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       valid={true}
                       step={0.01}
                     />
-                    <Button
+                    <ReservoirActionButton
                       onClick={onCreateBid}
-                      className="w-full text-xl"
                       loading={tokenInteractionStatus === 'pending'}
                       disabled={!address}
-                    >
-                      Make Offer
-                    </Button>
+                      label='Make Offer'
+                      network={network}
+                    ></ReservoirActionButton>
                   </div>
                 </div>
               </div>

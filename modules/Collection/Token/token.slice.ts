@@ -56,8 +56,7 @@ export const placeBidTh = (client: (network: Network) => ReservoirClient, wallet
           return res
         })
         .catch((err: any) => {
-          console.log(err.response)
-          return rejectWithValue(err.response)
+          return rejectWithValue(err)
         })
     },
   )
