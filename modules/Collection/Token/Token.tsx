@@ -11,7 +11,6 @@ import { selectCollectionToken } from './token.selectors'
 import { Head, HeaderCell, Row, Table, Body, Cell } from '../../Table'
 import { Eth } from '../../Eth'
 import { ethToWei, replaceImageResolution } from '../../../common/utils/utils'
-import { Button } from '../../Button'
 import { buyToken, placeBid, selectCollectionTokenInteractionStatus } from './token.slice'
 import { TextField } from '../../Form'
 import { Network } from '../../../common/types'
@@ -36,7 +35,6 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
 
   const onCreateBid = () => {
     const wei = ethToWei(parseFloat(eth)).toString()
-    console.log('onCreateBid', wei, network)
     return dispatch(placeBid({ contract, tokenId, wei, address, network }))
   }
 
