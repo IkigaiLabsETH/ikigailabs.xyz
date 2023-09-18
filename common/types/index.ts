@@ -118,7 +118,14 @@ export interface Activity {
   type: ActivityType.mint
   fromAddress: string
   toAddress: string
-  price: string
+  price: {
+    amount: {
+      decimal: number
+    }
+    currency: {
+      symbol: string
+    }
+  }
   amount: number
   timestamp: number
   createdAt?: string
@@ -158,30 +165,45 @@ export interface Token {
   rarity: number
   description: string
   name: string
-  image: string
+  image?: string
   owner: string
   rarityRank: number
   tokenId: number
+  contract: string
+  media?: string
 }
 
+export interface Ownership {
+  acquiredAt: string
+  floorAsk: FloorAsk
+  onSaleCount: string
+  tokenCount: string
+}
+
+export interface FloorAsk {
+  id: string | null
+  kind: string | null
+  maker: string | null
+  price: Price | null
+  source: any
+  validFrom: string | null
+  validUntil: string | null
+}
 export interface NFT {
   market: {
-    floorAsk: {
-      price: Price | null
-    }
+    floorAsk: FloorAsk
     topBid: {
       price: Price | null
     }
   }
   token: Token
+  ownership: Ownership
 }
 
 export interface CollectionSet {
   id: string
   name: string
 }
-
-export interface FloorAsk {}
 
 export interface RCurrency {
   contract: string

@@ -5,7 +5,6 @@ import { HYDRATE } from 'next-redux-wrapper'
 
 import { http } from '../../common/http'
 import { HTTP, Network } from '../../common/types'
-import { getDynamicAPIUrl } from '../../common/redux/utils'
 
 export const loadCollections = createAction('collections/loadCollections')
 

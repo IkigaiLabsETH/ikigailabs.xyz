@@ -58,7 +58,7 @@ export const Collections: FC<CollectionsProps> = ({ collections, isLoading, netw
                 </Cell>
                 <Cell>{collection.tokenCount}</Cell>
                 <Cell>
-                  <Link href={`collection/${collection.id}`} title={collection.name}>
+                  <Link href={`/${network}/${collection.id}`} title={collection.name}>
                     View &rarr;{' '}
                   </Link>
                 </Cell>

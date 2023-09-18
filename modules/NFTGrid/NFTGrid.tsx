@@ -1,10 +1,11 @@
-import { useRouter } from 'next/router'
 import { map } from 'ramda'
 import React, { FC } from 'react'
 
 import { NFT, Network } from '../../common/types'
-import { Link } from '../Link'
 import Image from 'next/image'
+import { useAppDispatch } from '../../common/redux/store'
+import { showListToken } from '../Collection/Token/token.slice'
+import Link from 'next/link'
 
 interface NFTGridProps {
   nfts: NFT[]
@@ -12,27 +13,41 @@ interface NFTGridProps {
 }
 
 export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
-  const {
-    query: { contract },
-  } = useRouter()
+  const dispatch = useAppDispatch()
+  const onListToken = ({ network, contract, tokenId, name, media, description, image }) => {
+    dispatch(showListToken({ network, contract, tokenId, name, media, description, image }))
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-screen-2xl p-8 pt-0 text-black">
-      {map(({ token }: NFT) => (
+      {map(({ token: { contract, tokenId, name, media, description, image }, ownership }: NFT) => (
         <div
-          key={token.tokenId}
-          className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+          key={`${contract}-${tokenId}`}
+          className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] h-96"
         >
-          <div className="overflow-clip h-52">
-            <Image src={token.image} alt={token.name} width="832" height="832" />
+          <div className="overflow-clip h-1/2">
+            {image && <Image src={image} alt={name} width="384" height="384" />}
+            {media && <video src={media} controls={false} width="384" height="384" />}
           </div>
-          <div className="p-4">
-            <h5 className="font-bold text-2xl mb-4">{token.name}</h5>
-            <p className="text-black line-clamp-5">{token.description}</p>
-            <div className="flex justify-center items-center">
-              <Link href={`${contract}/${token.tokenId}`} title={token.name}>
-                View &rarr;
-              </Link>
+          <div className="p-4 flex h-1/2">
+            <div className="flex flex-col justify-between w-full">
+              <h5 className="font-bold text-2xl mb-4">{name}</h5>
+              <p className="text-black line-clamp-5">{description}</p>
+              <div className="flex justify-between">
+                <Link href={`/${network}/${contract}/${tokenId}`} title={name}>
+                  <a className="max-w-1/2 font-bold">View &rarr;</a>
+                </Link>
+                {parseInt(ownership?.tokenCount) > 0 ? (
+                  <button
+                    className="ml-4 text-black font-bold hover:text-yellow"
+                    onClick={() => onListToken({ contract, tokenId, name, media, description, image, network })}
+                  >
+                    List &rarr;
+                  </button>
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
           </div>
         </div>

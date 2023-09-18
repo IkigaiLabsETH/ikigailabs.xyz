@@ -38,7 +38,7 @@ import { dropApi } from '../../modules/Drop/drop.api'
 import { mintSuccess } from '../../modules/Drop'
 import { closeModalActions, openModalActions } from '../modal'
 import { hideConfettiActions, showConfettiActions } from '../confetti'
-import { initialPageLoad } from '../app'
+import { userApi } from '../../modules/User'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -109,6 +109,7 @@ const combinedReducer = combineReducers({
   NFTDrops: NFTDropsReducer,
   confetti: confettiReducer,
   network: networkSelectorReducer,
+  [userApi.reducerPath]: prop('reducer')(userApi),
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => combinedReducer(state, action)
@@ -138,6 +139,7 @@ const makeStore = () =>
           collectionsApi.middleware,
           walletApi.middleware,
           dropApi.middleware,
+          userApi.middleware,
         ),
     devTools: true,
   })

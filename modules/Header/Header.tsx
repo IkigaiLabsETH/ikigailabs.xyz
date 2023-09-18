@@ -3,10 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Profile } from '../Profile'
-import { useWallet } from '../../common/useWallet'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-// import { Button } from '../Button'
 import { selectedNetwork } from '../NetworkSelector'
 import { useAppSelector } from '../../common/redux/store'
 
@@ -97,6 +95,13 @@ export const Header: FC = () => {
               <Link href={`/${network}/collection-sets`}>
                 <a title="Collection Sets" className="p-4 bg-black mb-1 inline-block">
                   Collection Sets
+                </a>
+              </Link>
+            </div>
+            <div className="flex justify-end">
+              <Link href="/dashboard">
+                <a title="Dashboard" className="p-4 bg-black mb-1 inline-block">
+                  Dashboard
                 </a>
               </Link>
             </div>

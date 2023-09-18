@@ -13,7 +13,13 @@ interface ReservoirActionButtonProps {
   loading?: boolean
 }
 
-export const ReservoirActionButton: FC<ReservoirActionButtonProps> = ({ onClick, label, disabled, loading, network }) => {
+export const ReservoirActionButton: FC<ReservoirActionButtonProps> = ({
+  onClick,
+  label,
+  disabled,
+  loading,
+  network,
+}) => {
   const chain = useChain()
   const status = useConnectionStatus()
   const connect = useConnect()
@@ -23,20 +29,48 @@ export const ReservoirActionButton: FC<ReservoirActionButtonProps> = ({ onClick,
     .with('connected', () => {
       if (chain?.slug !== network) {
         return (
-          <Button onClick={() => switchChain(getChainIdFromNetwork(network))} className="w-full text-xl" loading={false} disabled={false}>Switch Network</Button>
+          <Button
+            onClick={() => switchChain(getChainIdFromNetwork(network))}
+            className="w-full text-xl"
+            loading={false}
+            disabled={false}
+          >
+            Switch Network
+          </Button>
         )
       }
 
-      return <Button onClick={onClick} className="w-full text-xl" loading={loading} disabled={disabled}>{label}</Button>
+      return (
+        <Button onClick={onClick} className="w-full text-xl" loading={loading} disabled={disabled}>
+          {label}
+        </Button>
+      )
     })
     .with('disconnected', () => {
-      return <Button onClick={() => connect(metamaskWallet())} className="w-full text-xl" loading={loading} disabled={disabled}>Connect</Button>
+      return (
+        <Button
+          onClick={() => connect(metamaskWallet())}
+          className="w-full text-xl"
+          loading={loading}
+          disabled={disabled}
+        >
+          Connect
+        </Button>
+      )
     })
     .with('connecting', () => {
-      return <Button className="w-full text-xl" loading={false} disabled={true}>Connecting...</Button>
+      return (
+        <Button className="w-full text-xl" loading={false} disabled={true}>
+          Connecting...
+        </Button>
+      )
     })
     .with('unknown', () => {
-      return <Button className="w-full text-xl" loading={false} disabled={true}>Unsupported Network</Button>
+      return (
+        <Button className="w-full text-xl" loading={false} disabled={true}>
+          Unsupported Network
+        </Button>
+      )
     })
     .exhaustive()
 }

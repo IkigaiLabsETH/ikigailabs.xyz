@@ -11,10 +11,11 @@ import { selectCollectionToken } from './token.selectors'
 import { Head, HeaderCell, Row, Table, Body, Cell } from '../../Table'
 import { Eth } from '../../Eth'
 import { ethToWei, replaceImageResolution } from '../../../common/utils/utils'
-import { buyToken, placeBid, selectCollectionTokenInteractionStatus } from './token.slice'
+import { buyToken, placeBid, selectCollectionTokenInteractionStatus, showListToken } from './token.slice'
 import { TextField } from '../../Form'
 import { Network } from '../../../common/types'
 import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
+import { Button } from '../../Button'
 
 interface TokenProps {
   contract: string
@@ -42,6 +43,10 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     setEth(e.target.value)
   }
 
+  const onListToken = ({ network, contract, tokenId, name, media, description, image }) => {
+    dispatch(showListToken({ network, contract, tokenId, name, media, description, image }))
+  }
+
   const loader = (
     <div className="flex w-screen h-screen justify-center items-center bg-white">
       <Loader />
@@ -60,7 +65,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     }
 
     const {
-      token: { image, name, description, attributes, owner, contract, tokenId, kind },
+      token: { image, name, description, attributes, owner, contract, tokenId, kind, media },
       market: { floorAsk, topBid },
     } = token as any
     const floorPriceSource = prop('source')(floorAsk)
@@ -68,11 +73,12 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
 
     return (
       <div className="w-full bg-white flex items-center flex-col">
-        <img src={replaceImageResolution(2000)(image)} title={name as string} className="w-full" />
+        {image && <img src={replaceImageResolution(2000)(image)} title={name as string} className="w-full" />}
+        {media && <video src={media} title={name as string} className="w-full" controls={false} autoPlay />}
         <div className="p-16 max-w-screen-2xl w-full">
           <div className="mb-8">
             <div className="pb-4 text-red font-bold">
-              <Link href={`/collection/${contract}`}>&larr; Back to collection</Link>
+              <Link href={`/${network}/${contract}`}>&larr; To collection</Link>
             </div>
             <h1 className="boska text-[4rem] lg:text-[6rem] text-black mb-0">{name}</h1>
             {owner && (
@@ -132,7 +138,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                 </ul>
               </div>
               <div className="pt-8 text-red font-bold">
-                <Link href={`/collection/${contract}`}>&larr; Back to collection</Link>
+                <Link href={`/${network}/${contract}`}>&larr; To collection</Link>
               </div>
             </div>
             <div className="w-1/3">
@@ -166,7 +172,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                         onClick={onBuyToken}
                         loading={tokenInteractionStatus === 'pending'}
                         disabled={!address}
-                        label='Buy Token'
+                        label="Buy Token"
                         network={network}
                       ></ReservoirActionButton>
                     </div>
@@ -175,24 +181,35 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                   )}
                 </div>
                 <div>
-                  <div>
-                    <TextField
-                      id="bidAmount"
-                      label="Amount"
-                      value={eth}
-                      onChange={onSetEth}
-                      type="number"
-                      valid={true}
-                      step={0.01}
-                    />
-                    <ReservoirActionButton
-                      onClick={onCreateBid}
-                      loading={tokenInteractionStatus === 'pending'}
-                      disabled={!address}
-                      label='Make Offer'
-                      network={network}
-                    ></ReservoirActionButton>
-                  </div>
+                  {address === owner ? (
+                    <div>
+                      <TextField
+                        id="bidAmount"
+                        label="Amount"
+                        value={eth}
+                        onChange={onSetEth}
+                        type="number"
+                        valid={true}
+                        step={0.01}
+                      />
+                      <ReservoirActionButton
+                        onClick={onCreateBid}
+                        loading={tokenInteractionStatus === 'pending'}
+                        disabled={!address}
+                        label="Make Offer"
+                        network={network}
+                      ></ReservoirActionButton>
+                    </div>
+                  ) : (
+                    <div>
+                      <Button
+                        className="text-black font-bold text-xl hover:text-yellow w-full"
+                        onClick={() => onListToken({ contract, tokenId, name, media, description, image, network })}
+                      >
+                        List
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

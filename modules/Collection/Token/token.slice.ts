@@ -8,6 +8,7 @@ import { Network } from '../../../common/types'
 export const tokenAdapter = createEntityAdapter({})
 
 export const interactionProgressAction = createAction<any>('collection/interaction/progress')
+export const showListToken = createAction<any>('listToken/show')
 
 export const buyTokenTh = (client: (network: Network) => ReservoirClient, walletClient) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; address: string; network: Network }>(
@@ -63,6 +64,37 @@ export const placeBidTh = (client: (network: Network) => ReservoirClient, wallet
 
 export const placeBid = placeBidTh(reservoirClient, walletClient)
 
+export const listTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
+  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network }>(
+    'collection/listToken',
+    ({ contract, tokenId, wei, address, network }, { rejectWithValue, dispatch }) => {
+      return client(network)
+        ?.actions.listToken({
+          listings: [
+            {
+              token: `${contract}:${tokenId}`,
+              orderbook: 'reservoir',
+              orderKind: 'seaport-v1.5',
+              weiPrice: wei,
+            },
+          ],
+          wallet: walletClient(address, network),
+          onProgress: steps => {
+            console.log(steps)
+            dispatch(interactionProgressAction(steps))
+          },
+        })
+        .then((res: any) => {
+          return res
+        })
+        .catch((err: any) => {
+          return rejectWithValue(err)
+        })
+    },
+  )
+
+export const listToken = listTokenTh(reservoirClient, walletClient)
+
 export const tokenSlice = createSlice({
   name: 'collectionTokenInteraction',
   initialState: tokenAdapter.getInitialState({
@@ -90,7 +122,18 @@ export const tokenSlice = createSlice({
         state.status = 'succeeded'
         tokenAdapter.addOne(state, payload)
       })
-      .addCase(placeBid.rejected, (state, action) => {
+      .addCase(placeBid.rejected, state => {
+        state.status = 'failed'
+      })
+      .addCase(listToken.pending, state => {
+        state.status = 'pending'
+      })
+      .addCase(listToken.fulfilled, (state, action) => {
+        const { payload } = action
+        state.status = 'succeeded'
+        tokenAdapter.addOne(state, payload)
+      })
+      .addCase(listToken.rejected, state => {
         state.status = 'failed'
       })
   },

@@ -3,10 +3,10 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 
-import { Footer } from '../../../../../modules/Footer'
-import { Collection } from '../../../../../modules/Collection'
-import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
-import { Layout, Network } from '../../../../../common/types'
+import { Footer } from '../../../modules/Footer'
+import { Collection } from '../../../modules/Collection'
+import { withLayout } from '../../../common/layouts/MainLayout/withLayout'
+import { Layout, Network } from '../../../common/types'
 
 const SignatureCollection: FC = () => {
   const {
