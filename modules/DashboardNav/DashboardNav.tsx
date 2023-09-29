@@ -6,14 +6,13 @@ import clsx from 'clsx'
 import { Network } from '../../common/types'
 
 interface DashboardNavProps {
-  address: string
   network: Network
   currentTab: string
 }
 
-export const DashboardNav: FC<DashboardNavProps> = ({ address, network, currentTab }) => (
+export const DashboardNav: FC<DashboardNavProps> = ({ network, currentTab }) => (
   <nav className="flex space-x-4 font-bold border-b border-b-gray-400 w-full pt-11" aria-label="Tabs">
-    <Link href={`/dashboard/${address}/collected/${network}`}>
+    <Link href={`/dashboard/collected/${network}`}>
       <a
         className={clsx(
           'p-4 border-white border-b-4 transition-all',
@@ -23,7 +22,7 @@ export const DashboardNav: FC<DashboardNavProps> = ({ address, network, currentT
         Owned
       </a>
     </Link>
-    <Link href={`/dashboard/${address}/bids/${network}`}>
+    <Link href={`/dashboard/bids/${network}`}>
       <a
         className={clsx(
           'p-4 border-white border-b-4 transition-all',
@@ -33,7 +32,7 @@ export const DashboardNav: FC<DashboardNavProps> = ({ address, network, currentT
         Bids made
       </a>
     </Link>
-    <Link href={`/dashboard/${address}/offers/${network}`}>
+    <Link href={`/dashboard/offers/${network}`}>
       <a
         className={clsx(
           'p-4 border-white border-b-4 transition-all',
@@ -43,7 +42,7 @@ export const DashboardNav: FC<DashboardNavProps> = ({ address, network, currentT
         Offers received
       </a>
     </Link>
-    <Link href={`/dashboard/${address}/asks/${network}`}>
+    <Link href={`/dashboard/asks/${network}`}>
       <a
         className={clsx(
           'p-4 border-white border-b-4 transition-all',
@@ -53,7 +52,7 @@ export const DashboardNav: FC<DashboardNavProps> = ({ address, network, currentT
         Asks
       </a>
     </Link>
-    <Link href={`/dashboard/${address}/activity/${network}`}>
+    <Link href={`/dashboard/activity/${network}`}>
       <a
         className={clsx(
           'p-4 border-white border-b-4 transition-all',

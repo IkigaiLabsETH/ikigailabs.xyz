@@ -1,27 +1,27 @@
 import { useRouter } from 'next/router'
 import React, { FC, useEffect } from 'react'
-import Link from 'next/link'
 import Head from 'next/head'
-import { equals, isEmpty, isNil } from 'ramda'
-import clsx from 'clsx'
+import { isEmpty, isNil } from 'ramda'
+import { useAddress } from '@thirdweb-dev/react'
 
-import { useAppDispatch, useAppSelector } from '../../../../../common/redux/store'
-import { userApi, selectCollectedTokens } from '../../../../../modules/User'
-import { Layout, Network } from '../../../../../common/types'
-import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
-import { NFTGrid } from '../../../../../modules/NFTGrid'
+import { useAppDispatch, useAppSelector } from '../../../../common/redux/store'
+import { userApi, selectCollectedTokens } from '../../../../modules/User'
+import { Layout, Network } from '../../../../common/types'
+import { withLayout } from '../../../../common/layouts/MainLayout/withLayout'
+import { NFTGrid } from '../../../../modules/NFTGrid'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
-import { Loader } from '../../../../../modules/Loader'
-import { useInfiniteLoading } from '../../../../../common/useInfiniteLoading'
-import { Footer } from '../../../../../modules/Footer'
-import { DashboardNav } from '../../../../../modules/DashboardNav'
-import { NetworkNav } from '../../../../../modules/NetworkNav'
+import { Loader } from '../../../../modules/Loader'
+import { useInfiniteLoading } from '../../../../common/useInfiniteLoading'
+import { Footer } from '../../../../modules/Footer'
+import { DashboardNav } from '../../../../modules/DashboardNav'
+import { NetworkNav } from '../../../../modules/NetworkNav'
 
 export const Collected: FC = ({}) => {
   const {
-    query: { address, network },
+    query: { network },
   } = useRouter()
   const dispatch = useAppDispatch()
+  const address = useAddress()
 
   const { data: ownedTokens, status: ownedStatus } = useAppSelector(
     selectCollectedTokens({ address: address as string, network: network as Network }),
@@ -55,14 +55,14 @@ export const Collected: FC = ({}) => {
         <div className="bg-white w-full flex py-4 justify-center items-center text-black flex-col">
           <div className="max-w-screen-2xl w-full m-4 flex md:px-6 lg:px-8">
             <div className="block w-full">
-              <DashboardNav address={address as string} network={network as Network} currentTab="collected" />
+              <DashboardNav network={network as Network} currentTab="collected" />
             </div>
           </div>
           <div className="max-w-screen-2xl w-full m-4">
             <div className="flex flex-row">
               <div className="w-1/6">
                 <div className="ml-8">
-                  <NetworkNav address={address as string} network={network as Network} tab="collected" />
+                  <NetworkNav network={network as Network} tab="collected" />
                 </div>
               </div>
               <div className="w-5/6">

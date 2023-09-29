@@ -340,7 +340,6 @@ export interface CollectionSet {
   name: string
 }
 
-
 export interface TopBid {
   id: string
   sourceDomain: string

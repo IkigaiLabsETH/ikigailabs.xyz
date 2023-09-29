@@ -63,7 +63,6 @@ export const UserBids: FC<UserBidsProps> = ({ bids, network }) => {
                   status,
                   id,
                 }: Order) => {
-                  console.log(token)
                   return (
                     <tr key={id}>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

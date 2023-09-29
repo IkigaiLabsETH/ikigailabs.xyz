@@ -17,7 +17,6 @@ export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network }) => {
   const dispatch = useAppDispatch()
   const address = useAddress()
 
-
   const onAccept = (tokenId: string, contract: string) => {
     dispatch(acceptOffer({ tokenId, network, address, contract }))
   }
@@ -52,33 +51,25 @@ export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-black">
-              {map(
-                ({
-                  token,
-                  maker,
-                  price,
-                  validFrom,
-                  validUntil,
-                }: TopBid) => {
-                  return (
-                    <tr key={`${token?.contract}${token?.tokenId}`}>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {token?.image && <Image src={token?.image} width={40} height={40} alt={token?.name} />}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <div className="font-medium text-gray-900">{token?.name}</div>
-                      </td>
-                      <td className="text-gray-500 px-3">{truncateAddress(maker)}</td>
-                      <td className="text-gray-500 px-3">{`${price?.currency?.symbol} ${price?.amount.decimal}`}</td>
-                      <td className="text-gray-500 px-3">{formatDateAndTime(validFrom)}</td>
-                      <td className="px-3 text-gray-500">{formatDateAndTime(validUntil)}</td>
-                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <Button onClick={() => onAccept(token?.tokenId, token?.contract)}>Accept</Button>
-                      </td>
-                    </tr>
-                  )
-                },
-              )(bids)}
+              {map(({ token, maker, price, validFrom, validUntil }: TopBid) => {
+                return (
+                  <tr key={`${token?.contract}${token?.tokenId}`}>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      {token?.image && <Image src={token?.image} width={40} height={40} alt={token?.name} />}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <div className="font-medium text-gray-900">{token?.name}</div>
+                    </td>
+                    <td className="text-gray-500 px-3">{truncateAddress(maker)}</td>
+                    <td className="text-gray-500 px-3">{`${price?.currency?.symbol} ${price?.amount.decimal}`}</td>
+                    <td className="text-gray-500 px-3">{formatDateAndTime(validFrom)}</td>
+                    <td className="px-3 text-gray-500">{formatDateAndTime(validUntil)}</td>
+                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                      <Button onClick={() => onAccept(token?.tokenId, token?.contract)}>Accept</Button>
+                    </td>
+                  </tr>
+                )
+              })(bids)}
             </tbody>
           </table>
         </div>

@@ -10,7 +10,7 @@ export const tokenAdapter = createEntityAdapter({})
 export const interactionProgressAction = createAction<any>('collection/interaction/progress')
 export const showListToken = createAction<any>('listToken/show')
 
-export const buyTokenTh = (client: (network: Network) => ReservoirClient, walletClient) =>
+export const buyTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; address: string; network: Network }>(
     'token/buy',
     ({ contract, tokenId, address, network }, { rejectWithValue, dispatch }) => {
@@ -49,7 +49,6 @@ export const placeBidTh = (client: (network: Network) => ReservoirClient, wallet
           ],
           wallet: walletClient(address, network),
           onProgress: steps => {
-            console.log(steps)
             dispatch(interactionProgressAction(steps))
           },
         })
@@ -80,7 +79,6 @@ export const listTokenTh = (client: (network: Network) => ReservoirClient, walle
           ],
           wallet: walletClient(address, network),
           onProgress: steps => {
-            console.log(steps)
             dispatch(interactionProgressAction(steps))
           },
         })
@@ -92,47 +90,47 @@ export const listTokenTh = (client: (network: Network) => ReservoirClient, walle
 
 export const listToken = listTokenTh(reservoirClient, walletClient)
 
-export const acceptOfferTh = (client: (network: Network) => ReservoirClient, walletClient: any) => 
+export const acceptOfferTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; address: string; network: Network }>(
-    'token/acceptOffer', 
+    'token/acceptOffer',
     ({ contract, tokenId, address, network }, { rejectWithValue, dispatch }) => {
-      console.log('accepting')
-      return client(network)?.actions.acceptOffer({
-        items: [{
-          token:  `${contract}:${tokenId}`,
-          quantity: 1
-        }],
-        wallet: walletClient(address, network),
-        onProgress: steps => {
-          console.log(steps)
-          dispatch(interactionProgressAction(steps))
-        }
-      })
-      .catch((err: any) => {
-        console.log(err)
-        return rejectWithValue(err)
-      })
-    }
+      return client(network)
+        ?.actions.acceptOffer({
+          items: [
+            {
+              token: `${contract}:${tokenId}`,
+              quantity: 1,
+            },
+          ],
+          wallet: walletClient(address, network),
+          onProgress: steps => {
+            dispatch(interactionProgressAction(steps))
+          },
+        })
+        .catch((err: any) => {
+          return rejectWithValue(err)
+        })
+    },
   )
 
 export const acceptOffer = acceptOfferTh(reservoirClient, walletClient)
 
-export const cancelOrderTh = (client: (network: Network) => ReservoirClient, walletClient: any) => 
+export const cancelOrderTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<Promise<any>, { id: string; address: string; network: Network }>(
-    'token/cancelOrder', 
+    'token/cancelOrder',
     ({ id, address, network }, { rejectWithValue, dispatch }) => {
-      return client(network)?.actions.cancelOrder({
-        ids: [id],
-        wallet: walletClient(address, network),
-        onProgress: steps => {
-          console.log(steps)
-          dispatch(interactionProgressAction(steps))
-        }
-      })
-      .catch((err: any) => {
-        return rejectWithValue(err)
-      })
-    }
+      return client(network)
+        ?.actions.cancelOrder({
+          ids: [id],
+          wallet: walletClient(address, network),
+          onProgress: steps => {
+            dispatch(interactionProgressAction(steps))
+          },
+        })
+        .catch((err: any) => {
+          return rejectWithValue(err)
+        })
+    },
   )
 
 export const cancelOrder = cancelOrderTh(reservoirClient, walletClient)
@@ -179,7 +177,6 @@ export const tokenSlice = createSlice({
         state.status = 'failed'
       })
       .addCase(acceptOffer.pending, (state, action) => {
-        console.log(action)
         state.status = 'pending'
       })
       .addCase(acceptOffer.fulfilled, (state, action) => {
@@ -188,7 +185,6 @@ export const tokenSlice = createSlice({
         tokenAdapter.addOne(state, payload)
       })
       .addCase(acceptOffer.rejected, (state, action) => {
-        console.log(action)
         state.status = 'failed'
       })
       .addCase(cancelOrder.pending, state => {

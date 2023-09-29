@@ -3,24 +3,26 @@ import { useRouter } from 'next/router'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import Head from 'next/head'
 import { isEmpty, isNil } from 'ramda'
+import { useAddress } from '@thirdweb-dev/react'
 
-import { userApi } from '../../../../../modules/User'
-import { useAppDispatch, useAppSelector } from '../../../../../common/redux/store'
-import { selectUserAsks } from '../../../../../modules/User/user.api'
-import { useInfiniteLoading } from '../../../../../common/useInfiniteLoading'
-import { Loader } from '../../../../../modules/Loader'
-import { Layout, Network } from '../../../../../common/types'
-import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
-import { Footer } from '../../../../../modules/Footer'
-import { DashboardNav } from '../../../../../modules/DashboardNav'
-import { NetworkNav } from '../../../../../modules/NetworkNav'
-import { UserAsks } from '../../../../../modules/UserAsks'
+import { userApi } from '../../../../modules/User'
+import { useAppDispatch, useAppSelector } from '../../../../common/redux/store'
+import { selectUserAsks } from '../../../../modules/User/user.api'
+import { useInfiniteLoading } from '../../../../common/useInfiniteLoading'
+import { Loader } from '../../../../modules/Loader'
+import { Layout, Network } from '../../../../common/types'
+import { withLayout } from '../../../../common/layouts/MainLayout/withLayout'
+import { Footer } from '../../../../modules/Footer'
+import { DashboardNav } from '../../../../modules/DashboardNav'
+import { NetworkNav } from '../../../../modules/NetworkNav'
+import { UserAsks } from '../../../../modules/UserAsks'
 
 export const ActivityDashboard: FC = ({}) => {
   const {
-    query: { address, network },
+    query: { network },
   } = useRouter()
   const dispatch = useAppDispatch()
+  const address = useAddress()
 
   const { data, status } = useAppSelector(selectUserAsks({ address: address as string, network: network as Network }))
 
@@ -52,14 +54,14 @@ export const ActivityDashboard: FC = ({}) => {
         <div className="bg-white w-full flex py-4 justify-center items-center text-black flex-col">
           <div className="max-w-screen-2xl w-full m-4 flex md:px-6 lg:px-8">
             <div className="block w-full">
-              <DashboardNav address={address as string} network={network as Network} currentTab="asks" />
+              <DashboardNav network={network as Network} currentTab="asks" />
             </div>
           </div>
           <div className="max-w-screen-2xl w-full m-4">
             <div className="flex flex-row">
               <div className="w-1/6">
                 <div className="ml-8">
-                  <NetworkNav address={address as string} network={network as Network} tab="asks" />
+                  <NetworkNav network={network as Network} tab="asks" />
                 </div>
               </div>
               <div className="w-5/6">
