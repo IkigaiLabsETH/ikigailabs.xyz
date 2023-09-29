@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { AuctionListing, DirectListing } from '@thirdweb-dev/sdk'
+import { AuctionAsk, DirectAsk } from '@thirdweb-dev/sdk'
 import { evolve, toString } from 'ramda'
 
 import { RootState } from '../../../common/redux/store'
@@ -23,21 +23,21 @@ const tranformations = {
 }
 
 export const fetchFeaturedAuction = createAsyncThunk<
-  AuctionListing | DirectListing,
+  AuctionAsk | DirectAsk,
   {
-    getListing: ({ contract, listingId }) => Promise<AuctionListing | DirectListing>
+    getAsk: ({ contract, askId }) => Promise<AuctionAsk | DirectAsk>
     contract: string
-    listingId: string
+    askId: string
   },
   { rejectValue: string }
->('featuredAuction/fetch', ({ getListing, contract, listingId }, { rejectWithValue }) =>
-  getListing({ contract, listingId })
+>('featuredAuction/fetch', ({ getAsk, contract, askId }, { rejectWithValue }) =>
+  getAsk({ contract, askId })
     .then(evolve(tranformations) as any)
     .catch((error: Error) => rejectWithValue(error.message)),
 )
 
 interface FeaturedAuctionState {
-  entities: AuctionListing | DirectListing
+  entities: AuctionAsk | DirectAsk
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null | undefined
 }

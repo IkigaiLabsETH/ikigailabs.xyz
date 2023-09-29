@@ -34,7 +34,7 @@ const About: FC = () => (
         <p>
           Ikigai Labs takes a comprehensive approach, guiding and supporting artists throughout the entire process of
           creating NFTs that match the quality of their physical artworks. From setting up onchain art galleries on the
-          website to displaying works in the metaverse or even in tangible reality, the platform offers a range of
+          website to displaying works in the metaverse or even in tangible reality, the platform bids a range of
           possibilities. The auction house provides photography and photogrammetry collectors and enthusiasts with an
           opportunity to support the artists they admire.
         </p>

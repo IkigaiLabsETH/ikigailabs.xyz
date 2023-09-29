@@ -97,8 +97,8 @@ export enum ActivityType {
   mint = 'mint',
   transfer = 'transfer',
   burned = 'burned',
-  listing_canceled = 'listing_canceled',
-  offer_canceled = 'offer_canceled',
+  ask_canceled = 'ask_canceled',
+  bid_canceled = 'bid_canceled',
   ask = 'ask',
   buy = 'buy',
 }
@@ -156,9 +156,36 @@ export interface Facet {
   values: FacetValue[]
 }
 
-export interface Price {
-  amount: string
-  currency: string
+// export interface Price {
+//   amount: string
+//   currency: string
+// }
+
+export interface ResCurrency {
+  contract: string
+  name: string
+  symbol: string
+  decimals: number
+}
+
+export interface ResAmount {
+  raw: string
+  decimal: number
+  usd: number
+  native: number
+}
+
+export interface ResNetAmount {
+  raw: string
+  decimal: number
+  usd: number
+  native: number
+}
+
+export interface ResPrice {
+  currency: ResCurrency
+  amount: ResAmount
+  netAmount?: ResNetAmount
 }
 
 export interface Token {
@@ -184,7 +211,7 @@ export interface FloorAsk {
   id: string | null
   kind: string | null
   maker: string | null
-  price: Price | null
+  price: ResPrice | null
   source: any
   validFrom: string | null
   validUntil: string | null
@@ -193,11 +220,119 @@ export interface NFT {
   market: {
     floorAsk: FloorAsk
     topBid: {
-      price: Price | null
+      price: ResPrice | null
     }
   }
   token: Token
   ownership: Ownership
+}
+
+export interface DynamicPricing {
+  kind: string
+  data: {
+    price: {
+      start: ResPrice
+      end: ResPrice
+      time: {
+        start: number
+        end: number
+      }
+    }
+  }
+}
+
+export interface ResSource {
+  id: string
+  domain: string
+  name: string
+  icon: string
+  url: string
+}
+
+export interface FeeBreakdown {
+  kind: 'marketplace' | 'royalty'
+  recipient: string
+  bps: number
+}
+
+export interface ResCriteria {
+  kind: string
+  data: {
+    token?: {
+      tokenId: string
+      image: string
+      name: string
+    }
+    collection?: {
+      id: string
+      name: string
+      image: string
+    }
+  }
+}
+
+export interface Order {
+  id: string
+  kind: string
+  side: 'sell' | 'buy'
+  status: 'active' | 'inactive' | 'expired' | 'canceled' | 'filled'
+  tokenSetId: string
+  tokenSetSchemaHash: string
+  contract: string
+  contractKind: string
+  maker: string
+  taker: string
+  price: ResPrice
+  validFrom: number
+  validUntil: number
+  quantityFilled: number
+  quantityRemaining: number
+  dynamicPricing: DynamicPricing | null
+  criteria: ResCriteria
+  source: ResSource
+  feeBps: number
+  feeBreakdown: FeeBreakdown[]
+  expiration: number
+  isReservoir: boolean
+  isDynamic: boolean
+  createdAt: string
+  updatedAt: string
+  originatedAt: string
+  rawData: Record<string, unknown>
+  isNativeOffChainCancellable: boolean
+  depth: {
+    price: number
+    quantity: number
+  }
+  continuation: string
+}
+
+export interface TopBid {
+  id: string
+  price: ResPrice
+  maker: string
+  createdAt: string
+  validFrom: number
+  validUntil: number
+  floorDifferencePercentage: number
+  source: ResSource
+  feeBreakdown: FeeBreakdown[]
+  criteria: ResCriteria
+  token: {
+    contract: string
+    tokenId: string
+    name: string
+    image: string
+    floorAskPrice: ResPrice | null
+    lastSalePrice: ResPrice | null
+    collection: {
+      id: string
+      name: string
+      imageUrl: string
+      floorAskPrice: ResPrice | null
+    }
+  }
+  continuation: string
 }
 
 export interface CollectionSet {
@@ -205,34 +340,11 @@ export interface CollectionSet {
   name: string
 }
 
-export interface RCurrency {
-  contract: string
-  name: string
-  symbol: string
-  decimals: number
-}
-export interface RAmount {
-  raw: string
-  decimal: number
-  usd: number
-  native: number
-}
-export interface RNetAmount {
-  raw: string
-  decimal: number
-  usd: number
-  native: number
-}
-export interface BidPrice {
-  curruncy: RCurrency
-  amount: RAmount
-  netAmount: RNetAmount
-}
 
 export interface TopBid {
   id: string
   sourceDomain: string
-  price: BidPrice
+  price: ResPrice
   maker: string
   validFrom: number
   validUntil: number

@@ -16,8 +16,8 @@ const iconMapping = {
   [ActivityType.mint]: <FaSeedling className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
   [ActivityType.transfer]: <FiRepeat className="w- mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
   [ActivityType.burned]: <FiTrash2 className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
-  [ActivityType.listing_canceled]: <FiXSquare className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
-  [ActivityType.offer_canceled]: <FiXSquare className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+  [ActivityType.ask_canceled]: <FiXSquare className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+  [ActivityType.bid_canceled]: <FiXSquare className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
   [ActivityType.ask]: null,
   [ActivityType.buy]: null,
 }

@@ -35,13 +35,15 @@ export const userApi = createApi({
         return currentArg !== previousArg
       },
     }),
-    getUserOffers: builder.query<any, { address: string; continuation?: string; network: Network }>({
+    getUserBidsMade: builder.query<any, { address: string; continuation?: string; network: Network }>({
       query: ({ address, continuation, network }) =>
-        `${network}/orders/bids/v5?maker=${address}${continuation ? `&continuation=${continuation}` : ''}`,
-      serializeQueryArgs: ({ queryArgs: { address, network } }) => `offers-${network}-${address}`,
+        `${network}/orders/bids/v5?maker=0xF1ce03F0f25304a1Fb911010F6e3232390Ab121d${
+          continuation ? `&continuation=${continuation}` : ''
+        }`,
+      serializeQueryArgs: ({ queryArgs: { address, network } }) => `bids-${network}-${address}`,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
-        currentCache.offers = uniq([...currentCache.offers, ...newItems.offers])
+        currentCache.orders = uniq([...currentCache.orders, ...newItems.orders])
         currentCache.continuation = newItems.continuation
       },
       // Refetch when the page arg changes
@@ -49,13 +51,34 @@ export const userApi = createApi({
         return currentArg !== previousArg
       },
     }),
-    getUserListings: builder.query<any, { address: string; continuation?: string; network: Network }>({
+    getUserBidsReceived: builder.query<any, { address: string; continuation?: string; network: Network }>({
       query: ({ address, continuation, network }) =>
-        `${network}/orders/asks/v5?maker=${address}${continuation ? `&continuation=${continuation}` : ''}`,
-      serializeQueryArgs: ({ queryArgs: { address, network } }) => `listings-${network}-${address}`,
+        `${network}/orders/users/0xF296178d553C8Ec21A2fBD2c5dDa8CA9ac905A00/top-bids/v4${
+          continuation ? `?continuation=${continuation}` : ''
+        }`,
+      serializeQueryArgs: ({ queryArgs: { address, network } }) => `bids-received-${network}-${address}`,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
-        currentCache.listings = uniq([...currentCache.listings, ...newItems.listings])
+        currentCache.topBids = uniq([...currentCache.topBids, ...newItems.topBids])
+        currentCache.continuation = newItems.continuation
+        currentCache.totalAmount = newItems.totalAmount
+        currentCache.totalTokensWithBids = newItems.totalTokensWithBids
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg
+      },
+    }),
+    getUserAsks: builder.query<any, { address: string; continuation?: string; network: Network }>({
+      query: ({ address, continuation, network }) =>
+        `${network}/orders/asks/v5?maker=0x47cf584925b637B1023f63b6141f795cBaA1AE79${
+          continuation ? `&continuation=${continuation}` : ''
+        }`,
+      serializeQueryArgs: ({ queryArgs: { address, network } }) => `asks-${network}-${address}`,
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        console.log(currentCache)
+        currentCache.orders = uniq([...currentCache.orders, ...newItems.orders])
         currentCache.continuation = newItems.continuation
       },
       // Refetch when the page arg changes
@@ -68,5 +91,6 @@ export const userApi = createApi({
 
 export const selectCollectedTokens = userApi.endpoints.getOwnedTokens.select
 export const selectUserActivity = userApi.endpoints.getUserActivity.select
-export const selectUserOffers = userApi.endpoints.getUserOffers.select
-export const selectUserListings = userApi.endpoints.getUserListings.select
+export const selectUserBids = userApi.endpoints.getUserBidsMade.select
+export const selectUserBidsReceived = userApi.endpoints.getUserBidsReceived.select
+export const selectUserAsks = userApi.endpoints.getUserAsks.select

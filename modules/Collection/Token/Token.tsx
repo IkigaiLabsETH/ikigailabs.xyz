@@ -196,7 +196,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                         onClick={onCreateBid}
                         loading={tokenInteractionStatus === 'pending'}
                         disabled={!address}
-                        label="Make Offer"
+                        label="Make Bid"
                         network={network}
                       ></ReservoirActionButton>
                     </div>

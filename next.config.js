@@ -8,7 +8,7 @@ const nextConfig = {
         hostname: '**.googleusercontent.com',
       },
     ],
-    domains: ['cdn.simplehash.com', 'gateway.ipfscdn.io', 'media.artblocks.io', '**.thirdwebcdn.com', '**.seadn.io', 'lh3.googleusercontent.com', 'i.seadn.io', 'openseauserdata.com'],
+    domains: ['cdn.simplehash.com', 'gateway.ipfscdn.io', 'media.artblocks.io', '**.thirdwebcdn.com', '**.seadn.io', 'lh3.googleusercontent.com', 'i.seadn.io', 'openseauserdata.com', 'rarible.mypinata.cloud', 'media-proxy.artblocks.io', 'raw.seadn.io'],
   },
   webpack(config) {
     config.module.rules.push({

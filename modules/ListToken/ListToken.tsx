@@ -24,7 +24,7 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
     setEth(e.target.value)
   }
 
-  const onCreateListing = () => {
+  const onCreateAsk = () => {
     const wei = ethToWei(parseFloat(eth)).toString()
     return dispatch(listToken({ contract, tokenId, wei, address, network }))
   }
@@ -51,7 +51,7 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
             min={0}
           />
           <ReservoirActionButton
-            onClick={onCreateListing}
+            onClick={onCreateAsk}
             loading={tokenInteractionStatus === 'pending'}
             label="List Token"
             network={network}

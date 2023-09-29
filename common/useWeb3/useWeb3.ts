@@ -10,8 +10,8 @@ export const useWeb3 = () => {
   // const getNFTFromCollection = ({ contract, tokenId }: { contract: string; tokenId: number }) =>
   //   sdk.getNFTCollection(contract).get(tokenId)
 
-  // const getListing = ({ contract, listingId }: { contract: string; listingId: number }) =>
-  //   sdk.getMarketplace(contract).getListing(listingId)
+  // const getAsk = ({ contract, askId }: { contract: string; askId: number }) =>
+  //   sdk.getMarketplace(contract).getAsk(askId)
 
   const getEditionDrop = ({ contract }: { contract: string }) => sdk.getEditionDrop(contract)
 
@@ -30,7 +30,7 @@ export const useWeb3 = () => {
   return {
     getBalance,
     // getNFTFromCollection,
-    // getListing,
+    // getAsk,
     getEditionDrop,
     // getNFTFromEditionDrop,
     getCollection,

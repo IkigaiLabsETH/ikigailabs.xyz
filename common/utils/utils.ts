@@ -108,3 +108,8 @@ export const getChainIdFromNetwork = (network: Network) => {
 
   return ChainId[capitalizedChain]
 }
+
+export const formatDateAndTime = (dateTime: string | number) => {
+  const dateObj = typeof dateTime === 'number' ? new Date(dateTime * 1000) : new Date(dateTime)
+  return dateObj.toLocaleString('en-US')
+}

@@ -124,7 +124,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
             <CollectionStat label="Floor Price" loading={collectionDataStatus === 'pending'}>
               <Eth amount={pipe(pathOr('—', ['floorAsk', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
             </CollectionStat>
-            <CollectionStat label="Top Offer" loading={collectionDataStatus === 'pending'}>
+            <CollectionStat label="Top Bid" loading={collectionDataStatus === 'pending'}>
               <Eth amount={pipe(pathOr('—', ['topBid', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
             </CollectionStat>
             <CollectionStat label="Volume" loading={collectionDataStatus === 'pending'}>

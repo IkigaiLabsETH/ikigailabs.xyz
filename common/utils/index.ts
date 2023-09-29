@@ -6,4 +6,5 @@ export {
   ethToWei,
   capitalize,
   getChainIdFromNetwork,
+  formatDateAndTime,
 } from './utils'

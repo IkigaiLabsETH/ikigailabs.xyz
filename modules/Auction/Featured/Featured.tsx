@@ -11,18 +11,18 @@ import { selectFeaturedAuction, selectLoadingState } from './featured.slice'
 
 interface FeaturedAuctionProps {
   contract: string
-  listingId: string
+  askId: string
 }
 
-export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, listingId }) => {
+export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, askId }) => {
   const dispatch = useAppDispatch()
   const featuredAuction = useAppSelector(selectFeaturedAuction)
   const loadingState = useAppSelector(selectLoadingState)
   const [remainingTime, setRemainingTime] = useState<string>('')
-  // const { getListing } = useWeb3()
+  // const { getAsk } = useWeb3()
 
   useEffect(() => {
-    // equals(loadingState, 'idle') && dispatch(fetchFeaturedAuction({ getListing, contract, listingId }))
+    // equals(loadingState, 'idle') && dispatch(fetchFeaturedAuction({ getAsk, contract, askId }))
   }, [loadingState])
 
   useEffect(() => {

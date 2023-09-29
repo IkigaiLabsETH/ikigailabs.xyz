@@ -55,7 +55,7 @@ export const Collected: FC = ({}) => {
         <div className="bg-white w-full flex py-4 justify-center items-center text-black flex-col">
           <div className="max-w-screen-2xl w-full m-4 flex md:px-6 lg:px-8">
             <div className="block w-full">
-              <DashboardNav address={address as string} network={network as Network} currentTab='collected' />
+              <DashboardNav address={address as string} network={network as Network} currentTab="collected" />
             </div>
           </div>
           <div className="max-w-screen-2xl w-full m-4">

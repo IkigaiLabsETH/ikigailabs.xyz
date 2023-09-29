@@ -11,7 +11,7 @@ interface NetworkNavProps {
   network: Network
 }
 
-export const NetworkNav:FC<NetworkNavProps> = ({ address, tab, network }) => (
+export const NetworkNav: FC<NetworkNavProps> = ({ address, tab, network }) => (
   <ul className="text-xl">
     <li className={clsx('p-1 pl-0', equals(network, Network.MAINNET) ? 'font-bold' : '')}>
       <Link href={`/dashboard/${address}/${tab}/${Network.MAINNET}`}>Ethereum</Link>
