@@ -24,7 +24,9 @@ export const ActivityDashboard: FC = ({}) => {
   const dispatch = useAppDispatch()
   const address = useAddress()
 
-  const { data, status } = useAppSelector(selectUserBidsReceived({ address: address as string, network: network as Network }))
+  const { data, status } = useAppSelector(
+    selectUserBidsReceived({ address: address as string, network: network as Network }),
+  )
 
   const { ref: activityRef } = useInfiniteLoading(userApi.endpoints.getUserBidsReceived.initiate, {
     address: address as string,
@@ -80,11 +82,7 @@ export const ActivityDashboard: FC = ({}) => {
                     <Loader />
                   </div>
                 )}
-                {!address && (
-                  <div className="w-full text-center">
-                    Not Connected
-                  </div>
-                )}
+                {!address && <div className="w-full text-center">Not Connected</div>}
                 <div ref={activityRef} />
               </div>
             </div>

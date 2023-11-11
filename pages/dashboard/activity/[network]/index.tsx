@@ -80,11 +80,7 @@ export const ActivityDashboard: FC = ({}) => {
                     <Loader />
                   </div>
                 )}
-                {!address && (
-                  <div className="w-full text-center">
-                    Not Connected
-                  </div>
-                )}
+                {!address && <div className="w-full text-center">Not Connected</div>}
                 <div ref={activityRef} />
               </div>
             </div>

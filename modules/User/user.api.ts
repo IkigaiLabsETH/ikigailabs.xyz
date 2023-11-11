@@ -37,9 +37,7 @@ export const userApi = createApi({
     }),
     getUserBidsMade: builder.query<any, { address: string; continuation?: string; network: Network }>({
       query: ({ address, continuation, network }) =>
-        `${network}/orders/bids/v5?maker=${address}${
-          continuation ? `&continuation=${continuation}` : ''
-        }`,
+        `${network}/orders/bids/v5?maker=${address}${continuation ? `&continuation=${continuation}` : ''}`,
       serializeQueryArgs: ({ queryArgs: { address, network } }) => `bids-${network}-${address}`,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
@@ -53,9 +51,7 @@ export const userApi = createApi({
     }),
     getUserBidsReceived: builder.query<any, { address: string; continuation?: string; network: Network }>({
       query: ({ address, continuation, network }) =>
-        `${network}/orders/users/${address}/top-bids/v4${
-          continuation ? `?continuation=${continuation}` : ''
-        }`,
+        `${network}/orders/users/${address}/top-bids/v4${continuation ? `?continuation=${continuation}` : ''}`,
       serializeQueryArgs: ({ queryArgs: { address, network } }) => `bids-received-${network}-${address}`,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
@@ -71,9 +67,7 @@ export const userApi = createApi({
     }),
     getUserAsks: builder.query<any, { address: string; continuation?: string; network: Network }>({
       query: ({ address, continuation, network }) =>
-        `${network}/orders/asks/v5?maker=${address}${
-          continuation ? `&continuation=${continuation}` : ''
-        }`,
+        `${network}/orders/asks/v5?maker=${address}${continuation ? `&continuation=${continuation}` : ''}`,
       serializeQueryArgs: ({ queryArgs: { address, network } }) => `asks-${network}-${address}`,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {

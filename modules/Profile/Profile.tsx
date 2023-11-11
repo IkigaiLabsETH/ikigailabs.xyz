@@ -16,12 +16,16 @@ interface ProfileProps {
 export const Profile: FC<ProfileProps> = () => {
   const dispatch = useAppDispatch()
 
+  const onSwitch = ({ slug }: { slug: string }) => {
+    dispatch(changeNetwork({ network: slug as Network }))
+  }
+
   return (
     <div className="border-2 border-yellow">
       <ConnectWallet
         theme="dark"
         className=" w-full rounded-none font-bold p-5 transition-colors border-2 bg-black text-yellow"
-        networkSelector={{ onSwitch: ({ slug }) => dispatch(changeNetwork({ network: slug as Network })) }}
+        networkSelector={{ onSwitch }}
       />
     </div>
   )

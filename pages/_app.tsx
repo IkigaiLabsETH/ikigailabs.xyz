@@ -2,7 +2,14 @@
 import type { AppProps } from 'next/app'
 import { FC, useEffect } from 'react'
 import { Provider } from 'react-redux'
-import { ThirdwebProvider, coinbaseWallet, metamaskWallet, rainbowWallet, walletConnect } from '@thirdweb-dev/react'
+import {
+  ThirdwebProvider,
+  coinbaseWallet,
+  metamaskWallet,
+  rainbowWallet,
+  useChain,
+  walletConnect,
+} from '@thirdweb-dev/react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -24,12 +31,9 @@ import { signer } from '../common/web3'
 import { TW_SUPPORTED_CHAINS } from '../common/config/chains'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
-  let network = store.getState().network.selectedNetwork
-  const { query, events } = useRouter()
-
-  if (query.network) {
-    network = query.network as Network
-  }
+  const router = useRouter()
+  const { query, events, route } = router
+  const network = (query?.network as Network) || Network.MAINNET
 
   const sdkOptions = {}
 
@@ -48,7 +52,8 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   }, [events])
 
   useEffect(() => {
-    query && store.dispatch(initialPageLoad(query))
+    console.log(router)
+    query && store.dispatch(initialPageLoad(route))
   }, [query])
 
   const queryClient = new QueryClient()
@@ -65,6 +70,8 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
             clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
             supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect()]}
             supportedChains={TW_SUPPORTED_CHAINS}
+            autoSwitch={true}
+            autoConnect={true}
           >
             <Component {...pageProps} />
             <Modal modals={MODALS} />

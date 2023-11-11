@@ -1,69 +1,107 @@
 import { FC, Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
+import { Option } from '../../../common/types'
+import { equals } from 'ramda'
 
 interface SelectorProps {
-  options: string[]
-  onChange: (value: string | number) => void
-  selected: string
+  options: Option[]
+  onChange: (value: Option) => void
+  selected: Option
+  type?: 'ghost' | 'solid' | 'dark'
+  title?: string
+  style?: 'light' | 'dark'
 }
 
-export const Selector: FC<SelectorProps> = ({ options, onChange, selected }) => {
+export const Selector: FC<SelectorProps> = ({
+  options,
+  onChange,
+  selected,
+  type = 'solid',
+  title,
+  style = 'light',
+}) => {
   return (
-    <Listbox value={selected} onChange={onChange}>
-      {({ open }) => (
-        <>
-          <Listbox.Label className="sr-only">Change selected network</Listbox.Label>
-          <div className="relative">
-            <div className="inline-flex divide-x divide-yellow border-2 border-black bg-yellow py-2">
-              <div className="inline-flex justify-center items-center gap-x-1.5 bg-yellow px-3 py-2 text-black p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out">
-                <CheckIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
-                <p className="font-semibold text-black mb-0 pb-0">{selected}</p>
-              </div>
-              <Listbox.Button className="inline-flex items-center bg-yellow p-2 hover:bg-yellow">
-                <span className="sr-only">Change selected network</span>
-                <ChevronDownIcon className="h-5 w-5 text-black" aria-hidden="true" />
-              </Listbox.Button>
-            </div>
-
-            <Transition
-              show={open}
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="absolute right-0 z-10 mt-2 w-72 origin-top-right divide-y divide-black overflow-hidden bg-yellow shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-white">
-                {options.map(option => (
-                  <Listbox.Option
-                    key={option}
-                    className={({ active }) =>
-                      clsx(active ? 'bg-yellow text-black' : 'text-gray-900', 'cursor-default select-none p-4 text-sm')
-                    }
-                    value={option}
-                  >
-                    {({ selected }) => (
-                      <div className="flex flex-col">
-                        <div className="flex justify-between">
-                          <p className={clsx('text-black mb-0 pb-0', selected ? 'font-semibold' : 'font-normal')}>
-                            {option}
-                          </p>
-                          {selected ? (
-                            <span className="text-black">
-                              <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                            </span>
-                          ) : null}
-                        </div>
-                      </div>
+    <div className="max-w-xs">
+      <Listbox value={selected} onChange={onChange}>
+        {({ open }) => (
+          <>
+            <div className="flex items-center">
+              {title ? (
+                <div className="mr-4">
+                  <Listbox.Label
+                    className={clsx(
+                      equals(style, 'dark') ? 'text-yellow' : 'text-gray-900',
+                      'block text-lg font-bold leading-6',
                     )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Transition>
-          </div>
-        </>
-      )}
-    </Listbox>
+                  >
+                    {title}
+                  </Listbox.Label>
+                </div>
+              ) : (
+                <> </>
+              )}
+              <div className="relative w-60">
+                <Listbox.Button
+                  className={clsx(
+                    equals(style, 'dark')
+                      ? 'ring-yellow-300 text-yellow bg-black border-b-yellow'
+                      : 'ring-gray-300 text-gray-900 bg-white border-b-black',
+                    'border-0 relative w-full cursor-default py-1.5 pl-3 pr-10 text-left shadow-sm ring-0 ring-inset focus:outline-none sm:text-sm font-bold sm:leading-6',
+                  )}
+                >
+                  <span className="block truncate">{selected.name}</span>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <ChevronUpDownIcon
+                      className={clsx(equals(style, 'dark') ? 'text-yellow' : 'text-gray-400', 'h-5 w-5 ')}
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Listbox.Button>
+
+                <Transition
+                  show={open}
+                  as={Fragment}
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm font-bold">
+                    {options.map(option => (
+                      <Listbox.Option
+                        key={option.id}
+                        className={({ active }) =>
+                          clsx(
+                            active ? 'bg-yellow text-white' : 'text-gray-900',
+                            'relative cursor-default select-none py-2 pl-8 pr-4',
+                          )
+                        }
+                        value={option}
+                      >
+                        {({ selected }) => (
+                          <div className="flex flex-col">
+                            <div className="flex justify-between">
+                              <p className={clsx('text-black mb-0 pb-0', selected ? 'font-semibold' : 'font-normal')}>
+                                {option.name}
+                              </p>
+                              {selected ? (
+                                <span className="text-black">
+                                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                </span>
+                              ) : null}
+                            </div>
+                          </div>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </Transition>
+              </div>
+            </div>
+          </>
+        )}
+      </Listbox>
+    </div>
   )
 }

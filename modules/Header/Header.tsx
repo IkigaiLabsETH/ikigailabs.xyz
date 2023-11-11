@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { selectedNetwork } from '../NetworkSelector'
 import { useAppSelector } from '../../common/redux/store'
+import { NetworkSelector } from '../NetworkSelector/NetworkSelector'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
@@ -30,9 +31,6 @@ export const Header: FC = () => {
           </div>
 
           <div className="flex flex-row justify-end">
-            {/* <div className="hidden md:flex">
-              <NetworkSelector />
-            </div> */}
             <div className="hidden md:flex">
               <Profile />
             </div>
@@ -92,9 +90,9 @@ export const Header: FC = () => {
               </Link>
             </div>
             <div className="flex justify-end">
-              <Link href={`/${network}/collection-sets`}>
-                <a title="Collection Sets" className="p-4 bg-black mb-1 inline-block">
-                  Collection Sets
+              <Link href={`/${network}/explore`}>
+                <a title="Explore" className="p-4 bg-black mb-1 inline-block">
+                  Explore
                 </a>
               </Link>
             </div>

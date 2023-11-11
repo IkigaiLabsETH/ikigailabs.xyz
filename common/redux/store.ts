@@ -39,6 +39,7 @@ import { mintSuccess } from '../../modules/Drop'
 import { closeModalActions, openModalActions } from '../modal'
 import { hideConfettiActions, showConfettiActions } from '../confetti'
 import { userApi } from '../../modules/User'
+import { initialPageLoadMiddleware } from '../app'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -92,6 +93,7 @@ startAppListening(
 startAppListening(walletMiddleware([changeNetwork] as any))
 startAppListening(showConfettiMiddleware(showConfettiActions as any))
 startAppListening(hideConfettiMiddleware(hideConfettiActions as any))
+startAppListening(initialPageLoadMiddleware as any)
 
 const combinedReducer = combineReducers({
   featuredAuction: featuredAuctionReducer,

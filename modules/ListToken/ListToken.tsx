@@ -53,7 +53,7 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
           <ReservoirActionButton
             onClick={onCreateAsk}
             loading={tokenInteractionStatus === 'pending'}
-            label="List Token"
+            label="List for sale"
             network={network}
           ></ReservoirActionButton>
 

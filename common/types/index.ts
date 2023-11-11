@@ -17,6 +17,8 @@ export enum Network {
   MUMBAI = 'mumbai',
 }
 
+export type Option = { id: string | number; name: string }
+
 export type {
   ContractType,
   NFTDrop,

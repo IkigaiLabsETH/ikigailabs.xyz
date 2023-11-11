@@ -5,17 +5,15 @@ import { map } from 'ramda'
 
 interface CollectionSetsProps {
   collectionSets: CollectionSet[]
-  network: Network
+  onSelect: (collectionSetId: string) => void
 }
 
-export const CollectionSets: FC<CollectionSetsProps> = ({ collectionSets, network }) => (
+export const CollectionSets: FC<CollectionSetsProps> = ({ collectionSets, onSelect }) => (
   <div className="w-full text-black mx-auto p-8 max-w-screen-2xl">
     <ul>
       {map((collectionSet: CollectionSet) => (
         <li className="p-4">
-          <h1>
-            <a href={`/${network}/collection-set/${collectionSet.id}`}>{collectionSet.name} &rarr;</a>
-          </h1>
+          <button onClick={() => onSelect(collectionSet.id)}>{collectionSet.name} &rarr;</button>
         </li>
       ))(collectionSets)}
     </ul>
