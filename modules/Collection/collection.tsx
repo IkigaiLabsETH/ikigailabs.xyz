@@ -21,7 +21,9 @@ import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
 import { Eth } from '../Eth'
 import { useInfiniteLoading } from '../../common/useInfiniteLoading'
-import { Network } from '../../common/types'
+import { Network, Option } from '../../common/types'
+import { Selector } from '../Form/Selector'
+import { COLLECTION_SORTING_OPTIONS } from '../../common/constants'
 
 interface CollectionProps {
   contract: string
@@ -37,9 +39,16 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
   const dispatch = useAppDispatch()
   const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
   const [selectedAttributes, setSelectedAttributes] = useState<string>('')
+  const [selectedSort, setSelectedSort] = useState<Option>(COLLECTION_SORTING_OPTIONS[0])
   const [nfts, setNfts] = useState({ tokens: [], continuation: '', status: 'idle' })
   const { data: nftData, status } = useAppSelector(
-    selectNFTS({ contract, attributes: selectedAttributes, continuation: '', network }),
+    selectNFTS({
+      contract,
+      attributes: selectedAttributes,
+      continuation: '',
+      network,
+      sortBy: selectedSort.id as string,
+    }),
   )
 
   const { data: collection, status: collectionDataStatus } = useAppSelector(selectCollection({ contract, network }))
@@ -48,9 +57,10 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
 
   const { ref } = useInfiniteLoading(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate, {
     contract,
-    attributes: '',
+    attributes: selectedAttributes,
     continuation: nfts?.continuation,
     network,
+    sortBy: selectedSort.id as string,
   })
 
   useEffect(() => {
@@ -61,9 +71,10 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
           attributes: '',
           continuation: '',
           network,
+          sortBy: selectedSort.id as string,
         }),
       )
-  }, [contract, network, dispatch])
+  }, [])
 
   useEffect(() => {
     nftData && setNfts({ tokens: nftData.tokens, continuation: nftData.continuation, status })
@@ -77,6 +88,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
         attributes: formatAttributes(selection),
         continuation: nfts?.continuation || '',
         network,
+        sortBy: selectedSort.id as string,
       }),
     )
   }
@@ -85,19 +97,37 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
     contract && dispatch(fetchCollection({ contract, network }))
   }, [contract, network, dispatch])
 
+  const updateSort = selection => {
+    setSelectedSort(selection)
+    return dispatch(
+      collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
+        contract,
+        attributes: selectedAttributes,
+        continuation: nfts?.continuation || '',
+        network,
+        sortBy: selection.id as string,
+      }),
+    )
+  }
+
   const nftsDisplay = (
-    <div className="flex flex-row">
-      <div className="w-1/4">
-        {attributes ? <Facets facets={attributes?.attributes} onUpdateFacets={updateFacets} /> : <></>}
+    <div className="flex flex-col">
+      <div className="w-full justify-end flex flex-row mb-6">
+        <Selector options={COLLECTION_SORTING_OPTIONS} onChange={updateSort} selected={selectedSort} />
       </div>
-      <div className="w-3/4">
-        {nfts?.tokens.length ? <NFTGrid nfts={nfts.tokens} network={network} /> : <div>No results found</div>}
-        {nfts?.status === 'pending' && (
-          <div className="w-full text-center">
-            <Loader />
-          </div>
-        )}
-        <div ref={ref} />
+      <div className="flex flex-row">
+        <div className="w-1/5">
+          {attributes ? <Facets facets={attributes?.attributes} onUpdateFacets={updateFacets} /> : <></>}
+        </div>
+        <div className="w-4/5">
+          {nfts?.tokens.length ? <NFTGrid nfts={nfts.tokens} network={network} /> : <div>No results found</div>}
+          {nfts?.status === 'pending' && (
+            <div className="w-full text-center">
+              <Loader />
+            </div>
+          )}
+          <div ref={ref} />
+        </div>
       </div>
     </div>
   )
@@ -119,7 +149,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
         name={propOr('', 'name')(collection)}
         description={propOr('', 'description')(collection)}
       >
-        <div className="flex border-y border-y-gray-700 py-8 mt-6">
+        <div className="flex border-y border-y-gray-700 py-8">
           <div className="grid grid-cols-4 gap-4 w-full">
             <CollectionStat label="Floor Price" loading={collectionDataStatus === 'pending'}>
               <Eth amount={pipe(pathOr('—', ['floorAsk', 'price', 'amount', 'decimal']), parseFloat)(collection)} />

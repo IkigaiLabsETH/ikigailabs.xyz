@@ -73,7 +73,7 @@ export const Activity: FC<ActivityProps> = ({ activity, showPrice = true }) => (
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">{amount}</td>
                   {showPrice && (
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
-                      {price ? `${price?.currency?.symbol} ${price?.amount.decimal}` : ''}
+                      {price ? `${price?.currency?.symbol} ${price?.amount?.decimal}` : ''}
                     </td>
                   )}
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

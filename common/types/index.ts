@@ -190,6 +190,16 @@ export interface ResPrice {
   netAmount?: ResNetAmount
 }
 
+export interface LastSale {
+  orderSource: string
+  fillSource: string
+  timestamp: number
+  price: ResPrice
+  marketplaceFeeBps: number
+  paidFullRoyalty: boolean
+  feeBreakdown: FeeBreakdown[]
+}
+
 export interface Token {
   rarity: number
   description: string
@@ -200,6 +210,7 @@ export interface Token {
   tokenId: number
   contract: string
   media?: string
+  lastSale?: LastSale
 }
 
 export interface Ownership {
@@ -221,6 +232,7 @@ export interface FloorAsk {
 export interface NFT {
   market: {
     floorAsk: FloorAsk
+    lastBuy: LastBuy
     topBid: {
       price: ResPrice | null
     }

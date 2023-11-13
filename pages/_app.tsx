@@ -52,7 +52,6 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   }, [events])
 
   useEffect(() => {
-    console.log(router)
     query && store.dispatch(initialPageLoad(route))
   }, [query])
 

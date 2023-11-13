@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { path, uniq } from 'ramda'
+import { path, uniq, uniqBy } from 'ramda'
 
 import { Activity, NFT, Network } from '../../common/types'
 
@@ -24,18 +24,20 @@ export const collectionApi = createApi({
     }),
     getCollectionTokensByContractWithAttributes: builder.query<
       { tokens: NFT[]; continuation: string; attributes: string },
-      { contract: string; attributes: string; continuation: string; network: Network }
+      { contract: string; attributes: string; continuation: string; network: Network; sortBy: string }
     >({
-      query: ({ contract, attributes, continuation, network }) =>
-        `${network}/tokens/v6?collection=${contract}&includeOwnerCount=true&includeTopBid=true&sortBy=floorAskPrice${
+      query: ({ contract, attributes, continuation, network, sortBy = 'floorAskPrice-asc' }) => {
+        const [sort, order] = sortBy.split('-')
+        return `${network}/tokens/v6?collection=${contract}&includeOwnerCount=true&includeTopBid=true&sortBy=${sort}&sortDirection=${order}&includeQuantity=true&includeLastSale=true${
           continuation ? `&continuation=${continuation}` : ''
-        }${attributes && attributes}&limit=20`,
-      serializeQueryArgs: ({ endpointName, queryArgs: { attributes } }) => {
-        return `${endpointName}-${attributes}`
+        }${attributes && attributes}&limit=20`
+      },
+      serializeQueryArgs: ({ endpointName, queryArgs: { attributes, sortBy } }) => {
+        return `${endpointName}-${sortBy}-${attributes}`
       },
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
-        currentCache.tokens = uniq([...currentCache.tokens, ...newItems.tokens])
+        currentCache.tokens = uniqBy(path(['token', 'tokenId']), [...currentCache.tokens, ...newItems.tokens])
         currentCache.continuation = newItems.continuation
       },
       // Refetch when the page arg changes

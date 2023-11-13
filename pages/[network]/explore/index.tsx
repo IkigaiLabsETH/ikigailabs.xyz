@@ -25,7 +25,6 @@ const SignatureCollection: FC = () => {
   const { data, status } = useAppSelector(
     selectCollectionsBySetId({ collectionSetId: collectionSet.id, network: network as Network }),
   )
-  console.log(data)
 
   useEffect(() => {
     network && setCollectionSets(COLLECTIONS[network as string])

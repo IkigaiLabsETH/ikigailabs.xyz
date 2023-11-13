@@ -48,7 +48,7 @@ export const Selector: FC<SelectorProps> = ({
                     equals(style, 'dark')
                       ? 'ring-yellow-300 text-yellow bg-black border-b-yellow'
                       : 'ring-gray-300 text-gray-900 bg-white border-b-black',
-                    'border-0 relative w-full cursor-default py-1.5 pl-3 pr-10 text-left shadow-sm ring-0 ring-inset focus:outline-none sm:text-sm font-bold sm:leading-6',
+                    'border-0 relative w-full cursor-default py-1.5 pr-10 text-left ring-0 ring-inset focus:outline-none sm:text-sm font-bold sm:leading-6',
                   )}
                 >
                   <span className="block truncate">{selected.name}</span>

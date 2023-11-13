@@ -1,1 +1,1 @@
-export { COLLECTION_METADATA_FIELDS } from './constants'
+export { COLLECTION_METADATA_FIELDS, COLLECTION_SORTING_OPTIONS } from './constants'
