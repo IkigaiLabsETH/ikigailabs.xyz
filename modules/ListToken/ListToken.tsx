@@ -30,18 +30,18 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
   }
 
   return (
-    <div className="flex flex-wrap flex-col md:flex-row">
+    <div className="flex flex-wrap flex-col md:flex-row w-full min-h-[380px]">
       <div
         className="w-full md:w-1/2 min-h-[100px] box-border bg-no-repeat bg-cover bg-center"
         style={{ backgroundImage: `url(${image})` }}
       ></div>
-      <div className="w-full md:w-1/2 md:h-full">
+      <div className="w-full md:w-1/2">
         <div className="p-4 lg:p-8 pb-0">
-          <h1 className="text-sm md:text-xl lg:text-4xl">List your token:</h1>
+          <h1 className="text-sm md:text-xl lg:text-4xl">List item for sale:</h1>
         </div>
         <div className="p-4 lg:p-8">
           <TextField
-            label="Amount"
+            label="Set your price"
             id="listAmount"
             value={eth}
             onChange={onSetEth}
@@ -50,14 +50,15 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
             step={0.01}
             min={0}
           />
+          
           <ReservoirActionButton
             onClick={onCreateAsk}
             loading={tokenInteractionStatus === 'pending'}
-            label="List for sale"
+            label="Set your price"
             network={network}
           ></ReservoirActionButton>
 
-          {tokenInteractionStatus === 'failed' && <p className="text-red mt-5">Failed to list token</p>}
+          {tokenInteractionStatus === 'failed' && <p className="text-red mt-5">Failed to list item for sale</p>}
         </div>
       </div>
     </div>

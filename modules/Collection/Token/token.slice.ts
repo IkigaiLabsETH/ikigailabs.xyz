@@ -19,11 +19,9 @@ export const buyTokenTh = (client: (network: Network) => ReservoirClient, wallet
           items: [{ token: `${contract}:${tokenId}`, quantity: 1 }],
           wallet: walletClient(address, network),
           onProgress: steps => {
-            dispatch(interactionProgressAction(steps))
+            // dispatch(interactionProgressAction(steps))
+            console.log(steps)
           },
-        })
-        .then((res: any) => {
-          return res
         })
         .catch((err: any) => {
           return rejectWithValue(err.response.data)
@@ -49,11 +47,9 @@ export const placeBidTh = (client: (network: Network) => ReservoirClient, wallet
           ],
           wallet: walletClient(address, network),
           onProgress: steps => {
-            dispatch(interactionProgressAction(steps))
+            // dispatch(interactionProgressAction(steps))
+            console.log(steps)
           },
-        })
-        .then((res: any) => {
-          return res
         })
         .catch((err: any) => {
           return rejectWithValue(err)
@@ -79,7 +75,8 @@ export const listTokenTh = (client: (network: Network) => ReservoirClient, walle
           ],
           wallet: walletClient(address, network),
           onProgress: steps => {
-            dispatch(interactionProgressAction(steps))
+            // dispatch(interactionProgressAction(steps))
+            console.log(steps)
           },
         })
         .catch((err: any) => {
@@ -104,7 +101,8 @@ export const acceptOfferTh = (client: (network: Network) => ReservoirClient, wal
           ],
           wallet: walletClient(address, network),
           onProgress: steps => {
-            dispatch(interactionProgressAction(steps))
+            // dispatch(interactionProgressAction(steps))
+            console.log(steps)
           },
         })
         .catch((err: any) => {
@@ -124,7 +122,8 @@ export const cancelOrderTh = (client: (network: Network) => ReservoirClient, wal
           ids: [id],
           wallet: walletClient(address, network),
           onProgress: steps => {
-            dispatch(interactionProgressAction(steps))
+            // dispatch(interactionProgressAction(steps))
+            console.log(steps)
           },
         })
         .catch((err: any) => {

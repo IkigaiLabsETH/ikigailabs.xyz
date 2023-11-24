@@ -13,9 +13,10 @@ import { Eth } from '../../Eth'
 import { ethToWei, replaceImageResolution } from '../../../common/utils/utils'
 import { buyToken, placeBid, selectCollectionTokenInteractionStatus, showListToken } from './token.slice'
 import { TextField } from '../../Form'
-import { Network } from '../../../common/types'
+import { NFT, Network } from '../../../common/types'
 import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
 import { Button } from '../../Button'
+import { selectCollection } from '../collection.selectors'
 
 interface TokenProps {
   contract: string
@@ -26,6 +27,7 @@ interface TokenProps {
 export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
   const address = useAddress()
   const { data: token, status: tokenStatus } = useAppSelector(selectCollectionToken({ contract, tokenId, network }))
+  const { data: collection, status: collectionStatus } = useAppSelector(selectCollection({ contract, network }))
   const { status: tokenInteractionStatus } = useAppSelector(selectCollectionTokenInteractionStatus)
   const [eth, setEth] = useState<string>('0')
   const dispatch = useAppDispatch()
@@ -43,8 +45,8 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     setEth(e.target.value)
   }
 
-  const onListToken = ({ network, contract, tokenId, name, media, description, image }) => {
-    dispatch(showListToken({ network, contract, tokenId, name, media, description, image }))
+  const onListToken = ({ network, contract, tokenId, name, media, description, image, royalties }) => {
+    dispatch(showListToken({ network, contract, tokenId, name, media, description, image, royalties }))
   }
 
   const loader = (
@@ -67,7 +69,9 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     const {
       token: { image, name, description, attributes, owner, contract, tokenId, kind, media },
       market: { floorAsk, topBid },
-    } = token as any
+    } = token as NFT
+    const { royalties: { bps } } = collection as any
+    const royalties = bps / 100
     const floorPriceSource = prop('source')(floorAsk)
     const topBidSource = prop('source')(topBid)
 
@@ -204,7 +208,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                     <div>
                       <Button
                         className="text-black font-bold text-xl hover:text-yellow w-full"
-                        onClick={() => onListToken({ contract, tokenId, name, media, description, image, network })}
+                        onClick={() => onListToken({ contract, tokenId, name, media, description, image, network, royalties })}
                       >
                         List
                       </Button>

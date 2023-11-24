@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '../../../common/redux/store'
 import { fetchCollectionToken } from './token.actions'
 import { collectionTokenApi } from './token.api'
 import { Network } from '../../../common/types'
+import { collectionApi } from '../collection.api'
 
 export const middleware = {
   actionCreator: fetchCollectionToken,
@@ -18,5 +19,6 @@ export const middleware = {
       network: pathOr(Network.MAINNET, ['payload', 'network'])(action),
     }
     listenerApi.dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate(params))
+    listenerApi.dispatch(collectionApi.endpoints.getCollectionByContract.initiate(params))
   },
 }

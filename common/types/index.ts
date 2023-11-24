@@ -77,7 +77,7 @@ export interface ContractMetadata {
 
 export interface NFTDropWithNFTS {
   metadata: ContractMetadata
-  primarySales: ContractPrimarySale<any>
+  primarySales: ContractPrimarySale
   nfts: any[]
   claimedSupply: string
   unclaimedSupply: string
@@ -104,12 +104,6 @@ export enum ActivityType {
   ask = 'ask',
   buy = 'buy',
 }
-
-// export interface Token {
-//   tokenId: string
-//   tokenImage: string
-//   tokenName: string
-// }
 
 export interface Collection {
   collectionId: string
@@ -211,6 +205,8 @@ export interface Token {
   contract: string
   media?: string
   lastSale?: LastSale
+  attributes?: Record<string, unknown>[]
+  kind?: string
 }
 
 export interface Ownership {

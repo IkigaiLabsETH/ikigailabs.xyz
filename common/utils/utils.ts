@@ -1,5 +1,4 @@
 import { ChainId } from '@thirdweb-dev/sdk'
-import { Network } from '@thirdweb-dev/sdk/solana'
 import { formatDuration, intervalToDuration } from 'date-fns'
 import {
   addIndex,
@@ -33,6 +32,7 @@ import {
   __,
   toUpper,
 } from 'ramda'
+import { Network } from '../types'
 
 export const truncate = (length: number) =>
   when(

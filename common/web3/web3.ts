@@ -13,6 +13,7 @@ let signer = null
 
 if (typeof window !== 'undefined') {
   ethProvider = new ethers.providers.Web3Provider(window.ethereum as any)
+  console.log(ethProvider)
   signer = ethProvider.getSigner()
 }
 
@@ -46,6 +47,7 @@ const reservoirClient = (chain: Network) =>
         id: getChainIdFromNetwork(chain),
         baseApiUrl: URLS[chain]?.reservoir,
         active: true,
+        name: chain,
       },
     ],
     source: process.env.NEXT_PUBLIC_APP_NAME || 'localhost',

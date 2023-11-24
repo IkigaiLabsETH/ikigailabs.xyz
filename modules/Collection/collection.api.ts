@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { path, uniq, uniqBy } from 'ramda'
+import { path, uniqBy } from 'ramda'
 
 import { Activity, NFT, Network } from '../../common/types'
 

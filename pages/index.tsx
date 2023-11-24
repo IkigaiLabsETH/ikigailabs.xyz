@@ -16,8 +16,6 @@ import { MintPasses } from '../modules/MintPasses'
 // import { MintPasses } from '../modules/MintPasses'
 
 const Home: FC = () => {
-  // const network = useAppSelector(selectedNetwork)
-
   return (
     <div className="flex items-center flex-col">
       <Head>

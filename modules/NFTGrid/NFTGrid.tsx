@@ -24,7 +24,7 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
         ({
           token: { contract, tokenId, name, media, description, image, lastSale },
           ownership,
-          market: { floorAsk },
+          market,
         }: NFT) => (
           <div
             key={`${contract}-${tokenId}`}
@@ -38,12 +38,15 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
               <div className="flex flex-col justify-between w-full">
                 <h5 className="font-bold text-xl mb-2">{name}</h5>
                 <div>
-                  <p className="text-black text-l font-bold m-0">
-                    Floor: {floorAsk?.price?.amount?.decimal} {floorAsk?.price?.currency.symbol}
-                  </p>
-                  <span className="text-black text-xs p-1 bg-gray-100 border-gray-100 rounded max-w-fit">
-                    Last sale: {lastSale?.price?.amount?.decimal} {lastSale?.price?.currency.symbol}
-                  </span>
+                  { market?.floorAsk && <p className="text-black text-l font-bold m-0">
+                    Floor: {market?.floorAsk?.price?.amount?.decimal} {market?.floorAsk?.price?.currency.symbol}
+                  </p> 
+                  }
+                  { lastSale &&
+                    <span className="text-black text-xs p-1 bg-gray-100 border-gray-100 rounded max-w-fit">
+                      Last sale: {lastSale?.price?.amount?.decimal} {lastSale?.price?.currency.symbol}
+                    </span>
+                  }
                 </div>
                 <div className="flex justify-between mt-5">
                   <Link href={`/${network}/${contract}/${tokenId}`} title={name}>
