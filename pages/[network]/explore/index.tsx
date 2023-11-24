@@ -13,6 +13,7 @@ import { collectionsApi, selectCollectionsBySetId } from '../../../modules/Colle
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { Selector } from '../../../modules/Form/Selector'
 import { NetworkSelector } from '../../../modules/NetworkSelector/NetworkSelector'
+import { useInfiniteLoading } from '../../../common/useInfiniteLoading'
 
 const SignatureCollection: FC = () => {
   const { query } = useRouter()
@@ -46,6 +47,12 @@ const SignatureCollection: FC = () => {
       )
     }
   }, [collectionSet, dispatch, network])
+
+  const { ref: collectionsRef } = useInfiniteLoading(collectionsApi.endpoints.getCollectionsBySetId.initiate, {
+    collectionSetId: collectionSet.id,
+    continuation: data?.continuation,
+    network,
+  })
 
   return (
     <div className="flex items-center flex-col">
@@ -82,6 +89,7 @@ const SignatureCollection: FC = () => {
           isLoading={status === QueryStatus.pending}
           network={network as Network}
         />
+        <div ref={collectionsRef} />
       </main>
       <Footer />
     </div>

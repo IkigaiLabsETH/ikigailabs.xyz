@@ -5,14 +5,10 @@ import Link from 'next/link'
 import { Profile } from '../Profile'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { selectedNetwork } from '../NetworkSelector'
-import { useAppSelector } from '../../common/redux/store'
-import { NetworkSelector } from '../NetworkSelector/NetworkSelector'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
-  const { pathname } = useRouter()
-  const network = useAppSelector(selectedNetwork)
+  const { pathname, query: { network } } = useRouter()
 
   useEffect(() => {
     setExpanded(false)

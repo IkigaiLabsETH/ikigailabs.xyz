@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { path, prop, uniq } from 'ramda'
+import { path, prop, uniqBy } from 'ramda'
 import { HYDRATE } from 'next-redux-wrapper'
 
 import { http } from '../../common/http'
@@ -41,7 +41,7 @@ export const collectionsApi = createApi({
       serializeQueryArgs: ({ queryArgs: { collectionSetId } }) => collectionSetId,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
-        currentCache.collections = uniq([...currentCache.collections, ...newItems.collections])
+        currentCache.collections = uniqBy(prop('id'), [...currentCache.collections, ...newItems.collections])
         currentCache.continuation = newItems.continuation
       },
       // Refetch when the page arg changes

@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern'
 import React, { FC, useState } from 'react'
-import { isEmpty, map, pathOr, prop, propOr } from 'ramda'
+import { __, divide, isEmpty, map, pathOr, pipe, prop, propOr } from 'ramda'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { useAddress } from '@thirdweb-dev/react'
 import Link from 'next/link'
@@ -70,8 +70,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
       token: { image, name, description, attributes, owner, contract, tokenId, kind, media },
       market: { floorAsk, topBid },
     } = token as NFT
-    const { royalties: { bps } } = collection as any
-    const royalties = bps / 100
+    const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
     const floorPriceSource = prop('source')(floorAsk)
     const topBidSource = prop('source')(topBid)
 
@@ -185,7 +184,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                   )}
                 </div>
                 <div>
-                  {address === owner ? (
+                  {address !== owner ? (
                     <div>
                       <TextField
                         id="bidAmount"
