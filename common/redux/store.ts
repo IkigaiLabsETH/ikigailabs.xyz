@@ -126,7 +126,7 @@ const persistedReducer = persistReducer(persistConfig, reducer)
 
 const makeStore = () =>
   configureStore({
-    reducer: persistedReducer,
+    reducer,
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
         serializableCheck: {

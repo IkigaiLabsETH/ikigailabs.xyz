@@ -10,7 +10,7 @@
     "code:prettier": "prettier --write '**/*.{ts,tsx}'"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.13",
+    "@headlessui/react": "^0.0.0-insiders.24486b3",
     "@heroicons/react": "^2.0.12",
     "@reduxjs/toolkit": "^1.8.2",
     "@reservoir0x/reservoir-kit-client": "^0.2.5",
@@ -33,11 +33,11 @@
     "prettier": "^2.6.2",
     "promise-retry": "^2.0.1",
     "ramda": "^0.28.0",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-icons": "^4.6.0",
     "react-intersection-observer": "^9.4.3",
-    "react-redux": "^8.0.2",
+    "react-redux": "^8.1.3",
     "react-toastify": "^9.1.1",
     "redux-persist": "^6.0.0",
     "sharp": "^0.32.6",

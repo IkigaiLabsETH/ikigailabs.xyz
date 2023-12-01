@@ -26,7 +26,6 @@ export const Selector: FC<SelectorProps> = ({
     <div className="max-w-xs">
       <Listbox value={selected} onChange={onChange}>
         {({ open }) => (
-          <>
             <div className="flex items-center">
               {title ? (
                 <div className="mr-4">
@@ -60,14 +59,7 @@ export const Selector: FC<SelectorProps> = ({
                   </span>
                 </Listbox.Button>
 
-                <Transition
-                  show={open}
-                  as={Fragment}
-                  leave="transition ease-in duration-100"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm font-bold">
+                <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto bg-white py-1 text-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm font-bold">
                     {options.map(option => (
                       <Listbox.Option
                         key={option.id}
@@ -96,10 +88,8 @@ export const Selector: FC<SelectorProps> = ({
                       </Listbox.Option>
                     ))}
                   </Listbox.Options>
-                </Transition>
               </div>
             </div>
-          </>
         )}
       </Listbox>
     </div>

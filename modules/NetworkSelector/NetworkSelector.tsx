@@ -5,47 +5,29 @@ import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { changeNetwork, selectedNetwork } from './NetworkSelector.slice'
 import { find, propEq } from 'ramda'
 import { useRouter } from 'next/router'
+import { NETWORK_OPTIONS } from '../../common/constants/constants'
 
 export const NetworkSelector: FC = () => {
   const dispatch = useAppDispatch()
-  const storedSelection = useAppSelector(selectedNetwork)
   const router = useRouter()
+  const { network } = router.query
 
-  const NETWORKS = [
-    {
-      id: Network.MAINNET,
-      name: 'Ethereum',
-    },
-    {
-      id: Network.GOERLI,
-      name: 'Goerli',
-    },
-    {
-      id: Network.POLYGON,
-      name: 'Polygon',
-    },
-    {
-      id: Network.ARBITRUM,
-      name: 'Arbitrum',
-    },
-  ] as Option[]
-
-  const [selected, setSelected] = useState<Option>(NETWORKS[0])
+  const [selected, setSelected] = useState<Option>(NETWORK_OPTIONS[0])
 
   useEffect(() => {
-    if (storedSelection) {
-      setSelected(find(propEq('id', storedSelection))(NETWORKS) as Option)
+    if (network) {
+      setSelected(find(propEq('id', network))(NETWORK_OPTIONS) as Option)
     }
-  }, [storedSelection])
+  }, [network])
 
   const onChangeNetwork = (value: Option) => {
     dispatch(changeNetwork({ network: value.id as Network }))
     router.push(`/${value.id}/explore`)
   }
-  console.log(selected)
+
   return (
     <div className="mr-2">
-      <Selector options={NETWORKS} onChange={onChangeNetwork} selected={selected} style="dark" />
+      <Selector options={NETWORK_OPTIONS} onChange={onChangeNetwork} selected={selected} style="dark" />
     </div>
   )
 }
