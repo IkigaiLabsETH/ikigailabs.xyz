@@ -5,10 +5,12 @@ import Link from 'next/link'
 import { Profile } from '../Profile'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { Network } from '../../common/types'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
-  const { pathname, query: { network } } = useRouter()
+  const { pathname, query } = useRouter()
+  const network = query.network ? query.network : Network.MAINNET
 
   useEffect(() => {
     setExpanded(false)
