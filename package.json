@@ -10,7 +10,7 @@
     "code:prettier": "prettier --write '**/*.{ts,tsx}'"
   },
   "dependencies": {
-    "@headlessui/react": "^0.0.0-insiders.24486b3",
+    "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.12",
     "@reduxjs/toolkit": "^1.8.2",
     "@reservoir0x/reservoir-kit-client": "^0.2.5",

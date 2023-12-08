@@ -43,7 +43,7 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, askId }) =
         <div className="grid items-center max-w-4xl grid-cols-1 mx-auto lg:grid-cols-2 gap-x-16 gap-y-12">
           <div>
             <div className="max-w-lg mx-auto text-center lg:text-left lg:max-w-none lg:mx-0">
-              <h2 className="text-sm font-bold tracking-wide uppercase text-rose-500">Today's Featured Drop</h2>
+              <h2 className="text-sm font-bold tracking-wide uppercase text-rose-500">Today`&apos;`s Featured Drop</h2>
               <p className="mt-4 text-5xl font-bold text-gray-900 md:text-6xl">
                 {pathOr('', ['asset', 'name'])(featuredAuction)}
               </p>
@@ -82,6 +82,7 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, askId }) =
                     src={pathOr('', ['asset', 'image'])(featuredAuction)}
                     width={320}
                     height={190}
+                    alt=''
                   />
                 </div>
 
