@@ -22,9 +22,7 @@ export const Header: FC = () => {
         <nav className="flex items-center justify-between">
           <div className="w-52 z-20">
             <Link href="/" title="" className="flex items-center">
-              <a>
-                <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="32" height="32" />
-              </a>
+              <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="32" height="32" />
             </Link>
           </div>
 
@@ -81,37 +79,29 @@ export const Header: FC = () => {
             }`}
           >
             <div className="flex justify-end">
-              <Link href="/">
-                <a title="Home" className="p-4 bg-black mb-1 inline-block">
+              <Link href="/" className="p-4 bg-black mb-1 inline-block">
                   Home
-                </a>
               </Link>
             </div>
             <div className="flex justify-end">
-              <Link href={`/${network}/explore`}>
-                <a title="Explore" className="p-4 bg-black mb-1 inline-block">
+              <Link href={`/${network}/explore`} className="p-4 bg-black mb-1 inline-block">
                   Explore
-                </a>
               </Link>
             </div>
             <div className="flex justify-end">
-              <Link href={`/dashboard/collected/${network}`}>
-                <a title="Dashboard" className="p-4 bg-black mb-1 inline-block">
+              <Link href={`/dashboard/collected/${network}`} className="p-4 bg-black mb-1 inline-block">
                   Dashboard
-                </a>
               </Link>
             </div>
             <div className="flex justify-end">
-              <Link href="/about">
-                <a title="About" className="p-4 bg-black mb-1 inline-block">
+              <Link href="/about" className="p-4 bg-black mb-1 inline-block">
                   About
-                </a>
               </Link>
             </div>
             <div className="flex justify-end">
-              <a title="About" href="https://livethelife.tv" className="p-4 bg-black mb-1 inline-block">
+              <Link title="About" href="https://livethelife.tv" className="p-4 bg-black mb-1 inline-block">
                 Edito
-              </a>
+              </Link>
             </div>
           </div>
         </nav>

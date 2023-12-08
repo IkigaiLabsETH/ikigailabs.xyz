@@ -40,8 +40,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
           <ul>
             {foundersStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
-                <Link href={`/${contracts[0].network}/drop/${contracts[0].contract}`}>
-                  <a className="flex justify-between w-full">
+                <Link href={`/${contracts[0].network}/drop/${contracts[0].contract}`} className="flex justify-between w-full">
                     <div>
                       {foundersData?.metadata?.name}
                       <p className="lg:text-2xl font-normal text-gray-600 mt-3 pl-1 text-lg">
@@ -49,14 +48,12 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
                       </p>
                     </div>{' '}
                     <ChevronRightIcon className="w-24 h-24 inline-block" />
-                  </a>
                 </Link>
               </li>
             ) : null}
             {artistsStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
-                <Link href={`/${contracts[0].network}/drop/${contracts[0].contract}`}>
-                  <a className="flex justify-between w-full">
+                <Link href={`/${contracts[0].network}/drop/${contracts[0].contract}`} className="flex justify-between w-full">
                     <div>
                       {artistsData?.metadata?.name}
                       <p className="lg:text-2xl font-normal text-gray-600 mt-3 pl-1 text-lg">
@@ -64,14 +61,12 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
                       </p>
                     </div>{' '}
                     <ChevronRightIcon className="w-24 h-24 inline-block" />
-                  </a>
                 </Link>
               </li>
             ) : null}
             {collectorsStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
-                <Link href={`/${contracts[0].network}/drop/${contracts[0].contract}`}>
-                  <a className="flex justify-between w-full">
+                <Link href={`/${contracts[0].network}/drop/${contracts[0].contract}`} className="flex justify-between w-full">
                     <div>
                       {collectorsData?.metadata?.name}
                       <p className="lg:text-2xl text-lg font-normal text-gray-600 mt-3 pl-1">
@@ -79,7 +74,6 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
                       </p>
                     </div>{' '}
                     <ChevronRightIcon className="w-24 h-24 inline-block" />
-                  </a>
                 </Link>
               </li>
             ) : null}

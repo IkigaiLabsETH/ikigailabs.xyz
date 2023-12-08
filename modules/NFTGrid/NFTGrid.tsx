@@ -49,8 +49,8 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
                   }
                 </div>
                 <div className="flex justify-between mt-5">
-                  <Link href={`/${network}/${contract}/${tokenId}`} title={name}>
-                    <a className="max-w-1/2 font-bold">View &rarr;</a>
+                  <Link href={`/${network}/${contract}/${tokenId}`} title={name} className="max-w-1/2 font-bold">
+                    View &rarr;
                   </Link>
                   {parseInt(ownership?.tokenCount) > 0 ? (
                     <button

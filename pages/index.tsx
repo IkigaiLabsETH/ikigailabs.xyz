@@ -35,7 +35,7 @@ const Home: FC = () => {
               </div>
             </div>
             <div className="mt-4 md:mt-0 md:pl-16 flex justify-center items-center">
-              <Image src="/assets/images/IKIGAI_LABS_logo.svg" width="80px" height="80px" alt="IKIGAI logo" />
+              <Image src="/assets/images/IKIGAI_LABS_logo.svg" width="80" height="80" alt="IKIGAI logo" />
             </div>
           </div>
           {/* <div className="mt-10 text-lg justify-center flex items-center">

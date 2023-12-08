@@ -56,12 +56,9 @@ export const Button: FC<ButtonProps> = ({
     <Link
       href={href}
       className={`relative inline-flex items-center justify-start p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`}
+      target={target}
       {...props}
     >
-      <a
-        className={`relative inline-flex items-center justify-center p-4 overflow-hidden font-semibold transition-all duration-150 ease-in-out border-2 group ${className}`}
-        target={target}
-      >
         <span
           className={clsx(
             'absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full',
@@ -76,7 +73,6 @@ export const Button: FC<ButtonProps> = ({
         >
           {children}
         </span>
-      </a>
     </Link>
   ) : (
     <button

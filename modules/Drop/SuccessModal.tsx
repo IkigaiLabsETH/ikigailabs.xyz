@@ -17,18 +17,18 @@ export const SuccessfulModal: FC<SuccessfulModalProps> = ({ transactionHash, net
       <p className="text-gray-800 text-xl">Your NFT has been minted.</p>
       <div>
         <Link href={`/${network}/drop/${contract}/${tokenId}`}>
-          <a className="text-yellow text-xl">View your NFT</a>
+          <span className="text-yellow text-xl">View your NFT</span>
         </Link>
       </div>
       <div>
-        <a
+        <Link
           href={`${URLS[network].explorer}/tx/${transactionHash}`}
           target="_blank"
           className="text-yellow text-xl"
           rel="noreferrer"
         >
           View your transaction
-        </a>
+        </Link>
       </div>
     </div>
   )
