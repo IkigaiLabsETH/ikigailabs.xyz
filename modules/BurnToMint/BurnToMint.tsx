@@ -8,7 +8,7 @@ import { useWallet } from '../../common/useWallet'
 import { Button } from '../Button'
 import { burnToMint, checkTokenBalancesForCollection, selectBurnToMint } from './burnToMint.slice'
 // import { selectContractCallStatus, selectTokensWithBalancesForAddress } from '../../common/web3/wallet.api'
-import { selector } from '../Collection/Token/token.api'
+import { selectTokenByContract } from '../Collection/Token/token.api'
 import { addOrReplace } from '../../common/utils/utils'
 import { Token } from '../../common/types'
 import { Loader, Size } from '../Loader'
@@ -26,7 +26,7 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
   const dispatch = useAppDispatch()
   const { address, connect } = useWallet()
   // const tokensWithBalance = useAppSelector(selectTokensWithBalancesForAddress(address)) as { contract: string; tokenId: string }[]
-  const tokenSelector = useAppSelector(selector) as any
+  const tokenSelector = useAppSelector(selectTokenByContract) as any
   // const contractCallStatus = useAppSelector(selectContractCallStatus)
   const { status } = useAppSelector(selectBurnToMint)
   const [tokensToBurn, setTokensToBurn] = useState([])

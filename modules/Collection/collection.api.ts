@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { path, uniqBy } from 'ramda'
 
-import { Activity, NFT, Network } from '../../common/types'
+import { Activity, Collection, NFT, Network } from '../../common/types'
 
 export const fetchCollection = createAction<{ contract: string; network: string }>('collection/fetch')
 
@@ -10,7 +10,7 @@ export const collectionApi = createApi({
   reducerPath: 'collectionApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/api/reservoir' }),
   endpoints: builder => ({
-    getCollectionByContract: builder.query<{ collection: any }, { contract: string; network: Network }>({
+    getCollectionByContract: builder.query<Collection, { contract: string; network: Network }>({
       query: ({ contract, network }) =>
         `${network}/collections/v5?id=${contract}&includeTopBid=true&sortBy=allTimeVolume&includeAttributes=false&limit=20`,
       transformResponse: (response): any => path(['collections', 0])(response),

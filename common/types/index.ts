@@ -408,7 +408,7 @@ export interface Collection {
   openseaVerificationStatus: string
   description: string
   sampleImages: string[]
-  tokenCount: string
+  tokenCount: number
   onSaleCount: string
   primaryContract: string
   tokenSetId: string
