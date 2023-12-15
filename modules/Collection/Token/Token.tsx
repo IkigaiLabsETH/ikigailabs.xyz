@@ -29,10 +29,16 @@ interface TokenProps {
 
 export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
   const address = useAddress()
-  const { data: tokenActivity, status: tokenActivityStatus } = useAppSelector(selectTokenActivity({ contract, tokenId, network }))
+  const { data: tokenActivity, status: tokenActivityStatus } = useAppSelector(
+    selectTokenActivity({ contract, tokenId, network }),
+  )
   const { data: token, status: tokenStatus } = useAppSelector(selectCollectionToken({ contract, tokenId, network }))
-  const { data: tokenListings, status: tokenListingsStatus } = useAppSelector(selectTokenListings({ contract, tokenId, network }))
-  const { data: tokenOffers, status: tokenOffersStatus } = useAppSelector(selectTokenOffers({ contract, tokenId, network }))
+  const { data: tokenListings, status: tokenListingsStatus } = useAppSelector(
+    selectTokenListings({ contract, tokenId, network }),
+  )
+  const { data: tokenOffers, status: tokenOffersStatus } = useAppSelector(
+    selectTokenOffers({ contract, tokenId, network }),
+  )
   const { data: collection, status: collectionStatus } = useAppSelector(selectCollection({ contract, network }))
   const { status: tokenInteractionStatus } = useAppSelector(selectCollectionTokenInteractionStatus)
 
@@ -62,7 +68,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
   }, [activeTab])
 
   const onBuyToken = () => {
-    return dispatch(buyToken({ contract, tokenId, address, network })) 
+    return dispatch(buyToken({ contract, tokenId, address, network }))
   }
 
   const onCreateBid = () => {
@@ -215,7 +221,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
               </div>
             </div>
             <div className="w-full lg:w-1/2 mt-2">
-              <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-4 mb-6">
                   <div className="text-2xl mb-8 font-bold">
                     Floor price:
@@ -320,29 +326,37 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                 </nav>
               </div>
               <div className="my-4 max-h-screen-50 overflow-x-hidden overflow-auto pr-4">
-              {match(activeTab)
-                .with('Info', () => (
-                  <>
-                    {collection?.description}
-                  </>
-                ))
-                .with('Activity', () => (
-                  <>
-                    { tokenActivityStatus !== QueryStatus.fulfilled ?  <Loader /> : <Activity activity={tokenActivity?.activities}/> }
-                  </>
-                ))
-                .with('Listings', () => (
-                  <>
-                    { tokenListingsStatus !== QueryStatus.fulfilled ?  <Loader /> : <ListingsList orders={tokenListings.orders}/> }
-                  </>
-                ))
-                .with('Offers', () => (
-                  <>
-                    { tokenOffersStatus !== QueryStatus.fulfilled ?  <Loader /> : <OffersList orders={tokenOffers.orders} /> }
-                  </>
-                ))
-                .otherwise(() => null)}
-                </div>
+                {match(activeTab)
+                  .with('Info', () => <>{collection?.description}</>)
+                  .with('Activity', () => (
+                    <>
+                      {tokenActivityStatus !== QueryStatus.fulfilled ? (
+                        <Loader />
+                      ) : (
+                        <Activity activity={tokenActivity?.activities} />
+                      )}
+                    </>
+                  ))
+                  .with('Listings', () => (
+                    <>
+                      {tokenListingsStatus !== QueryStatus.fulfilled ? (
+                        <Loader />
+                      ) : (
+                        <ListingsList orders={tokenListings.orders} />
+                      )}
+                    </>
+                  ))
+                  .with('Offers', () => (
+                    <>
+                      {tokenOffersStatus !== QueryStatus.fulfilled ? (
+                        <Loader />
+                      ) : (
+                        <OffersList orders={tokenOffers.orders} />
+                      )}
+                    </>
+                  ))
+                  .otherwise(() => null)}
+              </div>
             </div>
           </div>
         </div>
