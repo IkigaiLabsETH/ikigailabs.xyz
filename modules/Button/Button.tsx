@@ -59,20 +59,20 @@ export const Button: FC<ButtonProps> = ({
       target={target}
       {...props}
     >
-        <span
-          className={clsx(
-            'absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full',
-            variantStyles[variant][color][1],
-          )}
-        ></span>
-        <span
-          className={clsx(
-            'relative w-full text-center transition-colors duration-200 ease-in-out',
-            variantStyles[variant][color][2],
-          )}
-        >
-          {children}
-        </span>
+      <span
+        className={clsx(
+          'absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out group-hover:h-full',
+          variantStyles[variant][color][1],
+        )}
+      ></span>
+      <span
+        className={clsx(
+          'relative w-full text-center transition-colors duration-200 ease-in-out',
+          variantStyles[variant][color][2],
+        )}
+      >
+        {children}
+      </span>
     </Link>
   ) : (
     <button

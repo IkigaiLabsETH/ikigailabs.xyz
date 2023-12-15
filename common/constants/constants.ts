@@ -1,4 +1,4 @@
-import { Network, Option } from "../types"
+import { Network, Option } from '../types'
 
 export const COLLECTION_METADATA_FIELDS = ['name', 'description', 'image']
 

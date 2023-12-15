@@ -19,8 +19,8 @@ export const Loader: FC<LoaderProps> = ({ size = Size.m, color = 'black' }) => {
     [Size.l]: 45,
   }
   return color === 'black' ? (
-    <Image src="/assets/images/loader.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} alt="One moment"/>
+    <Image src="/assets/images/loader.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} alt="One moment" />
   ) : (
-    <Image src="/assets/images/loader-white.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} alt="One moment"/>
+    <Image src="/assets/images/loader-white.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} alt="One moment" />
   )
 }

@@ -207,6 +207,9 @@ export interface Token {
   lastSale?: LastSale
   attributes?: Record<string, unknown>[]
   kind?: string
+  collection?: {
+    name: string
+  }
 }
 
 export interface Ownership {

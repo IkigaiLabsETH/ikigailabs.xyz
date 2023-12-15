@@ -1,5 +1,5 @@
 import { ListenerEffectAPI, PayloadAction } from '@reduxjs/toolkit'
-import { pathOr } from 'ramda'
+import { omit, pathOr } from 'ramda'
 
 import { AppDispatch, RootState } from '../../../common/redux/store'
 import { fetchCollectionToken } from './token.actions'
@@ -19,6 +19,6 @@ export const middleware = {
       network: pathOr(Network.MAINNET, ['payload', 'network'])(action),
     }
     listenerApi.dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate(params))
-    listenerApi.dispatch(collectionApi.endpoints.getCollectionByContract.initiate(params))
+    listenerApi.dispatch(collectionApi.endpoints.getCollectionByContract.initiate(omit(['tokenId'])(params)))
   },
 }

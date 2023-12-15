@@ -50,7 +50,7 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
             step={0.01}
             min={0}
           />
-          
+
           <ReservoirActionButton
             onClick={onCreateAsk}
             loading={tokenInteractionStatus === 'pending'}

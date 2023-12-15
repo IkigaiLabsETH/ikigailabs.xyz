@@ -82,7 +82,7 @@ export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, askId }) =
                     src={pathOr('', ['asset', 'image'])(featuredAuction)}
                     width={320}
                     height={190}
-                    alt=''
+                    alt=""
                   />
                 </div>
 
