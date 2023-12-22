@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import { formatAmount } from '../../common/utils/utils'
+import { formatAmount } from '../../common/utils'
 import { Loader, Size } from '../Loader'
 import { getBalance, selectWalletBalance } from '../../common/web3/wallet.api'
 import { selectedNetwork } from '../NetworkSelector'

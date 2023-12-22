@@ -1,15 +1,12 @@
 import clsx from 'clsx'
-import { isNil, map, pluck } from 'ramda'
+import { map, pluck } from 'ramda'
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
-import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { useWallet } from '../../common/useWallet'
-import { Button } from '../Button'
 import { burnToMint, checkTokenBalancesForCollection, selectBurnToMint } from './burnToMint.slice'
 // import { selectContractCallStatus, selectTokensWithBalancesForAddress } from '../../common/web3/wallet.api'
 import { selectTokenByContract } from '../Collection/Token/token.api'
-import { addOrReplace } from '../../common/utils/utils'
 import { Token } from '../../common/types'
 import { Loader, Size } from '../Loader'
 import { selectedNetwork } from '../NetworkSelector'
@@ -59,19 +56,6 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
       }),
     )
   }
-
-  // useEffect(() => {
-  //   if (tokensWithBalance.length > 0) {
-  //     map(({ contract, tokenId }: { contract: string; tokenId: string }) => {
-  //       const { data } = tokenSelector({ contract, tokenId })
-
-  //       if (data?.token) {
-  //         const tokenData = addOrReplace(tokensToBurn, data.token, 'tokenId')
-  //         setTokensToBurn(tokenData)
-  //       }
-  //     })(tokensWithBalance)
-  //   }
-  // }, [tokensWithBalance, tokenSelector])
 
   const tokenList = (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

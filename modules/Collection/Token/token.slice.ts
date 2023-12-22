@@ -34,7 +34,7 @@ export const buyToken = buyTokenTh(reservoirClient, walletClient)
 export const placeBidTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network }>(
     'token/makeBid',
-    ({ contract, tokenId, wei, address, network }, { rejectWithValue, dispatch }) => {
+    ({ contract, tokenId, wei, address, network }, { rejectWithValue }) => {
       return client(network)
         ?.actions.placeBid({
           bids: [
@@ -63,6 +63,7 @@ export const listTokenTh = (client: (network: Network) => ReservoirClient, walle
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network }>(
     'token/list',
     ({ contract, tokenId, wei, address, network }, { rejectWithValue, dispatch }) => {
+      console.log(network)
       return client(network)
         ?.actions.listToken({
           listings: [
@@ -175,7 +176,7 @@ export const tokenSlice = createSlice({
       .addCase(listToken.rejected, state => {
         state.status = 'failed'
       })
-      .addCase(acceptOffer.pending, (state, action) => {
+      .addCase(acceptOffer.pending, (state) => {
         state.status = 'pending'
       })
       .addCase(acceptOffer.fulfilled, (state, action) => {
@@ -183,7 +184,7 @@ export const tokenSlice = createSlice({
         state.status = 'succeeded'
         tokenAdapter.addOne(state, payload)
       })
-      .addCase(acceptOffer.rejected, (state, action) => {
+      .addCase(acceptOffer.rejected, (state) => {
         state.status = 'failed'
       })
       .addCase(cancelOrder.pending, state => {

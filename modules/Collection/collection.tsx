@@ -10,7 +10,7 @@ import { Loader } from '../Loader'
 import { Activity } from '../Activity'
 import { NFTGrid } from '../NFTGrid'
 import { Facets } from '../Facets'
-import { formatAttributes } from '../../common/utils/utils'
+import { formatAttributes } from '../../common/utils'
 import {
   selectNFTS,
   selectCollection,

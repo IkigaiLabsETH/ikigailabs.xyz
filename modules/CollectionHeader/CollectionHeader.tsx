@@ -1,6 +1,6 @@
 import { propOr } from 'ramda'
 import React, { FC, ReactNode } from 'react'
-import { replaceImageResolution } from '../../common/utils/utils'
+import { replaceImageResolution } from '../../common/utils'
 import { CollectionStat } from '../CollectionStat'
 import { Eyebrow } from '../Eyebrow'
 

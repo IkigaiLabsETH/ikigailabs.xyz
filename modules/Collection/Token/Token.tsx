@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern'
 import React, { FC, useEffect, useState } from 'react'
-import { __, divide, isEmpty, map, pathOr, pipe, prop, propOr } from 'ramda'
+import { __, divide, isEmpty, isNil, map, pathOr, pipe, prop, propOr } from 'ramda'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { useAddress } from '@thirdweb-dev/react'
 import Link from 'next/link'
@@ -9,8 +9,8 @@ import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
 import { selectCollectionToken, selectTokenActivity, selectTokenListings, selectTokenOffers } from './token.selectors'
 import { Eth } from '../../Eth'
-import { ethToWei, replaceImageResolution } from '../../../common/utils/utils'
-import { buyToken, placeBid, selectCollectionTokenInteractionStatus, showListToken } from './token.slice'
+import { ethToWei, getTokenDataFromTokenSetId, isOwner, replaceImageResolution } from '../../../common/utils'
+import { acceptOffer, buyToken, cancelOrder, placeBid, selectCollectionTokenInteractionStatus, showListToken } from './token.slice'
 import { NFT, Network } from '../../../common/types'
 import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
 import { Button } from '../../Button'
@@ -48,21 +48,18 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
 
   useEffect(() => {
     if (activeTab === 'Activity' && tokenActivityStatus === QueryStatus.uninitialized) {
-      console.log('tokenActivityStatus', tokenActivityStatus)
       dispatch(collectionTokenApi.endpoints.getTokenActivity.initiate({ contract, tokenId, network }))
     }
   }, [activeTab])
 
   useEffect(() => {
     if (activeTab === 'Listings' && tokenListingsStatus === QueryStatus.uninitialized) {
-      console.log('tokenListingsStatus', tokenListingsStatus)
       dispatch(collectionTokenApi.endpoints.getTokenListings.initiate({ contract, tokenId, network }))
     }
   }, [activeTab])
 
   useEffect(() => {
     if (activeTab === 'Offers' && tokenOffersStatus === QueryStatus.uninitialized) {
-      console.log('tokenOffersStatus', tokenOffersStatus)
       dispatch(collectionTokenApi.endpoints.getTokenOffers.initiate({ contract, tokenId, network }))
     }
   }, [activeTab])
@@ -76,12 +73,22 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     return dispatch(placeBid({ contract, tokenId, wei, address, network }))
   }
 
-  const onSetEth = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEth(e.target.value)
-  }
-
   const onListToken = ({ network, contract, tokenId, name, media, description, image, royalties }) => {
     dispatch(showListToken({ network, contract, tokenId, name, media, description, image, royalties }))
+  }
+
+  const onCancelOrder = (id: string) => {
+    dispatch(cancelOrder({ id, address, network: network as Network }))
+  }
+
+  const onBuyListing = (tokenSetId: string) => {
+    const [ contract, tokenId ] = getTokenDataFromTokenSetId(tokenSetId)
+    dispatch(buyToken({ contract, tokenId, address, network: network as Network }))
+  }
+
+  const onAcceptOffer = (tokenSetId: string) => {
+    const [ contract, tokenId ] = getTokenDataFromTokenSetId(tokenSetId)
+    dispatch(acceptOffer({ contract, tokenId, address, network: network as Network }))
   }
 
   const loader = (
@@ -108,30 +115,33 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
     const floorPriceSource = prop('source')(floorAsk)
     const topBidSource = prop('source')(topBid)
+    const owned = isOwner(address)(token.token)
 
     return (
       <div className="w-full bg-white flex items-center flex-col">
         <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col border-b-4 border-black bg-black">
           <div className="w-full md:w-1/2 h-screen items-center justify-center flex p-8">
-            {image && !media && (
-              <Image
-                src={replaceImageResolution(1500)(image)}
-                title={name as string}
-                alt={name as string}
-                width={850}
-                height={850}
-                className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]"
-              />
-            )}
-            {media && (
-              <video
-                src={media}
-                title={name as string}
-                controls={false}
-                autoPlay
-                className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]"
-              />
-            )}
+            <div className="w-full flex items-center justify-center relative h-2/3">
+              {image && !media && (
+                <Image
+                  src={replaceImageResolution(1500)(image)}
+                  title={name as string}
+                  alt={name as string}
+                  fill={true}
+                  style={{maxHeight: '75vh'}}
+                  className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)] w-auto relative"
+                />
+              )}
+              {media && (
+                <video
+                  src={media}
+                  title={name as string}
+                  controls={false}
+                  autoPlay
+                  className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]"
+                />
+              )}
+            </div>
           </div>
           <div className="flex w-full max-w-screen-2xl items-end justify-start">
             <h1 className="boska text-[3rem] md:text-[4rem] lg:text-[8rem] text-yellow mb-16 px-6">{name}</h1>
@@ -232,7 +242,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       {isEmpty(floorPriceSource) ? '' : ` on ${propOr('', 'name')(floorPriceSource)}`}
                     </div>
                   </div>
-                  {pathOr('—', ['price', 'amount', 'native'])(floorAsk) !== '—' ? (
+                  {pathOr('—', ['price', 'amount', 'native'])(floorAsk) !== '—' && !isOwner(address)(token.token) ? (
                     <div>
                       <ReservoirActionButton
                         onClick={onBuyToken}
@@ -253,20 +263,11 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       <Eth amount={pathOr('—', ['price', 'amount', 'native'])(topBid)} />
                     </div>
                     <div className="text-sm text-gray-700 italic">
-                      {isEmpty(topBidSource) ? '' : ` on ${propOr('', 'name')(topBidSource)}`}
+                      {isEmpty(topBidSource) || isNil(topBidSource) ? '' : ` on ${propOr('', 'name')(topBidSource)}`}
                     </div>
                   </div>
-                  {address !== owner ? (
+                  {!isOwner(address)(token.token) ? (
                     <div>
-                      {/* <TextField
-                        id="bidAmount"
-                        label="Amount"
-                        value={eth}
-                        onChange={onSetEth}
-                        type="number"
-                        valid={true}
-                        step={0.01}
-                      /> */}
                       <ReservoirActionButton
                         onClick={onCreateBid}
                         loading={tokenInteractionStatus === 'pending'}
@@ -275,18 +276,19 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                         network={network}
                       ></ReservoirActionButton>
                     </div>
-                  ) : (
-                    <div>
-                      <Button
-                        className="text-black font-bold text-xl hover:text-yellow w-full"
-                        onClick={() =>
-                          onListToken({ contract, tokenId, name, media, description, image, network, royalties })
-                        }
-                      >
-                        List
-                      </Button>
-                    </div>
-                  )}
+                  ) :
+                    pathOr('—', ['price', 'amount', 'native'])(topBid) !== '—' ? (
+                      <div>
+                        <Button
+                          className="text-black font-bold text-xl hover:text-yellow w-full"
+                          onClick={() =>
+                            onListToken({ contract, tokenId, name, media, description, image, network, royalties })
+                          }
+                        >
+                          Sell
+                        </Button>
+                      </div>
+                  ) : <></>}
                 </div>
               </div>
               <div className="block w-full">
@@ -342,7 +344,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       {tokenListingsStatus !== QueryStatus.fulfilled ? (
                         <Loader />
                       ) : (
-                        <ListingsList orders={tokenListings.orders} />
+                        <ListingsList orders={tokenListings.orders} status={tokenInteractionStatus} onCancel={onCancelOrder} onBuy={onBuyListing}/>
                       )}
                     </>
                   ))
@@ -351,7 +353,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       {tokenOffersStatus !== QueryStatus.fulfilled ? (
                         <Loader />
                       ) : (
-                        <OffersList orders={tokenOffers.orders} />
+                        <OffersList orders={tokenOffers.orders} status={tokenInteractionStatus} onCancel={onCancelOrder} onAccept={onAcceptOffer} isOwner={owned} />
                       )}
                     </>
                   ))

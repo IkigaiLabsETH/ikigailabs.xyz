@@ -3,7 +3,6 @@ import { map, mergeAll } from 'ramda'
 import { RootState } from '../../common/redux/store'
 
 import { ErrorType, Status } from '../../common/types'
-import { formatNFTMetadata } from '../../common/utils/utils'
 import { Web3 } from '../../common/web3'
 
 export const fetchNFTDrops = createAsyncThunk<Promise<{} | Error>, { web3: Web3; contracts: string[] }>(

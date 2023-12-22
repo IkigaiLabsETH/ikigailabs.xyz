@@ -31,8 +31,10 @@ import {
   without,
   __,
   toUpper,
+  split,
+  tail,
 } from 'ramda'
-import { Network } from '../types'
+import { NFT, Network, Token } from '../types'
 
 export const truncate = (length: number) =>
   when(
@@ -113,3 +115,8 @@ export const formatDateAndTime = (dateTime: string | number) => {
   const dateObj = typeof dateTime === 'number' ? new Date(dateTime * 1000) : new Date(dateTime)
   return dateObj.toLocaleString('en-US')
 }
+
+export const isOwner = (address: string) => propEq('owner', address?.toLowerCase())
+export const isMaker = (address: string) => propEq('maker', address?.toLowerCase())
+
+export const getTokenDataFromTokenSetId = (tokenSetId: string) => pipe(split(':'), tail)(tokenSetId) as string[]
