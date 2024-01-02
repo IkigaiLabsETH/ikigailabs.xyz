@@ -26,6 +26,7 @@ import {
   splitEvery,
   take,
   takeLast,
+  test,
   toPairs,
   when,
   without,
@@ -33,6 +34,8 @@ import {
   toUpper,
   split,
   tail,
+  cond,
+  T,
 } from 'ramda'
 import { NFT, Network, Token } from '../types'
 
@@ -96,7 +99,12 @@ export const shuffleArray = (strings: string[]) =>
 export const batchArray = (strings: string[]) => (batchSize: number) =>
   map(splitEvery(batchSize), splitEvery(batchSize, strings))
 
-export const replaceImageResolution = (resolution: number) => replace(/w=\d+/, `w=${resolution}`)
+export const replaceImageResolution = (resolution: number) => cond([
+  [test(/w=\d+/), replace(/w=\d+/, `w=${resolution}`)],
+  [test(/width=\d+/), replace(/width=\d+/, `width=${resolution}`)],
+  [T, identity],
+])
+
 
 export const ethToWei = (eth: number) => eth * 10 ** 18
 
