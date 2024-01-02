@@ -27,7 +27,9 @@ export const OffersList: FC<OffersListProps> = ({ orders, status, onCancel, onAc
             {map((order: Order) => (
               <li className="flex flex-row border-b border-gray-400 py-2" key={order.id}>
                 <div className="flex flex-col w-2/3">
-                  <div className="text-xs text-gray-500">{formatDistance(new Date(order.createdAt), new Date())} ago</div>
+                  <div className="text-xs text-gray-500">
+                    {formatDistance(new Date(order.createdAt), new Date())} ago
+                  </div>
                   <div className="flex flex-row items-center my-1">
                     <span className="text-2xl font-bold">
                       <Eth amount={order.price.netAmount.decimal} />
@@ -39,16 +41,28 @@ export const OffersList: FC<OffersListProps> = ({ orders, status, onCancel, onAc
                   <div className="text-sm text-gray-500">by {truncateAddress(order.maker)}</div>
                 </div>
                 <div className="w-1/3">
-                {isMaker(address)(order) ? 
-                  <Button loading={status === QueryStatus.pending} className='w-full' onClick={() => onCancel(prop('id')(order))}>
-                    Cancel Offer
-                  </Button>
-                  : <></> }
-                  {isOwner ? 
-                    <Button loading={status === QueryStatus.pending} className='w-full' onClick={() => onAccept(order.tokenSetId)}>
+                  {isMaker(address)(order) ? (
+                    <Button
+                      loading={status === QueryStatus.pending}
+                      className="w-full"
+                      onClick={() => onCancel(prop('id')(order))}
+                    >
+                      Cancel Offer
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
+                  {isOwner ? (
+                    <Button
+                      loading={status === QueryStatus.pending}
+                      className="w-full"
+                      onClick={() => onAccept(order.tokenSetId)}
+                    >
                       Accept Offer
                     </Button>
-                   : <></> }
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </li>
             ))(orders)}

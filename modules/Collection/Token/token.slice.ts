@@ -176,7 +176,7 @@ export const tokenSlice = createSlice({
       .addCase(listToken.rejected, state => {
         state.status = 'failed'
       })
-      .addCase(acceptOffer.pending, (state) => {
+      .addCase(acceptOffer.pending, state => {
         state.status = 'pending'
       })
       .addCase(acceptOffer.fulfilled, (state, action) => {
@@ -184,7 +184,7 @@ export const tokenSlice = createSlice({
         state.status = 'succeeded'
         tokenAdapter.addOne(state, payload)
       })
-      .addCase(acceptOffer.rejected, (state) => {
+      .addCase(acceptOffer.rejected, state => {
         state.status = 'failed'
       })
       .addCase(cancelOrder.pending, state => {

@@ -10,7 +10,14 @@ import { Loader } from '../../Loader'
 import { selectCollectionToken, selectTokenActivity, selectTokenListings, selectTokenOffers } from './token.selectors'
 import { Eth } from '../../Eth'
 import { ethToWei, getTokenDataFromTokenSetId, isOwner, replaceImageResolution } from '../../../common/utils'
-import { acceptOffer, buyToken, cancelOrder, placeBid, selectCollectionTokenInteractionStatus, showListToken } from './token.slice'
+import {
+  acceptOffer,
+  buyToken,
+  cancelOrder,
+  placeBid,
+  selectCollectionTokenInteractionStatus,
+  showListToken,
+} from './token.slice'
 import { NFT, Network } from '../../../common/types'
 import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
 import { Button } from '../../Button'
@@ -82,12 +89,12 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
   }
 
   const onBuyListing = (tokenSetId: string) => {
-    const [ contract, tokenId ] = getTokenDataFromTokenSetId(tokenSetId)
+    const [contract, tokenId] = getTokenDataFromTokenSetId(tokenSetId)
     dispatch(buyToken({ contract, tokenId, address, network: network as Network }))
   }
 
   const onAcceptOffer = (tokenSetId: string) => {
-    const [ contract, tokenId ] = getTokenDataFromTokenSetId(tokenSetId)
+    const [contract, tokenId] = getTokenDataFromTokenSetId(tokenSetId)
     dispatch(acceptOffer({ contract, tokenId, address, network: network as Network }))
   }
 
@@ -128,7 +135,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                   title={name as string}
                   alt={name as string}
                   fill={true}
-                  style={{maxHeight: '75vh'}}
+                  style={{ maxHeight: '75vh' }}
                   className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)] w-auto relative"
                 />
               )}
@@ -276,19 +283,20 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                         network={network}
                       ></ReservoirActionButton>
                     </div>
-                  ) :
-                    pathOr('—', ['price', 'amount', 'native'])(topBid) !== '—' ? (
-                      <div>
-                        <Button
-                          className="text-black font-bold text-xl hover:text-yellow w-full"
-                          onClick={() =>
-                            onListToken({ contract, tokenId, name, media, description, image, network, royalties })
-                          }
-                        >
-                          Sell
-                        </Button>
-                      </div>
-                  ) : <></>}
+                  ) : pathOr('—', ['price', 'amount', 'native'])(topBid) !== '—' ? (
+                    <div>
+                      <Button
+                        className="text-black font-bold text-xl hover:text-yellow w-full"
+                        onClick={() =>
+                          onListToken({ contract, tokenId, name, media, description, image, network, royalties })
+                        }
+                      >
+                        Sell
+                      </Button>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
               <div className="block w-full">
@@ -344,7 +352,12 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       {tokenListingsStatus !== QueryStatus.fulfilled ? (
                         <Loader />
                       ) : (
-                        <ListingsList orders={tokenListings.orders} status={tokenInteractionStatus} onCancel={onCancelOrder} onBuy={onBuyListing}/>
+                        <ListingsList
+                          orders={tokenListings.orders}
+                          status={tokenInteractionStatus}
+                          onCancel={onCancelOrder}
+                          onBuy={onBuyListing}
+                        />
                       )}
                     </>
                   ))
@@ -353,7 +366,13 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       {tokenOffersStatus !== QueryStatus.fulfilled ? (
                         <Loader />
                       ) : (
-                        <OffersList orders={tokenOffers.orders} status={tokenInteractionStatus} onCancel={onCancelOrder} onAccept={onAcceptOffer} isOwner={owned} />
+                        <OffersList
+                          orders={tokenOffers.orders}
+                          status={tokenInteractionStatus}
+                          onCancel={onCancelOrder}
+                          onAccept={onAcceptOffer}
+                          isOwner={owned}
+                        />
                       )}
                     </>
                   ))
