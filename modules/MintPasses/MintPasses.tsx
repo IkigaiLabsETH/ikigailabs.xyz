@@ -41,7 +41,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
             {foundersStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
                 <Link
-                  href={`/${contracts[0].network}/drop/${contracts[0].contract}`}
+                  href={`/${contracts[0].network}/drop/${contracts[0].contract}/${contracts[0].tokenId}`}
                   className="flex justify-between w-full"
                 >
                   <div>
@@ -57,7 +57,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
             {artistsStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
                 <Link
-                  href={`/${contracts[0].network}/drop/${contracts[0].contract}`}
+                  href={`/${contracts[1].network}/drop/${contracts[1].contract}/${contracts[1].tokenId}`}
                   className="flex justify-between w-full"
                 >
                   <div>
@@ -73,7 +73,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
             {collectorsStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
                 <Link
-                  href={`/${contracts[0].network}/drop/${contracts[0].contract}`}
+                  href={`/${contracts[2].network}/drop/${contracts[2].contract}/${contracts[2].tokenId}`}
                   className="flex justify-between w-full"
                 >
                   <div>
