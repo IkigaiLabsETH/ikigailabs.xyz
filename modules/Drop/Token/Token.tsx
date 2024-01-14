@@ -5,24 +5,25 @@ import { map } from 'ramda'
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
 import { getDropTokenByContractAndTokenId, selectToken } from '../drop.api'
-import { Network } from '../../../common/types'
+import { ContractType, Network } from '../../../common/types'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
 interface NFTProps {
   contract: string
   tokenId: string
   network: Network
+  type?: ContractType
 }
 
-export const NFT: FC<NFTProps> = ({ contract, tokenId, network }) => {
-  const { data: token, status } = useAppSelector(selectToken({ contract, tokenId, network })) as any
+export const NFT: FC<NFTProps> = ({ contract, tokenId, network, type }) => {
+  const { data: token, status } = useAppSelector(selectToken({ contract, tokenId, network, type })) as any
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (!token) {
-      dispatch(getDropTokenByContractAndTokenId.initiate({ contract, tokenId, network }))
+      dispatch(getDropTokenByContractAndTokenId.initiate({ contract, tokenId, network, type }))
     }
-  }, [contract, tokenId, network, dispatch, token])
+  }, [contract, tokenId, network, dispatch, token, type])
 
   const loader = (
     <div className="flex w-screen h-screen justify-center items-center bg-yellow">

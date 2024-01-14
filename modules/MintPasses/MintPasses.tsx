@@ -24,7 +24,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
   const { status: foundersStatus, data: foundersData } = useAppSelector(selectToken(contracts[0]))
   const { status: artistsStatus, data: artistsData } = useAppSelector(selectToken(contracts[1]))
   const { status: collectorsStatus, data: collectorsData } = useAppSelector(selectToken(contracts[2]))
-
+  console.log(foundersData)
   return (
     <div className="flex flex-col px-8 md:px-24 lg:px-48 bg-white text-black min-h-screen justify-center items-center">
       <div className="flex flex-row space-x-6 mt-32">
@@ -41,7 +41,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
             {foundersStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
                 <Link
-                  href={`/${contracts[0].network}/drop/${contracts[0].contract}`}
+                  href={`/${contracts[0].network}/drop/${contracts[0].contract}/${contracts[0].tokenId}?type=${contracts[0].type}`}
                   className="flex justify-between w-full"
                 >
                   <div>
@@ -57,7 +57,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
             {artistsStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
                 <Link
-                  href={`/${contracts[0].network}/drop/${contracts[0].contract}`}
+                  href={`/${contracts[1].network}/drop/${contracts[1].contract}/${contracts[1].tokenId}?type=${contracts[0].type}`}
                   className="flex justify-between w-full"
                 >
                   <div>
@@ -73,7 +73,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
             {collectorsStatus === QueryStatus.fulfilled ? (
               <li className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none boska font-bold border-b border-b-gray-400 py-10">
                 <Link
-                  href={`/${contracts[0].network}/drop/${contracts[0].contract}`}
+                  href={`/${contracts[2].network}/drop/${contracts[2].contract}/${contracts[2].tokenId}?type=${contracts[0].type}`}
                   className="flex justify-between w-full"
                 >
                   <div>

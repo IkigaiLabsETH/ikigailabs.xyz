@@ -4,6 +4,7 @@ import { match } from 'ts-pattern'
 import { BigNumber } from 'ethers'
 import { getTWClient } from '../../../../common/web3'
 import { Network } from '../../../../common/types'
+import { getAllDetectedExtensionNames, isExtensionEnabled } from '@thirdweb-dev/sdk'
 
 const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { contract, network, type, tokenId } = req.query
@@ -19,21 +20,19 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const client = getTWClient(network as Network)
-
     const clientContract = await client.getContract(...args)
     let result = {}
-    if (type === 'nft-drop') {
-      const tokenPromise = clientContract.erc721.get(BigNumber.from(tokenId))
-      result = await tokenPromise
-    }
 
-    if (type === 'edition-drop') {
-      const tokenPromise = clientContract.erc1155.get(0)
-      result = await tokenPromise
+    if (isExtensionEnabled(clientContract.abi, "ERC721")) {
+      result = await clientContract.erc721.get(BigNumber.from(tokenId))
     }
-
+    console.log(isExtensionEnabled(clientContract.abi, "ERC1155"))
+    if (isExtensionEnabled(clientContract.abi, "ERC1155")) {
+      result = await clientContract?.erc1155?.get(BigNumber.from(tokenId))
+    }
     res.status(200).json(result)
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message })
   }
 }
