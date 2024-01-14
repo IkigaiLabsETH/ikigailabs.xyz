@@ -20,19 +20,16 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const client = getTWClient(network as Network)
-
     const clientContract = await client.getContract(...args)
     let result = {}
-    const extensions = getAllDetectedExtensionNames(clientContract.abi)
 
     if (isExtensionEnabled(clientContract.abi, "ERC721")) {
       result = await clientContract.erc721.get(BigNumber.from(tokenId))
     }
     console.log(isExtensionEnabled(clientContract.abi, "ERC1155"))
     if (isExtensionEnabled(clientContract.abi, "ERC1155")) {
-      const result = await  clientContract.erc1155.get(0)
+      result = await clientContract?.erc1155?.get(BigNumber.from(tokenId))
     }
-
     res.status(200).json(result)
   } catch (error) {
     console.log(error)
