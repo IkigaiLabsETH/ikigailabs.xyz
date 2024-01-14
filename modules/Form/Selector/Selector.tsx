@@ -32,7 +32,7 @@ export const Selector: FC<SelectorProps> = ({
                 <Listbox.Label
                   className={clsx(
                     equals(style, 'dark') ? 'text-yellow' : 'text-gray-900',
-                    'block text-lg font-bold leading-6',
+                    'block text-xl mb-1 font-bold leading-6',
                   )}
                 >
                   {title}
@@ -47,7 +47,7 @@ export const Selector: FC<SelectorProps> = ({
                   equals(style, 'dark')
                     ? 'ring-yellow-300 text-yellow bg-black border-b-yellow'
                     : 'ring-gray-300 text-gray-900 bg-white border-b-black',
-                  'border-0 relative w-full cursor-default py-1.5 pr-10 text-left ring-0 ring-inset focus:outline-none sm:text-sm font-bold sm:leading-6',
+                  'border-0 border-b-4 border-b-black relative w-full cursor-default p-1.5 pt-1 mt-0.5 pr-10 text-left ring-0 ring-inset focus:outline-none sm:text-sm font-bold sm:leading-6 lg:text-xl',
                 )}
               >
                 <span className="block truncate">{selected.name}</span>

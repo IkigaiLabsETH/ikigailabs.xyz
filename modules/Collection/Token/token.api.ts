@@ -12,7 +12,7 @@ export const collectionTokenApi = createApi({
       { contract: string; tokenId: string; network: Network }
     >({
       query: ({ contract, tokenId, network }) =>
-        `${network}/tokens/v5?tokens=${contract}:${tokenId}&includeTopBid=true&includeAttributes=true&normalizeRoyalties=true`,
+        `${network}/tokens/v7?tokens=${contract}:${tokenId}&includeTopBid=true&includeAttributes=true&normalizeRoyalties=true`,
       transformResponse: (response): NFT => path(['tokens', 0])(response) as NFT,
     }),
     getTokenActivity: builder.query<

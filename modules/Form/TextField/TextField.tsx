@@ -43,18 +43,18 @@ export const TextField: FC<TextFieldProps> = ({
   }
 
   return (
-    <div className="mt-4 flex leading-6 text-black w-full mb-3">
+    <div className="my-4 flex leading-6 text-black w-full">
       <label
         htmlFor={id}
-        className="relative cursor-pointer bg-white font-bold p-3 text-xl text-black border-black border-2 focus-within:outline-none focus-within:ring-2 focus-within:ring-gray-600 w-full"
+        className="relative cursor-pointer font-bold text-xl text-black border-b-4 border-black w-full"
       >
-        <span className="sr-only">{label}</span>
+        <span className="text-sm">{label}</span>
         <div className="flex">
           {eth ? <Image src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2 mt-2" alt="Eth" /> : null}
           {type === 'number' ? (
             <input
               {...attributes}
-              className="w-full lg:text-xl block flex-1 border-0 bg-transparent py-1 pl-1 text-black placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+              className="w-full lg:text-xl block flex-1 border-0 bg-transparent p-1  text-black placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
             />
           ) : (
             <input
@@ -63,7 +63,7 @@ export const TextField: FC<TextFieldProps> = ({
               type={type}
               value={value}
               onChange={onChange}
-              className="w-full lg:text-xl block flex-1 border-0 bg-transparent py-1 pl-1 text-black placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+              className="w-full lg:text-xl block flex-1 border-0 bg-transparent p-1 text-black placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
             />
           )}
         </div>

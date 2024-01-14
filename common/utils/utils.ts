@@ -36,6 +36,10 @@ import {
   tail,
   cond,
   T,
+  prop,
+  toLower,
+  equals,
+  tap,
 } from 'ramda'
 import { NFT, Network, Token } from '../types'
 
@@ -124,7 +128,7 @@ export const formatDateAndTime = (dateTime: string | number) => {
   return dateObj.toLocaleString('en-US')
 }
 
-export const isOwner = (address: string) => propEq('owner', address?.toLowerCase())
+export const isOwner = (address: string) => pipe(prop('owner'), toLower, tap(console.log), equals(address?.toLowerCase()), tap(console.log))
 export const isMaker = (address: string) => propEq('maker', address?.toLowerCase())
 
 export const getTokenDataFromTokenSetId = (tokenSetId: string) => pipe(split(':'), tail)(tokenSetId) as string[]

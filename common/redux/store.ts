@@ -40,6 +40,8 @@ import { closeModalActions, openModalActions } from '../modal'
 import { hideConfettiActions, showConfettiActions } from '../confetti'
 import { userApi } from '../../modules/User'
 import { initialPageLoadMiddleware } from '../app'
+import { closeSlideUpMiddleware, openSlideUpMiddleware, slideUpReducer } from '../../modules/SlideUp'
+import { closeSlideUpActions, openSlideUpActions } from '../slideup'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -73,6 +75,8 @@ startAppListening(collectionTokenMiddleware)
 startAppListening(collectionMiddleware)
 startAppListening(openModalMiddleware(openModalActions as any))
 startAppListening(closeModalMiddleware(closeModalActions as any))
+startAppListening(openSlideUpMiddleware(openSlideUpActions as any))
+startAppListening(closeSlideUpMiddleware(closeSlideUpActions as any))
 startAppListening(checkTokenBalancesForCollectionMiddleware)
 startAppListening(
   // @ts-ignore
@@ -100,6 +104,7 @@ const combinedReducer = combineReducers({
   mintPasses: mintPassesReducer,
   [collectionTokenApi.reducerPath]: prop('reducer')(collectionTokenApi),
   modal: modalReducer,
+  slideUp: slideUpReducer,
   [collectionApi.reducerPath]: prop('reducer')(collectionApi),
   [allowlistApi.reducerPath]: prop('reducer')(allowlistApi),
   [collectionsApi.reducerPath]: prop('reducer')(collectionsApi),

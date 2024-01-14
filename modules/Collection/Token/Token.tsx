@@ -246,7 +246,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       <Eth amount={pathOr('—', ['price', 'amount', 'native'])(floorAsk)} />
                     </div>
                     <div className="text-sm text-gray-700 italic">
-                      {isEmpty(floorPriceSource) ? '' : ` on ${propOr('', 'name')(floorPriceSource)}`}
+                      {isNil(floorPriceSource) ? '' : ` on ${propOr('', 'name')(floorPriceSource)}`}
                     </div>
                   </div>
                   {pathOr('—', ['price', 'amount', 'native'])(floorAsk) !== '—' && !isOwner(address)(token.token) ? (
@@ -258,6 +258,17 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                         label="Buy Now"
                         network={network}
                       ></ReservoirActionButton>
+                    </div>
+                  ) : (isOwner(address)(token.token)) ? (
+                    <div>
+                      <Button
+                        className="text-black font-bold text-xl hover:text-yellow w-full"
+                        onClick={() =>
+                          onListToken({ contract, tokenId, name, media, description, image, network, royalties })
+                        }
+                      >
+                        List for sale
+                      </Button>
                     </div>
                   ) : (
                     <></>

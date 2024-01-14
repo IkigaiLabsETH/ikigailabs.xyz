@@ -19,6 +19,8 @@ import { changeRoute, initialPageLoad } from '../common/app'
 import { URLS } from '../common/config'
 import { getChainIdFromNetwork } from '../common/utils'
 import { TW_SUPPORTED_CHAINS } from '../common/config/chains'
+import { SlideUp } from '../modules/SlideUp'
+import { SLIDEUPS } from '../common/slideup'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter()
@@ -62,6 +64,7 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
         >
           <Component {...pageProps} />
           <Modal modals={MODALS} />
+          <SlideUp slideUps={SLIDEUPS} />
           <ToastContainer
             position="bottom-center"
             autoClose={3000}

@@ -9,6 +9,11 @@ export const COLLECTION_SORTING_OPTIONS = [
   { id: 'rarity-desc', name: 'Common to rare' },
 ]
 
+export const SUPPORTED_CURRENCY = [
+  { id: 'ETH', name: 'ETH' },
+  { id: 'USDC', name: 'USDC' },
+]
+
 export const NETWORK_OPTIONS = [
   {
     id: 'ethereum',

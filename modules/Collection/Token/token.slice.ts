@@ -13,7 +13,7 @@ export const showListToken = createAction<any>('listToken/show')
 export const buyTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; address: string; network: Network }>(
     'token/buy',
-    ({ contract, tokenId, address, network }, { rejectWithValue, dispatch }) => {
+    ({ contract, tokenId, address, network }, { rejectWithValue }) => {
       return client(network)
         ?.actions.buyToken({
           items: [{ token: `${contract}:${tokenId}`, quantity: 1 }],
@@ -60,10 +60,9 @@ export const placeBidTh = (client: (network: Network) => ReservoirClient, wallet
 export const placeBid = placeBidTh(reservoirClient, walletClient)
 
 export const listTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
-  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network }>(
+  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network, currency: string }>(
     'token/list',
-    ({ contract, tokenId, wei, address, network }, { rejectWithValue, dispatch }) => {
-      console.log(network)
+    ({ contract, tokenId, wei, address, network, currency }, { rejectWithValue, dispatch }) => {
       return client(network)
         ?.actions.listToken({
           listings: [

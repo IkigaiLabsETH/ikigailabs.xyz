@@ -50,7 +50,7 @@ const reservoirClient = (chain: Network) =>
         name: chain,
       },
     ],
-    source: process.env.NEXT_PUBLIC_APP_NAME || 'Ikigai Labs',
+    source: process.env.NEXT_PUBLIC_APP_NAME || 'ikigailabs.xyz',
     logLevel: 4,
   })
 
