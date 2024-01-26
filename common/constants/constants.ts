@@ -32,3 +32,38 @@ export const NETWORK_OPTIONS = [
     name: 'Arbitrum',
   },
 ] as Option[]
+
+export const EXPIRATION_DEFAULTS = [
+  {
+    id: '3600',
+    name: '1 hour',
+  },
+  {
+    id: '43200',
+    name: '12 hours',
+  },
+  {
+    id: '86400',
+    name: '1 day',
+  },
+  {
+    name: '3 days',
+    id: '259200'
+  },
+  {
+    id: '604800',
+    name: '1 week',
+  },
+  {
+    id: '2592000',
+    name: '1 month',
+  },
+  {
+    name: '3 months',
+    id: '7776000',
+  },
+  {
+    name: '6 months',
+    id: '15552000',
+  },
+]

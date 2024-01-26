@@ -48,7 +48,7 @@ export const TextField: FC<TextFieldProps> = ({
         htmlFor={id}
         className="relative cursor-pointer font-bold text-xl text-black border-b-4 border-black w-full"
       >
-        <span className="text-sm">{label}</span>
+        <span className="text-lg mb-2">{label}</span>
         <div className="flex">
           {eth ? <Image src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2 mt-2" alt="Eth" /> : null}
           {type === 'number' ? (

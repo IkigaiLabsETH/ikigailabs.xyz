@@ -1,14 +1,18 @@
-import React, { FC, use, useEffect, useState } from 'react'
-import { Network, Option } from '../../common/types'
-import { TextField } from '../Form'
-import { ReservoirActionButton } from '../ReservoirActionButton/ReservoirActionButton'
+import React, { FC, useEffect, useState } from 'react'
+import { addMonths, addSeconds } from 'date-fns/fp'
+import Image from 'next/image'
+import Flatpickr from "react-flatpickr"
 import { useAddress } from '@thirdweb-dev/react'
+
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { listToken, selectCollectionTokenInteractionStatus } from '../Collection/Token/token.slice'
 import { ethToWei } from '../../common/utils'
-import Image from 'next/image'
-import { Selector } from '../Form/Selector'
-import { SUPPORTED_CURRENCY } from '../../common/constants/constants'
+import { EXPIRATION_DEFAULTS, SUPPORTED_CURRENCY } from '../../common/constants/constants'
+import { Network, Option } from '../../common/types'
+import { TextField } from '../Form'
+import { ReservoirActionButton } from '../ReservoirActionButton/ReservoirActionButton'
+import { Listbox } from '../Listbox'
+import { Toggle } from '../Toggle'
 
 interface ListTokenProps {
   contract: string
@@ -19,11 +23,13 @@ interface ListTokenProps {
 }
 
 export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, image, name }) => {
-  console.log({ contract, tokenId, network, image, name })
   const [eth, setEth] = useState<string>('0')
   const address = useAddress()
   const dispatch = useAppDispatch()
-  const { status: tokenInteractionStatus } = useAppSelector(selectCollectionTokenInteractionStatus)
+  const { status: tokenInteractionStatus, data } = useAppSelector(selectCollectionTokenInteractionStatus)
+  const [ expiration, setExpiration ] = useState<Date>(addMonths(1)(new Date()))
+  const [ platforms, setPlatforms ] = useState<string[]>(['ikigai'])
+  
   const onSetEth = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEth(e.target.value)
   }
@@ -31,12 +37,23 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
 
   const onCreateAsk = () => {
     const wei = ethToWei(parseFloat(eth)).toString()
-    return dispatch(listToken({ contract, tokenId, wei, address, network, currency: SUPPORTED_CURRENCY[0].id }))
+    return dispatch(listToken({ contract, tokenId, wei, address, network, currency: SUPPORTED_CURRENCY[0].id, expiration, platforms }))
   }
 
-  useEffect(() => {
-    console.log(contract)
-  }, [contract])
+  const setEndDate = (item: any) => {
+    const newDate = addSeconds(item.id)(new Date())
+    setExpiration(newDate)
+  }
+
+  const setDate = (date: any) => { setExpiration(date[0]) }
+
+  const setPlatform = (platform: string) => (enabled: boolean) => {
+    if (enabled) {
+      setPlatforms([...platforms, platform])
+    } else {
+      setPlatforms(platforms.filter(p => p !== platform))
+    }
+  }
 
   return (
     <div className="h-full">
@@ -62,9 +79,37 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
                   min={0}
                 />
               </div>
+              <div className='md:pt-6 md:pl-4 text-xl w-full mb-5 md:w-1/4 md:mt-5 font-bold'>
+                ETH
+              </div>
               {/* <div className='md:pt-6 md:pl-4 text-xl w-full mb-5 md:w-1/4 md:mt-5'>
                 <Selector options={SUPPORTED_CURRENCY} selected={selectedCurrency} onChange={setSelectedCurrency}/>
               </div> */}
+            </div>
+            <div className='mb-6'>
+              <div className='text-lg font-bold mb-2 '>Expiration date:</div>
+              <div className="grid grid-cols-2">
+                <div className='mr-2'>
+                  <Listbox label="" items={EXPIRATION_DEFAULTS} onSelect={setEndDate} defaultItem={5}/>
+                </div>
+                <div className="flex flex-row items-center">
+                  <Flatpickr data-enable-time onChange={setDate} options={{minDate: new Date()}} value={expiration}/>
+                  <div className='-translate-x-full pr-1'>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='mb-6'>
+              <div className='text-lg font-bold mb-2'>
+                Where would you like to list?
+              </div>
+              <div className='mt-6'>
+                  <Toggle label='Ikigai Labs' description='List your item on the Ikigai Labs marketplace ' disabled={true} initialState={true} onToggle={setPlatform('ikigai')}/> 
+                  <Toggle label='Open Sea' description='List your item on the Open Sea marketplace' initialState={false} onToggle={setPlatform('opensea')}/> 
+              </div>
             </div>
             <ReservoirActionButton
               onClick={onCreateAsk}
@@ -73,7 +118,7 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
               network={network}
             ></ReservoirActionButton>
 
-            {tokenInteractionStatus === 'failed' && <p className="text-red mt-5">Failed to list for sale</p>}
+            {tokenInteractionStatus === 'failed' && <p className="text-red mt-5 flex w-full justify-center font-bold">Failed to list for sale</p>}
           </div>
         </div>
       </div>

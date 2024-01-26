@@ -32,7 +32,7 @@ export const SlideUp: FC<SlideUpProps> = ({ slideUps }) => {
     >
       <div className="w-full bg-white flex justify-center items-start border-t-4 border-t-black h-5/6">
         <div className=" text-black w-full max-w-screen-2xl px-5 flex flex-row items-start h-full relative">
-          <div className='h-full md:p-5'>
+          <div className='h-full md:p-5 w-full'>
             {selectedSlideUp && selectedSlideUp}
           </div>
           <button onClick={() => dispatch(hide())} className="text-3xl leading-none ml-3 p-1.5 text-gray-500 absolute right-5 md:right-10">

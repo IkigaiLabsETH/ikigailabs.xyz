@@ -4,6 +4,7 @@ import { RootState } from '../../../common/redux/store'
 import { reservoirClient, walletClient } from '../../../common/web3/web3'
 import { ReservoirClient } from '@reservoir0x/reservoir-sdk'
 import { Network } from '../../../common/types'
+import { getTime } from 'date-fns/fp'
 
 export const tokenAdapter = createEntityAdapter({})
 
@@ -60,19 +61,38 @@ export const placeBidTh = (client: (network: Network) => ReservoirClient, wallet
 export const placeBid = placeBidTh(reservoirClient, walletClient)
 
 export const listTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
-  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network, currency: string }>(
+  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network, currency: string, expiration: Date, platforms: string[] }>(
     'token/list',
-    ({ contract, tokenId, wei, address, network, currency }, { rejectWithValue, dispatch }) => {
+    ({ contract, tokenId, wei, address, network, currency, expiration, platforms }, { rejectWithValue, dispatch }) => {
+      const listings: {
+        token: string
+        orderbook: 'reservoir' | 'opensea'
+        orderKind: 'seaport-v1.5'
+        weiPrice: string
+        expirationTime: string
+      }[] = [
+        {
+          token: `${contract}:${tokenId}`,
+          orderbook: 'reservoir',
+          orderKind: 'seaport-v1.5',
+          weiPrice: wei,
+          expirationTime: getTime(expiration).toString(),
+        },
+      ]
+
+      if (platforms.includes('opensea')) {
+        listings.push({
+          token: `${contract}:${tokenId}`,
+          orderbook: 'opensea',
+          orderKind: 'seaport-v1.5',
+          weiPrice: wei,
+          expirationTime: getTime(expiration).toString(),
+        })
+      }
+
       return client(network)
         ?.actions.listToken({
-          listings: [
-            {
-              token: `${contract}:${tokenId}`,
-              orderbook: 'reservoir',
-              orderKind: 'seaport-v1.5',
-              weiPrice: wei,
-            },
-          ],
+          listings,
           wallet: walletClient(address, network),
           onProgress: steps => {
             // dispatch(interactionProgressAction(steps))
