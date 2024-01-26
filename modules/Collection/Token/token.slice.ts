@@ -4,7 +4,7 @@ import { RootState } from '../../../common/redux/store'
 import { reservoirClient, walletClient } from '../../../common/web3/web3'
 import { ReservoirClient } from '@reservoir0x/reservoir-sdk'
 import { Network } from '../../../common/types'
-import { getTime } from 'date-fns/fp'
+import { getUnixTime } from 'date-fns/fp'
 
 export const tokenAdapter = createEntityAdapter({})
 
@@ -76,7 +76,7 @@ export const listTokenTh = (client: (network: Network) => ReservoirClient, walle
           orderbook: 'reservoir',
           orderKind: 'seaport-v1.5',
           weiPrice: wei,
-          expirationTime: getTime(expiration).toString(),
+          expirationTime: getUnixTime(expiration).toString(),
         },
       ]
 
@@ -86,7 +86,7 @@ export const listTokenTh = (client: (network: Network) => ReservoirClient, walle
           orderbook: 'opensea',
           orderKind: 'seaport-v1.5',
           weiPrice: wei,
-          expirationTime: getTime(expiration).toString(),
+          expirationTime: getUnixTime(expiration).toString(),
         })
       }
 
