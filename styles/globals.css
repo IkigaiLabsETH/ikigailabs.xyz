@@ -67,15 +67,12 @@
 @layer base {
   body {
     font-family: 'satoshi';
-    @apply text-yellow;
+    @apply text-white;
     background-color: #121212;
   }
 
   h1, h2, h3, h4 {
-    @apply font-bold;
-    @apply leading-none;
-    @apply mb-4;
-    @apply tracking-tighter;
+    @apply font-bold leading-none mb-4 tracking-tighter text-yellow;
     font-family: 'epilogue'
   }
 
@@ -89,7 +86,6 @@
 
   p {
     font-family: 'satoshi';
-    @apply text-gray-300;
     margin-bottom: 1.5rem;
   }
 
@@ -140,6 +136,18 @@
 
 .Toastify__progress-bar--info, .Toastify__progress-bar--success, .Toastify__progress-bar--warning, .Toastify__progress-bar--error {
   @apply bg-black;
+}
+
+.collection-header a {
+  @apply text-yellow font-bold hover:text-yellow-600;
+}
+
+.info-tab p {
+  @apply !text-black;
+}
+
+.info-tab a {
+  @apply text-yellow hover:text-yellow-600;
 }
 
 .flatpickr-calendar {

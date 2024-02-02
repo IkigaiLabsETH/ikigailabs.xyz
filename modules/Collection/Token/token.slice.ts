@@ -61,7 +61,19 @@ export const placeBidTh = (client: (network: Network) => ReservoirClient, wallet
 export const placeBid = placeBidTh(reservoirClient, walletClient)
 
 export const listTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
-  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network, currency: string, expiration: Date, platforms: string[] }>(
+  createAsyncThunk<
+    Promise<any>,
+    {
+      contract: string
+      tokenId: string
+      wei: string
+      address: string
+      network: Network
+      currency: string
+      expiration: Date
+      platforms: string[]
+    }
+  >(
     'token/list',
     ({ contract, tokenId, wei, address, network, currency, expiration, platforms }, { rejectWithValue, dispatch }) => {
       const listings: {

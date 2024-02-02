@@ -4,6 +4,8 @@ import { __, divide, isEmpty, isNil, map, pathOr, pipe, prop, propOr } from 'ram
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { useAddress } from '@thirdweb-dev/react'
 import Link from 'next/link'
+import Image from 'next/image'
+import Markdown from 'react-markdown'
 
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
@@ -22,7 +24,6 @@ import { NFT, Network } from '../../../common/types'
 import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
 import { Button } from '../../Button'
 import { selectCollection } from '../collection.selectors'
-import Image from 'next/image'
 import { Activity } from '../../Activity'
 import { collectionTokenApi } from './token.api'
 import { ListingsList } from '../../ListingsList'
@@ -176,7 +177,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                   width={150}
                   height={150}
                 />
-                <p className="text-xl text-black pr-16 leading-relaxed">{description}</p>
+                <div className="text-xl text-black pr-16 leading-relaxed"><Markdown>{description}</Markdown></div>
               </div>
               <div className="w-full">
                 {attributes ? (
@@ -259,7 +260,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                         network={network}
                       ></ReservoirActionButton>
                     </div>
-                  ) : (isOwner(address)(token.token)) ? (
+                  ) : isOwner(address)(token.token) ? (
                     <div>
                       <Button
                         className="text-black font-bold text-xl hover:text-yellow w-full"
@@ -348,7 +349,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
               </div>
               <div className="my-4 max-h-screen-50 overflow-x-hidden overflow-auto pr-4">
                 {match(activeTab)
-                  .with('Info', () => <>{collection?.description}</>)
+                  .with('Info', () => <div className='info-tab'><Markdown>{collection?.description}</Markdown></div>)
                   .with('Activity', () => (
                     <>
                       {tokenActivityStatus !== QueryStatus.fulfilled ? (

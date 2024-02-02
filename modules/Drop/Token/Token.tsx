@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern'
 import React, { FC, useEffect } from 'react'
 import { map } from 'ramda'
+import Markdown from 'react-markdown'
 
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
@@ -40,7 +41,7 @@ export const NFT: FC<NFTProps> = ({ contract, tokenId, network, type }) => {
           <h1 className="boska text-[4rem] lg:text-[8rem] text-black mt-16 mb-8 lg:mb-16">{name}</h1>
           <div className="flex bg-yellow text-black">
             <div className="w-2/3">
-              <p className="text-2xl text-black pr-16 mb-16">{description}</p>
+              <div className="text-2xl text-black pr-16 mb-16"><Markdown>{description}</Markdown></div>
               {attributes && (
                 <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mr-8">
                   {map((attribute: { trait_type: string; value: string }) => (

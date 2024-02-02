@@ -48,7 +48,7 @@ export const EXPIRATION_DEFAULTS = [
   },
   {
     name: '3 days',
-    id: '259200'
+    id: '259200',
   },
   {
     id: '604800',

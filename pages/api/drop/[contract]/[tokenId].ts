@@ -23,11 +23,11 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     const clientContract = await client.getContract(...args)
     let result = {}
 
-    if (isExtensionEnabled(clientContract.abi, "ERC721")) {
+    if (isExtensionEnabled(clientContract.abi, 'ERC721')) {
       result = await clientContract.erc721.get(BigNumber.from(tokenId))
     }
-    console.log(isExtensionEnabled(clientContract.abi, "ERC1155"))
-    if (isExtensionEnabled(clientContract.abi, "ERC1155")) {
+
+    if (isExtensionEnabled(clientContract.abi, 'ERC1155')) {
       result = await clientContract?.erc1155?.get(BigNumber.from(tokenId))
     }
     res.status(200).json(result)

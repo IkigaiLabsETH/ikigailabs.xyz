@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 
 import { ContractMetadata } from '../../common/types'
 import { Eyebrow } from '../Eyebrow'
-import { Link } from '../Link'
+import Markdown from 'react-markdown'
 
 interface CollectionSummaryProps {
   address: string
@@ -18,7 +18,7 @@ export const CollectionSummary: FC<CollectionSummaryProps> = ({ address, metadat
     <div className="w-full lg:w-1/2 p-16 max-w-3xl">
       <Eyebrow>Exclusive</Eyebrow>
       <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{name}</h2>
-      <p className="my-8 satoshi text-xl leading-relaxed">{description}</p>
+      <div className="my-8 satoshi text-xl leading-relaxed"><Markdown>{description}</Markdown></div>
       {/* <div className="flex flex-row w-full mt-16">
         <Link href={`drops/${address}`} title="Visit collection">
           Visit Collection &rarr;

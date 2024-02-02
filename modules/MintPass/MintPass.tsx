@@ -1,5 +1,7 @@
 import { useAddress } from '@thirdweb-dev/react'
 import React, { FC } from 'react'
+import Markdown from 'react-markdown'
+
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { Button } from '../Button'
 import { claim, selectToken } from '../MintPasses/mintPasses.slice'
@@ -36,7 +38,7 @@ export const MintPass: FC<MintPassProps> = ({ pass }) => {
           <Button onClick={claimPass}>Claim</Button>
         </div>
         <div className="pt-2">
-          <p className="text-black">{description}</p>
+          <div className="text-black"><Markdown>{description}</Markdown></div>
         </div>
       </div>
     </div>

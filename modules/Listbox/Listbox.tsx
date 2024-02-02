@@ -28,7 +28,9 @@ export const LB: FC<LBProps> = ({ items, label, onSelect, defaultItem }) => {
     <Listbox value={selected} onChange={onChange}>
       {({ open }) => (
         <>
-          { label && <Listbox.Label className="block text-md font-bold leading-6 text-gray-900 mb-2">{label}</Listbox.Label> }
+          {label && (
+            <Listbox.Label className="block text-md font-bold leading-6 text-gray-900 mb-2">{label}</Listbox.Label>
+          )}
           <div className="relative">
             <Listbox.Button className="relative without-ring w-full cursor-default bg-white py-2  pl-3 pr-10 text-left text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-black sm:text-md sm:leading-6 border-b-2 border-black">
               <span className="block truncate font-bold">{selected.name}</span>
@@ -45,13 +47,13 @@ export const LB: FC<LBProps> = ({ items, label, onSelect, defaultItem }) => {
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto  bg-white py-1 text-md shadow-lg focus:outline-none">
-                {items.map((item) => (
+                {items.map(item => (
                   <Listbox.Option
                     key={item.id}
                     className={({ active }) =>
                       classNames(
                         active ? 'bg-yellow ' : 'text-gray-900',
-                        'relative cursor-default select-none py-2 pl-8 pr-4'
+                        'relative cursor-default select-none py-2 pl-8 pr-4',
                       )
                     }
                     value={item}
@@ -66,7 +68,7 @@ export const LB: FC<LBProps> = ({ items, label, onSelect, defaultItem }) => {
                           <span
                             className={classNames(
                               active ? 'text-black' : 'text-yellow',
-                              'absolute inset-y-0 left-0 flex items-center pl-1.5'
+                              'absolute inset-y-0 left-0 flex items-center pl-1.5',
                             )}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />

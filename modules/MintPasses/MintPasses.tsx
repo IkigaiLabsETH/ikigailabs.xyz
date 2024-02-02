@@ -24,7 +24,7 @@ export const MintPasses: FC<MintPassesProps> = ({ contracts }) => {
   const { status: foundersStatus, data: foundersData } = useAppSelector(selectToken(contracts[0]))
   const { status: artistsStatus, data: artistsData } = useAppSelector(selectToken(contracts[1]))
   const { status: collectorsStatus, data: collectorsData } = useAppSelector(selectToken(contracts[2]))
-  console.log(foundersData)
+
   return (
     <div className="flex flex-col px-8 md:px-24 lg:px-48 bg-white text-black min-h-screen justify-center items-center">
       <div className="flex flex-row space-x-6 mt-32">

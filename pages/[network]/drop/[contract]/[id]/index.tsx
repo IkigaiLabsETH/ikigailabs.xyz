@@ -22,7 +22,12 @@ const DropPage: FC = () => {
       </Head>
       <main className="w-full">
         {contract && id ? (
-          <NFT contract={contract as string} tokenId={id as string} network={network as Network} type={type as ContractType} />
+          <NFT
+            contract={contract as string}
+            tokenId={id as string}
+            network={network as Network}
+            type={type as ContractType}
+          />
         ) : null}
       </main>
       <Footer />

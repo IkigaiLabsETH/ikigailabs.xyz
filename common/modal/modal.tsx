@@ -6,11 +6,7 @@ import { mintSuccess } from '../../modules/Drop'
 import { SuccessfulModal } from '../../modules/Drop/SuccessModal'
 import { changeRoute } from '../app'
 
-export const openModalActions = [
-  showMintPassDetails,
-  showAllowlist,
-  mintSuccess,
-]
+export const openModalActions = [showMintPassDetails, showAllowlist, mintSuccess]
 export const closeModalActions = [changeRoute]
 
 export const MODALS = {
