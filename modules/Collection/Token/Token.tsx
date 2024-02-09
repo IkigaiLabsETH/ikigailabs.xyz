@@ -129,14 +129,14 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
       <div className="w-full bg-white flex items-center flex-col">
         <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col border-b-4 border-black bg-black">
           <div className="w-full md:w-1/2 h-screen items-center justify-center flex p-8">
-            <div className="w-full flex items-center justify-center relative h-2/3">
+            <div className="w-full flex items-center justify-center relative h-5/6">
               {image && !media && (
                 <Image
                   src={replaceImageResolution(1500)(image)}
                   title={name as string}
                   alt={name as string}
                   fill={true}
-                  style={{ maxHeight: '75vh' }}
+                  style={{ maxHeight: '85vh' }}
                   className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)] w-auto relative"
                 />
               )}
@@ -151,8 +151,11 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
               )}
             </div>
           </div>
-          <div className="flex w-full max-w-screen-2xl items-end justify-start">
-            <h1 className="boska text-[3rem] md:text-[4rem] lg:text-[8rem] text-yellow mb-16 px-6">{name}</h1>
+          <div className="relative w-full">
+            <div className="absolute bottom-5 left-5 p-6 bg-yellow-500 text-black tracking-wide">
+              <h3 className='text-black opacity-40 text-xs md:text-sm font-bold uppercase mb-0 pb-0'>{collection?.name}</h3>
+              <h1 className="text-black boska text-base md:text-lg lg:text-xl mb-0 pb-0">{name}</h1>
+            </div>
           </div>
         </div>
         <div className="p-8 max-w-screen-2xl w-full">
