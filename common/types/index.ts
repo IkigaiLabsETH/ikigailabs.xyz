@@ -199,6 +199,8 @@ export interface Token {
   description: string
   name: string
   image?: string
+  imageLarge?: string
+  imageSmall?: string
   owner: string
   rarityRank: number
   tokenId: number

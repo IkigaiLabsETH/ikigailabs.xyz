@@ -28,6 +28,7 @@ import { Activity } from '../../Activity'
 import { collectionTokenApi } from './token.api'
 import { ListingsList } from '../../ListingsList'
 import { OffersList } from '../../OffersList'
+import { TokenMedia } from '../../TokenMedia'
 
 interface TokenProps {
   contract: string
@@ -116,38 +117,30 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     }
 
     const {
-      token: { image, name, description, attributes, owner, contract, tokenId, kind, media },
+      token: { image, imageLarge, imageSmall, name, description, attributes, owner, contract, tokenId, kind, media },
       market: { floorAsk, topBid },
     } = token as NFT
     const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
     const floorPriceSource = prop('source')(floorAsk)
     const topBidSource = prop('source')(topBid)
     const owned = isOwner(address)(token.token)
-
+    
     return (
       <div className="w-full bg-white flex items-center flex-col">
         <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col border-b-4 border-black bg-black">
           <div className="w-full md:w-1/2 h-screen items-center justify-center flex p-8">
             <div className="w-full flex items-center justify-center relative h-5/6">
-              {image && !media && (
+              {/* {image && !media && (
                 <Image
-                  src={replaceImageResolution(1500)(image)}
+                  src={imageLarge}
                   title={name as string}
                   alt={name as string}
                   fill={true}
                   style={{ maxHeight: '85vh' }}
                   className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)] w-auto relative"
                 />
-              )}
-              {media && (
-                <video
-                  src={media}
-                  title={name as string}
-                  controls={false}
-                  autoPlay
-                  className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]"
-                />
-              )}
+              )} */}
+              <TokenMedia token={token.token} />
             </div>
           </div>
           <div className="relative w-full">
@@ -176,7 +169,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
               <div className="py-2 w-full h-auto">
                 <img
                   className="w-48 mr-8 mb-4 border-black border-4 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]"
-                  src={image}
+                  src={imageSmall}
                   alt={name as string}
                   width={150}
                   height={150}

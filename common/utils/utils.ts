@@ -132,3 +132,69 @@ export const isOwner = (address: string) => pipe(prop('owner'), toLower, equals(
 export const isMaker = (address: string) => propEq('maker', address?.toLowerCase())
 
 export const getTokenDataFromTokenSetId = (tokenSetId: string) => pipe(split(':'), tail)(tokenSetId) as string[]
+
+const gatewayConfig = {
+  'ipfs://': 'https://ipfs.io/ipfs/',
+  'ar://': 'https://arweave.net/',
+}
+
+const convertToGatewayUrl = (url: string) => {
+  for (const [protocol, gateway] of Object.entries(gatewayConfig)) {
+    if (url.includes(protocol)) {
+      return url.replace(protocol, gateway)
+    }
+  }
+  return url
+}
+
+const fetchUri = async (uri: string) => {
+  const response = await fetch(convertToGatewayUrl(uri), {
+    method: 'GET',
+  })
+
+  if (!(response.status >= 200 && response.status < 300)) {
+    throw new Error('Failed to fetch URI')
+  }
+
+  return response.json()
+}
+
+export const convertTokenUriToImage = async (uri: string): Promise<string> => {
+  try {
+    const json = await fetchUri(uri)
+
+    if (json.image) {
+      const image = convertToGatewayUrl(json.image)
+      return image
+    }
+
+    return ''
+  } catch (e) {
+    console.error(e)
+    return ''
+  }
+}
+
+export const getContentType = async (tokenMedia: string) => {
+  const response = await fetch(tokenMedia)
+  return response.headers.get('content-type')
+}
+
+export const normalizeContentType = (contentType?: string) => {
+  if (contentType?.includes('video/')) {
+    return contentType.replace('video/', '')
+  }
+  if (contentType?.includes('audio/')) {
+    return contentType.replace('audio/', '')
+  }
+  if (contentType?.includes('image/svg+xml')) {
+    return 'svg'
+  }
+  if (contentType?.includes('image/')) {
+    return contentType.replace('image/', '')
+  }
+  if (contentType?.includes('text/')) {
+    return contentType.replace('text/', '')
+  }
+  return null
+}

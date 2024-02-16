@@ -13,4 +13,7 @@ export {
   isOwner,
   isMaker,
   replaceImageResolution,
+  convertTokenUriToImage,
+  getContentType,
+  normalizeContentType,
 } from './utils'
