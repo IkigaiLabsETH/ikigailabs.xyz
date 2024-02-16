@@ -17,7 +17,7 @@ import { prop } from 'ramda'
 
 import { featuredAuctionReducer } from '../../modules/Auction/Featured'
 import { mintPassesReducer } from '../../modules/MintPasses'
-import { buyToken, collectionTokenMiddleware, placeBid } from '../../modules/Collection'
+import { buyToken, collectionTokenMiddleware, createBid } from '../../modules/Collection'
 import { closeModalMiddleware, modalReducer, openModalMiddleware } from '../../modules/Modal'
 import { collectionApi, collectionMiddleware } from '../../modules/Collection'
 import { collectionTokenApi } from '../../modules/Collection/Token/token.api'
@@ -64,8 +64,8 @@ const notifications = {
   [claim.rejected.type]: 'Failed to claim token',
   [buyToken.fulfilled.type]: 'You have successfully bought your token',
   [buyToken.rejected.type]: 'Token buy failed',
-  [placeBid.fulfilled.type]: 'You have successfully made an bid',
-  [placeBid.rejected.type]: 'Failed to make an bid',
+  [createBid.fulfilled.type]: 'You have successfully made an bid',
+  [createBid.rejected.type]: 'Failed to make an bid',
   'allowlistApi/executeMutation/fulfilled': 'You have successfully signed up',
   'allowlistApi/executeMutation/rejected': 'Failed to sign up',
   [mintSuccess.type]: 'You have successfully minted your token',
@@ -87,8 +87,8 @@ startAppListening(
     isRejected(claim),
     isFulfilled(buyToken),
     isRejected(buyToken),
-    isFulfilled(placeBid),
-    isRejected(placeBid),
+    isFulfilled(createBid),
+    isRejected(createBid),
     signUp.matchFulfilled,
     signUp.matchRejected,
     mintSuccess,

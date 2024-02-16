@@ -123,6 +123,7 @@ export const COLLECTIONS = {
       name: 'Curated',
     },
   ],
+  [Network.MUMBAI]: [],
 }
 
 export const FEATURED_DROP = '0x3C9A5EeB4D7126D759B64B9129C23012CF802313'

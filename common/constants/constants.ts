@@ -31,6 +31,10 @@ export const NETWORK_OPTIONS = [
     id: 'arbitrum',
     name: 'Arbitrum',
   },
+  {
+    id: 'mumbai',
+    name: 'Mumbai',
+  },
 ] as Option[]
 
 export const EXPIRATION_DEFAULTS = [

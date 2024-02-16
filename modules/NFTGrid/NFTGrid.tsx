@@ -23,11 +23,11 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
       {map(({ token: { contract, tokenId, name, media, description, image, lastSale }, ownership, market }: NFT) => (
         <div
           key={`${contract}-${tokenId}`}
-          className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+          className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] h-[32rem]"
         >
           <div className="overflow-clip h-1/2">
-            {image && <Image src={image} alt={name} width="384" height="384" />}
-            {media && <video src={media} controls={false} width="384" height="384" />}
+            {image && <Image src={image} alt={name} width="256" height="256" />}
+            {media && <video src={media} controls={false} width="256" height="256" />}
           </div>
           <div className="p-4 flex h-1/2">
             <div className="flex flex-col justify-between w-full">

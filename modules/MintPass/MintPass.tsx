@@ -38,7 +38,9 @@ export const MintPass: FC<MintPassProps> = ({ pass }) => {
           <Button onClick={claimPass}>Claim</Button>
         </div>
         <div className="pt-2">
-          <div className="text-black"><Markdown>{description}</Markdown></div>
+          <div className="text-black">
+            <Markdown>{description}</Markdown>
+          </div>
         </div>
       </div>
     </div>

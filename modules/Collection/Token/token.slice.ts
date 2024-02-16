@@ -10,6 +10,7 @@ export const tokenAdapter = createEntityAdapter({})
 
 export const interactionProgressAction = createAction<any>('collection/interaction/progress')
 export const showListToken = createAction<any>('listToken/show')
+export const showCreateBid = createAction<any>('createBid/show')
 
 export const buyTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; address: string; network: Network }>(
@@ -32,20 +33,51 @@ export const buyTokenTh = (client: (network: Network) => ReservoirClient, wallet
 
 export const buyToken = buyTokenTh(reservoirClient, walletClient)
 
-export const placeBidTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
-  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; wei: string; address: string; network: Network }>(
+export const createBidTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
+  createAsyncThunk<
+    Promise<any>,
+    {
+      contract: string
+      tokenId: string
+      wei: string
+      address: string
+      network: Network
+      currency: string
+      expiration: Date
+      platforms: string[]
+    }
+  >(
     'token/makeBid',
-    ({ contract, tokenId, wei, address, network }, { rejectWithValue }) => {
+    ({ contract, tokenId, wei, address, network, currency, expiration, platforms }, { rejectWithValue }) => {
+      const bids: {
+        token: string
+        orderbook: 'reservoir' | 'opensea'
+        orderKind: 'seaport-v1.5'
+        weiPrice: string
+        expirationTime: string
+      }[] = [
+        {
+          token: `${contract}:${tokenId}`,
+          orderbook: 'reservoir',
+          orderKind: 'seaport-v1.5',
+          weiPrice: wei,
+          expirationTime: getUnixTime(expiration).toString(),
+        },
+      ]
+
+      if (platforms.includes('opensea')) {
+        bids.push({
+          token: `${contract}:${tokenId}`,
+          orderbook: 'opensea',
+          orderKind: 'seaport-v1.5',
+          weiPrice: wei,
+          expirationTime: getUnixTime(expiration).toString(),
+        })
+      }
+
       return client(network)
         ?.actions.placeBid({
-          bids: [
-            {
-              token: `${contract}:${tokenId}`,
-              weiPrice: wei,
-              orderbook: 'reservoir',
-              orderKind: 'seaport-v1.5',
-            },
-          ],
+          bids: bids,
           wallet: walletClient(address, network),
           onProgress: steps => {
             // dispatch(interactionProgressAction(steps))
@@ -58,7 +90,7 @@ export const placeBidTh = (client: (network: Network) => ReservoirClient, wallet
     },
   )
 
-export const placeBid = placeBidTh(reservoirClient, walletClient)
+export const createBid = createBidTh(reservoirClient, walletClient)
 
 export const listTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<
@@ -185,15 +217,15 @@ export const tokenSlice = createSlice({
       .addCase(buyToken.rejected, state => {
         state.status = 'failed'
       })
-      .addCase(placeBid.pending, state => {
+      .addCase(createBid.pending, state => {
         state.status = 'pending'
       })
-      .addCase(placeBid.fulfilled, (state, action) => {
+      .addCase(createBid.fulfilled, (state, action) => {
         const { payload } = action
         state.status = 'succeeded'
         tokenAdapter.addOne(state, payload)
       })
-      .addCase(placeBid.rejected, state => {
+      .addCase(createBid.rejected, state => {
         state.status = 'failed'
       })
       .addCase(listToken.pending, state => {

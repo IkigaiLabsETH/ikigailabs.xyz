@@ -22,7 +22,9 @@ export const CollectionHeader: FC<CollectionHeaderProps> = ({ children, eyebrow,
       <div className="w-full lg:w-1/2 p-16 max-w-3xl">
         <Eyebrow>{eyebrow}</Eyebrow>
         <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{name}</h2>
-        <p className="my-8 satoshi text-xl leading-relaxed"><Markdown>{description}</Markdown></p>
+        <p className="my-8 satoshi text-xl leading-relaxed">
+          <Markdown>{description}</Markdown>
+        </p>
         {children}
       </div>
     </div>

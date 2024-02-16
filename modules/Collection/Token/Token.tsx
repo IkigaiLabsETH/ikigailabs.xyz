@@ -11,14 +11,14 @@ import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
 import { selectCollectionToken, selectTokenActivity, selectTokenListings, selectTokenOffers } from './token.selectors'
 import { Eth } from '../../Eth'
-import { ethToWei, getTokenDataFromTokenSetId, isOwner, replaceImageResolution } from '../../../common/utils'
+import { getTokenDataFromTokenSetId, isOwner, replaceImageResolution } from '../../../common/utils'
 import {
   acceptOffer,
   buyToken,
   cancelOrder,
-  placeBid,
   selectCollectionTokenInteractionStatus,
   showListToken,
+  showCreateBid,
 } from './token.slice'
 import { NFT, Network } from '../../../common/types'
 import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
@@ -76,9 +76,8 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     return dispatch(buyToken({ contract, tokenId, address, network }))
   }
 
-  const onCreateBid = () => {
-    const wei = ethToWei(parseFloat(eth)).toString()
-    return dispatch(placeBid({ contract, tokenId, wei, address, network }))
+  const onCreateBid = ({ network, contract, tokenId, name, media, description, image, royalties }) => {
+    dispatch(showCreateBid({ network, contract, tokenId, name, media, description, image, royalties }))
   }
 
   const onListToken = ({ network, contract, tokenId, name, media, description, image, royalties }) => {
@@ -153,7 +152,9 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
           </div>
           <div className="relative w-full">
             <div className="absolute bottom-5 left-5 p-6 bg-yellow-500 text-black tracking-wide">
-              <h3 className='text-black opacity-40 text-xs md:text-sm font-bold uppercase mb-0 pb-0'>{collection?.name}</h3>
+              <h3 className="text-black opacity-40 text-xs md:text-sm font-bold uppercase mb-0 pb-0">
+                {collection?.name}
+              </h3>
               <h1 className="text-black boska text-base md:text-lg lg:text-xl mb-0 pb-0">{name}</h1>
             </div>
           </div>
@@ -180,7 +181,9 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                   width={150}
                   height={150}
                 />
-                <div className="text-xl text-black pr-16 leading-relaxed"><Markdown>{description}</Markdown></div>
+                <div className="text-xl text-black pr-16 leading-relaxed">
+                  <Markdown>{description}</Markdown>
+                </div>
               </div>
               <div className="w-full">
                 {attributes ? (
@@ -290,13 +293,14 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                   </div>
                   {!isOwner(address)(token.token) ? (
                     <div>
-                      <ReservoirActionButton
-                        onClick={onCreateBid}
-                        loading={tokenInteractionStatus === 'pending'}
-                        disabled={!address}
-                        label="Make Offer"
-                        network={network}
-                      ></ReservoirActionButton>
+                      <Button
+                        className="text-black font-bold text-xl hover:text-yellow w-full"
+                        onClick={() =>
+                          onCreateBid({ contract, tokenId, name, media, description, image, network, royalties })
+                        }
+                      >
+                        Make offer
+                      </Button>
                     </div>
                   ) : pathOr('—', ['price', 'amount', 'native'])(topBid) !== '—' ? (
                     <div>
@@ -352,7 +356,11 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
               </div>
               <div className="my-4 max-h-screen-50 overflow-x-hidden overflow-auto pr-4">
                 {match(activeTab)
-                  .with('Info', () => <div className='info-tab'><Markdown>{collection?.description}</Markdown></div>)
+                  .with('Info', () => (
+                    <div className="info-tab">
+                      <Markdown>{collection?.description}</Markdown>
+                    </div>
+                  ))
                   .with('Activity', () => (
                     <>
                       {tokenActivityStatus !== QueryStatus.fulfilled ? (
