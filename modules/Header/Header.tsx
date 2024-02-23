@@ -6,11 +6,13 @@ import { Profile } from '../Profile'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Network } from '../../common/types'
+import { useAddress } from '@thirdweb-dev/react'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
   const { pathname, query } = useRouter()
   const network = query.network ? query.network : Network.MAINNET
+  const address = useAddress()
 
   useEffect(() => {
     setExpanded(false)
@@ -89,8 +91,8 @@ export const Header: FC = () => {
               </Link>
             </div>
             <div className="flex justify-end">
-              <Link href={`/dashboard/collected/${network}`} className="p-4 bg-black mb-1 inline-block">
-                Dashboard
+              <Link href={`/profile/${address}/collected/${network}`} className="p-4 bg-black mb-1 inline-block">
+                Profile
               </Link>
             </div>
             <div className="flex justify-end">

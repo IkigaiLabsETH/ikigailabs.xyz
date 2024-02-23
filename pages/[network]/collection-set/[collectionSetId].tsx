@@ -39,7 +39,12 @@ const CollectionsPage: FC = () => {
       </Head>
       <h1 className="text-yellow text-8xl text-left p-8 w-full pt-32 max-w-screen-2xl">Collections</h1>
       <main className="w-full bg-white ">
-        <Collections collections={data?.collections} isLoading={status === QueryStatus.pending} network={network} active='list'/>
+        <Collections
+          collections={data?.collections}
+          isLoading={status === QueryStatus.pending}
+          network={network}
+          active="list"
+        />
         <div ref={ref} />
       </main>
       <Footer />

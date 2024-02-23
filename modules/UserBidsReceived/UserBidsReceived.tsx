@@ -1,24 +1,26 @@
 import React, { FC } from 'react'
 import { Button } from '../Button'
 import { formatDateAndTime, truncateAddress } from '../../common/utils'
-import { map } from 'ramda'
+import { equals, map } from 'ramda'
 import { Network, TopBid } from '../../common/types'
 import Image from 'next/image'
 import { useAppDispatch } from '../../common/redux/store'
 import { acceptOffer } from '../Collection/Token/token.slice'
 import { useAddress } from '@thirdweb-dev/react'
+import { equal } from 'assert'
 
 interface UserBidsProps {
   bids: TopBid[]
   network: Network
+  owner: string
 }
 
-export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network }) => {
+export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network, owner }) => {
   const dispatch = useAppDispatch()
-  const address = useAddress()
+  const connectedAddress = useAddress()
 
   const onAccept = (tokenId: string, contract: string) => {
-    dispatch(acceptOffer({ tokenId, network, address, contract }))
+    dispatch(acceptOffer({ tokenId, network, address: connectedAddress, contract }))
   }
 
   return (
@@ -44,9 +46,11 @@ export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network }) => {
                 <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900 text-left">
                   Valid until
                 </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Status
-                </th>
+                {equals(owner, connectedAddress) ? (
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    Status
+                  </th>
+                ) : null}
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -64,9 +68,11 @@ export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network }) => {
                     <td className="text-gray-500 px-3">{`${price?.currency?.symbol} ${price?.amount.decimal}`}</td>
                     <td className="text-gray-500 px-3">{formatDateAndTime(validFrom)}</td>
                     <td className="px-3 text-gray-500">{formatDateAndTime(validUntil)}</td>
-                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <Button onClick={() => onAccept(token?.tokenId, token?.contract)}>Accept</Button>
-                    </td>
+                    {equals(owner, connectedAddress) ? (
+                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                        <Button onClick={() => onAccept(token?.tokenId, token?.contract)}>Accept</Button>
+                      </td>
+                    ) : null}
                   </tr>
                 )
               })(bids)}

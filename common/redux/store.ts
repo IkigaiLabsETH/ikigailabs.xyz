@@ -42,6 +42,8 @@ import { userApi } from '../../modules/User'
 import { initialPageLoadMiddleware } from '../app'
 import { closeSlideUpMiddleware, openSlideUpMiddleware, slideUpReducer } from '../../modules/SlideUp'
 import { closeSlideUpActions, openSlideUpActions } from '../slideup'
+import { tokenFetchCompleteMiddleware } from '../../modules/Collection/Token'
+import { ensReducer } from '../ens'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -98,6 +100,7 @@ startAppListening(walletMiddleware([changeNetwork] as any))
 startAppListening(showConfettiMiddleware(showConfettiActions as any))
 startAppListening(hideConfettiMiddleware(hideConfettiActions as any))
 startAppListening(initialPageLoadMiddleware as any)
+startAppListening(tokenFetchCompleteMiddleware as any)
 
 const combinedReducer = combineReducers({
   featuredAuction: featuredAuctionReducer,
@@ -116,6 +119,7 @@ const combinedReducer = combineReducers({
   NFTDrops: NFTDropsReducer,
   confetti: confettiReducer,
   network: networkSelectorReducer,
+  ens: ensReducer,
   [userApi.reducerPath]: prop('reducer')(userApi),
 })
 

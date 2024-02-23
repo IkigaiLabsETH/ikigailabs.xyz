@@ -8,12 +8,14 @@ import { getChainIdFromNetwork } from '../utils'
 import { createWalletClient, custom } from 'viem'
 import { TW_SUPPORTED_CHAINS } from '../config/chains'
 
-let ethProvider = null
+let web3Provider = null
 let signer = null
-
+const jsonRpcProvider = new ethers.providers.JsonRpcProvider(
+  `${URLS[Network.MAINNET].alchemy}/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
+)
 if (typeof window !== 'undefined') {
-  ethProvider = new ethers.providers.Web3Provider(window.ethereum as any)
-  signer = ethProvider.getSigner()
+  web3Provider = new ethers.providers.Web3Provider(window.ethereum as any)
+  signer = web3Provider.getSigner()
 }
 
 const getTWClient = (chain: Network) => {
@@ -59,4 +61,4 @@ const walletClient = (address: `0x${string}`) =>
     transport: custom(window?.ethereum),
   })
 
-export { getTWClient, signer, reservoirClient, walletClient }
+export { getTWClient, signer, reservoirClient, walletClient, jsonRpcProvider }
