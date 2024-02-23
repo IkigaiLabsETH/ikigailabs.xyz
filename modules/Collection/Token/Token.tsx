@@ -4,14 +4,13 @@ import { __, divide, isEmpty, isNil, map, pathOr, pipe, prop, propOr } from 'ram
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { useAddress } from '@thirdweb-dev/react'
 import Link from 'next/link'
-import Image from 'next/image'
 import Markdown from 'react-markdown'
 
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
 import { selectCollectionToken, selectTokenActivity, selectTokenListings, selectTokenOffers } from './token.selectors'
 import { Eth } from '../../Eth'
-import { getTokenDataFromTokenSetId, isOwner, replaceImageResolution } from '../../../common/utils'
+import { getTokenDataFromTokenSetId, isOwner } from '../../../common/utils'
 import {
   acceptOffer,
   buyToken,
@@ -29,6 +28,8 @@ import { collectionTokenApi } from './token.api'
 import { ListingsList } from '../../ListingsList'
 import { OffersList } from '../../OffersList'
 import { TokenMedia } from '../../TokenMedia'
+import { selectENSByAddress, selectEnsStatus } from '../../../common/ens'
+import { SkeletonLoader } from '../../SkeletonLoader'
 
 interface TokenProps {
   contract: string
@@ -38,6 +39,7 @@ interface TokenProps {
 
 export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
   const address = useAddress()
+
   const { data: tokenActivity, status: tokenActivityStatus } = useAppSelector(
     selectTokenActivity({ contract, tokenId, network }),
   )
@@ -50,8 +52,9 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
   )
   const { data: collection, status: collectionStatus } = useAppSelector(selectCollection({ contract, network }))
   const { status: tokenInteractionStatus } = useAppSelector(selectCollectionTokenInteractionStatus)
+  const ens = useAppSelector(state => selectENSByAddress(state, token?.token?.owner))
+  const ensStatus = useAppSelector(selectEnsStatus)
 
-  const [eth, setEth] = useState<string>('0')
   const [activeTab, setActiveTab] = useState<string>('Info')
   const dispatch = useAppDispatch()
 
@@ -117,14 +120,14 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     }
 
     const {
-      token: { image, imageLarge, imageSmall, name, description, attributes, owner, contract, tokenId, kind, media },
+      token: { image, imageSmall, name, description, attributes, owner, contract, tokenId, kind, media },
       market: { floorAsk, topBid },
     } = token as NFT
     const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
     const floorPriceSource = prop('source')(floorAsk)
     const topBidSource = prop('source')(topBid)
     const owned = isOwner(address)(token.token)
-    
+
     return (
       <div className="w-full bg-white flex items-center flex-col">
         <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col border-b-4 border-black bg-black">
@@ -163,7 +166,16 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
               <h1 className="boska text-[3rem] lg:text-[4rem] text-black mb-1">{name}</h1>
               {owner && (
                 <p className="text-s text-slate-400 pl-1 mb-4">
-                  <span className="font-bold">Owned by:</span> {owner}
+                  {ensStatus === QueryStatus.pending ? (
+                    <div className="mt-2 w-48">
+                      <SkeletonLoader style="light" />
+                    </div>
+                  ) : (
+                    <div>
+                      <span className="font-bold">Owned by:</span>
+                      <Link href={`/profile/${owner}/collected/${network}`}> {ens?.name ? ens?.name : owner} </Link>
+                    </div>
+                  )}
                 </p>
               )}
               <div className="py-2 w-full h-auto">

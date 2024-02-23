@@ -3,7 +3,6 @@ import { AppDispatch, RootState } from '../redux'
 import { changeNetwork } from '../../modules/NetworkSelector'
 import { Network } from '../types'
 import { initialPageLoad } from './app.action'
-import { includes } from 'ramda'
 
 export const initialPageLoadMiddleware = {
   actionCreator: initialPageLoad,

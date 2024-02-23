@@ -56,9 +56,9 @@ export const Activity: FC<ActivityProps> = ({ activity, showPrice = true }) => (
             </tr>
           </thead>
           <tbody className="divide-y divide-black">
-            {map(({ type, fromAddress, toAddress, txHash, price, amount, token, timestamp }: IActivity) => {
+            {map(({ type, fromAddress, toAddress, txHash, price, amount, token, timestamp, logIndex }: IActivity) => {
               return (
-                <tr>
+                <tr key={`${txHash}-${logIndex}`}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                     <div className="flex items-center">
                       <div className="h-10 w-10 justify-center items-center flex">{iconMapping[type]}</div>

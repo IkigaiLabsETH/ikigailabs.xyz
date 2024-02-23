@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  SyntheticEvent,
-  useState,
-  useRef,
-  LegacyRef,
-  useEffect,
-} from 'react'
+import React, { FC, SyntheticEvent, useState, useRef, LegacyRef, useEffect } from 'react'
 
 import { getContentType, normalizeContentType } from '../../common/utils'
 import { Loader } from '../Loader'
@@ -33,15 +26,12 @@ export const extractMediaType = (tokenMedia?: string): MediaType | null => {
   let extension: string | null = null
   if (tokenMedia) {
     const pieces = tokenMedia.split('/')
-    const file =
-      pieces && pieces[pieces.length - 1] ? pieces[pieces.length - 1] : null
+    const file = pieces && pieces[pieces.length - 1] ? pieces[pieces.length - 1] : null
     const matches = file ? file.match('(\\.[^.]+)$') : null
     extension = matches && matches[0] ? matches[0].replace('.', '') : null
   }
   return (extension as MediaType) ? (extension as MediaType) : null
 }
-
-
 
 type Props = {
   token?: any
@@ -80,9 +70,8 @@ export const TokenMedia: FC<Props> = ({
     let type = extractMediaType(token?.media)
 
     if (!type && token?.media) {
-      
       getContentType(token.media)
-        .then((contentType) => {
+        .then(contentType => {
           if (contentType && !abort) {
             const normalizedContentType = normalizeContentType(contentType)
             type = extractMediaType(`.${normalizedContentType}`)
@@ -137,7 +126,7 @@ export const TokenMedia: FC<Props> = ({
   // VIDEO
   if (mediaType === 'mp4' || mediaType === 'mov') {
     return (
-      <div className='border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)] w-auto relative'>
+      <div className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)] w-auto relative">
         <video
           className={clsx('max-h-[85vh]')}
           poster={tokenImage}
@@ -158,21 +147,21 @@ export const TokenMedia: FC<Props> = ({
   // AUDIO
   if (mediaType === 'wav' || mediaType === 'mp3' || mediaType === 'm4a') {
     return (
-        <audio
-          src={media}
-          onError={onErrorCb}
-          ref={mediaRef}
-          controls={true}
-          style={{
-            position: 'absolute',
-            bottom: 16,
-            left: 16,
-            width: 'calc(100% - 32px)',
-          }}
-        >
-          Your browser does not support the
-          <code>audio</code> element.
-        </audio>
+      <audio
+        src={media}
+        onError={onErrorCb}
+        ref={mediaRef}
+        controls={true}
+        style={{
+          position: 'absolute',
+          bottom: 16,
+          left: 16,
+          width: 'calc(100% - 32px)',
+        }}
+      >
+        Your browser does not support the
+        <code>audio</code> element.
+      </audio>
     )
   }
 
@@ -198,12 +187,7 @@ export const TokenMedia: FC<Props> = ({
   }
 
   //Image
-  if (
-    mediaType === 'png' ||
-    mediaType === 'jpeg' ||
-    mediaType === 'jpg' ||
-    mediaType === 'gif'
-  ) {
+  if (mediaType === 'png' || mediaType === 'jpeg' || mediaType === 'jpg' || mediaType === 'gif') {
     return (
       <Image
         src={media}
@@ -235,12 +219,12 @@ export const TokenMedia: FC<Props> = ({
 
   return (
     <Image
-        src={tokenImage}
-        title={token.name as string}
-        alt={token.name as string}
-        fill={true}
-        style={{ maxHeight: '85vh' }}
-        className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)] w-auto relative"
-      />
+      src={tokenImage}
+      title={token.name as string}
+      alt={token.name as string}
+      fill={true}
+      style={{ maxHeight: '85vh' }}
+      className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)] w-auto relative"
+    />
   )
 }

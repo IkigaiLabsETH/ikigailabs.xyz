@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 
 import { RootState } from '../../../common/redux/store'
-import { reservoirClient, walletClient } from '../../../common/web3/web3'
+import { jsonRpcProvider, reservoirClient, walletClient } from '../../../common/web3'
 import { ReservoirClient } from '@reservoir0x/reservoir-sdk'
 import { Network } from '../../../common/types'
 import { getUnixTime } from 'date-fns/fp'

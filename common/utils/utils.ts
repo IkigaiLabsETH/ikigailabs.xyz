@@ -41,7 +41,7 @@ import {
   equals,
   tap,
 } from 'ramda'
-import { NFT, Network, Token } from '../types'
+import { Network } from '../types'
 
 export const truncate = (length: number) =>
   when(
