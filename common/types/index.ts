@@ -212,6 +212,9 @@ export interface Token {
   collection?: {
     name: string
   }
+  isFlagged: boolean
+  isNsfw: boolean
+  isSpam: boolean
 }
 
 export interface Ownership {
