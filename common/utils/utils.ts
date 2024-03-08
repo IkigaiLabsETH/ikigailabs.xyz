@@ -40,6 +40,8 @@ import {
   toLower,
   equals,
   tap,
+  assoc,
+  keys,
 } from 'ramda'
 import { Network } from '../types'
 
@@ -198,3 +200,15 @@ export const normalizeContentType = (contentType?: string) => {
   }
   return null
 }
+
+export const renameKeys = curry((keysMap, obj) =>
+  reduce((acc, key: string) => assoc(keysMap[key] || key, obj[key], acc), {}, keys(obj)),
+)
+
+export const slugify = (str: string) =>
+  str
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')

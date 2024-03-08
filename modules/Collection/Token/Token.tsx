@@ -48,7 +48,6 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
   const { data: tokenListings, status: tokenListingsStatus } = useAppSelector(
     selectTokenListings({ contract, tokenId, network }),
   )
-  console.log(token)
   const { data: tokenOffers, status: tokenOffersStatus } = useAppSelector(
     selectTokenOffers({ contract, tokenId, network }),
   )
@@ -122,7 +121,21 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     }
 
     const {
-      token: { image, imageSmall, name, description, attributes, owner, contract, tokenId, kind, media, isFlagged, isNsfw, isSpam },
+      token: {
+        image,
+        imageSmall,
+        name,
+        description,
+        attributes,
+        owner,
+        contract,
+        tokenId,
+        kind,
+        media,
+        isFlagged,
+        isNsfw,
+        isSpam,
+      },
       market: { floorAsk, topBid },
     } = token as NFT
     const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
@@ -135,16 +148,6 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
         <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col border-b-4 border-black bg-black">
           <div className="w-full md:w-1/2 h-screen items-center justify-center flex p-8">
             <div className="w-full flex items-center justify-center relative h-5/6">
-              {/* {image && !media && (
-                <Image
-                  src={imageLarge}
-                  title={name as string}
-                  alt={name as string}
-                  fill={true}
-                  style={{ maxHeight: '85vh' }}
-                  className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)] w-auto relative"
-                />
-              )} */}
               <TokenMedia token={token.token} />
             </div>
           </div>
@@ -252,16 +255,10 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
               </div>
             </div>
             <div className="w-full lg:w-1/2 mt-2">
-              <div className='mb-5'>
-                { isFlagged ? (
-                  <Warning type="flagged" />
-                ) : null }
-                { isNsfw ? (
-                  <Warning type="nsfw" />
-                ) : null }
-                { isSpam ? (
-                  <Warning type="spam" />
-                ) : null }
+              <div className="mb-5">
+                {isFlagged ? <Warning type="flagged" /> : null}
+                {isNsfw ? <Warning type="nsfw" /> : null}
+                {isSpam ? <Warning type="spam" /> : null}
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-4 mb-6">
@@ -274,34 +271,32 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       {isNil(floorPriceSource) ? '' : ` on ${propOr('', 'name')(floorPriceSource)}`}
                     </div>
                   </div>
-                  {
-                    !isFlagged ? (
-                      pathOr('—', ['price', 'amount', 'native'])(floorAsk) !== '—' && !isOwner(address)(token.token) ? (
-                        <div>
-                          <ReservoirActionButton
-                            onClick={onBuyToken}
-                            loading={tokenInteractionStatus === 'pending'}
-                            disabled={!address}
-                            label="Buy Now"
-                            network={network}
-                          ></ReservoirActionButton>
-                        </div>
-                      ) : isOwner(address)(token.token) ? (
-                        <div>
-                          <Button
-                            className="text-black font-bold text-xl hover:text-yellow w-full"
-                            onClick={() =>
-                              onListToken({ contract, tokenId, name, media, description, image, network, royalties })
-                            }
-                          >
-                            List for sale
-                          </Button>
-                        </div>
-                      ) : (
-                        <></>
-                      )
-                    ) : null
-                  }
+                  {!isFlagged ? (
+                    pathOr('—', ['price', 'amount', 'native'])(floorAsk) !== '—' && !isOwner(address)(token.token) ? (
+                      <div>
+                        <ReservoirActionButton
+                          onClick={onBuyToken}
+                          loading={tokenInteractionStatus === 'pending'}
+                          disabled={!address}
+                          label="Buy Now"
+                          network={network}
+                        ></ReservoirActionButton>
+                      </div>
+                    ) : isOwner(address)(token.token) ? (
+                      <div>
+                        <Button
+                          className="text-black font-bold text-xl hover:text-yellow w-full"
+                          onClick={() =>
+                            onListToken({ contract, tokenId, name, media, description, image, network, royalties })
+                          }
+                        >
+                          List for sale
+                        </Button>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  ) : null}
                 </div>
                 <div className="border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-4 mb-6">
                   <div className="text-2xl mb-8 font-bold">
@@ -338,8 +333,8 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       </div>
                     ) : (
                       <></>
-                    )): null
-                  }
+                    )
+                  ) : null}
                 </div>
               </div>
               <div className="block w-full">

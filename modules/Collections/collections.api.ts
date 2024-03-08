@@ -1,10 +1,13 @@
 import { createAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { path, prop, uniqBy } from 'ramda'
+import { map, mergeAll, objOf, path, pickAll, pipe, pluck, prop, propOr, uniqBy } from 'ramda'
 import { HYDRATE } from 'next-redux-wrapper'
 
 import { http } from '../../common/http'
 import { HTTP, Network } from '../../common/types'
+import { collections } from '../../common/data/collections'
+import { RootState } from '../../common/redux'
+import { renameKeys } from '../../common/utils'
 
 export const loadCollections = createAction('collections/loadCollections')
 
@@ -31,11 +34,23 @@ export const collectionsSetApi = createApi({
 
 export const collectionsApi = createApi({
   reducerPath: 'collectionsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/reservoir' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
   endpoints: builder => ({
+    getSupportedNetworks: builder.query<any, void>({
+      query: () => '/networks',
+      transformResponse: (response: any) =>
+        pipe(
+          prop('tables'),
+          map((table: any) => objOf(prop('name')(table))(prop('id')(table))),
+          mergeAll,
+        )(response),
+    }),
+    getCollectionSets: builder.query<any, { tableId: string }>({
+      query: ({ tableId }) => `/collection-sets/${tableId}`,
+    }),
     getCollectionsBySetId: builder.query<any, { collectionSetId: string; continuation?: string; network: Network }>({
       query: ({ collectionSetId, continuation, network }) =>
-        `${network}/collections/v5?collectionsSetId=${collectionSetId}${
+        `reservoir/${network}/collections/v5?collectionsSetId=${collectionSetId}${
           continuation ? `&continuation=${continuation}` : ''
         }`,
       serializeQueryArgs: ({ queryArgs: { collectionSetId } }) => collectionSetId,
@@ -65,3 +80,8 @@ export const _getCollectionsSetId = (http: HTTP) => () =>
 export const getCollectionsSetId = _getCollectionsSetId(http)
 
 export const selectCollectionsBySetId = collectionsApi.endpoints.getCollectionsBySetId.select
+export const selectSupportedNetworks = collectionsApi.endpoints.getSupportedNetworks.select
+export const selectCollectionSets = collectionsApi.endpoints.getCollectionSets.select
+export const selectSupportedNetworkTableIdByNetwork = (network: Network) => (state: RootState) => {
+  return selectSupportedNetworks()(state)?.data?.[network]
+}

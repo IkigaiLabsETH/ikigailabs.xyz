@@ -1,4 +1,4 @@
-import Airtable from "airtable";
+import Airtable from 'airtable'
 
 Airtable.configure({
   apiKey: process.env.AIRTABLE_API_KEY,
