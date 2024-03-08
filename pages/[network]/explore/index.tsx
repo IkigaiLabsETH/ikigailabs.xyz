@@ -2,7 +2,7 @@
 import Head from 'next/head'
 import React, { FC, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { has, keys, map, pipe } from 'ramda'
+import { append, has, keys, map, pipe } from 'ramda'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
 import { Footer } from '../../../modules/Footer'
@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import {
   collectionsApi,
   selectCollectionSets,
+  selectCollectionsByCommunity,
   selectCollectionsBySetId,
   selectSupportedNetworkTableIdByNetwork,
   selectSupportedNetworks,
@@ -32,15 +33,20 @@ const SignatureCollection: FC = () => {
   const [networkOptions, setNetworkOptions] = useState<Option[]>(null)
   const [selectedNetworkOption, setSelectedNetworkOption] = useState<Option>(null)
 
+  const [collectionSets, setCollectionSets] = useState<CollectionSet[]>([])
   const [collectionSet, setCollectionSet] = useState<CollectionSet>({} as CollectionSet)
   const { data: supportedNetworks, status: getSupportedNetworksStatus } = useAppSelector(
     selectSupportedNetworks(undefined),
   )
   const tableId = useAppSelector(selectSupportedNetworkTableIdByNetwork(selectedNetworkOption?.name as Network))
-  const { data: collectionSets, status: collectionSetsStatus } = useAppSelector(selectCollectionSets({ tableId }))
+  const { data: managedCollectionSets, status: collectionSetsStatus } = useAppSelector(selectCollectionSets({ tableId }))
 
   const { data, status } = useAppSelector(
     selectCollectionsBySetId({ collectionSetId: collectionSet?.id, network: network as Network }),
+  )
+
+  const { data: communityCollections, status: getCollectionsByCommunityStatus } = useAppSelector(
+    selectCollectionsByCommunity({ community: 'artblocks' }),
   )
 
   useEffect(() => {
@@ -62,17 +68,26 @@ const SignatureCollection: FC = () => {
   })
 
   useEffect(() => {
+    console.log(tableId)
     if (tableId) {
       dispatch(collectionsApi.endpoints.getCollectionSets.initiate({ tableId }))
     }
   }, [tableId, dispatch])
 
   useEffect(() => {
-    if (collectionSet?.id) {
+    if (collectionSet?.id && collectionSet.id !== 'artblocks') {
       dispatch(
         collectionsApi.endpoints.getCollectionsBySetId.initiate({
           collectionSetId: collectionSet.id,
           network: network as Network,
+        }),
+      )
+    }
+
+    if (collectionSet?.id === 'artblocks') {
+      dispatch(
+        collectionsApi.endpoints.getCollectionsByCommunity.initiate({
+          community: 'artblocks',
         }),
       )
     }
@@ -84,11 +99,34 @@ const SignatureCollection: FC = () => {
     }
   }, [collectionSets])
 
-  const { ref: collectionsRef } = useInfiniteLoading(collectionsApi.endpoints.getCollectionsBySetId.initiate, {
-    collectionSetId: collectionSet?.id,
-    continuation: data?.continuation,
-    network,
-  })
+  useEffect(() => {
+    if (selectedNetworkOption?.id === 'ethereum') {
+      const allCollectionSets = append({ name: 'ArtBlocks', id: 'artblocks' })(managedCollectionSets)
+      return setCollectionSets(allCollectionSets)
+    }
+
+    setCollectionSets(managedCollectionSets)
+  }, [managedCollectionSets, network, selectedNetworkOption])
+
+  const getInfiniteLoadingEndpoint = () => {
+    if (collectionSet?.id === 'artblocks') {
+      return collectionsApi.endpoints.getCollectionsByCommunity.initiate
+    }
+    return collectionsApi.endpoints.getCollectionsBySetId.initiate
+  }
+
+  const getInfiniteLoadingOptions = () => {
+    if (collectionSet?.id === 'artblocks') {
+      return { community: 'artblocks', continuation: communityCollections?.continuation }
+    }
+    return {
+      collectionSetId: collectionSet?.id,
+      continuation: data?.continuation,
+      network,
+    }
+  }
+
+  const { ref: collectionsRef } = useInfiniteLoading(getInfiniteLoadingEndpoint(), getInfiniteLoadingOptions())
 
   return (
     <div className="flex items-center flex-col">
@@ -127,7 +165,7 @@ const SignatureCollection: FC = () => {
         </div>
         {data?.collections.length && (
           <Collections
-            collections={data?.collections ? data.collections : []}
+            collections={collectionSet?.id === 'artblocks' ? communityCollections?.collections : data?.collections ? data.collections : []}
             isLoading={status === QueryStatus.pending || collectionSetsStatus === QueryStatus.pending}
             network={network as Network}
             active={active}

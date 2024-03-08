@@ -81,6 +81,7 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     options.headers = headers
+    console.log(url.href)
     const response = await fetch(url.href, options)
 
     let data: any
