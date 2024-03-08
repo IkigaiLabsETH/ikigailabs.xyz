@@ -146,9 +146,9 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     return (
       <div className="w-full bg-white flex items-center flex-col">
         <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col border-b-4 border-black bg-black">
-          <div className="w-full md:w-1/2 h-screen items-center justify-center flex p-8">
+          <div className="w-full md:w-2/3 lg:3/4 h-screen items-center justify-center flex p-8">
             <div className="w-full flex items-center justify-center relative h-5/6">
-              <TokenMedia token={token.token} />
+              <TokenMedia token={token.token} imageResolution='large'/>
             </div>
           </div>
           <div className="relative w-full">
