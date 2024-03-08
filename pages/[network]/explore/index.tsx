@@ -68,7 +68,6 @@ const SignatureCollection: FC = () => {
   })
 
   useEffect(() => {
-    console.log(tableId)
     if (tableId) {
       dispatch(collectionsApi.endpoints.getCollectionSets.initiate({ tableId }))
     }

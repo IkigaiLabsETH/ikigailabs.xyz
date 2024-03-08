@@ -32,8 +32,8 @@ export const collectionApi = createApi({
           continuation ? `&continuation=${continuation}` : ''
         }${attributes && attributes}&limit=20`
       },
-      serializeQueryArgs: ({ endpointName, queryArgs: { attributes, sortBy } }) => {
-        return `${endpointName}-${sortBy}-${attributes}`
+      serializeQueryArgs: ({ endpointName, queryArgs: { attributes, sortBy, contract } }) => {
+        return `${endpointName}-${contract}-${sortBy}-${attributes}`
       },
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
