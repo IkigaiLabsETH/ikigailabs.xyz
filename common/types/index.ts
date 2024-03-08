@@ -13,8 +13,14 @@ export enum Network {
   OPTIMISM = 'optimism',
   POLYGON = 'polygon',
   ARBITRUM = 'arbitrum',
+  ARBITRUM_ONE = 'arbitrum-one',
+  ARBITRUM_NOVA = 'arbitrum-nova',
   ARBITRUM_GOERLI = 'arbitrum-goerli',
   MUMBAI = 'mumbai',
+}
+
+export enum NetworkName {
+  'ethereum' = 'Ethereum',
 }
 
 export type Option = { id: string | number; name: string }
@@ -356,6 +362,7 @@ export interface TopBid {
 export interface CollectionSet {
   id: string
   name: string
+  category: string
 }
 
 export interface TopBid {

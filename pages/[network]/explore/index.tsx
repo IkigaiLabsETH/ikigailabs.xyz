@@ -2,19 +2,26 @@
 import Head from 'next/head'
 import React, { FC, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { has, keys, map, pipe } from 'ramda'
+import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
 import { Footer } from '../../../modules/Footer'
 import { withLayout } from '../../../common/layouts/MainLayout/withLayout'
-import { CollectionSet, Layout, Network } from '../../../common/types'
-import { COLLECTIONS } from '../../../common/config'
+import { CollectionSet, Layout, Network, Option } from '../../../common/types'
 import { Collections } from '../../../modules/Collections'
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
-import { collectionsApi, selectCollectionsBySetId } from '../../../modules/Collections/collections.api'
-import { QueryStatus } from '@reduxjs/toolkit/dist/query'
+import {
+  collectionsApi,
+  selectCollectionSets,
+  selectCollectionsBySetId,
+  selectSupportedNetworkTableIdByNetwork,
+  selectSupportedNetworks,
+} from '../../../modules/Collections/collections.api'
 import { Selector } from '../../../modules/Form/Selector'
 import { NetworkSelector } from '../../../modules/NetworkSelector/NetworkSelector'
 import { useInfiniteLoading } from '../../../common/useInfiniteLoading'
 import { GridListToggle } from '../../../modules/GridListToggle'
+import { slugify } from '../../../common/utils'
 
 const SignatureCollection: FC = () => {
   const { query } = useRouter()
@@ -22,25 +29,46 @@ const SignatureCollection: FC = () => {
   const dispatch = useAppDispatch()
   const [active, setActive] = useState<'grid' | 'list'>('grid')
 
-  const [collectionSets, setCollectionSets] = useState<CollectionSet[]>([])
+  const [networkOptions, setNetworkOptions] = useState<Option[]>(null)
+  const [selectedNetworkOption, setSelectedNetworkOption] = useState<Option>(null)
+
   const [collectionSet, setCollectionSet] = useState<CollectionSet>({} as CollectionSet)
+  const { data: supportedNetworks, status: getSupportedNetworksStatus } = useAppSelector(
+    selectSupportedNetworks(undefined),
+  )
+  const tableId = useAppSelector(selectSupportedNetworkTableIdByNetwork(selectedNetworkOption?.name as Network))
+  const { data: collectionSets, status: collectionSetsStatus } = useAppSelector(selectCollectionSets({ tableId }))
 
   const { data, status } = useAppSelector(
     selectCollectionsBySetId({ collectionSetId: collectionSet?.id, network: network as Network }),
   )
 
   useEffect(() => {
-    network && setCollectionSets(COLLECTIONS[network as string])
-  }, [network])
-
-  useEffect(() => {
-    if (network) {
-      return setCollectionSet(COLLECTIONS[network as string][0])
+    if (getSupportedNetworksStatus === QueryStatus.fulfilled) {
+      const networkOptions = pipe(
+        keys,
+        map((network: string) => ({
+          id: slugify(network),
+          name: network,
+        })),
+      )(supportedNetworks)
+      setNetworkOptions(networkOptions)
+      setSelectedNetworkOption(networkOptions.find(option => option.id === network))
     }
-  }, [network])
+  }, [supportedNetworks, getSupportedNetworksStatus, network])
 
   useEffect(() => {
-    if (collectionSet) {
+    dispatch(collectionsApi.endpoints.getSupportedNetworks.initiate())
+  })
+
+  useEffect(() => {
+    if (tableId) {
+      dispatch(collectionsApi.endpoints.getCollectionSets.initiate({ tableId }))
+    }
+  }, [tableId, dispatch])
+
+  useEffect(() => {
+    if (collectionSet?.id) {
       dispatch(
         collectionsApi.endpoints.getCollectionsBySetId.initiate({
           collectionSetId: collectionSet.id,
@@ -49,6 +77,12 @@ const SignatureCollection: FC = () => {
       )
     }
   }, [collectionSet, dispatch, network])
+
+  useEffect(() => {
+    if (collectionSets?.length) {
+      setCollectionSet(collectionSets[0])
+    }
+  }, [collectionSets])
 
   const { ref: collectionsRef } = useInfiniteLoading(collectionsApi.endpoints.getCollectionsBySetId.initiate, {
     collectionSetId: collectionSet?.id,
@@ -66,13 +100,16 @@ const SignatureCollection: FC = () => {
       <div className="text-left w-full p-8 pt-32 max-w-screen-2xl">
         <h1 className="text-yellow text-8xl ">Explore</h1>
         <div className="flex items-center">
-          <span className="mr-4 text-yellow">on</span> <NetworkSelector />
+          <span className="mr-4 text-yellow">on</span>{' '}
+          {networkOptions?.length ? (
+            <NetworkSelector networks={networkOptions} selected={selectedNetworkOption} />
+          ) : null}
         </div>
       </div>
       <main className="w-full bg-white">
         <div className="flex justify-between max-w-screen-2xl mx-auto">
           <div>
-            {collectionSets.length ? (
+            {collectionSets?.length && has('name')(collectionSets[0]) ? (
               <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
                 <Selector
                   options={collectionSets}
@@ -82,11 +119,7 @@ const SignatureCollection: FC = () => {
                   title="Collection:"
                 />
               </div>
-            ) : (
-              <div className="bg-white w-full flex py-4 justify-center items-center text-black flex-col">
-                <div className="max-w-screen-2xl w-full m-4 flex md:px-6 lg:px-8">No collection sets found</div>
-              </div>
-            )}
+            ) : null}
           </div>
           <div className="mt-8">
             <GridListToggle active={active} onToggle={setActive} />
@@ -95,7 +128,7 @@ const SignatureCollection: FC = () => {
         {data?.collections.length && (
           <Collections
             collections={data?.collections ? data.collections : []}
-            isLoading={status === QueryStatus.pending}
+            isLoading={status === QueryStatus.pending || collectionSetsStatus === QueryStatus.pending}
             network={network as Network}
             active={active}
           />

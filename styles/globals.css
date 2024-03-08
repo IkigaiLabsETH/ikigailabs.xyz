@@ -62,8 +62,6 @@
        font-style: italic;
 }
 
-
-
 @layer base {
   body {
     font-family: 'satoshi';

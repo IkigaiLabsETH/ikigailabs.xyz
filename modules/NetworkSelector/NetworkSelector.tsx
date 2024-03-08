@@ -7,18 +7,14 @@ import { find, propEq } from 'ramda'
 import { useRouter } from 'next/router'
 import { NETWORK_OPTIONS } from '../../common/constants/constants'
 
-export const NetworkSelector: FC = () => {
+interface NetworkSelectorProps {
+  networks: Option[]
+  selected: Option
+}
+
+export const NetworkSelector: FC<NetworkSelectorProps> = ({ networks, selected }) => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const { network } = router.query
-
-  const [selected, setSelected] = useState<Option>(NETWORK_OPTIONS[0])
-
-  useEffect(() => {
-    if (network) {
-      setSelected(find(propEq('id', network))(NETWORK_OPTIONS) as Option)
-    }
-  }, [network])
 
   const onChangeNetwork = (value: Option) => {
     dispatch(changeNetwork({ network: value.id as Network }))
@@ -27,7 +23,7 @@ export const NetworkSelector: FC = () => {
 
   return (
     <div className="mr-2">
-      <Selector options={NETWORK_OPTIONS} onChange={onChangeNetwork} selected={selected} style="dark" />
+      <Selector options={networks} onChange={onChangeNetwork} selected={selected} style="dark" />
     </div>
   )
 }

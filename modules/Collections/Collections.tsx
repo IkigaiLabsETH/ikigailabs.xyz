@@ -1,9 +1,8 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 
 import { Collection, Network } from '../../common/types'
 import { CollectionsList } from '../CollectionsList'
 import { CollectionsGrid } from '../CollectionsGrid'
-import clsx from 'clsx'
 
 interface CollectionsProps {
   collections: Collection[]
