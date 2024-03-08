@@ -362,7 +362,7 @@ export interface TopBid {
 export interface CollectionSet {
   id: string
   name: string
-  category: string
+  category?: string
 }
 
 export interface TopBid {

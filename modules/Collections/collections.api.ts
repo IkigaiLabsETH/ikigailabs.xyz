@@ -48,6 +48,18 @@ export const collectionsApi = createApi({
     getCollectionSets: builder.query<any, { tableId: string }>({
       query: ({ tableId }) => `/collection-sets/${tableId}`,
     }),
+    getCollectionsByCommunity: builder.query<any, { continuation?: string; community: 'artblocks' }>({
+      query: ({ continuation, community }) =>
+        `reservoir/ethereum/collections/v7?community=${community}${continuation ? `&continuation=${continuation}` : ''}`,
+      serializeQueryArgs: ({ queryArgs: { community } }) => community,
+      merge: (currentCache, newItems) => {
+        currentCache.collections = uniqBy(prop('id'), [...currentCache.collections, ...newItems.collections])
+        currentCache.continuation = newItems.continuation
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg
+      },
+    }),
     getCollectionsBySetId: builder.query<any, { collectionSetId: string; continuation?: string; network: Network }>({
       query: ({ collectionSetId, continuation, network }) =>
         `reservoir/${network}/collections/v5?collectionsSetId=${collectionSetId}${
@@ -80,6 +92,7 @@ export const _getCollectionsSetId = (http: HTTP) => () =>
 export const getCollectionsSetId = _getCollectionsSetId(http)
 
 export const selectCollectionsBySetId = collectionsApi.endpoints.getCollectionsBySetId.select
+export const selectCollectionsByCommunity = collectionsApi.endpoints.getCollectionsByCommunity.select
 export const selectSupportedNetworks = collectionsApi.endpoints.getSupportedNetworks.select
 export const selectCollectionSets = collectionsApi.endpoints.getCollectionSets.select
 export const selectSupportedNetworkTableIdByNetwork = (network: Network) => (state: RootState) => {
