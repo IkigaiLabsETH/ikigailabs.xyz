@@ -24,9 +24,9 @@ import { useInfiniteLoading } from '../../../common/useInfiniteLoading'
 import { GridListToggle } from '../../../modules/GridListToggle'
 import { slugify } from '../../../common/utils'
 
-const SignatureCollection: FC = () => {
-  const { query } = useRouter()
-  const { network } = query
+const Explore: FC = () => {
+  const router = useRouter()
+  const { network } = router.query
   const dispatch = useAppDispatch()
   const [active, setActive] = useState<'grid' | 'list'>('grid')
 
@@ -38,6 +38,7 @@ const SignatureCollection: FC = () => {
   const { data: supportedNetworks, status: getSupportedNetworksStatus } = useAppSelector(
     selectSupportedNetworks(undefined),
   )
+
   const tableId = useAppSelector(selectSupportedNetworkTableIdByNetwork(selectedNetworkOption?.name as Network))
   const { data: managedCollectionSets, status: collectionSetsStatus } = useAppSelector(
     selectCollectionSets({ tableId }),
@@ -50,7 +51,7 @@ const SignatureCollection: FC = () => {
   const { data: communityCollections, status: getCollectionsByCommunityStatus } = useAppSelector(
     selectCollectionsByCommunity({ community: 'artblocks' }),
   )
-
+  
   useEffect(() => {
     if (getSupportedNetworksStatus === QueryStatus.fulfilled) {
       const networkOptions = pipe(
@@ -61,9 +62,21 @@ const SignatureCollection: FC = () => {
         })),
       )(supportedNetworks)
       setNetworkOptions(networkOptions)
-      setSelectedNetworkOption(networkOptions.find(option => option.id === network))
+      const selectedNetwork = networkOptions.find(option => {
+        if (network === 'arbitrum') {
+          return option.id === 'arbitrum-one'
+        }
+
+        return option.id === network
+      })
+      
+      if (selectedNetwork) {
+        return setSelectedNetworkOption(selectedNetwork)
+      }
+
+      window.location.href = '/ethereum/explore'
     }
-  }, [supportedNetworks, getSupportedNetworksStatus, network])
+  }, [supportedNetworks, getSupportedNetworksStatus, network, router])
 
   useEffect(() => {
     dispatch(collectionsApi.endpoints.getSupportedNetworks.initiate())
@@ -185,4 +198,4 @@ const SignatureCollection: FC = () => {
   )
 }
 
-export default withLayout(Layout.main)(SignatureCollection)
+export default withLayout(Layout.main)(Explore)

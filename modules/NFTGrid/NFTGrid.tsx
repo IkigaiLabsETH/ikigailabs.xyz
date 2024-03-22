@@ -45,7 +45,7 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
               <div>
                 <h5 className="font-bold text-xl mb-2">{name}</h5>
                 <div>
-                  {!isNil(market.floorAsk.id) && (
+                  {!isNil(market?.floorAsk?.id) && (
                     <p className="text-black text-l font-bold m-0">
                       Floor: {market?.floorAsk?.price?.amount?.decimal} {market?.floorAsk?.price?.currency.symbol}
                     </p>

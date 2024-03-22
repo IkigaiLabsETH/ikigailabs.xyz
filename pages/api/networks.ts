@@ -4,7 +4,7 @@ import { match } from 'ts-pattern'
 export const handler = async (req: NextApiRequest, res: NextApiResponse) =>
   match(req.method)
     .with('GET', () => {
-      fetch(`https://api.airtable.com/v0/meta/bases/${process.env.AIRTABLE_BASE_ID}/tables`, {
+      return fetch(`https://api.airtable.com/v0/meta/bases/${process.env.AIRTABLE_BASE_ID}/tables`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
