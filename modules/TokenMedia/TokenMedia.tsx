@@ -198,7 +198,7 @@ export const TokenMedia: FC<Props> = ({
         width={2048}
         height={2048}
         // fill={true}
-        style={{ maxHeight: '90vh', width: 'auto'}}
+        style={{ maxHeight: '90vh', width: 'auto' }}
         className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]  relative"
       />
     )

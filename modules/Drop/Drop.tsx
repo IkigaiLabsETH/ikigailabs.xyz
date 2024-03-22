@@ -96,7 +96,9 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
             <div className="w-3/4 pl-4">
               <Web3Button
                 contractAddress={contract}
-                action={contract => contract.erc721.claim(amountToMint)}
+                action={contract => {
+                  return contract.erc721.claim(amountToMint)
+                }}
                 onError={console.log}
                 onSuccess={onSuccess}
                 isDisabled={totalSupply === localClaimedSupply}

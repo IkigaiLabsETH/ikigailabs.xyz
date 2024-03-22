@@ -53,7 +53,7 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <ThirdwebProvider
-          activeChain={getChainIdFromNetwork(network)}
+          activeChain={network}
           queryClient={queryClient}
           sdkOptions={sdkOptions}
           clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}

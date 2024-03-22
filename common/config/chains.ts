@@ -1,4 +1,17 @@
-import { Ethereum, Zora, Base, Optimism, ArbitrumNova, Polygon, PolygonZkevm, Avalanche, Linea, ZksyncEra, Scroll } from '@thirdweb-dev/chains'
+import {
+  Ethereum,
+  Zora,
+  Base,
+  Optimism,
+  Arbitrum,
+  ArbitrumNova,
+  Polygon,
+  PolygonZkevm,
+  Avalanche,
+  Linea,
+  Mumbai,
+  Scroll,
+} from '@thirdweb-dev/chains'
 import { arbitrum, mainnet, polygon, optimism, Chain, bsc, polygonMumbai } from 'wagmi/chains'
 
 //CONFIGURABLE: The default export controls the supported chains for the marketplace. Removing
@@ -111,4 +124,17 @@ export const supportedChains = [
   },
 ] as ReservoirChain[]
 
-export const TW_SUPPORTED_CHAINS = [Ethereum, Zora, Base, Optimism, ArbitrumNova, Polygon, PolygonZkevm, Avalanche, Linea, ZksyncEra, Scroll] as any
+export const TW_SUPPORTED_CHAINS = [
+  Ethereum,
+  Mumbai,
+  Arbitrum,
+  Zora,
+  Base,
+  Optimism,
+  ArbitrumNova,
+  Polygon,
+  PolygonZkevm,
+  Avalanche,
+  Linea,
+  Scroll,
+] as any
