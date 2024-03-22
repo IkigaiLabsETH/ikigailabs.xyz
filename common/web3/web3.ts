@@ -21,10 +21,6 @@ if (typeof window !== 'undefined') {
 const getTWClient = (chain: Network) => {
   const settings = {
     supportedChains: TW_SUPPORTED_CHAINS,
-    readonlySettings: {
-      chainId: getChainIdFromNetwork(chain),
-      rpcUrl: `${URLS[chain].alchemy}/v2/${process.env.ALCHEMY_KEY}`,
-    },
     clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
     secretKey: process.env.THIRDWEB_SECRET_KEY,
   }
@@ -36,6 +32,7 @@ const getTWClient = (chain: Network) => {
       },
     }
   }
+
   const sdk = new ThirdwebSDK(getChainIdFromNetwork(chain), settings)
   signer && sdk.updateSignerOrProvider(signer)
   return sdk

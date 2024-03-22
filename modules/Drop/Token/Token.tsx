@@ -33,7 +33,7 @@ export const NFT: FC<NFTProps> = ({ contract, tokenId, network, type }) => {
   )
 
   const component = () => {
-    const { image, name, description, attributes } = token.metadata
+    const { image, name, description, attributes } = token
     return (
       <div className="w-full bg-yellow flex items-center flex-col">
         <img src={image} title={name as string} className="w-full" alt={name as string} />
@@ -58,7 +58,6 @@ export const NFT: FC<NFTProps> = ({ contract, tokenId, network, type }) => {
                 </ul>
               )}
             </div>
-            <div></div>
           </div>
         </div>
       </div>
