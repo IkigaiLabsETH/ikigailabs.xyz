@@ -51,7 +51,7 @@ const Explore: FC = () => {
   const { data: communityCollections, status: getCollectionsByCommunityStatus } = useAppSelector(
     selectCollectionsByCommunity({ community: 'artblocks' }),
   )
-  
+
   useEffect(() => {
     if (getSupportedNetworksStatus === QueryStatus.fulfilled) {
       const networkOptions = pipe(
@@ -69,7 +69,7 @@ const Explore: FC = () => {
 
         return option.id === network
       })
-      
+
       if (selectedNetwork) {
         return setSelectedNetworkOption(selectedNetwork)
       }
