@@ -39,7 +39,9 @@ const SignatureCollection: FC = () => {
     selectSupportedNetworks(undefined),
   )
   const tableId = useAppSelector(selectSupportedNetworkTableIdByNetwork(selectedNetworkOption?.name as Network))
-  const { data: managedCollectionSets, status: collectionSetsStatus } = useAppSelector(selectCollectionSets({ tableId }))
+  const { data: managedCollectionSets, status: collectionSetsStatus } = useAppSelector(
+    selectCollectionSets({ tableId }),
+  )
 
   const { data, status } = useAppSelector(
     selectCollectionsBySetId({ collectionSetId: collectionSet?.id, network: network as Network }),
@@ -164,7 +166,13 @@ const SignatureCollection: FC = () => {
         </div>
         {data?.collections.length && (
           <Collections
-            collections={collectionSet?.id === 'artblocks' ? communityCollections?.collections : data?.collections ? data.collections : []}
+            collections={
+              collectionSet?.id === 'artblocks'
+                ? communityCollections?.collections
+                : data?.collections
+                ? data.collections
+                : []
+            }
             isLoading={status === QueryStatus.pending || collectionSetsStatus === QueryStatus.pending}
             network={network as Network}
             active={active}

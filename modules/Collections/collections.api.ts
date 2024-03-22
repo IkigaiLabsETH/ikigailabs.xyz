@@ -50,7 +50,9 @@ export const collectionsApi = createApi({
     }),
     getCollectionsByCommunity: builder.query<any, { continuation?: string; community: 'artblocks' }>({
       query: ({ continuation, community }) =>
-        `reservoir/ethereum/collections/v7?community=${community}${continuation ? `&continuation=${continuation}` : ''}`,
+        `reservoir/ethereum/collections/v7?community=${community}${
+          continuation ? `&continuation=${continuation}` : ''
+        }`,
       serializeQueryArgs: ({ queryArgs: { community } }) => community,
       merge: (currentCache, newItems) => {
         currentCache.collections = uniqBy(prop('id'), [...currentCache.collections, ...newItems.collections])

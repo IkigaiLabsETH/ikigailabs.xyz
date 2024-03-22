@@ -24,7 +24,7 @@
     "**/*.ts",
     "**/*.tsx",
     "custom.d.ts"
-  ],
+, "common/airtable/scripts/reservoirCollectionSets.mjs"  ],
   "exclude": [
     "node_modules"
   ]
