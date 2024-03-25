@@ -54,6 +54,48 @@ export const URLS = {
     explorer: 'https://optimistic.etherscan.io',
     openzeppelin: '',
   },
+  [Network.ZORA]: {
+    reservoir: 'https://api-zora.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://zorascan.xyz',
+    openzeppelin: '',
+  },
+  [Network.BASE]: {
+    reservoir: 'https://api-base.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://basescan.org',
+    openzeppelin: '',
+  },
+  [Network.ZKEVM]: {
+    reservoir: 'https://api-polygon-zkevm.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://zkevm.polygonscan.com',
+    openzeppelin: '',
+  },
+  [Network.AVALANCHE]: {
+    reservoir: 'https://api-avalanche.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://avascan.info',
+    openzeppelin: '',
+  },
+  [Network.LINEA]: {
+    reservoir: 'https://api-linea.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://lineascan.build',
+    openzeppelin: '',
+  },
+  [Network.SCROLL]: {
+    reservoir: 'https://api-scroll.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://scrollscan.com',
+    openzeppelin: '',
+  },
 }
 
 export const COLLECTIONS = {

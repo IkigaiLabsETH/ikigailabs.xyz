@@ -14,7 +14,6 @@ import { zeroAddress } from 'viem'
 const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method, headers: reqHeaders } = req
   const { slug } = query
-
   // Isolate the query object
   delete query.slug
 
@@ -28,9 +27,8 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const chainPrefix = endpoint.split('/')[0]
-
+  console.log(chainPrefix)
   const chain = supportedChains.find(chain => chain.routePrefix === chainPrefix) || defaultChain
-
   const url = new URL(endpoint.replace(chainPrefix, ''), chain.reservoirBaseUrl)
   setParams(url, query)
 

@@ -11,8 +11,27 @@ import {
   Linea,
   Mumbai,
   Scroll,
+  Zksync,
+  Blast,
 } from '@thirdweb-dev/chains'
-import { arbitrum, mainnet, polygon, optimism, Chain, bsc, polygonMumbai } from 'wagmi/chains'
+import {
+  arbitrum,
+  mainnet,
+  polygon,
+  optimism,
+  Chain,
+  bsc,
+  polygonMumbai,
+  zora,
+  base,
+  arbitrumNova,
+  polygonZkEvm,
+  avalanche,
+  linea,
+  scroll,
+  zkSync,
+} from 'wagmi/chains'
+import { Network } from '../types'
 
 //CONFIGURABLE: The default export controls the supported chains for the marketplace. Removing
 // or adding chains will result in adding more or less chains to the marketplace.
@@ -122,6 +141,15 @@ export const supportedChains = [
     collectionSetId: process.env.NEXT_PUBLIC_BSC_COLLECTION_SET_ID,
     community: process.env.NEXT_PUBLIC_BSC_COMMUNITY,
   },
+  { ...zora, routePrefix: Network.ZORA, reservoirBaseUrl: 'https://api-zora.reservoir.tools' },
+  { ...base, routePrefix: Network.BASE, reservoirBaseUrl: 'https://api-base.reservoir.tools' },
+  { ...arbitrumNova, routePrefix: Network.ARBITRUM_NOVA, reservoirBaseUrl: 'https://api-arbitrum-nova.reservoir.tools' },
+  { ...polygonZkEvm, routePrefix: Network.ZKEVM, reservoirBaseUrl: 'https://api-polygon-zkevm.reservoir.tools' },
+  { ...avalanche, routePrefix: Network.AVALANCHE, reservoirBaseUrl: 'https://api-avalanche.reservoir.tools' },
+  { ...linea, routePrefix: Network.LINEA, reservoirBaseUrl: 'https://api-linea.reservoir.tools' },
+  { ...scroll, routePrefix: Network.SCROLL, reservoirBaseUrl: 'https://api-scroll.reservoir.tools' },
+  { ...zkSync, routePrefix: Network.ZKSYNC, reservoirBaseUrl: 'https://api-zksync.reservoir.tools' },
+  { routePrefix: Network.BLAST, reservoirBaseUrl: 'https://api-blast.reservoir.tools' },
 ] as ReservoirChain[]
 
 export const TW_SUPPORTED_CHAINS = [
@@ -137,4 +165,6 @@ export const TW_SUPPORTED_CHAINS = [
   Avalanche,
   Linea,
   Scroll,
+  Zksync,
+  Blast,
 ] as any

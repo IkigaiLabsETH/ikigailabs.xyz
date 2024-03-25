@@ -17,6 +17,14 @@ export enum Network {
   ARBITRUM_NOVA = 'arbitrum-nova',
   ARBITRUM_GOERLI = 'arbitrum-goerli',
   MUMBAI = 'mumbai',
+  ZORA = 'zora',
+  BASE = 'base',
+  ZKEVM = 'polygon-zkevm',
+  AVALANCHE = 'avalanche',
+  LINEA = 'linea',
+  SCROLL = 'scroll',
+  ZKSYNC = 'zksync',
+  BLAST = 'blast',
 }
 
 export enum NetworkName {

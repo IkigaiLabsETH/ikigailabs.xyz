@@ -64,7 +64,7 @@ export const collectionsApi = createApi({
     }),
     getCollectionsBySetId: builder.query<any, { collectionSetId: string; continuation?: string; network: Network }>({
       query: ({ collectionSetId, continuation, network }) =>
-        `reservoir/${network}/collections/v5?collectionsSetId=${collectionSetId}${
+        `reservoir/${network}/collections/v7?collectionsSetId=${collectionSetId}${
           continuation ? `&continuation=${continuation}` : ''
         }`,
       serializeQueryArgs: ({ queryArgs: { collectionSetId } }) => collectionSetId,
