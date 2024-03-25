@@ -47,7 +47,7 @@
     "thirdweb": "^5.0.0-beta-17cfab0ca85e7edcd0bff03e15f17d9965219039-20240322052556",
     "ts-pattern": "^4.0.5",
     "viem": "^1.0.2",
-    "wagmi": "^0.12.6"
+    "wagmi": "2.5.12"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.4.8",
