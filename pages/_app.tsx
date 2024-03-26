@@ -2,7 +2,7 @@
 import type { AppProps } from 'next/app'
 import { FC, useEffect } from 'react'
 import { Provider } from 'react-redux'
-import { ThirdwebProvider, coinbaseWallet, metamaskWallet, rainbowWallet, walletConnect } from '@thirdweb-dev/react'
+import { ThirdwebProvider, coinbaseWallet, metamaskWallet, rainbowWallet, walletConnect, phantomWallet, embeddedWallet } from '@thirdweb-dev/react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -17,7 +17,6 @@ import { Confetti } from '../modules/Confetti'
 import { Network } from '../common/types'
 import { changeRoute, initialPageLoad } from '../common/app'
 import { URLS } from '../common/config'
-import { getChainIdFromNetwork } from '../common/utils'
 import { TW_SUPPORTED_CHAINS } from '../common/config/chains'
 import { SlideUp } from '../modules/SlideUp'
 import { SLIDEUPS } from '../common/slideup'
@@ -57,7 +56,7 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
           queryClient={queryClient}
           sdkOptions={sdkOptions}
           clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-          supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect()]}
+          supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect(), phantomWallet(), embeddedWallet()]}
           supportedChains={TW_SUPPORTED_CHAINS}
           autoSwitch={true}
           autoConnect={true}
