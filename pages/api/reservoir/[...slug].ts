@@ -27,7 +27,6 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const chainPrefix = endpoint.split('/')[0]
-  console.log(chainPrefix)
   const chain = supportedChains.find(chain => chain.routePrefix === chainPrefix) || defaultChain
   const url = new URL(endpoint.replace(chainPrefix, ''), chain.reservoirBaseUrl)
   setParams(url, query)
