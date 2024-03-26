@@ -13,7 +13,6 @@ export enum Network {
   OPTIMISM = 'optimism',
   POLYGON = 'polygon',
   ARBITRUM = 'arbitrum',
-  ARBITRUM_ONE = 'arbitrum-one',
   ARBITRUM_NOVA = 'arbitrum-nova',
   ARBITRUM_GOERLI = 'arbitrum-goerli',
   MUMBAI = 'mumbai',
