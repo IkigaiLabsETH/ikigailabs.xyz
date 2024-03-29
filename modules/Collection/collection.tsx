@@ -120,7 +120,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
           <button
             onClick={() => setShowFilter(!showFilter)}
             className={clsx(
-              'bg-white text-black border border-black rounded-md p-2 text-sm font-bold ml-8',
+              'bg-white text-black border border-black rounded-md p-2 text-sm font-bold ml-8 lg:hidden',
               showFilter ? 'bg-black text-white' : '',
             )}
           >
