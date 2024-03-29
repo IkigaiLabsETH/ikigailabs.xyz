@@ -56,7 +56,7 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
           queryClient={queryClient}
           sdkOptions={sdkOptions}
           clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-          supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect(), phantomWallet(), embeddedWallet()]}
+          supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect(), phantomWallet()]}
           supportedChains={TW_SUPPORTED_CHAINS}
           autoSwitch={true}
           autoConnect={true}
