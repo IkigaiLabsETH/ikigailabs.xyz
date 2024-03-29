@@ -13,6 +13,7 @@ import {
   Scroll,
   Zksync,
   Blast,
+  BerachainArtio,
 } from '@thirdweb-dev/chains'
 import {
   arbitrum,
@@ -167,4 +168,5 @@ export const TW_SUPPORTED_CHAINS = [
   Scroll,
   Zksync,
   Blast,
+  BerachainArtio,
 ] as any

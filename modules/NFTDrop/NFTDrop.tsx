@@ -77,11 +77,11 @@ export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <h4 className="text-xs uppercase tracking-widest">Total Supply:</h4>
-                <span className="font-bold text-2xl tracking-tight">{totalSupply}</span>
+                <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">{totalSupply}</span>
               </div>
               <div>
                 <h4 className="text-xs uppercase tracking-widest">Claimed:</h4>
-                <span className="font-bold text-2xl tracking-tight">
+                <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">
                   {match(claimedSupplyLoadingState)
                     .with('loading', () => <Loader />)
                     .with('succeeded', () => claimedSupply)
@@ -92,7 +92,7 @@ export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
               </div>
               <div>
                 <h4 className="text-xs uppercase tracking-widest">Unclaimed:</h4>
-                <span className="font-bold text-2xl tracking-tight">
+                <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">
                   {match(unclaimedSupplyLoadingState)
                     .with('loading', () => <Loader />)
                     .with('succeeded', () => unclaimedSupply)
@@ -103,7 +103,7 @@ export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
               </div>
               <div>
                 <h4 className="text-xs uppercase tracking-widest">Owned:</h4>
-                <span className="font-bold text-2xl tracking-tight">
+                <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">
                   {match(ownedTokenIdsLoadingState)
                     .with('loading', () => <Loader />)
                     .with('succeeded', () => ownedTokenAmount)

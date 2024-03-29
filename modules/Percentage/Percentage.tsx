@@ -10,7 +10,7 @@ export const Percentage: FC<PercentageProps> = ({ amount }) => {
   const percentage = Math.abs((1 - amount) * 100).toFixed(2)
 
   return (
-    <span className={`${color} font-bold text-sm`}>
+    <span className={`${color} font-bold`}>
       {arrow} {percentage}%
     </span>
   )

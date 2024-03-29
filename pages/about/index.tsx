@@ -16,7 +16,7 @@ const About: FC = () => (
     </Head>
     <main className="max-w-screen-2xl w-full">
       <div className="flex relative flex-col text-lg my-48 max-w-3xl mx-auto p-8">
-        <h1 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">About</h1>
+        <h1 className="text-[2rem] md:text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska break-words">About</h1>
         <div className="bg-black p-8 mt-8 mb-16 boska md:-translate-x-40">
           <div className="text-[2rem] md:text-[3.5rem] text-white font-bold p-4 mb-2 leading-8 md:leading-10">
             Ikigai Labs XYZ
