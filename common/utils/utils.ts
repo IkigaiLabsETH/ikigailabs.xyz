@@ -42,6 +42,7 @@ import {
   tap,
   assoc,
   keys,
+  chain,
 } from 'ramda'
 import { Network } from '../types'
 
@@ -84,11 +85,16 @@ export const formatNFTMetadata = (metadata: any) =>
 
 export const toggleListItem = curry((value, list) => ifElse(includes(value), without([value]), append(value))(list))
 
+// export const formatAttributes = pipe(
+//   toPairs,
+//   reduce((acc, facet: any) => {
+//     return concat(reduce((acc, value) => concat(`&attributes[${facet[0]}]=${value}`)(acc), '')(facet[1]))(acc)
+//   }, ''),
+// )
+
 export const formatAttributes = pipe(
-  toPairs,
-  reduce((acc, facet: any) => {
-    return concat(reduce((acc, value) => concat(`&attributes[${facet[0]}]=${value}`)(acc), '')(facet[1]))(acc)
-  }, ''),
+  chain(({ key, values }: {key: string, values: string[]}) => map((value: string ) => `&attributes[${encodeURIComponent(key)}]=${encodeURIComponent(value)}`)(values)),
+  join('')
 )
 
 export const addOrReplace = (array: any[], object: {}, prop: string) =>

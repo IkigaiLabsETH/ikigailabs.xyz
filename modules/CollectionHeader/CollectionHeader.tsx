@@ -16,15 +16,15 @@ export const CollectionHeader: FC<CollectionHeaderProps> = ({ children, eyebrow,
   <>
     <div className="flex relative flex-col lg:flex-row-reverse lg:min-h-screen lg:h-min items-stretch collection-header">
       <div
-        className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover sm:max-lg:h-96"
+        className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover h-96 lg:h-auto"
         style={{ backgroundImage: `url(${replaceImageResolution(2000)(coverImage)})` }}
       ></div>
       <div className="w-full lg:w-1/2 p-16 max-w-3xl">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">{name}</h2>
-        <p className="my-8 satoshi text-xl leading-relaxed">
+        <h2 className="text-[2rem] md:text-[4rem] lg:text-[5rem] leading-none font-bold mb-4 tracking-tight boska break-words">{name}</h2>
+        <div className="my-8 satoshi text-sm lg:text-lg leading-relaxed">
           <Markdown>{description}</Markdown>
-        </p>
+        </div>
         {children}
       </div>
     </div>

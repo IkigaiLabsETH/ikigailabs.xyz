@@ -37,7 +37,7 @@ const CollectionsPage: FC = () => {
         <meta name="description" content="Live the life - Collections" />
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
-      <h1 className="text-yellow text-8xl text-left p-8 w-full pt-32 max-w-screen-2xl">Collections</h1>
+      <h1 className="text-yellow text-6xl lg:text-8xl text-left p-8 w-full pt-32 max-w-screen-2xl">Collections</h1>
       <main className="w-full bg-white ">
         <Collections
           collections={data?.collections}

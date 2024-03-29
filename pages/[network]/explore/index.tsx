@@ -144,7 +144,7 @@ const Explore: FC = () => {
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
       <div className="text-left w-full p-8 pt-32 max-w-screen-2xl">
-        <h1 className="text-yellow text-8xl ">Explore</h1>
+        <h1 className="text-yellow text-6xl lg:text-8xl ">Explore</h1>
         <div className="flex items-center">
           <span className="mr-4 text-yellow">on</span>{' '}
           {networkOptions?.length ? (
@@ -153,10 +153,10 @@ const Explore: FC = () => {
         </div>
       </div>
       <main className="w-full bg-white">
-        <div className="flex justify-between max-w-screen-2xl mx-auto">
+        <div className="flex md:justify-between max-w-screen-2xl mx-auto sm:flex-col lg:flex-row flex-wrap">
           <div>
             {collectionSets?.length && has('name')(collectionSets[0]) ? (
-              <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+              <div className="max-w-screen-2xl mx-auto px-8 lg:px-6 mt-8">
                 <Selector
                   options={collectionSets}
                   onChange={value => setCollectionSet(value as CollectionSet)}
@@ -167,7 +167,7 @@ const Explore: FC = () => {
               </div>
             ) : null}
           </div>
-          <div className="mt-8">
+          <div className="mt-8 w-full md:w-auto">
             <GridListToggle active={active} onToggle={setActive} />
           </div>
         </div>
