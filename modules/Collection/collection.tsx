@@ -47,7 +47,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
   const { data: nftData, status } = useAppSelector(
     selectNFTS({
       contract,
-      attributes: selectedAttributes,
+      attributes: formatAttributes(selectedAttributes),
       continuation: '',
       network,
       sortBy: selectedSort.id as string,
@@ -58,10 +58,9 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
   const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity({ contract, network }))
   const { data: attributes } = useAppSelector(selectCollectionAttributes({ contract, network }))
   
-  console.log(attributes?.attributes)
   const { ref } = useInfiniteLoading(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate, {
     contract,
-    attributes: selectedAttributes,
+    attributes: formatAttributes(selectedAttributes),
     continuation: nfts?.continuation,
     network,
     sortBy: selectedSort.id as string,
@@ -85,7 +84,8 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
   }, [nftData, setNfts, status])
 
   const updateFacets = selection => {
-    setSelectedAttributes(formatAttributes(selection))
+    setSelectedAttributes(selection)
+    console.log('selection', selection)
     return dispatch(
       collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
         contract,
@@ -106,7 +106,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
     return dispatch(
       collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
         contract,
-        attributes: selectedAttributes,
+        attributes: formatAttributes(selectedAttributes),
         continuation: nfts?.continuation || '',
         network,
         sortBy: selection.id as string,
