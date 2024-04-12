@@ -1,8 +1,10 @@
 import React, { FC } from 'react'
-import { ConnectWallet } from '@thirdweb-dev/react'
+// import { ConnectWallet } from '@thirdweb-dev/react'
 import { useAppDispatch } from '../../common/redux/store'
 import { changeNetwork } from '../NetworkSelector'
 import { Network } from '../../common/types'
+import { ConnectButton } from 'thirdweb/react'
+import { TWClient } from '../../common/web3/web3'
 
 interface ProfileProps {
   connectLabel?: string
@@ -18,11 +20,12 @@ export const Profile: FC<ProfileProps> = () => {
 
   return (
     <div className="">
-      <ConnectWallet
+      {/* <ConnectWallet
         theme="dark"
         className=" w-full rounded-none font-bold p-2 transition-colors bg-black text-yellow"
         networkSelector={{ onSwitch }}
-      />
+      /> */}
+      <ConnectButton client={TWClient} />
     </div>
   )
 }

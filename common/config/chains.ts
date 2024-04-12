@@ -14,6 +14,7 @@ import {
   Zksync,
   Blast,
   BerachainArtio,
+  BaseSepoliaTestnet,
 } from '@thirdweb-dev/chains'
 import {
   arbitrum,
@@ -144,7 +145,11 @@ export const supportedChains = [
   },
   { ...zora, routePrefix: Network.ZORA, reservoirBaseUrl: 'https://api-zora.reservoir.tools' },
   { ...base, routePrefix: Network.BASE, reservoirBaseUrl: 'https://api-base.reservoir.tools' },
-  { ...arbitrumNova, routePrefix: Network.ARBITRUM_NOVA, reservoirBaseUrl: 'https://api-arbitrum-nova.reservoir.tools' },
+  {
+    ...arbitrumNova,
+    routePrefix: Network.ARBITRUM_NOVA,
+    reservoirBaseUrl: 'https://api-arbitrum-nova.reservoir.tools',
+  },
   { ...polygonZkEvm, routePrefix: Network.ZKEVM, reservoirBaseUrl: 'https://api-polygon-zkevm.reservoir.tools' },
   { ...avalanche, routePrefix: Network.AVALANCHE, reservoirBaseUrl: 'https://api-avalanche.reservoir.tools' },
   { ...linea, routePrefix: Network.LINEA, reservoirBaseUrl: 'https://api-linea.reservoir.tools' },
@@ -159,6 +164,7 @@ export const TW_SUPPORTED_CHAINS = [
   Arbitrum,
   Zora,
   Base,
+  BaseSepoliaTestnet,
   Optimism,
   ArbitrumNova,
   Polygon,

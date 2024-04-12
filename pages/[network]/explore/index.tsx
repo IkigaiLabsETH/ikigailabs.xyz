@@ -62,7 +62,7 @@ const Explore: FC = () => {
         })),
       )(supportedNetworks)
       setNetworkOptions(networkOptions)
-      const selectedNetwork = networkOptions.find(option => (option.id === network))
+      const selectedNetwork = networkOptions.find(option => option.id === network)
 
       if (selectedNetwork) {
         return setSelectedNetworkOption(selectedNetwork)

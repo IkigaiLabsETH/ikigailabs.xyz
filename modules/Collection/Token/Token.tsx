@@ -2,7 +2,6 @@ import { match } from 'ts-pattern'
 import React, { FC, useEffect, useState } from 'react'
 import { __, divide, isEmpty, isNil, map, pathOr, pipe, prop, propOr } from 'ramda'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
-import { useAddress } from '@thirdweb-dev/react'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 
@@ -31,6 +30,7 @@ import { TokenMedia } from '../../TokenMedia'
 import { selectENSByAddress, selectEnsStatus } from '../../../common/ens'
 import { SkeletonLoader } from '../../SkeletonLoader'
 import { Warning } from '../../Warning'
+import { useWallet } from '../../../common/useWallet'
 
 interface TokenProps {
   contract: string
@@ -39,7 +39,7 @@ interface TokenProps {
 }
 
 export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
-  const address = useAddress()
+  const { address } = useWallet()
 
   const { data: tokenActivity, status: tokenActivityStatus } = useAppSelector(
     selectTokenActivity({ contract, tokenId, network }),

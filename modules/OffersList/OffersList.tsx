@@ -18,7 +18,7 @@ interface OffersListProps {
 }
 
 export const OffersList: FC<OffersListProps> = ({ orders, status, onCancel, onAccept, isOwner }) => {
-  const address = useAddress()
+  const { address } = useWallet()
   return (
     <div className="flex flex-col w-full">
       <div className="inline-block min-w-full align-middle">

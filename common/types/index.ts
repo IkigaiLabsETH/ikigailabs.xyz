@@ -18,12 +18,14 @@ export enum Network {
   MUMBAI = 'mumbai',
   ZORA = 'zora',
   BASE = 'base',
+  BASE_SEPOLIA = 'base-sepolia',
   ZKEVM = 'polygon-zkevm',
   AVALANCHE = 'avalanche',
   LINEA = 'linea',
   SCROLL = 'scroll',
   ZKSYNC = 'zksync',
   BLAST = 'blast',
+  BERA = 'berachain',
 }
 
 export enum NetworkName {

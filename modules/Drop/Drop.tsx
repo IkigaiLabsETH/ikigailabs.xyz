@@ -94,7 +94,7 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
               <Amount amount={amountToMint} onMinus={onMinus} onPlus={onPlus} />
             </div>
             <div className="w-3/4 pl-4">
-              <Web3Button
+              {/* <Web3Button
                 contractAddress={contract}
                 action={contract => {
                   return contract.erc721.claim(amountToMint)
@@ -105,7 +105,7 @@ export const Drop: FC<DropProps> = ({ contract, network }) => {
                 className="hover:text-yellow w-full border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow"
               >
                 {totalSupply === localClaimedSupply ? 'Sold out!' : 'Mint Now'}
-              </Web3Button>
+              </Web3Button> */}
             </div>
           </div>
           <div className="flex flex-col w-full mt-1 text-gray-600 border-y border-y-gray-700 py-8 text-sm">

@@ -12,5 +12,5 @@ export const closeModalActions = [changeRoute]
 export const MODALS = {
   [showMintPassDetails.type]: (data: any) => <MintPass {...data} />,
   [showAllowlist.type]: () => <Allowlist />,
-  [mintSuccess.type]: (data: any) => <SuccessfulModal {...data} />,
+  // [mintSuccess.type]: (data: any) => <SuccessfulModal {...data} />,
 }

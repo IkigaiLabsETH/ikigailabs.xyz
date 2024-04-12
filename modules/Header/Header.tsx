@@ -6,13 +6,13 @@ import { Profile } from '../Profile'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Network } from '../../common/types'
-import { useAddress } from '@thirdweb-dev/react'
+import { useWallet } from '../../common/useWallet'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
   const { pathname, query } = useRouter()
   const network = query.network ? query.network : Network.MAINNET
-  const address = useAddress()
+  const { address } = useWallet()
 
   useEffect(() => {
     setExpanded(false)

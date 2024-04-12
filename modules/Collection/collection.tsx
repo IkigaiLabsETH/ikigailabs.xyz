@@ -52,12 +52,12 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
       network,
       sortBy: selectedSort.id as string,
     }),
-    )
-    
+  )
+
   const { data: collection, status: collectionDataStatus } = useAppSelector(selectCollection({ contract, network }))
   const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity({ contract, network }))
   const { data: attributes } = useAppSelector(selectCollectionAttributes({ contract, network }))
-  
+
   const { ref } = useInfiniteLoading(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate, {
     contract,
     attributes: formatAttributes(selectedAttributes),
@@ -85,7 +85,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
 
   const updateFacets = selection => {
     setSelectedAttributes(selection)
-    console.log('selection', selection)
+
     return dispatch(
       collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
         contract,
@@ -117,18 +117,18 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
   const nftsDisplay = (
     <div className="flex flex-col">
       <div className="w-full justify-between lg:justify-end flex flex-row mb-6 pr-8">
-          <button
-            onClick={() => setShowFilter(!showFilter)}
-            className={clsx(
-              'bg-white text-black border border-black rounded-md p-2 text-sm font-bold ml-8 lg:hidden',
-              showFilter ? 'bg-black text-white' : '',
-            )}
-          >
-            Filters
-          </button>
+        <button
+          onClick={() => setShowFilter(!showFilter)}
+          className={clsx(
+            'bg-white text-black border border-black rounded-md p-2 text-sm font-bold ml-8 lg:hidden',
+            showFilter ? 'bg-black text-white' : '',
+          )}
+        >
+          Filters
+        </button>
         <Selector options={COLLECTION_SORTING_OPTIONS} onChange={updateSort} selected={selectedSort} />
       </div>
-      <div className="flex flex-row">   
+      <div className="flex flex-row">
         <Transition.Root show={showFilter} as={Fragment}>
           <Dialog as="div" className="relative z-10" onClose={setShowFilter}>
             <div className="fixed inset-0">
@@ -144,9 +144,18 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
                     leaveTo="-translate-x-full"
                   >
                     <Dialog.Panel className="w-screen max-w-md">
-                      <div className='bg-white p-6 pt-16 text-black overflow-scroll' style={{ maxHeight: '100vh' }}>
-                        <div className='pb-6 font-bold text-xl w-full flex justify-between'>Filters <div><button onClick={() => setShowFilter(false)}>&times;</button></div></div>
-                        <Facets facets={attributes?.attributes} onUpdateFacets={updateFacets} selected={selectedAttributes}/>
+                      <div className="bg-white p-6 pt-16 text-black overflow-scroll" style={{ maxHeight: '100vh' }}>
+                        <div className="pb-6 font-bold text-xl w-full flex justify-between">
+                          Filters{' '}
+                          <div>
+                            <button onClick={() => setShowFilter(false)}>&times;</button>
+                          </div>
+                        </div>
+                        <Facets
+                          facets={attributes?.attributes}
+                          onUpdateFacets={updateFacets}
+                          selected={selectedAttributes}
+                        />
                       </div>
                     </Dialog.Panel>
                   </Transition.Child>
@@ -156,8 +165,12 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
           </Dialog>
         </Transition.Root>
 
-        <div className='hidden lg:block lg:w-1/5'>
-          {attributes ? <Facets facets={attributes?.attributes} onUpdateFacets={updateFacets} selected={selectedAttributes}/> : <></>}
+        <div className="hidden lg:block lg:w-1/5">
+          {attributes ? (
+            <Facets facets={attributes?.attributes} onUpdateFacets={updateFacets} selected={selectedAttributes} />
+          ) : (
+            <></>
+          )}
         </div>
         <div className="w-full lg:w-4/5">
           {nfts?.tokens.length ? <NFTGrid nfts={nfts.tokens} network={network} /> : <div>No results found</div>}

@@ -93,8 +93,10 @@ export const toggleListItem = curry((value, list) => ifElse(includes(value), wit
 // )
 
 export const formatAttributes = pipe(
-  chain(({ key, values }: {key: string, values: string[]}) => map((value: string ) => `&attributes[${encodeURIComponent(key)}]=${encodeURIComponent(value)}`)(values)),
-  join('')
+  chain(({ key, values }: { key: string; values: string[] }) =>
+    map((value: string) => `&attributes[${encodeURIComponent(key)}]=${encodeURIComponent(value)}`)(values),
+  ),
+  join(''),
 )
 
 export const addOrReplace = (array: any[], object: {}, prop: string) =>
@@ -126,6 +128,14 @@ export const getChainIdFromNetwork = (network: Network) => {
   let capitalizedChain = capitalize(network)
   if (capitalizedChain === 'Ethereum') {
     capitalizedChain = 'Mainnet'
+  }
+
+  if (capitalizedChain === 'Berachain') {
+    return 80085
+  }
+  
+  if (capitalizedChain === 'Base-sepolia') {
+    return 84532
   }
 
   return ChainId[capitalizedChain]

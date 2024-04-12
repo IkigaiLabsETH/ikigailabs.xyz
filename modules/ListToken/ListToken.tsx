@@ -24,7 +24,7 @@ interface ListTokenProps {
 
 export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, image, name }) => {
   const [eth, setEth] = useState<string>('0')
-  const address = useAddress()
+  const { address } = useWallet()
   const dispatch = useAppDispatch()
   const { status: tokenInteractionStatus, data } = useAppSelector(selectCollectionTokenInteractionStatus)
   const [expiration, setExpiration] = useState<Date>(addMonths(1)(new Date()))

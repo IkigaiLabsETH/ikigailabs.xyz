@@ -1,3 +1,4 @@
+import { defineChain } from 'thirdweb'
 import { Network, Option } from '../types'
 
 export const COLLECTION_METADATA_FIELDS = ['name', 'description', 'image']
@@ -71,3 +72,21 @@ export const EXPIRATION_DEFAULTS = [
     id: '15552000',
   },
 ]
+
+export const customChains = {
+  [Network.BERA]: defineChain({
+    id: 80085,
+    name: 'Berachain',
+    nativeCurrency: {
+      name: 'BERA',
+      symbol: 'BERA',
+      decimals: 18,
+    },
+    blockExplorers: [
+      {
+        name: 'Beratrail',
+        url: 'https://artio.beratrail.io',
+      },
+    ],
+  }),
+}

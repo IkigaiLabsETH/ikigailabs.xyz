@@ -14,16 +14,12 @@ interface FacetProps {
 }
 
 export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets, selected }) => {
-  const [selection, setSelection] = useState<{key: string, values: string[]}[]>(selected)
+  const [selection, setSelection] = useState<{ key: string; values: string[] }[]>(selected)
 
   const updateSelection = (key: string, value: string) => {
     const index = findIndex(propEq('key', key))(selection)
     if (!equals(index, -1)) {
-      setSelection(adjust(
-        index,
-        obj => assoc('values', toggleListItem(value)(obj.values), obj),
-        selection,
-      ))
+      setSelection(adjust(index, obj => assoc('values', toggleListItem(value)(obj.values), obj), selection))
     } else {
       setSelection(append({ key, values: [value] })(selection))
     }
@@ -32,7 +28,7 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets, selected }) => 
   useEffect(() => {
     onUpdateFacets(selection)
   }, [selection])
- 
+
   return (
     <ul className="flex flex-col">
       {map(({ key, values }: IFacet) => {
@@ -49,7 +45,7 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets, selected }) => 
                   >
                     {value} &times;
                   </li>
-                ))(pipe(find(propEq('key', key)), prop('values'))(selection) as any || [])}
+                ))((pipe(find(propEq('key', key)), prop('values'))(selection) as any) || [])}
               </ul>
               <div className="relative mt-2">
                 <Combobox.Input
