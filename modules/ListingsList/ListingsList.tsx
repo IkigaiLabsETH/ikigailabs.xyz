@@ -18,7 +18,7 @@ interface ListingsListProps {
 }
 
 export const ListingsList: FC<ListingsListProps> = ({ orders, status, onCancel, onBuy }) => {
-  const address = useAddress()
+  const { address } = useWallet()
 
   return (
     <div className="flex flex-col w-full">

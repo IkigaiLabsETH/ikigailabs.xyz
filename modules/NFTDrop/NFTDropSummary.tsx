@@ -17,15 +17,15 @@ export const NFTDropSummary: FC<NFTDropSummaryProps> = ({ address, metadata: { n
     ></div>
     <div className="w-full lg:w-1/2 p-16">
       <Eyebrow>Exclusive</Eyebrow>
-      <h2 className="text-[2rem] md:text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska break-words">{name}</h2>
+      <h2 className="text-[2rem] md:text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska break-words">
+        {name}
+      </h2>
       <div className="my-8 satoshi text-xl leading-relaxed">{description}</div>
-      {
-        <div className="flex flex-row w-full mt-16">
-          <Link href={`drop/${address}`} title="Visit drop">
-            Visit Drop &rarr;
-          </Link>
-        </div>
-      }
+      <div className="flex flex-row w-full mt-16">
+        <Link href={`drop/${address}`} title="Visit drop">
+          Visit Drop &rarr;
+        </Link>
+      </div>
     </div>
   </div>
 )

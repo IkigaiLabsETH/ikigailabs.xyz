@@ -11,6 +11,7 @@ import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
 import { FreeMint } from '../modules/FreeMint'
 import { MintPasses } from '../modules/MintPasses'
+import { Featured } from '../modules/Featured'
 // import { selectedNetwork } from '../modules/NetworkSelector'
 // import { useAppSelector } from '../common/redux/store'
 // import { MintPasses } from '../modules/MintPasses'
@@ -43,14 +44,14 @@ const Home: FC = () => {
               Get on the allowlist!
             </Button>
           </div> */}
-          <div className="mt-10 text-lg justify-center flex items-center">
+          {/* <div className="mt-10 text-lg justify-center flex items-center">
             <Button href="https://www.premint.xyz/ikigailabs/" target="_blank">
               Get on allowlist
             </Button>
-          </div>
+          </div> */}
         </div>
         <div className="pb-10 flex justify-center items-center flex-col">
-          <Eyebrow>Free mint</Eyebrow>
+          {/* <Eyebrow>Free mint</Eyebrow> */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -64,6 +65,7 @@ const Home: FC = () => {
         </div>
       </header>
       <main className="w-full">
+        <Featured />
         <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} />
         <MintPasses contracts={MINT_PASSES} />
         {/* <BurnToMint

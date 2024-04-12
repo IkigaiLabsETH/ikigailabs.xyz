@@ -4,6 +4,7 @@ import { isExtensionEnabled, detectFeatures } from '@thirdweb-dev/sdk'
 
 import { getTWClient } from '../../../common/web3'
 import { Network } from '../../../common/types'
+import { BigNumber } from 'ethers'
 
 const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { contract, network, type } = req.query
@@ -20,12 +21,11 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const client = getTWClient(network as Network)
-
     const clientContract = await client.getContract(...args)
     const result = {} as any
 
     const metadataPromise = clientContract.metadata.get()
-
+    
     if (isExtensionEnabled(clientContract.abi, 'ERC721', detectFeatures(clientContract.abi))) {
       const claimedSupplyPromise = clientContract.erc721.totalClaimedSupply()
       const unclaimedSupplyPromise = clientContract.erc721.totalUnclaimedSupply()

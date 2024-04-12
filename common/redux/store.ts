@@ -44,6 +44,7 @@ import { closeSlideUpMiddleware, openSlideUpMiddleware, slideUpReducer } from '.
 import { closeSlideUpActions, openSlideUpActions } from '../slideup'
 import { tokenFetchCompleteMiddleware } from '../../modules/Collection/Token'
 import { ensReducer } from '../ens'
+import { transactionFailed, transactionSent } from '../transaction'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -71,6 +72,8 @@ const notifications = {
   'allowlistApi/executeMutation/fulfilled': 'You have successfully signed up',
   'allowlistApi/executeMutation/rejected': 'Failed to sign up',
   [mintSuccess.type]: 'You have successfully minted your token',
+  [transactionSent.type]: 'Transaction sent',
+  [transactionFailed.type]: 'Transaction failed',
 }
 
 startAppListening(collectionTokenMiddleware)
@@ -94,6 +97,8 @@ startAppListening(
     signUp.matchFulfilled,
     signUp.matchRejected,
     mintSuccess,
+    transactionSent,
+    transactionFailed,
   ]),
 )
 startAppListening(walletMiddleware([changeNetwork] as any))

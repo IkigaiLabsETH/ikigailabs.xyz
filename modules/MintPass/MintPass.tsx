@@ -14,7 +14,7 @@ interface MintPassProps {
 export const MintPass: FC<MintPassProps> = ({ pass }) => {
   const { name, image, description, contract, tokenId } = useAppSelector(selectToken(pass))
   const dispatch = useAppDispatch()
-  const address = useAddress()
+  const { address } = useWallet()
   const network = useAppSelector(selectedNetwork)
 
   const claimPass = () => {

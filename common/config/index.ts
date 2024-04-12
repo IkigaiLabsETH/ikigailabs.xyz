@@ -68,6 +68,13 @@ export const URLS = {
     explorer: 'https://basescan.org',
     openzeppelin: '',
   },
+  [Network.BASE_SEPOLIA]: {
+    reservoir: 'https://api-base-sepolia.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://basescan.org',
+    openzeppelin: '',
+  },
   [Network.ZKEVM]: {
     reservoir: 'https://api-polygon-zkevm.reservoir.tools',
     tw: '',
@@ -94,6 +101,13 @@ export const URLS = {
     tw: '',
     alchemy: '',
     explorer: 'https://scrollscan.com',
+    openzeppelin: '',
+  },
+  [Network.BERA]: {
+    reservoir: '',
+    tw: '',
+    alchemy: '',
+    explorer: '',
     openzeppelin: '',
   },
 }

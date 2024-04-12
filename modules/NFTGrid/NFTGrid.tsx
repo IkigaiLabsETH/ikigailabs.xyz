@@ -27,9 +27,7 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
           key={`${contract}-${tokenId}`}
           className="max-w-1/2 font-bold justify-end self-end hover:text-black"
         >
-          <div
-            className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
-          >
+          <div className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <div className="overflow-clip">
               {image && (
                 <Image

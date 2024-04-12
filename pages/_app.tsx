@@ -2,7 +2,14 @@
 import type { AppProps } from 'next/app'
 import { FC, useEffect } from 'react'
 import { Provider } from 'react-redux'
-import { ThirdwebProvider, coinbaseWallet, metamaskWallet, rainbowWallet, walletConnect, phantomWallet, embeddedWallet } from '@thirdweb-dev/react'
+// import {
+//   ThirdwebProvider,
+//   coinbaseWallet,
+//   metamaskWallet,
+//   rainbowWallet,
+//   walletConnect,
+//   phantomWallet,
+// } from '@thirdweb-dev/react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -20,6 +27,7 @@ import { URLS } from '../common/config'
 import { TW_SUPPORTED_CHAINS } from '../common/config/chains'
 import { SlideUp } from '../modules/SlideUp'
 import { SLIDEUPS } from '../common/slideup'
+import { ThirdwebProvider } from 'thirdweb/react'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter()
@@ -50,35 +58,34 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
 
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <ThirdwebProvider
-          activeChain={network}
-          queryClient={queryClient}
-          sdkOptions={sdkOptions}
-          clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-          supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect(), phantomWallet()]}
-          supportedChains={TW_SUPPORTED_CHAINS}
-          autoSwitch={true}
-          autoConnect={true}
-        >
-          <Component {...pageProps} />
-          <Modal modals={MODALS} />
-          <SlideUp slideUps={SLIDEUPS} />
-          <ToastContainer
-            position="bottom-center"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-          <Confetti />
-        </ThirdwebProvider>
-      </QueryClientProvider>
+      {/* <QueryClientProvider client={queryClient}> */}
+      <ThirdwebProvider
+      // activeChain={network}
+      // sdkOptions={sdkOptions}
+      // clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
+      // supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect(), phantomWallet()]}
+      // supportedChains={TW_SUPPORTED_CHAINS}
+      // autoSwitch={true}
+      // autoConnect={true}
+      >
+        <Component {...pageProps} />
+        <Modal modals={MODALS} />
+        <SlideUp slideUps={SLIDEUPS} />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <Confetti />
+      </ThirdwebProvider>
+      {/* </QueryClientProvider> */}
     </Provider>
   )
 }

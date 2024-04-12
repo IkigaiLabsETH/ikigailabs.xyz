@@ -33,7 +33,7 @@ interface NFTDropProps {
 export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
   // const { getAllNFTsFromNFTDrop, getNFTDrop } = useWeb3()
-  const address = useAddress()
+  const { address } = useWallet()
 
   const nfts = useAppSelector(selectNfts) as any[]
   const nftsLoadingState = useAppSelector(selectNftsLoadingState)

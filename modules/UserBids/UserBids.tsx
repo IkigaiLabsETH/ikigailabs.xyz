@@ -15,7 +15,7 @@ interface UserBidsProps {
 
 export const UserBids: FC<UserBidsProps> = ({ bids, network }) => {
   const dispatch = useAppDispatch()
-  const address = useAddress()
+  const { address } = useWallet()
 
   const onCancelBid = (id: string) => {
     dispatch(cancelOrder({ id, address, network }))

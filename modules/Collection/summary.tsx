@@ -17,7 +17,9 @@ export const CollectionSummary: FC<CollectionSummaryProps> = ({ address, metadat
     ></div>
     <div className="w-full lg:w-1/2 p-16 max-w-3xl">
       <Eyebrow>Exclusive</Eyebrow>
-      <h2 className="text-[2rem] md:text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska break-words">{name}</h2>
+      <h2 className="text-[2rem] md:text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska break-words">
+        {name}
+      </h2>
       <div className="my-8 satoshi text-lg lg:text-xl leading-relaxed">
         <Markdown>{description}</Markdown>
       </div>

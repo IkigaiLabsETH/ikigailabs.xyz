@@ -16,7 +16,7 @@ interface UserAsksProps {
 
 export const UserAsks: FC<UserAsksProps> = ({ asks, network }) => {
   const dispatch = useAppDispatch()
-  const address = useAddress()
+  const { address } = useWallet()
 
   const onCancelListing = (id: string) => {
     dispatch(cancelOrder({ id, address, network }))

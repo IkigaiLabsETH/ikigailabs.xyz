@@ -17,7 +17,7 @@ interface CollectionsListProps {
 export const CollectionsList: FC<CollectionsListProps> = ({ collections, network, isLoading }) => {
   return (
     <>
-      <div className='hidden lg:block'>
+      <div className="hidden lg:block">
         <Table>
           <THead>
             <Row>
@@ -92,50 +92,51 @@ export const CollectionsList: FC<CollectionsListProps> = ({ collections, network
           </Body>
         </Table>
       </div>
-      <div className='block lg:hidden'>
-        <div className='grid grid-rows-1 gap-0 mb-6'>
-        {map((collection: any) => (
-            <div className='flex border-b-2 border-b-black flex-row'>
-              <div className='flex items-center mr-6'>
+      <div className="block lg:hidden">
+        <div className="grid grid-rows-1 gap-0 mb-6">
+          {map((collection: any) => (
+            <div className="flex border-b-2 border-b-black flex-row">
+              <div className="flex items-center mr-6">
                 {collection?.image ? (
-                  <Image
-                    src={collection?.image}
-                    alt={collection?.name}
-                    className="h-12 w-12"
-                    width="48"
-                    height="48"
-                  />
+                  <Image src={collection?.image} alt={collection?.name} className="h-12 w-12" width="48" height="48" />
                 ) : null}
               </div>
-              <div className='w-full'>
+              <div className="w-full">
                 <Link href={`/${network}/${collection?.id}`} title={collection?.name}>
-                  <div className='font-bold text-lg mb-1 pb-1'>{collection?.name} <span className='text-xs font-normal p-1 bg-gray-100 rounded-lg'>{collection?.tokenCount}</span></div>
-                  <div className='grid grid-cols-2 gap-2 p-2 w-full'>
-                    <div className=''>
+                  <div className="font-bold text-lg mb-1 pb-1">
+                    {collection?.name}{' '}
+                    <span className="text-xs font-normal p-1 bg-gray-100 rounded-lg">{collection?.tokenCount}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 p-2 w-full">
+                    <div className="">
                       <span className="font-bold text-xs">
                         <Eth amount={collection?.volume['1day']} />
                       </span>{' '}
-                      <span className='text-[10px]'><Percentage amount={collection?.volumeChange['1day']} /></span>
+                      <span className="text-[10px]">
+                        <Percentage amount={collection?.volumeChange['1day']} />
+                      </span>
                     </div>
-                    <div className=''>
+                    <div className="">
                       <span className="font-bold text-xs">
                         <Eth amount={collection?.floorSale['1day']} />
                       </span>{' '}
-                      <span className='text-[10px]'><Percentage amount={collection?.floorSaleChange['1day']} /></span>
+                      <span className="text-[10px]">
+                        <Percentage amount={collection?.floorSaleChange['1day']} />
+                      </span>
                     </div>
                   </div>
                 </Link>
               </div>
             </div>
           ))(collections || [])}
-        {isLoading
-          ? times((iterator: number) => (
-                <div key={iterator} className='p-1 pb-2'>
-                  <SkeletonLoader style="light" height='h-16'/>
+          {isLoading
+            ? times((iterator: number) => (
+                <div key={iterator} className="p-1 pb-2">
+                  <SkeletonLoader style="light" height="h-16" />
                 </div>
-            ))(5)
-          : null }
-          </div>
+              ))(5)
+            : null}
+        </div>
       </div>
     </>
   )

@@ -1,64 +1,125 @@
 import { match } from 'ts-pattern'
-import React, { FC, useEffect } from 'react'
-import { map } from 'ramda'
-import Markdown from 'react-markdown'
+import React, { FC, useEffect, useState } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
 import { getDropTokenByContractAndTokenId, selectToken } from '../drop.api'
 import { ContractType, Network } from '../../../common/types'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
+import { Eyebrow } from '../../Eyebrow'
+import { TransactionButton } from 'thirdweb/react'
+import { Chain, getContract } from 'thirdweb'
+import { claimTo } from 'thirdweb/extensions/erc1155'
+import { useWallet } from '../../../common/useWallet'
+import { TWClient } from '../../../common/web3/web3'
+import { mintSuccess } from '../drop.actions'
+import { transactionFailed, transactionSent } from '../../../common/transaction'
 
 interface NFTProps {
-  contract: string
+  contractAddress: string
   tokenId: string
-  network: Network
+  chain?: Chain
+  network?: Network
   type?: ContractType
 }
 
-export const NFT: FC<NFTProps> = ({ contract, tokenId, network, type }) => {
-  const { data: token, status } = useAppSelector(selectToken({ contract, tokenId, network, type })) as any
+export const NFT: FC<NFTProps> = ({ contractAddress, tokenId, network, type, chain }) => {
+  const { data: token, status } = useAppSelector(
+    selectToken({ contract: contractAddress, tokenId, network, type }),
+  ) as any
   const dispatch = useAppDispatch()
+  const { address } = useWallet()
+  const [contract, setContract] = useState<any>(null)
+  const [quantity, setQuantity] = useState(1)
 
   useEffect(() => {
     if (!token) {
-      dispatch(getDropTokenByContractAndTokenId.initiate({ contract, tokenId, network, type }))
+      dispatch(getDropTokenByContractAndTokenId.initiate({ contract: contractAddress, tokenId, network, type }))
     }
-  }, [contract, tokenId, network, dispatch, token, type])
+  }, [contractAddress, tokenId, network, dispatch, token, type])
+
+  useEffect(() => {
+    if (contractAddress) {
+      const c = getContract({
+        client: TWClient,
+        chain,
+        address: contractAddress,
+      })
+      setContract(c)
+    }
+  }, [contractAddress, chain])
+
+  const onPlus = () => {
+    // if (quantity >= pathOr(1, ['claimConditions', 0, 'maxClaimablePerWallet'])(data)) return
+    setQuantity(quantity + 1)
+  }
+
+  const onMinus = () => {
+    if (quantity <= 1) return
+    setQuantity(quantity - 1)
+  }
 
   const loader = (
     <div className="flex w-screen h-screen justify-center items-center bg-yellow">
       <Loader />
     </div>
   )
-
   const component = () => {
-    const { image, name, description, attributes } = token
+    const {
+      metadata: { image, name, description },
+      supply,
+    } = token
     return (
-      <div className="w-full bg-yellow flex items-center flex-col">
-        <img src={image} title={name as string} className="w-full" alt={name as string} />
-        <div className="p-16 max-w-screen-2xl w-full">
-          <h1 className="boska text-[4rem] lg:text-[8rem] text-black mt-16 mb-8 lg:mb-16">{name}</h1>
-          <div className="flex bg-yellow text-black">
-            <div className="w-2/3">
-              <div className="text-2xl text-black pr-16 mb-16">
-                <Markdown>{description}</Markdown>
+      <div className="flex relative flex-col lg:flex-row-reverse lg:min-h-screen lg:h-min items-stretch border-t-gray-800 border-t border-b border-b-black">
+        <div
+          className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover h-96 lg:h-auto"
+          style={{ backgroundImage: `url(${image})` }}
+        ></div>
+        <div className="w-full lg:w-1/2 p-16 max-w-[798px] pt-32">
+          <Eyebrow>Free Edition</Eyebrow>
+          <h2 className="text-[2rem] md:text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska break-words">
+            {name}
+          </h2>
+          <div className="my-8 satoshi text-xl leading-relaxed">{description}</div>
+          {contract && (
+            <div>
+              <div className="grid grid-cols-2 lg:grid-cols-2 gap-4 w-full border-y border-y-gray-700 py-8">
+                <div>
+                  <h4 className="text-xs uppercase tracking-widest m-0 grey">Claimed:</h4>
+                  <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">
+                    <div className="flex flex-row justify-left items-center">{supply}</div>
+                  </span>
+                </div>
+                <div>
+                  <h4 className="text-xs uppercase tracking-widest m-0 grey">Price:</h4>
+                  <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">
+                    <div className="flex flex-row justify-left items-center">Free</div>
+                  </span>
+                </div>
               </div>
-              {attributes && (
-                <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mr-8">
-                  {map((attribute: { trait_type: string; value: string }) => (
-                    <li
-                      key={attribute.value}
-                      className="border-2 border-black bg-white shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-4"
-                    >
-                      <div className="font-bold">{attribute.trait_type}</div>
-                      <div>{attribute.value}</div>
-                    </li>
-                  ))(attributes as [])}
-                </ul>
-              )}
+              <div className="grid grid-cols-3 justify-center items-center mt-10">
+                <TransactionButton
+                  className="!bg-yellow !text-black !w-full !border-black shadow-[5px_5px_0px_0px_rgba(234,179,8,1)] hover:shadow-[6px_6px_0px_0px_rgba(234,179,8,1)] !transition-all !epilogue !text-xl hover:cursor-pointer"
+                  style={{ padding: '0.75rem', border: '2px solid yellow', borderRadius: '0' }}
+                  transaction={() => claimTo({
+                      contract,
+                      to: address,
+                      quantity: BigInt(1),
+                      tokenId: BigInt(0),
+                    })
+                  }
+                  onTransactionSent={({ transactionHash }) => dispatch(transactionSent(transactionHash))}
+                  onTransactionConfirmed={({ transactionHash }) => {
+                    dispatch(mintSuccess({ tokenId, network: Network.BASE, transactionHash }))
+                    dispatch(getDropTokenByContractAndTokenId.initiate({ contract: contractAddress, tokenId, network, type }))
+                  }}
+                  onError={error => {dispatch(transactionFailed(error))}}
+                >
+                  Claim
+                </TransactionButton>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     )

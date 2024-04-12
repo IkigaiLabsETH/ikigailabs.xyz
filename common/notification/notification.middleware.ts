@@ -1,5 +1,5 @@
 import { isAnyOf, isFulfilled, isRejected, PayloadAction } from '@reduxjs/toolkit'
-import { join, path, pipe, pluck, values } from 'ramda'
+import { includes, join, path, pipe, pluck, values } from 'ramda'
 import { toast } from 'react-toastify'
 
 export const middleware = (notifications: Record<string, string>) => (actionCreators: any[]) => ({
@@ -31,6 +31,12 @@ export const middleware = (notifications: Record<string, string>) => (actionCrea
       toast.success(notifications[action.type])
       return
     }
+
+    if (includes('failed')(action.type)) {
+      return toast.error(action.payload.message)
+    }
+
+    
 
     toast.info(notifications[action.type])
     return
