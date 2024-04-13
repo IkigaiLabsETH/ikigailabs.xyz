@@ -1,7 +1,6 @@
 import { add, pathOr, propOr } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
-import { Web3Button } from '@thirdweb-dev/react'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { TransactionResultWithId, TWNFT, CurrencyChain, DropTypeStandards, Network } from '../../common/types'

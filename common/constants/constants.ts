@@ -1,4 +1,15 @@
 import { defineChain } from 'thirdweb'
+import {
+  ethereum,
+  optimism,
+  polygon,
+  arbitrum,
+  arbitrumNova,
+  zora,
+  base,
+  baseSepolia,
+  avalanche,
+} from 'thirdweb/chains'
 import { Network, Option } from '../types'
 
 export const COLLECTION_METADATA_FIELDS = ['name', 'description', 'image']
@@ -89,4 +100,89 @@ export const customChains = {
       },
     ],
   }),
+  [Network.LINEA]: defineChain({
+    id: 59144,
+    name: 'Linea',
+    nativeCurrency: {
+      name: 'Linea Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorers: [
+      {
+        name: 'Lineascan',
+        url: 'https://lineascan.build',
+      },
+      {
+        name: 'Blockscout',
+        url: 'https://explorer.linea.build',
+      },
+      {
+        name: 'L2scan',
+        url: 'https://linea.l2scan.co',
+      },
+    ],
+  }),
+  [Network.SCROLL]: defineChain({
+    id: 59145,
+    name: 'Scroll',
+    nativeCurrency: {
+      name: 'Scroll Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorers: [
+      {
+        name: 'Scrollscan',
+        url: 'https://scrollscan.build',
+      },
+    ],
+  }),
+  [Network.ZKSYNC]: defineChain({
+    id: 324,
+    name: 'ZkSync',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorers: [
+      {
+        name: 'zkSync Era Block Explorer',
+        url: 'https://explorer.zksync.io',
+      },
+    ],
+  }),
+  [Network.BLAST]: defineChain({
+    id: 59146,
+    name: 'Blast',
+    nativeCurrency: {
+      name: 'Blast Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorers: [
+      {
+        name: 'Blastscan',
+        url: 'https://blastscan.build',
+      },
+    ],
+  }),
+}
+
+export const CHAINS = {
+  [Network.MAINNET]: ethereum,
+  [Network.OPTIMISM]: optimism,
+  [Network.POLYGON]: polygon,
+  [Network.ARBITRUM]: arbitrum,
+  [Network.ARBITRUM_NOVA]: arbitrumNova,
+  [Network.ZORA]: zora,
+  [Network.BASE]: base,
+  [Network.BASE_SEPOLIA]: baseSepolia,
+  [Network.AVALANCHE]: avalanche,
+  [Network.LINEA]: customChains[Network.LINEA],
+  // [Network.SCROLL]: customChains[Network.SCROLL],
+  [Network.ZKSYNC]: customChains[Network.ZKSYNC],
+  // [Network.BLAST]: customChains[Network.BLAST],
+  [Network.BERA]: customChains[Network.BERA],
 }

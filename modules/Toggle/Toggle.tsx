@@ -7,13 +7,21 @@ function classNames(...classes) {
 
 interface ToggleProps {
   label: string
-  description: string
+  description?: string
   onToggle: (enabled: boolean) => void
   disabled?: boolean
   initialState?: boolean
+  size?: 'sm' | 'lg'
 }
 
-export const Toggle: FC<ToggleProps> = ({ label, description, onToggle, disabled, initialState = false }) => {
+export const Toggle: FC<ToggleProps> = ({
+  label,
+  description,
+  onToggle,
+  disabled,
+  initialState = false,
+  size = 'lg',
+}) => {
   const [enabled, setEnabled] = useState(initialState)
 
   const onChange = (enabled: boolean) => {
@@ -28,7 +36,7 @@ export const Toggle: FC<ToggleProps> = ({ label, description, onToggle, disabled
   return (
     <Switch.Group as="div" className="flex items-center justify-between mb-2">
       <span className="flex flex-grow flex-col w-full">
-        <Switch.Label as="span" className="text-lg font-bold leading-6 text-gray-900 " passive>
+        <Switch.Label as="span" className="" passive>
           {label}
         </Switch.Label>
         {description && (
@@ -42,16 +50,18 @@ export const Toggle: FC<ToggleProps> = ({ label, description, onToggle, disabled
         onChange={onChange}
         className={classNames(
           enabled && !disabled ? 'bg-yellow' : disabled ? 'bg-yellow' : 'bg-gray-200',
+          size === 'sm' ? 'h-5 w-9' : 'h-6 w-11',
           disabled ? 'cursor-not-allowed' : 'cursor-pointer',
           !disabled ? 'focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2' : '',
-          'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ',
+          'relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out',
         )}
       >
         <span
           aria-hidden="true"
           className={classNames(
             enabled ? 'translate-x-5' : 'translate-x-0',
-            'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+            size === 'sm' ? 'h-3.5 w-3.5 mt-px' : 'h-5 w-5',
+            'pointer-events-none inline-block  transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
           )}
         />
       </Switch>

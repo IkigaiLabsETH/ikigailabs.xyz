@@ -78,7 +78,7 @@ export const ActivityDashboard: FC = ({}) => {
               <div className="w-5/6">
                 {!isNil(activity?.activities) && !isEmpty(activity?.activities) && (
                   <div className="mr-8">
-                    <Activity activity={activity?.activities} showPrice={false} />
+                    {/* <Activity activity={activity?.activities} showPrice={false} /> */}
                   </div>
                 )}
                 {activityStatus !== QueryStatus.pending && isEmpty(activity?.activities) && (

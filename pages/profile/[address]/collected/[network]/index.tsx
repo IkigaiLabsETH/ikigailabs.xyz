@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 import React, { FC, useEffect } from 'react'
 import Head from 'next/head'
 import { isEmpty, isNil } from 'ramda'
-import { useAddress } from '@thirdweb-dev/react'
 
 import { useAppDispatch, useAppSelector } from '../../../../../common/redux/store'
 import { userApi, selectCollectedTokens } from '../../../../../modules/User'

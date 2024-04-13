@@ -1,8 +1,7 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { addMonths, addSeconds } from 'date-fns/fp'
 import Image from 'next/image'
 import Flatpickr from 'react-flatpickr'
-import { useAddress } from '@thirdweb-dev/react'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { listToken, selectCollectionTokenInteractionStatus } from '../Collection/Token/token.slice'
@@ -13,6 +12,7 @@ import { TextField } from '../Form'
 import { ReservoirActionButton } from '../ReservoirActionButton/ReservoirActionButton'
 import { Listbox } from '../Listbox'
 import { Toggle } from '../Toggle'
+import { useWallet } from '../../common/useWallet'
 
 interface ListTokenProps {
   contract: string

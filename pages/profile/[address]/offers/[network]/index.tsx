@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import Head from 'next/head'
 import { isEmpty, isNil } from 'ramda'
-import { useAddress } from '@thirdweb-dev/react'
 
 import { userApi } from '../../../../../modules/User'
 import { useAppDispatch, useAppSelector } from '../../../../../common/redux/store'

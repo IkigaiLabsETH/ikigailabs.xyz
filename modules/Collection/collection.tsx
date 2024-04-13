@@ -189,7 +189,8 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
     <div className="w-full flex justify-center">
       {match(activityStatus)
         .with(QueryStatus.pending, () => <Loader />)
-        .with(QueryStatus.fulfilled, () => <Activity activity={activity.activities} />)
+        .with(QueryStatus.fulfilled, () => <></>)
+
         .otherwise(() => null)}
     </div>
   )

@@ -14,14 +14,14 @@ import { selectedNetwork } from '../NetworkSelector'
 interface BurnToMintProps {
   sourceContract: string
   targets: {
-    tokenId: number
+    tokenId: string
     targetContract: string
   }[]
 }
 
 export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => {
   const dispatch = useAppDispatch()
-  const { address, connect } = useWallet()
+  const { address } = useWallet()
   // const tokensWithBalance = useAppSelector(selectTokensWithBalancesForAddress(address)) as { contract: string; tokenId: string }[]
   const tokenSelector = useAppSelector(selectTokenByContract) as any
   // const contractCallStatus = useAppSelector(selectContractCallStatus)
@@ -29,12 +29,7 @@ export const BurnToMint: FC<BurnToMintProps> = ({ sourceContract, targets }) => 
   const [tokensToBurn, setTokensToBurn] = useState([])
   const network = useAppSelector(selectedNetwork)
 
-  const handleConnect = (event: ChangeEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    connect()
-  }
-
-  const startBurn = async (tokenId: number) => {
+  const startBurn = async (tokenId: string) => {
     const target = targets.find(target => target.tokenId === tokenId)
     dispatch(
       burnToMint({

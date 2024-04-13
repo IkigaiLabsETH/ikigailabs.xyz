@@ -1,16 +1,9 @@
 import { map } from 'ramda'
 import React, { FC, useEffect } from 'react'
-import { useAddress } from '@thirdweb-dev/react'
 import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import useWeb3 from '../../common/useWeb3'
 import {
-  fetchNFTDropClaimedSupply,
-  fetchNFTDropMetadata,
-  fetchNFTDropOwnedTokenIds,
-  fetchNFTDropUnclaimedSupply,
-  fetchNFTsFromNFTDrop,
   selectClaimedSupply,
   selectClaimedSupplyLoadingState,
   selectMetadata,
@@ -25,6 +18,7 @@ import {
 } from './NFTDrop.slice'
 import { ContractMetadata } from '../../common/types'
 import { Loader } from '../Loader'
+import { useWallet } from '../../common/useWallet'
 
 interface NFTDropProps {
   contract: string
@@ -32,7 +26,6 @@ interface NFTDropProps {
 
 export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
-  // const { getAllNFTsFromNFTDrop, getNFTDrop } = useWeb3()
   const { address } = useWallet()
 
   const nfts = useAppSelector(selectNfts) as any[]

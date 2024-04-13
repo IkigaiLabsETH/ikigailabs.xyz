@@ -36,8 +36,6 @@ export const middleware = (notifications: Record<string, string>) => (actionCrea
       return toast.error(action.payload.message)
     }
 
-    
-
     toast.info(notifications[action.type])
     return
   },
