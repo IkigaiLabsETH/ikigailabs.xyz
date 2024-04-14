@@ -113,11 +113,24 @@ export type ErrorType = string | null | undefined
 export enum ActivityType {
   mint = 'mint',
   transfer = 'transfer',
+  bid = 'bid',
+  list = 'list',
+  sale = 'sale',
   burned = 'burned',
-  ask_canceled = 'ask_canceled',
-  bid_canceled = 'bid_canceled',
+  ask_cancel = 'ask_cancel',
+  bid_cancel = 'bid_cancel',
   ask = 'ask',
   buy = 'buy',
+}
+
+export enum ActivityMap {
+  mint = 'Mint',
+  transfer = 'Transfer',
+  bid = 'Offer',
+  bid_cancel = 'Offer Canceled',
+  sale = 'Sale',
+  ask = 'Listing',
+  ask_cancel = 'Listing Canceled',
 }
 
 export interface Collection {
@@ -126,7 +139,7 @@ export interface Collection {
 }
 
 export interface Activity {
-  type: ActivityType.mint
+  type: ActivityType
   fromAddress: string
   toAddress: string
   price: {
@@ -147,9 +160,15 @@ export interface Activity {
     tokenName: string
   }
   collection?: Collection
-  txHash: string
+  txHash?: string
   logIndex?: number
   batchIndex?: number
+  order: {
+    source: {
+      domain: string
+      icon: string
+    }
+  }
 }
 
 export interface CollectionActivity {
@@ -218,7 +237,7 @@ export interface Token {
   imageSmall?: string
   owner: string
   rarityRank: number
-  tokenId: number
+  tokenId: string
   contract: string
   media?: string
   lastSale?: LastSale

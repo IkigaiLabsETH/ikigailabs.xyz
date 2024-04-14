@@ -7,13 +7,11 @@ import Markdown from 'react-markdown'
 
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
-import { selectCollectionToken, selectTokenActivity, selectTokenListings, selectTokenOffers } from './token.selectors'
+import { selectCollectionToken } from './token.selectors'
 import { Eth } from '../../Eth'
-import { getTokenDataFromTokenSetId, isOwner } from '../../../common/utils'
+import { isOwner } from '../../../common/utils'
 import {
-  acceptOffer,
   buyToken,
-  cancelOrder,
   selectCollectionTokenInteractionStatus,
   showListToken,
   showCreateBid,
@@ -22,8 +20,6 @@ import { NFT, Network } from '../../../common/types'
 import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
 import { Button } from '../../Button'
 import { selectCollection } from '../collection.selectors'
-import { Activity } from '../../Activity'
-import { collectionTokenApi } from './token.api'
 import { ListingsList } from '../../ListingsList'
 import { OffersList } from '../../OffersList'
 import { TokenMedia } from '../../TokenMedia'
@@ -31,6 +27,7 @@ import { selectENSByAddress, selectEnsStatus } from '../../../common/ens'
 import { SkeletonLoader } from '../../SkeletonLoader'
 import { Warning } from '../../Warning'
 import { useWallet } from '../../../common/useWallet'
+import { TokenActivity } from '../../TokenActivity'
 
 interface TokenProps {
   contract: string
@@ -41,41 +38,15 @@ interface TokenProps {
 export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
   const { address } = useWallet()
 
-  const { data: tokenActivity, status: tokenActivityStatus } = useAppSelector(
-    selectTokenActivity({ contract, tokenId, network }),
-  )
   const { data: token, status: tokenStatus } = useAppSelector(selectCollectionToken({ contract, tokenId, network }))
-  const { data: tokenListings, status: tokenListingsStatus } = useAppSelector(
-    selectTokenListings({ contract, tokenId, network }),
-  )
-  const { data: tokenOffers, status: tokenOffersStatus } = useAppSelector(
-    selectTokenOffers({ contract, tokenId, network }),
-  )
-  const { data: collection, status: collectionStatus } = useAppSelector(selectCollection({ contract, network }))
+
+  const { data: collection } = useAppSelector(selectCollection({ contract, network }))
   const { status: tokenInteractionStatus } = useAppSelector(selectCollectionTokenInteractionStatus)
   const ens = useAppSelector(state => selectENSByAddress(state, token?.token?.owner))
   const ensStatus = useAppSelector(selectEnsStatus)
 
   const [activeTab, setActiveTab] = useState<string>('Info')
   const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (activeTab === 'Activity' && tokenActivityStatus === QueryStatus.uninitialized) {
-      dispatch(collectionTokenApi.endpoints.getTokenActivity.initiate({ contract, tokenId, network }))
-    }
-  }, [activeTab])
-
-  useEffect(() => {
-    if (activeTab === 'Listings' && tokenListingsStatus === QueryStatus.uninitialized) {
-      dispatch(collectionTokenApi.endpoints.getTokenListings.initiate({ contract, tokenId, network }))
-    }
-  }, [activeTab])
-
-  useEffect(() => {
-    if (activeTab === 'Offers' && tokenOffersStatus === QueryStatus.uninitialized) {
-      dispatch(collectionTokenApi.endpoints.getTokenOffers.initiate({ contract, tokenId, network }))
-    }
-  }, [activeTab])
 
   const onBuyToken = () => {
     return dispatch(buyToken({ contract, tokenId, address, network }))
@@ -87,20 +58,6 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
 
   const onListToken = ({ network, contract, tokenId, name, media, description, image, royalties }) => {
     dispatch(showListToken({ network, contract, tokenId, name, media, description, image, royalties }))
-  }
-
-  const onCancelOrder = (id: string) => {
-    dispatch(cancelOrder({ id, address, network: network as Network }))
-  }
-
-  const onBuyListing = (tokenSetId: string) => {
-    const [contract, tokenId] = getTokenDataFromTokenSetId(tokenSetId)
-    dispatch(buyToken({ contract, tokenId, address, network: network as Network }))
-  }
-
-  const onAcceptOffer = (tokenSetId: string) => {
-    const [contract, tokenId] = getTokenDataFromTokenSetId(tokenSetId)
-    dispatch(acceptOffer({ contract, tokenId, address, network: network as Network }))
   }
 
   const loader = (
@@ -141,7 +98,6 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
     const floorPriceSource = prop('source')(floorAsk)
     const topBidSource = prop('source')(topBid)
-    const owned = isOwner(address)(token.token)
 
     return (
       <div className="w-full bg-white flex items-center flex-col">
@@ -161,11 +117,11 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
           </div>
         </div>
         <div className="p-8 max-w-screen-2xl w-full">
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <div className="pb-4 text-red font-bold">
               <Link href={`/${network}/${contract}`}>&larr; {collection?.name}</Link>
             </div>
-          </div>
+          </div> */}
           <div className="flex bg-white text-black flex-col lg:flex-row">
             <div className="w-full lg:w-1/2 mr-8">
               <h1 className="boska text-[3rem] lg:text-[4rem] text-black mb-1">{name}</h1>
@@ -198,7 +154,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
               <div className="w-full">
                 {attributes ? (
                   <div>
-                    <ul className="grid grid-cols-1 lg:grid-cols-2 gap-1 items-start content-start">
+                    <ul className="grid grid-cols-1 lg:grid-cols-3 gap-1 items-start content-start">
                       {map(
                         (attribute: {
                           key: string
@@ -207,15 +163,18 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                           onSaleCount: number
                           tokenCount: number
                         }) => (
-                          <li key={attribute.value} className="text-gray-800 text-xs p-4 border-2 border-black">
+                          <li
+                            key={`${attribute.value}-${attribute.key}`}
+                            className="text-gray-800 text-xs p-2 border-2 border-gray-200"
+                          >
                             <div className="flex flex-row w-full mb-2">
                               <div className="w-3/4">
                                 <div className="capitalize mb-0.5">{attribute.key}</div>
-                                <div className="text-xl font-bold">{attribute.value}</div>
+                                <div className="text-lg font-bold">{attribute.value}</div>
                               </div>
                               <div className="w-1/4">
                                 <div className="capitalize mb-0.5">floor</div>
-                                <div className="text-xl font-bold">
+                                <div className="text-lg font-bold">
                                   <Eth amount={attribute.floorAskPrice} />
                                 </div>
                               </div>
@@ -250,9 +209,9 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                   </li>
                 </ul>
               </div>
-              <div className="pt-8 text-red font-bold">
+              {/* <div className="pt-8 text-red font-bold">
                 <Link href={`/${network}/${contract}`}>&larr; {collection?.name}</Link>
-              </div>
+              </div> */}
             </div>
             <div className="w-full lg:w-1/2 mt-2">
               <div className="mb-5">
@@ -380,43 +339,15 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       <Markdown>{collection?.description}</Markdown>
                     </div>
                   ))
-                  .with('Activity', () => (
-                    <>
-                      {tokenActivityStatus !== QueryStatus.fulfilled ? (
-                        <Loader />
-                      ) : (
-                        <Activity activity={tokenActivity?.activities} />
-                      )}
-                    </>
-                  ))
-                  .with('Listings', () => (
-                    <>
-                      {tokenListingsStatus !== QueryStatus.fulfilled ? (
-                        <Loader />
-                      ) : (
-                        <ListingsList
-                          orders={tokenListings.orders}
-                          status={tokenInteractionStatus}
-                          onCancel={onCancelOrder}
-                          onBuy={onBuyListing}
-                        />
-                      )}
-                    </>
-                  ))
+                  .with('Activity', () => <TokenActivity contract={contract} tokenId={tokenId} network={network} />)
+                  .with('Listings', () => <ListingsList contract={contract} tokenId={tokenId} network={network} />)
                   .with('Offers', () => (
-                    <>
-                      {tokenOffersStatus !== QueryStatus.fulfilled ? (
-                        <Loader />
-                      ) : (
-                        <OffersList
-                          orders={tokenOffers.orders}
-                          status={tokenInteractionStatus}
-                          onCancel={onCancelOrder}
-                          onAccept={onAcceptOffer}
-                          isOwner={owned}
-                        />
-                      )}
-                    </>
+                    <OffersList
+                      contract={contract}
+                      tokenId={tokenId}
+                      network={network}
+                      isOwner={isOwner(address)(token.token)}
+                    />
                   ))
                   .otherwise(() => null)}
               </div>

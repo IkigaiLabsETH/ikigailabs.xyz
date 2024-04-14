@@ -1,10 +1,9 @@
 import Image from 'next/image'
-import { equals, pathOr, prop, propOr } from 'ramda'
+import { pathOr, prop, propOr } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
-import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
-import useWeb3 from '../../../common/useWeb3'
+import { useAppSelector } from '../../../common/redux/store'
 import { getRemainingTime } from '../../../common/utils'
 import { Loader } from '../../Loader'
 import { selectFeaturedAuction, selectLoadingState } from './featured.slice'
@@ -15,11 +14,9 @@ interface FeaturedAuctionProps {
 }
 
 export const FeaturedAuction: FC<FeaturedAuctionProps> = ({ contract, askId }) => {
-  const dispatch = useAppDispatch()
   const featuredAuction = useAppSelector(selectFeaturedAuction)
   const loadingState = useAppSelector(selectLoadingState)
   const [remainingTime, setRemainingTime] = useState<string>('')
-  // const { getAsk } = useWeb3()
 
   useEffect(() => {
     // equals(loadingState, 'idle') && dispatch(fetchFeaturedAuction({ getAsk, contract, askId }))

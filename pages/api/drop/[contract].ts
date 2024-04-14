@@ -25,7 +25,7 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     const result = {} as any
 
     const metadataPromise = clientContract.metadata.get()
-    
+
     if (isExtensionEnabled(clientContract.abi, 'ERC721', detectFeatures(clientContract.abi))) {
       const claimedSupplyPromise = clientContract.erc721.totalClaimedSupply()
       const unclaimedSupplyPromise = clientContract.erc721.totalUnclaimedSupply()

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { flip, path, uncurryN } from 'ramda'
+import { flip, path, uncurryN, uniqBy } from 'ramda'
 
-import { Activity, NFT, Network, Order } from '../../../common/types'
+import { Activity, ActivityType, NFT, Network, Order } from '../../../common/types'
 
 export const collectionTokenApi = createApi({
   reducerPath: 'collectionTokenApi',
@@ -16,24 +16,76 @@ export const collectionTokenApi = createApi({
       transformResponse: (response): NFT => path(['tokens', 0])(response) as NFT,
     }),
     getTokenActivity: builder.query<
-      { activities: Activity[] },
-      { contract: string; tokenId: string; network: Network }
+      { activities: Activity[]; continuation: string | null },
+      {
+        contract: string
+        tokenId: string
+        network: Network
+        selectedActivityTypes?: ActivityType[]
+        continuation?: string
+      }
     >({
-      query: ({ contract, tokenId, network }) => `${network}/tokens/${contract}:${tokenId}/activity/v5`,
+      query: ({ contract, tokenId, network, selectedActivityTypes = [], continuation = '' }) => {
+        const activityTypes = selectedActivityTypes.map(type => `types=${type}`).join('&')
+        return `${network}/tokens/${contract}:${tokenId}/activity/v5?${
+          selectedActivityTypes.length ? `${activityTypes}` : ''
+        }${continuation ? `&continuation=${continuation}` : ''}`
+      },
+      serializeQueryArgs: ({ endpointName, queryArgs: { selectedActivityTypes, contract, tokenId } }) => {
+        const activityTypes = selectedActivityTypes.map(type => `types=${type}`).join('&')
+        return `${endpointName}-${contract}-${tokenId}-${activityTypes}`
+      },
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        currentCache.activities = uniqBy(path(['timestamp']), [...currentCache.activities, ...newItems.activities])
+        currentCache.continuation = newItems.continuation
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg
+      },
     }),
     getTokenListings: builder.query<
       { orders: Order[]; continuation: string | null },
-      { contract: string; tokenId: string; network: Network }
+      { contract: string; tokenId: string; network: Network; continuation?: string }
     >({
-      query: ({ contract, tokenId, network }) =>
-        `${network}/orders/asks/v5?token=${contract}:${tokenId}&includeCriteriaMetadata=true&includeRawData=true&sortBy=price&normalizeRoyalties=false`,
+      query: ({ contract, tokenId, network, continuation = '' }) =>
+        `${network}/orders/asks/v5?token=${contract}:${tokenId}&includeCriteriaMetadata=true&includeRawData=true&sortBy=price&normalizeRoyalties=false${
+          continuation ? `&continuation=${continuation}` : ''
+        }`,
+      serializeQueryArgs: ({ endpointName, queryArgs: { contract, tokenId } }) => {
+        return `${endpointName}-${contract}-${tokenId}`
+      },
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        currentCache.orders = uniqBy(path(['id']), [...currentCache.orders, ...newItems.orders])
+        currentCache.continuation = newItems.continuation
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg
+      },
     }),
     getTokenOffers: builder.query<
       { orders: Order[]; continuation: string | null },
-      { contract: string; tokenId: string; network: Network }
+      { contract: string; tokenId: string; network: Network; continuation?: string }
     >({
-      query: ({ contract, tokenId, network }) =>
-        `${network}/orders/bids/v5?token=${contract}:${tokenId}&includeCriteriaMetadata=true&includeRawData=true&sortBy=price&normalizeRoyalties=false`,
+      query: ({ contract, tokenId, network, continuation }) =>
+        `${network}/orders/bids/v5?token=${contract}:${tokenId}&includeCriteriaMetadata=true&includeRawData=true&sortBy=price&normalizeRoyalties=false${
+          continuation ? `&continuation=${continuation}` : ''
+        }`,
+      serializeQueryArgs: ({ endpointName, queryArgs: { contract, tokenId } }) => {
+        return `${endpointName}-${contract}-${tokenId}`
+      },
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        currentCache.orders = uniqBy(path(['id']), [...currentCache.orders, ...newItems.orders])
+        currentCache.continuation = newItems.continuation
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg
+      },
     }),
   }),
 })

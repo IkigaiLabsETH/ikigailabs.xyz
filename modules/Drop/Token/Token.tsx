@@ -101,7 +101,8 @@ export const NFT: FC<NFTProps> = ({ contractAddress, tokenId, network, type, cha
                 <TransactionButton
                   className="!bg-yellow !text-black !w-full !border-black shadow-[5px_5px_0px_0px_rgba(234,179,8,1)] hover:shadow-[6px_6px_0px_0px_rgba(234,179,8,1)] !transition-all !epilogue !text-xl hover:cursor-pointer"
                   style={{ padding: '0.75rem', border: '2px solid yellow', borderRadius: '0' }}
-                  transaction={() => claimTo({
+                  transaction={() =>
+                    claimTo({
                       contract,
                       to: address,
                       quantity: BigInt(1),
@@ -111,9 +112,13 @@ export const NFT: FC<NFTProps> = ({ contractAddress, tokenId, network, type, cha
                   onTransactionSent={({ transactionHash }) => dispatch(transactionSent(transactionHash))}
                   onTransactionConfirmed={({ transactionHash }) => {
                     dispatch(mintSuccess({ tokenId, network: Network.BASE, transactionHash }))
-                    dispatch(getDropTokenByContractAndTokenId.initiate({ contract: contractAddress, tokenId, network, type }))
+                    dispatch(
+                      getDropTokenByContractAndTokenId.initiate({ contract: contractAddress, tokenId, network, type }),
+                    )
                   }}
-                  onError={error => {dispatch(transactionFailed(error))}}
+                  onError={error => {
+                    dispatch(transactionFailed(error))
+                  }}
                 >
                   Claim
                 </TransactionButton>

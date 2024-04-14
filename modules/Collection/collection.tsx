@@ -7,7 +7,6 @@ import { format, parseISO } from 'date-fns/fp'
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { fetchCollection, collectionApi } from './collection.api'
 import { Loader } from '../Loader'
-import { Activity } from '../Activity'
 import { NFTGrid } from '../NFTGrid'
 import { Facets } from '../Facets'
 import { formatAttributes } from '../../common/utils'
@@ -26,6 +25,7 @@ import { Selector } from '../Form/Selector'
 import { COLLECTION_SORTING_OPTIONS } from '../../common/constants'
 import clsx from 'clsx'
 import { Dialog, Transition } from '@headlessui/react'
+import { CollectionActivity } from '../CollectionActivity'
 
 interface CollectionProps {
   contract: string
@@ -55,7 +55,6 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
   )
 
   const { data: collection, status: collectionDataStatus } = useAppSelector(selectCollection({ contract, network }))
-  const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity({ contract, network }))
   const { data: attributes } = useAppSelector(selectCollectionAttributes({ contract, network }))
 
   const { ref } = useInfiniteLoading(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate, {
@@ -67,25 +66,11 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
   })
 
   useEffect(() => {
-    contract &&
-      dispatch(
-        collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
-          contract,
-          attributes: '',
-          continuation: '',
-          network,
-          sortBy: selectedSort.id as string,
-        }),
-      )
-  }, [])
-
-  useEffect(() => {
     nftData && setNfts({ tokens: nftData.tokens, continuation: nftData.continuation, status })
   }, [nftData, setNfts, status])
 
   const updateFacets = selection => {
     setSelectedAttributes(selection)
-
     return dispatch(
       collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
         contract,
@@ -187,10 +172,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
 
   const activityComponent = (
     <div className="w-full flex justify-center">
-      {match(activityStatus)
-        .with(QueryStatus.pending, () => <Loader />)
-        .with(QueryStatus.fulfilled, () => <Activity activity={activity.activities} />)
-        .otherwise(() => null)}
+      <CollectionActivity contract={contract} network={network} />
     </div>
   )
 

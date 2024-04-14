@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../common/redux/stor
 import { selectUserActivity } from '../../../../../modules/User/user.api'
 import { useInfiniteLoading } from '../../../../../common/useInfiniteLoading'
 import { Loader } from '../../../../../modules/Loader'
-import { Activity } from '../../../../../modules/Activity'
+// import { Activity } from '../../../../../modules/Activity'
 import { Layout, Network } from '../../../../../common/types'
 import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
 import { Footer } from '../../../../../modules/Footer'
@@ -78,7 +78,7 @@ export const ActivityDashboard: FC = ({}) => {
               <div className="w-5/6">
                 {!isNil(activity?.activities) && !isEmpty(activity?.activities) && (
                   <div className="mr-8">
-                    <Activity activity={activity?.activities} showPrice={false} />
+                    {/* <Activity activity={activity?.activities} showPrice={false} /> */}
                   </div>
                 )}
                 {activityStatus !== QueryStatus.pending && isEmpty(activity?.activities) && (

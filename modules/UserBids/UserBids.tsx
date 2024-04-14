@@ -6,7 +6,7 @@ import { Network, Order } from '../../common/types'
 import Image from 'next/image'
 import { useAppDispatch } from '../../common/redux/store'
 import { cancelOrder } from '../Collection/Token/token.slice'
-import { useAddress } from '@thirdweb-dev/react'
+import { useWallet } from '../../common/useWallet'
 
 interface UserBidsProps {
   bids: Order[]

@@ -133,11 +133,10 @@ export const getChainIdFromNetwork = (network: Network) => {
   if (capitalizedChain === 'Berachain') {
     return 80085
   }
-  
+
   if (capitalizedChain === 'Base-sepolia') {
     return 84532
   }
-
   return ChainId[capitalizedChain]
 }
 

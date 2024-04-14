@@ -10,6 +10,7 @@ import {
 } from 'thirdweb/react'
 import { getChainIdFromNetwork } from '../../common/utils'
 import { TWClient } from '../../common/web3/web3'
+import { CHAINS } from '../../common/constants'
 
 interface ReservoirActionButtonProps {
   onClick?: () => Promise<any>
@@ -32,10 +33,10 @@ export const ReservoirActionButton: FC<ReservoirActionButtonProps> = ({
 
   return match(status)
     .with('connected', () => {
-      if (chain?.name !== network) {
+      if (chain?.id !== CHAINS[network].id) {
         return (
           <Button
-            onClick={() => switchChain(getChainIdFromNetwork(network))}
+            onClick={() => switchChain(CHAINS[network])}
             className="w-full text-xl"
             loading={false}
             disabled={false}

@@ -6,8 +6,8 @@ import Image from 'next/image'
 import { formatDateAndTime, truncateAddress } from '../../common/utils'
 import { Button } from '../Button'
 import { useAppDispatch } from '../../common/redux/store'
-import { useAddress } from '@thirdweb-dev/react'
 import { cancelOrder } from '../Collection/Token/token.slice'
+import { useWallet } from '../../common/useWallet'
 
 interface UserAsksProps {
   asks: Order[]

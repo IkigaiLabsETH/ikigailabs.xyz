@@ -1,30 +1,71 @@
 import { map, prop } from 'ramda'
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 
 import { formatDistance } from 'date-fns'
-import { isMaker, isOwner, truncateAddress } from '../../common/utils'
-import { Order } from '../../common/types'
+import { getTokenDataFromTokenSetId, isMaker, truncateAddress } from '../../common/utils'
+import { Network, Order } from '../../common/types'
 import { Button } from '../Button'
 import { Eth } from '../Eth'
 import { QueryStatus } from '@reduxjs/toolkit/query'
-import { useAddress } from '@thirdweb-dev/react'
+import { useWallet } from '../../common/useWallet'
+import { useAppDispatch, useAppSelector } from '../../common/redux/store'
+import { selectTokenOffers } from '../Collection/Token/token.selectors'
+import { collectionTokenApi } from '../Collection/Token/token.api'
+import { acceptOffer, cancelOrder } from '../Collection/Token/token.slice'
+import { SkeletonLoader } from '../SkeletonLoader'
+import { useInfiniteLoading } from '../../common/useInfiniteLoading'
 
 interface OffersListProps {
-  orders: Order[]
-  status: QueryStatus
-  onCancel: (id: string) => void
-  onAccept: (tokenSetId: string) => void
+  contract: string
+  tokenId: string
+  network: Network
   isOwner: boolean
 }
 
-export const OffersList: FC<OffersListProps> = ({ orders, status, onCancel, onAccept, isOwner }) => {
+export const OffersList: FC<OffersListProps> = ({ contract, tokenId, network, isOwner }) => {
   const { address } = useWallet()
+  const dispatch = useAppDispatch()
+
+  const { data: tokenOffers, status: tokenOffersStatus } = useAppSelector(
+    selectTokenOffers({ contract, tokenId, network }),
+  )
+
+  useEffect(() => {
+    if (tokenOffersStatus === QueryStatus.uninitialized) {
+      dispatch(collectionTokenApi.endpoints.getTokenOffers.initiate({ contract, tokenId, network }))
+    }
+  }, [contract, tokenId, network, dispatch, tokenOffersStatus])
+
+  const onCancelOrder = (id: string) => {
+    dispatch(cancelOrder({ id, address, network: network as Network }))
+  }
+
+  const onAcceptOffer = (tokenSetId: string) => {
+    const [contract, tokenId] = getTokenDataFromTokenSetId(tokenSetId)
+    dispatch(acceptOffer({ contract, tokenId, address, network: network as Network }))
+  }
+
+  const { ref } = useInfiniteLoading(collectionTokenApi.endpoints.getTokenOffers.initiate, {
+    contract,
+    tokenId,
+    network,
+    continuation: tokenOffers?.continuation,
+  })
+
+  const loader = (
+    <div className="">
+      <SkeletonLoader style="light" height="h-9" />
+      <SkeletonLoader style="light" height="h-9" />
+      <SkeletonLoader style="light" height="h-9" />
+    </div>
+  )
+
   return (
     <div className="flex flex-col w-full">
       <div className="inline-block min-w-full align-middle">
         <div className="overflow-hidden ring-black ring-opacity-5">
           <ul>
-            {map((order: Order) => (
+            {tokenOffers && map((order: Order) => (
               <li className="flex flex-row border-b border-gray-400 py-2" key={order.id}>
                 <div className="flex flex-col w-2/3">
                   <div className="text-xs text-gray-500">
@@ -43,9 +84,9 @@ export const OffersList: FC<OffersListProps> = ({ orders, status, onCancel, onAc
                 <div className="w-1/3">
                   {isMaker(address)(order) ? (
                     <Button
-                      loading={status === QueryStatus.pending}
+                      loading={tokenOffersStatus === QueryStatus.pending}
                       className="w-full"
-                      onClick={() => onCancel(prop('id')(order))}
+                      onClick={() => onCancelOrder(prop('id')(order))}
                     >
                       Cancel Offer
                     </Button>
@@ -54,9 +95,9 @@ export const OffersList: FC<OffersListProps> = ({ orders, status, onCancel, onAc
                   )}
                   {isOwner ? (
                     <Button
-                      loading={status === QueryStatus.pending}
+                      loading={tokenOffersStatus === QueryStatus.pending}
                       className="w-full"
-                      onClick={() => onAccept(order.tokenSetId)}
+                      onClick={() => onAcceptOffer(order.tokenSetId)}
                     >
                       Accept Offer
                     </Button>
@@ -65,8 +106,10 @@ export const OffersList: FC<OffersListProps> = ({ orders, status, onCancel, onAc
                   )}
                 </div>
               </li>
-            ))(orders)}
+            ))(tokenOffers.orders)}
           </ul>
+          {tokenOffersStatus === QueryStatus.pending ? loader : null}
+          <div ref={ref} />
         </div>
       </div>
     </div>
