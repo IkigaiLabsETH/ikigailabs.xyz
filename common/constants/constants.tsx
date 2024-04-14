@@ -10,7 +10,18 @@ import {
   baseSepolia,
   avalanche,
 } from 'thirdweb/chains'
-import { Network, Option } from '../types'
+import {
+  FaArrowRightArrowLeft,
+  FaSeedling,
+  FaFireFlameCurved,
+  FaRegRectangleXmark,
+  FaTag,
+  FaCartShopping,
+  FaHand,
+  FaRegCircleXmark,
+} from 'react-icons/fa6'
+
+import { ActivityType, Network, Option } from '../types'
 
 export const COLLECTION_METADATA_FIELDS = ['name', 'description', 'image']
 
@@ -186,3 +197,21 @@ export const CHAINS = {
   // [Network.BLAST]: customChains[Network.BLAST],
   [Network.BERA]: customChains[Network.BERA],
 }
+
+export const ACTIVITY_ICON_MAP = {
+  [ActivityType.mint]: <FaSeedling className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+  [ActivityType.transfer]: (
+    <FaArrowRightArrowLeft className="w- mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+  ),
+  [ActivityType.burned]: <FaFireFlameCurved className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+  [ActivityType.ask_cancel]: (
+    <FaRegCircleXmark className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+  ),
+  [ActivityType.bid_cancel]: (
+    <FaRegCircleXmark className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+  ),
+  [ActivityType.bid]: <FaHand className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+  [ActivityType.ask]: <FaTag className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+  [ActivityType.sale]: <FaCartShopping className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+}
+

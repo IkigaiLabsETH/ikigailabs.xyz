@@ -1,15 +1,6 @@
 import { includes, map } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
-import {
-  FaArrowRight,
-  FaArrowRightArrowLeft,
-  FaSeedling,
-  FaFireFlameCurved,
-  FaRegRectangleXmark,
-  FaTag,
-  FaCartShopping,
-  FaHand,
-} from 'react-icons/fa6'
+
 
 import { Activity as IActivity, ActivityType, ActivityMap, Network } from '../../common/types'
 import { formatDistance } from 'date-fns'
@@ -22,31 +13,16 @@ import { collectionTokenApi } from '../Collection/Token/token.api'
 import { Toggle } from '../Toggle'
 import { QueryStatus } from '@reduxjs/toolkit/query'
 import { SkeletonLoader } from '../SkeletonLoader'
+import { ACTIVITY_ICON_MAP } from '../../common/constants/constants'
+import { FaArrowRight } from 'react-icons/fa6'
 
-interface ActivityProps {
+interface TokenActivityProps {
   contract: string
   tokenId: string
   network: Network
 }
 
-const iconMapping = {
-  [ActivityType.mint]: <FaSeedling className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
-  [ActivityType.transfer]: (
-    <FaArrowRightArrowLeft className="w- mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
-  ),
-  [ActivityType.burned]: <FaFireFlameCurved className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
-  [ActivityType.ask_canceled]: (
-    <FaRegRectangleXmark className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
-  ),
-  [ActivityType.bid_canceled]: (
-    <FaRegRectangleXmark className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
-  ),
-  [ActivityType.bid]: <FaHand className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
-  [ActivityType.ask]: <FaTag className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
-  [ActivityType.sale]: <FaCartShopping className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
-}
-
-export const Activity: FC<ActivityProps> = ({ contract, tokenId, network }) => {
+export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, network }) => {
   const dispatch = useAppDispatch()
   const [selectedActivityTypes, setSelectedActivityTypes] = useState<ActivityType[]>([])
 
@@ -146,7 +122,7 @@ export const Activity: FC<ActivityProps> = ({ contract, tokenId, network }) => {
                     <div className="grid grid-cols-2 gap-2">
                       <div>
                         <div className="flex flex-row">
-                          <div className="h-6 w-6 justify-center items-center flex">{iconMapping[type]}</div>
+                          <div className="h-6 w-6 justify-center items-center flex">{ACTIVITY_ICON_MAP[type]}</div>
                           <div className="flex items-baseline flex-row">
                             <div className="mr-1">{ActivityMap[type]}</div>
                             <div className="text-gray-500 text-xs">

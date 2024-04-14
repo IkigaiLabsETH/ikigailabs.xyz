@@ -117,8 +117,8 @@ export enum ActivityType {
   list = 'list',
   sale = 'sale',
   burned = 'burned',
-  ask_canceled = 'ask_canceled',
-  bid_canceled = 'bid_canceled',
+  ask_cancel = 'ask_cancel',
+  bid_cancel = 'bid_cancel',
   ask = 'ask',
   buy = 'buy',
 }
@@ -127,8 +127,10 @@ export enum ActivityMap {
   mint = 'Mint',
   transfer = 'Transfer',
   bid = 'Offer',
+  bid_cancel = 'Offer Canceled',
   sale = 'Sale',
   ask = 'Listing',
+  ask_cancel = 'Listing Canceled',
 }
 
 export interface Collection {

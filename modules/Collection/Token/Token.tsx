@@ -7,13 +7,11 @@ import Markdown from 'react-markdown'
 
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Loader } from '../../Loader'
-import { selectCollectionToken, selectTokenOffers } from './token.selectors'
+import { selectCollectionToken } from './token.selectors'
 import { Eth } from '../../Eth'
-import { getTokenDataFromTokenSetId, isOwner } from '../../../common/utils'
+import { isOwner } from '../../../common/utils'
 import {
-  acceptOffer,
   buyToken,
-  cancelOrder,
   selectCollectionTokenInteractionStatus,
   showListToken,
   showCreateBid,
@@ -22,8 +20,6 @@ import { NFT, Network } from '../../../common/types'
 import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
 import { Button } from '../../Button'
 import { selectCollection } from '../collection.selectors'
-import { Activity } from '../../Activity'
-import { collectionTokenApi } from './token.api'
 import { ListingsList } from '../../ListingsList'
 import { OffersList } from '../../OffersList'
 import { TokenMedia } from '../../TokenMedia'
@@ -31,6 +27,7 @@ import { selectENSByAddress, selectEnsStatus } from '../../../common/ens'
 import { SkeletonLoader } from '../../SkeletonLoader'
 import { Warning } from '../../Warning'
 import { useWallet } from '../../../common/useWallet'
+import { TokenActivity } from '../../TokenActivity'
 
 interface TokenProps {
   contract: string
@@ -43,7 +40,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
 
   const { data: token, status: tokenStatus } = useAppSelector(selectCollectionToken({ contract, tokenId, network }))
 
-  const { data: collection, status: collectionStatus } = useAppSelector(selectCollection({ contract, network }))
+  const { data: collection } = useAppSelector(selectCollection({ contract, network }))
   const { status: tokenInteractionStatus } = useAppSelector(selectCollectionTokenInteractionStatus)
   const ens = useAppSelector(state => selectENSByAddress(state, token?.token?.owner))
   const ensStatus = useAppSelector(selectEnsStatus)
@@ -342,7 +339,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                       <Markdown>{collection?.description}</Markdown>
                     </div>
                   ))
-                  .with('Activity', () => <Activity contract={contract} tokenId={tokenId} network={network} />)
+                  .with('Activity', () => <TokenActivity contract={contract} tokenId={tokenId} network={network} />)
                   .with('Listings', () => <ListingsList contract={contract} tokenId={tokenId} network={network} />)
                   .with('Offers', () => (
                     <OffersList
