@@ -14,12 +14,12 @@ import {
   FaArrowRightArrowLeft,
   FaSeedling,
   FaFireFlameCurved,
-  FaRegRectangleXmark,
   FaTag,
   FaCartShopping,
   FaHand,
   FaRegCircleXmark,
 } from 'react-icons/fa6'
+import { ETH } from 'react-cryptoicon'
 
 import { ActivityType, Network, Option } from '../types'
 
@@ -196,6 +196,12 @@ export const CHAINS = {
   [Network.ZKSYNC]: customChains[Network.ZKSYNC],
   // [Network.BLAST]: customChains[Network.BLAST],
   [Network.BERA]: customChains[Network.BERA],
+}
+
+export const CHAIN_ICON_MAP = {
+  ETH: <ETH />,
+  [Network.MAINNET]: <ETH />,
+  [Network.OPTIMISM]: <ETH />,
 }
 
 export const ACTIVITY_ICON_MAP = {

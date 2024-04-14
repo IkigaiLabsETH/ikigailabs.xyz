@@ -7,9 +7,8 @@ import { SkeletonLoader } from '../SkeletonLoader'
 import { collectionApi } from '../Collection/collection.api'
 import { useInfiniteLoading } from '../../common/useInfiniteLoading'
 import { Toggle } from '../Toggle'
-import { equals, includes, isNil, map } from 'ramda'
-import { ACTIVITY_ICON_MAP } from '../../common/constants/constants'
-import { token } from '../Drop/Token/token.api'
+import { includes, isNil, map } from 'ramda'
+import { ACTIVITY_ICON_MAP, CHAIN_ICON_MAP } from '../../common/constants/constants'
 import Image from 'next/image'
 import { truncateAddress } from '../../common/utils'
 import { FaArrowRight, FaArrowUpRightFromSquare } from 'react-icons/fa6'
@@ -126,8 +125,8 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
                       </>
                       : null }
                     </div>
-                    <div className='flex justify-center flex-col font-bold'>
-                      ETH {activity.price}
+                    <div className='flex flex-row items-center'>
+                      {CHAIN_ICON_MAP[network]} {activity.price}
                     </div>
                     <div className='flex justify-center items-center flex-col'>
                       <div className="text-gray-500 text-xs">{truncateAddress(activity.fromAddress)}</div>
@@ -193,7 +192,7 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
                     <div className='flex flex-row items-start justify-end'>
                       <div className='flex flex-col justify-between'>
                         <div className='font-bold text-xl'>
-                          ETH {activity.price}
+                          {CHAIN_ICON_MAP.ETH} {activity.price}
                         </div>
                         <div>
                           <div className="text-gray-500 text-xs">
