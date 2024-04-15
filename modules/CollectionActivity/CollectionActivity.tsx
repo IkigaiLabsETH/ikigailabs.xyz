@@ -118,15 +118,14 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
                     <div className='flex flex-row items-center'>
                       {ACTIVITY_ICON_MAP[activity.type]} {collection ? 'Collection ' : ''} {ActivityMap[activity.type]}
                     </div>
-                    <div className='flex flex-row items-center'>
+                    <div className='flex flex-row items-center justify-center'>
                       {activity.token ? <>
                         {activity.token.tokenImage && <Image src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} />}
-                        <div className='ml-4'>{activity.token.tokenId}</div>
                       </>
                       : null }
                     </div>
                     <div className='flex flex-row items-center'>
-                      {CHAIN_ICON_MAP[network]} {activity.price}
+                      <span className='mr-2 inline-block w-5 h-5'>{CHAIN_ICON_MAP[network]}</span> {activity.price}
                     </div>
                     <div className='flex justify-center items-center flex-col'>
                       <div className="text-gray-500 text-xs">{truncateAddress(activity.fromAddress)}</div>
