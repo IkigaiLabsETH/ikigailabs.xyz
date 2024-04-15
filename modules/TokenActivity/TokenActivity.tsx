@@ -71,7 +71,7 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
   return (
     <div className="flex flex-col w-full">
       <div className="inline-block min-w-full align-middle">
-        <div className="overflow-hidden ring-black ring-opacity-5 ">
+        <div className="overflow-hidden ring-black ring-opacity-5 pb-5">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 py-2 ">
             <div className="mr-2">
               <Toggle
@@ -161,7 +161,7 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
               })(tokenActivity.activities)}
           </ul>
           {tokenActivityStatus === QueryStatus.pending ? loader : null}
-          <div ref={ref} />
+          <div ref={ref} className='h-1'/>
         </div>
       </div>
     </div>
