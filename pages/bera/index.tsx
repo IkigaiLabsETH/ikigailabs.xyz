@@ -7,7 +7,6 @@ import { Footer } from '../../modules/Footer'
 import { customChains } from '../../common/constants/constants'
 
 const Bera: FC = () => {
-  console.log(process.env.NEXT_PUBLIC_BERA_CONTRACT_ADDRESS)
   return (
     <div className="flex items-center flex-col">
       <Head>
