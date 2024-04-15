@@ -107,6 +107,10 @@
   .satoshi {
     font-family: 'satoshi';
   }
+  svg {
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 
 @layer components {

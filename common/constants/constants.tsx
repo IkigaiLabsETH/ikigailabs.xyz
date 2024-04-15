@@ -205,19 +205,19 @@ export const CHAIN_ICON_MAP = {
 }
 
 export const ACTIVITY_ICON_MAP = {
-  [ActivityType.mint]: <FaSeedling className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+  [ActivityType.mint]: <div className='h-4 w-4 mr-2'><FaSeedling className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>,
   [ActivityType.transfer]: (
-    <FaArrowRightArrowLeft className="w- mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+    <div className='h-4 w-4 mr-2'><FaArrowRightArrowLeft className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>
   ),
-  [ActivityType.burned]: <FaFireFlameCurved className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+  [ActivityType.burned]: <div className='h-4 w-4 mr-2'><FaFireFlameCurved className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>,
   [ActivityType.ask_cancel]: (
-    <FaRegCircleXmark className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+    <div className='h-4 w-4 mr-2'><FaRegCircleXmark className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>
   ),
   [ActivityType.bid_cancel]: (
-    <FaRegCircleXmark className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+    <div className='h-4 w-4 mr-2'><FaRegCircleXmark className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>
   ),
-  [ActivityType.bid]: <FaHand className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
-  [ActivityType.ask]: <FaTag className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
-  [ActivityType.sale]: <FaCartShopping className="mr-1 h-4 w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+  [ActivityType.bid]: <div className='h-4 w-4 mr-2'><FaHand className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>,
+  [ActivityType.ask]: <div className='h-4 w-4 mr-2'><FaTag className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>,
+  [ActivityType.sale]: <div className='h-4 w-4 mr-2'><FaCartShopping className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,</div>
 }
 

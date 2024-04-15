@@ -33,7 +33,7 @@ export const Header: FC = () => {
               <Profile />
             </div>
             <button
-              className="z-20 ml-1"
+              className="z-20 ml-1 w-6 h-6"
               onClick={() => setExpanded(!expanded)}
               aria-expanded={expanded ? 'true' : 'false'}
             >
