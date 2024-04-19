@@ -199,9 +199,9 @@ export const CHAINS = {
 }
 
 export const CHAIN_ICON_MAP = {
-  ETH: <ETH />,
-  [Network.MAINNET]: <ETH />,
-  [Network.OPTIMISM]: <ETH />,
+  ETH: <ETH size={20} />,
+  [Network.MAINNET]: <ETH size={20} />,
+  [Network.OPTIMISM]: <ETH size={20} />,
 }
 
 export const ACTIVITY_ICON_MAP = {

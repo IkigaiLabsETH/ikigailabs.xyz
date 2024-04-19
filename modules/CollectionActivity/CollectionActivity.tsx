@@ -125,7 +125,7 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
                       : null }
                     </div>
                     <div className='flex flex-row items-center'>
-                      <span className='mr-2 inline-block w-5 h-5'>{CHAIN_ICON_MAP[network]}</span> {activity.price}
+                      <span className='mr-2 inline-block'>{CHAIN_ICON_MAP[network]}</span> {activity.price}
                     </div>
                     <div className='flex justify-center items-center flex-col'>
                       <div className="text-gray-500 text-xs">{truncateAddress(activity.fromAddress)}</div>

@@ -50,7 +50,7 @@ const Home: FC = () => {
             </Button>
           </div> */}
         </div>
-        <div className="pb-10 flex justify-center items-center flex-col">
+        <div className="mb-10 flex justify-center items-center flex-col w-12 h-12">
           {/* <Eyebrow>Free mint</Eyebrow> */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,7 @@ const Home: FC = () => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-12 h-12"
+            className="!w-12 !h-12 stroke-yellow"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5" />
           </svg>
