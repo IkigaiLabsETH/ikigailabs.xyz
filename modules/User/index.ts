@@ -1,1 +1,1 @@
-export { userApi, selectCollectedTokens } from './user.api'
+export { userApi, selectCollectedTokens, selectUserActivity } from './user.api'
