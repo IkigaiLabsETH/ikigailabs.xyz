@@ -32,15 +32,16 @@ export const Header: FC = () => {
             <div className="hidden md:flex">
               <Profile />
             </div>
+            <div className='ml-2 w-12 h-12 flex items-center justify-center bg-black border border-solid border-gray-400 mt-0.5 rounded-lg'>
             <button
-              className="z-20 ml-1 w-6 h-6"
+              className="z-20 w-12 h-12 flex items-center justify-center "
               onClick={() => setExpanded(!expanded)}
               aria-expanded={expanded ? 'true' : 'false'}
             >
               {!expanded && (
                 <span>
                   <svg
-                    className="w-6 h-6"
+                    className="!w-6 !h-6"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -55,7 +56,7 @@ export const Header: FC = () => {
               {expanded && (
                 <span aria-hidden="true">
                   <svg
-                    className="w-6 h-6"
+                    className="!w-6 !h-6"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -67,6 +68,7 @@ export const Header: FC = () => {
                 </span>
               )}
             </button>
+            </div>
           </div>
         </nav>
 

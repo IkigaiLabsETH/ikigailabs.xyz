@@ -149,7 +149,9 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
                           <div className="text-gray-500 text-xs">{truncateAddress(fromAddress)}</div>
                           {toAddress && (
                             <div className="text-gray-500 text-xs">
-                              <FaArrowRight className="inline font-light mx-0.5 -mt-0.5" />
+                              <div className='h-3 w-3 mr-1 inline-block'>
+                                <FaArrowRight className="inline font-light mx-0.5 -mt-0.5" />
+                              </div>
                               {truncateAddress(toAddress)}
                             </div>
                           )}
