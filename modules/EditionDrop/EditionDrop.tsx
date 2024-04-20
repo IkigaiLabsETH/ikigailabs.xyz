@@ -1,21 +1,25 @@
 import { match } from 'ts-pattern'
 import React, { FC, useEffect, useState } from 'react'
 
-import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
-import { Loader } from '../../Loader'
-import { getDropTokenByContractAndTokenId, selectToken } from '../drop.api'
-import { ContractType, Network } from '../../../common/types'
+import { useAppDispatch, useAppSelector } from '../../common/redux/store'
+import { Loader } from '../Loader'
+import { getDropTokenByContractAndTokenId, selectToken } from './editionDrop.api'
+import { ContractType, Network } from '../../common/types'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
-import { Eyebrow } from '../../Eyebrow'
+import { Eyebrow } from '../Eyebrow'
 import { TransactionButton } from 'thirdweb/react'
 import { Chain, getContract } from 'thirdweb'
-import { claimTo } from 'thirdweb/extensions/erc1155'
-import { useWallet } from '../../../common/useWallet'
-import { TWClient } from '../../../common/web3/web3'
-import { mintSuccess } from '../drop.actions'
-import { transactionFailed, transactionSent } from '../../../common/transaction'
+import { claimTo, getActiveClaimCondition } from 'thirdweb/extensions/erc1155'
+import { getContractMetadata } from 'thirdweb/extensions/common'
+import { useWallet } from '../../common/useWallet'
+import { TWClient } from '../../common/web3/web3'
+import { mintSuccess } from '../Drop/drop.actions'
+import { transactionFailed, transactionSent } from '../../common/transaction'
+import { CollectionStat } from '../CollectionStat'
+import { set } from 'date-fns'
+import { formatDateAndTime } from '../../common/utils'
 
-interface NFTProps {
+interface EditionDropProps {
   contractAddress: string
   tokenId: string
   chain?: Chain
@@ -23,7 +27,7 @@ interface NFTProps {
   type?: ContractType
 }
 
-export const NFT: FC<NFTProps> = ({ contractAddress, tokenId, network, type, chain }) => {
+export const EditionDrop: FC<EditionDropProps> = ({ contractAddress, tokenId, network, type, chain }) => {
   const { data: token, status } = useAppSelector(
     selectToken({ contract: contractAddress, tokenId, network, type }),
   ) as any
@@ -31,6 +35,8 @@ export const NFT: FC<NFTProps> = ({ contractAddress, tokenId, network, type, cha
   const { address } = useWallet()
   const [contract, setContract] = useState<any>(null)
   const [quantity, setQuantity] = useState(1)
+  const [contractMetadata, setContractMetadata] = useState<any>(null)
+  const [activeClaimConditions, setActiveClaimConditions] = useState<any>(null)
 
   useEffect(() => {
     if (!token) {
@@ -39,15 +45,24 @@ export const NFT: FC<NFTProps> = ({ contractAddress, tokenId, network, type, cha
   }, [contractAddress, tokenId, network, dispatch, token, type])
 
   useEffect(() => {
-    if (contractAddress) {
-      const c = getContract({
+    if (contractAddress ) {
+      const contract = getContract({
         client: TWClient,
         chain,
         address: contractAddress,
       })
-      setContract(c)
+      setContract(contract)
+      getContractMetadata({
+        contract,
+      }).then(setContractMetadata)
     }
   }, [contractAddress, chain])
+  
+  useEffect(() => {
+    if (contract && tokenId) {
+      getActiveClaimCondition({ contract, tokenId: BigInt(tokenId) }).then(setActiveClaimConditions)
+    }
+  }, [contract, tokenId])
 
   const onPlus = () => {
     // if (quantity >= pathOr(1, ['claimConditions', 0, 'maxClaimablePerWallet'])(data)) return
@@ -83,19 +98,10 @@ export const NFT: FC<NFTProps> = ({ contractAddress, tokenId, network, type, cha
           <div className="my-8 satoshi text-xl leading-relaxed">{description}</div>
           {contract && (
             <div>
-              <div className="grid grid-cols-2 lg:grid-cols-2 gap-4 w-full border-y border-y-gray-700 py-8">
-                <div>
-                  <h4 className="text-xs uppercase tracking-widest m-0 grey">Claimed:</h4>
-                  <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">
-                    <div className="flex flex-row justify-left items-center">{supply}</div>
-                  </span>
-                </div>
-                <div>
-                  <h4 className="text-xs uppercase tracking-widest m-0 grey">Price:</h4>
-                  <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">
-                    <div className="flex flex-row justify-left items-center">Free</div>
-                  </span>
-                </div>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 w-full border-y border-y-gray-700 py-8">
+                <CollectionStat label="Claimed:" loading={status === 'pending'}>{supply}</CollectionStat>
+                <CollectionStat label="Price:" loading={status === 'pending'}>Free</CollectionStat>
+                <CollectionStat label="Opens:" loading={status === 'pending'}>{activeClaimConditions?.startTimestamp}{activeClaimConditions?.startTimestamp ? `${formatDateAndTime(Number(activeClaimConditions.startTimestamp))}` : null}</CollectionStat>
               </div>
               <div className="grid grid-cols-3 justify-center items-center mt-10">
                 <TransactionButton

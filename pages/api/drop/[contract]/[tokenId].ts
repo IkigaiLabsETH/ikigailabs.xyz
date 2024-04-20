@@ -20,10 +20,13 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     let result = {}
 
     if (isExtensionEnabled(clientContract.abi, 'ERC721', detectFeatures(clientContract.abi))) {
+      console.log('ERC721')
       result = await clientContract?.erc721?.get(BigNumber.from(tokenId))
+      console.log(result)
     }
 
     if (isExtensionEnabled(clientContract.abi, 'ERC1155', detectFeatures(clientContract.abi))) {
+      console.log('ERC1155')
       result = await clientContract?.erc1155?.get(BigNumber.from(tokenId))
       console.log(result)
     }

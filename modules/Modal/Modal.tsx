@@ -18,7 +18,7 @@ export const Modal: FC<ModalProps> = ({ modals }) => {
     modal && setSelectedModal(modals[modal](data))
 
     return () => setSelectedModal(null)
-  }, [modal])
+  }, [modal, data, modals])
 
   const closeModal = (event: MouseEvent<HTMLDivElement>) => {
     event.currentTarget === event.target && dispatch(hide())

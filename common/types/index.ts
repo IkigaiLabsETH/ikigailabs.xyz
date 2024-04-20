@@ -64,6 +64,7 @@ export enum CurrencyChain {
   'Goerli Ether' = Network.GOERLI,
   'Ether' = Network.MAINNET,
   'MATIC' = Network.POLYGON,
+  'BERA' = Network.BERA,
 }
 
 export interface Token {

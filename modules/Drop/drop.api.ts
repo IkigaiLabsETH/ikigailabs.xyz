@@ -18,24 +18,10 @@ export const dropApi = createApi({
       query: ({ contract, network, type = 'nft-drop' }: { contract: string; network: Network; type: ContractType }) =>
         `drop/${contract}?network=${network}${type ? `&type=${type}` : ''}`,
     }),
-    getDropTokenByContractAndTokenId: builder.query<any, {}>({
-      query: ({
-        contract,
-        tokenId,
-        network,
-        type = 'nft-drop',
-      }: {
-        contract: string
-        tokenId: string
-        network: Network
-        type: ContractType
-      }) => `drop/${contract}/${tokenId}?network=${network}${type ? `&type=${type}` : ''}`,
-    }),
   }),
 })
 
-export const { getDropByContract, getDropMetadataByContract, getDropTokenByContractAndTokenId } = dropApi.endpoints
+export const { getDropByContract, getDropMetadataByContract } = dropApi.endpoints
 
 export const selectDropMetadata = dropApi.endpoints.getDropMetadataByContract.select
 export const selectDrop = dropApi.endpoints.getDropByContract.select
-export const selectToken = dropApi.endpoints.getDropTokenByContractAndTokenId.select
