@@ -65,7 +65,7 @@ const Home: FC = () => {
         </div>
       </header>
       <main className="w-full">
-        <Featured />
+        {/* <Featured /> */}
         {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} /> */}
         {/* <MintPasses contracts={MINT_PASSES} /> */}
         {/* <BurnToMint

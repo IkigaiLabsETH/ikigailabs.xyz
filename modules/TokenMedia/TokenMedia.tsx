@@ -112,7 +112,7 @@ export const TokenMedia: FC<Props> = ({
 
   if (staticOnly || !media) {
     return (
-      <Image
+      <img
         src={replaceImageResolution(2048)(tokenImage)}
         title={token.name as string}
         alt={token.name as string}
@@ -191,7 +191,7 @@ export const TokenMedia: FC<Props> = ({
   //Image
   if (mediaType === 'png' || mediaType === 'jpeg' || mediaType === 'jpg' || mediaType === 'gif') {
     return (
-      <Image
+      <img
         src={replaceImageResolution(2048)(media)}
         title={token.name as string}
         alt={token.name as string}
@@ -222,7 +222,7 @@ export const TokenMedia: FC<Props> = ({
   }
 
   return (
-    <Image
+    <img
       src={replaceImageResolution(2048)(tokenImage)}
       title={token.name as string}
       alt={token.name as string}

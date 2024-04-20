@@ -15,11 +15,11 @@ export const SuccessfulModal: FC<SuccessfulModalProps> = ({ transactionHash, net
     <div className="p-10">
       <h1>Mint successful</h1>
       <p className="text-gray-800 text-xl">Your NFT has been minted.</p>
-      <div>
+      {/* <div>
         <Link href={`/${network}/drop/${contract}/${tokenId}`}>
           <span className="text-yellow text-xl">View your NFT</span>
         </Link>
-      </div>
+      </div> */}
       <div>
         <Link
           href={`${URLS[network].explorer}/tx/${transactionHash}`}

@@ -29,7 +29,7 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     if (isExtensionEnabled(clientContract.abi, 'ERC721', detectFeatures(clientContract.abi))) {
       const claimedSupplyPromise = clientContract.erc721.totalClaimedSupply()
       const unclaimedSupplyPromise = clientContract.erc721.totalUnclaimedSupply()
-      const claimConditionsPromise = clientContract.erc721.claimConditions.getAll()
+      const claimConditionsPromise = clientContract.erc721.claimConditions.getActive()
       result.claimedSupply = await claimedSupplyPromise.then(supply => parseInt(supply.toString(), 10))
       result.unclaimedSupply = await unclaimedSupplyPromise.then(supply => parseInt(supply.toString(), 10))
       result.claimConditions = await claimConditionsPromise
