@@ -2,7 +2,6 @@ import { isNil, map } from 'ramda'
 import React, { FC } from 'react'
 
 import { NFT, Network } from '../../common/types'
-import Image from 'next/image'
 import { useAppDispatch } from '../../common/redux/store'
 import { showListToken } from '../Collection/Token/token.slice'
 import Link from 'next/link'
@@ -30,7 +29,7 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
           <div className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <div className="overflow-clip">
               {image && (
-                <Image
+                <img
                   src={image}
                   alt={name}
                   width="512"

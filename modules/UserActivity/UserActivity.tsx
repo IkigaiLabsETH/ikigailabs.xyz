@@ -121,7 +121,7 @@ export const UserActivity: FC = () => {
                     </div>
                     <div className='flex flex-row items-center'>
                       {activity.token ? <>
-                        {activity.token.tokenImage && <Image src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} className='mr-2'/>} {activity.token.tokenName}
+                        {activity.token.tokenImage && <img src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} className='mr-2'/>} {activity.token.tokenName}
                       </>
                       : null }
                     </div>
@@ -163,7 +163,7 @@ export const UserActivity: FC = () => {
                       </div>
                       <div className='flex flex-row items-center'>
                         {activity.token ? <>
-                            {activity.token.tokenImage && <Image src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} className='mr-2'/>}
+                            {activity.token.tokenImage && <img src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} className='mr-2'/>}
                             <div className='ml-4'>{activity.token.tokenName}</div>
                           </>
                           : null }

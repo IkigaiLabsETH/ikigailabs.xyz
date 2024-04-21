@@ -120,7 +120,7 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
                     </div>
                     <div className='flex flex-row items-center justify-center'>
                       {activity.token ? <>
-                        {activity.token.tokenImage && <Image src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} />}
+                        {activity.token.tokenImage && <img src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} />}
                       </>
                       : null }
                     </div>
@@ -139,7 +139,7 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
                     <div className='flex justify-center items-center flex-col'>
                       {activity.order?.source && (
                         <div className="flex flex-row items-center">
-                          {activity.order.source?.icon && <Image src={activity.order.source.icon} width={20} height={20} alt={activity.order.source.domain} /> }
+                          {activity.order.source?.icon && <img src={activity.order.source.icon} width={20} height={20} alt={activity.order.source.domain} /> }
                           <div className="text-gray-500 ml-1 -mt-0.5">{activity.order.source.domain}</div>
                         </div>
                       )}
@@ -171,7 +171,7 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
                       </div>
                       <div className='flex flex-row items-center'>
                         {activity.token ? <>
-                            {activity.token.tokenImage && <Image src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} />}
+                            {activity.token.tokenImage && <img src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} />}
                             <div className='ml-4'>{activity.token.tokenId}</div>
                           </>
                           : null }
@@ -202,7 +202,7 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
                           </div>
                           {activity.order?.source && (
                             <div className="flex flex-row items-center">
-                              {activity.order.source?.icon && <Image src={activity.order.source.icon} width={20} height={20} alt={activity.order.source.domain} /> }
+                              {activity.order.source?.icon && <img src={activity.order.source.icon} width={20} height={20} alt={activity.order.source.domain} /> }
                               <div className="text-gray-500 ml-1 -mt-0.5">{activity.order.source.domain}</div>
                             </div>
                           )}

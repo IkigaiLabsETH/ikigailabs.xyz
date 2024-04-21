@@ -141,7 +141,7 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
                       <div className="flex flex-col items-end justify-end">
                         {order?.source && (
                           <div className="flex flex-row items-center">
-                            {order.source?.icon && <Image src={order.source.icon} width={20} height={20} alt={order.source.domain} /> }
+                            {order.source?.icon && <img src={order.source.icon} width={20} height={20} alt={order.source.domain} /> }
                             <div className="text-gray-500 ml-1 -mt-0.5">{order.source.domain}</div>
                           </div>
                         )}
