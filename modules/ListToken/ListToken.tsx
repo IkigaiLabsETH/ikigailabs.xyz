@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react'
 import { addMonths, addSeconds } from 'date-fns/fp'
-import Image from 'next/image'
 import Flatpickr from 'react-flatpickr'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
@@ -75,7 +74,7 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
       </div>
       <div className="flex flex-row">
         <div className="w-full md:w-1/2 hidden md:flex pr-10">
-          <Image
+          <img
             src={image}
             alt={name}
             width={800}

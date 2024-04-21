@@ -58,7 +58,7 @@ export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network, owner }) =>
                 return (
                   <tr key={`${token?.contract}${token?.tokenId}`}>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {token?.image && <Image src={token?.image} width={40} height={40} alt={token?.name} />}
+                      {token?.image && <img src={token?.image} width={40} height={40} alt={token?.name} />}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       <div className="font-medium text-gray-900">{token?.name}</div>

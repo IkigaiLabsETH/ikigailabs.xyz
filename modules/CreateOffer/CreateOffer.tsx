@@ -74,7 +74,7 @@ export const CreateOffer: FC<CreateOfferProps> = ({ contract, tokenId, network, 
       </div>
       <div className="flex flex-row">
         <div className="w-full md:w-1/2 hidden md:flex pr-10">
-          <Image
+          <img
             src={image}
             alt={name}
             width={800}

@@ -107,7 +107,7 @@ export const URLS = {
     reservoir: '',
     tw: '',
     alchemy: '',
-    explorer: '',
+    explorer: 'https://artio.beratrail.io',
     openzeppelin: '',
   },
 }
