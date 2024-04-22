@@ -22,7 +22,7 @@ export const CollectionsGrid: FC<CollectionsGridProps> = ({ collections, network
         >
           <div className="overflow-clip h-1/2">
             {collection?.image ? (
-              <img src={collection?.image} alt={collection?.name} width="384" height="384" />
+              <Image src={collection?.image} alt={collection?.name} width="384" height="384" />
             ) : null}
           </div>
           <div className="p-4 flex h-1/2">

@@ -22,6 +22,7 @@ import {
 import { ETH } from 'react-cryptoicon'
 
 import { ActivityType, Network, Option } from '../types'
+import { sepolia } from 'viem/chains'
 
 export const COLLECTION_METADATA_FIELDS = ['name', 'description', 'image']
 
@@ -43,8 +44,8 @@ export const NETWORK_OPTIONS = [
     name: 'Ethereum',
   },
   {
-    id: 'goerli',
-    name: 'Goerli',
+    id: 'sepolia',
+    name: 'Sepolia',
   },
   {
     id: 'polygon',
@@ -190,6 +191,7 @@ export const CHAINS = {
   [Network.ZORA]: zora,
   [Network.BASE]: base,
   [Network.BASE_SEPOLIA]: baseSepolia,
+  [Network.SEPOLIA]: sepolia,
   [Network.AVALANCHE]: avalanche,
   [Network.LINEA]: customChains[Network.LINEA],
   // [Network.SCROLL]: customChains[Network.SCROLL],
@@ -199,9 +201,9 @@ export const CHAINS = {
 }
 
 export const CHAIN_ICON_MAP = {
-  ETH: <ETH size={20} />,
-  [Network.MAINNET]: <ETH size={20} />,
-  [Network.OPTIMISM]: <ETH size={20} />,
+  ETH: <ETH />,
+  [Network.MAINNET]: <ETH />,
+  [Network.OPTIMISM]: <ETH />,
 }
 
 export const ACTIVITY_ICON_MAP = {
@@ -220,4 +222,3 @@ export const ACTIVITY_ICON_MAP = {
   [ActivityType.ask]: <div className='h-4 w-4 mr-2'><FaTag className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>,
   [ActivityType.sale]: <div className='h-4 w-4 mr-2'><FaCartShopping className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,</div>
 }
-

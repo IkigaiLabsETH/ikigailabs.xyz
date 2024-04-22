@@ -11,11 +11,11 @@ export const URLS = {
     explorer: 'https://etherscan.io',
     openzeppelin: '',
   },
-  [Network.GOERLI]: {
-    reservoir: 'https://api-goerli.reservoir.tools',
+  [Network.SEPOLIA]: {
+    reservoir: 'https://api-sepolia.reservoir.tools',
     tw: '',
-    alchemy: 'https://eth-goerli.g.alchemy.com',
-    explorer: 'https://goerli.etherscan.io',
+    alchemy: 'https://eth-sepolia.g.alchemy.com',
+    explorer: 'https://sepolia.etherscan.io',
     openzeppelin: '',
   },
   [Network.POLYGON]: {
@@ -40,11 +40,11 @@ export const URLS = {
     explorer: 'https://arbiscan.io',
     openzeppelin: '',
   },
-  [Network.ARBITRUM_GOERLI]: {
+  [Network.ARBITRUM_SEPOLIA]: {
     reservoir: '',
     tw: '',
-    alchemy: 'https://arb-goerli.g.alchemy.com',
-    explorer: 'https://goerli.arbiscan.io',
+    alchemy: 'https://arb-sepolia.g.alchemy.com',
+    explorer: 'https://sepolia.arbiscan.io',
     openzeppelin: '',
   },
   [Network.OPTIMISM]: {
@@ -107,7 +107,7 @@ export const URLS = {
     reservoir: '',
     tw: '',
     alchemy: '',
-    explorer: 'https://artio.beratrail.io',
+    explorer: '',
     openzeppelin: '',
   },
 }
@@ -155,7 +155,7 @@ export const COLLECTIONS = {
       name: 'Degens',
     },
   ],
-  [Network.GOERLI]: [
+  [Network.SEPOLIA]: [
     {
       id: 'a85336cbd06421c67cefe53cd16b1f3dc4d340eaed6680a433279027005aa614',
       name: 'Curated',
@@ -187,8 +187,9 @@ export const FEATURED_DROP = '0x3C9A5EeB4D7126D759B64B9129C23012CF802313'
 export const NFTDrops = ['0xcE998593C8f0790ff41a488c83B2Af5E47C27258', '0x025c59a275Ca6DB964eeE1694c6614AcE62F1568']
 
 // export const FREE_MINT_CONTRACT = '0x009C93c2285A5Eb536f3a9607A138e68094B94Bd'
-export const FREE_MINT_CONTRACT = '0x5929B982f037064195EfFf06CDF140b931233674'
-export const FREE_MINT_TOKEN_ID = 0
+export const FREE_MINT_CONTRACT = '0xb4a8b1b9183fa50636a8578d81290e595a7ed005'
+// export const FREE_MINT_CONTRACT = '0x19d3a049fad084bef3036f6daf8c81bcfbcabb79'
+export const FREE_MINT_TOKEN_ID = 1
 
 export const BURN_TO_MINT_1155 = '0xd6aC136fC352eB4EF372095CC9fe9ED7dfEdF504'
 export const BURN_TO_MINT_721 = '0xf76afb63f9A808cF6A0F05Ea888C014e89d82F0C'

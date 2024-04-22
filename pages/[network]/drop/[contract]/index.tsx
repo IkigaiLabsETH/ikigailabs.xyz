@@ -21,7 +21,7 @@ const DropPage: FC = () => {
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
       <main className="w-full">
-        <Drop contractAddress={contract as string} tokenId={id as string} network={network as Network} />
+        <Drop contract={contract as string} tokenId={id as string} network={network as Network} />
       </main>
       <Footer />
     </div>

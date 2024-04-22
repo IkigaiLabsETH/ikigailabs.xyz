@@ -45,7 +45,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
   const ens = useAppSelector(state => selectENSByAddress(state, token?.token?.owner))
   const ensStatus = useAppSelector(selectEnsStatus)
 
-  const [activeTab, setActiveTab] = useState<string>('Activity')
+  const [activeTab, setActiveTab] = useState<string>('Info')
   const dispatch = useAppDispatch()
 
   const onBuyToken = () => {
@@ -298,7 +298,14 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
               </div>
               <div className="block w-full">
                 <nav className="flex space-x-4 font-bold border-b border-b-gray-400 w-full" aria-label="Tabs">
-                  
+                  <button
+                    onClick={() => setActiveTab('Info')}
+                    className={`p-4 border-b-4 border-white hover:border-black hover:text-black transition-all ${
+                      activeTab === 'Info' ? 'text-black' : 'text-gray-400 border-b-white'
+                    }`}
+                  >
+                    Info
+                  </button>
                   <button
                     onClick={() => setActiveTab('Activity')}
                     className={`p-4 border-b-4 border-white hover:border-black hover:text-black transition-all ${
@@ -322,14 +329,6 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                     }`}
                   >
                     Offers
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('Info')}
-                    className={`p-4 border-b-4 border-white hover:border-black hover:text-black transition-all ${
-                      activeTab === 'Info' ? 'text-black' : 'text-gray-400 border-b-white'
-                    }`}
-                  >
-                    Info
                   </button>
                 </nav>
               </div>

@@ -45,7 +45,6 @@ import { closeSlideUpActions, openSlideUpActions } from '../slideup'
 import { tokenFetchCompleteMiddleware } from '../../modules/Collection/Token'
 import { ensReducer } from '../ens'
 import { transactionFailed, transactionSent } from '../transaction'
-import { editionDropApi } from '../../modules/EditionDrop'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -123,7 +122,6 @@ const combinedReducer = combineReducers({
   burnToMint: burnToMintReducer,
   [walletApi.reducerPath]: prop('reducer')(walletApi),
   NFTDrops: NFTDropsReducer,
-  [editionDropApi.reducerPath]: prop('reducer')(editionDropApi),
   confetti: confettiReducer,
   network: networkSelectorReducer,
   ens: ensReducer,
@@ -131,6 +129,14 @@ const combinedReducer = combineReducers({
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => combinedReducer(state, action)
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['network'],
+}
+
+const persistedReducer = persistReducer(persistConfig, reducer)
 
 const makeStore = () =>
   configureStore({
@@ -150,7 +156,6 @@ const makeStore = () =>
           walletApi.middleware,
           dropApi.middleware,
           userApi.middleware,
-          editionDropApi.middleware,
         ),
     devTools: true,
   })

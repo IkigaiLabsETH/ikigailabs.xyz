@@ -15,6 +15,7 @@ import {
   Blast,
   BerachainArtio,
   BaseSepoliaTestnet,
+  Sepolia
 } from '@thirdweb-dev/chains'
 import {
   arbitrum,
@@ -34,6 +35,7 @@ import {
   zkSync,
 } from 'wagmi/chains'
 import { Network } from '../types'
+import { sepolia } from 'viem/chains'
 
 //CONFIGURABLE: The default export controls the supported chains for the marketplace. Removing
 // or adding chains will result in adding more or less chains to the marketplace.
@@ -81,6 +83,18 @@ export const defaultChain: ReservoirChain = {
 
 export const supportedChains = [
   defaultChain,
+  {
+    ...sepolia,
+    lightIconUrl: '/icons/eth-icon-dark.svg',
+    darkIconUrl: '/icons/eth-icon-light.svg',
+    reservoirBaseUrl: 'https://api-sepolia.reservoir.tools',
+    proxyApi: '/api/reservoir/sepolia',
+    routePrefix: 'sepolia',
+    apiKey: process.env.NEXT_PUBLIC_RESERVOIR_KEY,
+    coingeckoId: 'sepolia-network',
+    collectionSetId: process.env.NEXT_PUBLIC_SEPOLIA_COLLECTION_SET_ID,
+    community: process.env.NEXT_PUBLIC_SEPOLIA_COMMUNITY,
+  },
   {
     ...polygon,
     lightIconUrl: '/icons/polygon-icon-dark.svg',
@@ -164,6 +178,7 @@ export const TW_SUPPORTED_CHAINS = [
   Arbitrum,
   Zora,
   Base,
+  Sepolia,
   BaseSepoliaTestnet,
   Optimism,
   ArbitrumNova,

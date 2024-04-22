@@ -16,7 +16,7 @@ export const FeaturedDrop: FC<featuredDropProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
   const network = useAppSelector(selectedNetwork)
   const { data: featuredDrop, status: loadingState } = useAppSelector(
-    selectDrop({ contract, network, type: 'nft-drop' }),
+    selectDrop({ contract, network, type: 'edition-drop' }),
   )
 
   useEffect(() => {

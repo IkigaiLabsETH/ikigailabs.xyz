@@ -3,77 +3,52 @@ import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import { CurrencyChain, DropTypeStandards, Network } from '../../common/types'
+import { TransactionResultWithId, TWNFT, CurrencyChain, DropTypeStandards, Network, DropTypes } from '../../common/types'
 import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
 import { Loader } from '../Loader'
 import { getDropByContract, selectDrop } from './drop.api'
 import { mintSuccess } from './drop.actions'
 import { Amount } from '../Form/Amount'
-import { TransactionButton } from 'thirdweb/react'
-import { claimTo } from 'thirdweb/extensions/erc721'
-import { transactionFailed, transactionSent } from '../../common/transaction'
-import { useWallet } from '../../common/useWallet'
-import { ContractOptions, getContract } from 'thirdweb'
-import { TWClient } from '../../common/web3/web3'
-import { CHAINS } from '../../common/constants'
-import { getContractMetadata } from 'thirdweb/extensions/common'
-import { TransactionReceipt } from 'thirdweb/dist/types/transaction/types'
+import FreeMintButton from '../FreeMintButton'
+import { NFT } from './Token'
+import { CHAINS } from '@/common/constants'
 
 interface DropProps {
-  contractAddress: string
+  contract: string
   tokenId: string
   network: Network
 }
 
-export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
+export const Drop: FC<DropProps> = ({ contract, network }) => {
   const dispatch = useAppDispatch()
-  const { address } = useWallet()
   const [localClaimedSupply, setLocalClaimedSupply] = useState(0)
   const [amountToMint, setAmountToMint] = useState(1)
-  const { data, status } = useAppSelector(selectDrop({ contract: contractAddress, network, type: 'nft-drop' }))
-  const [maxClaimable, setMaxClaimable] = useState<string | number>(1)
-  const [contract, setContract] = useState<Readonly<ContractOptions<[]>> | null>(null)
-  const [contractMetadata, setContractMetadata] = useState<any>(null)
-
+  const { data, status } = useAppSelector(selectDrop({ contract, network, type: 'edition-drop' }))  
+  
   useEffect(() => {
-    if (!contractAddress) return
-    dispatch(getDropByContract.initiate({ contract: contractAddress, network, type: 'nft-drop' }))
-  }, [contractAddress, dispatch, network])
+    if (!contract) return
+    dispatch(getDropByContract.initiate({ contract, network, type: 'edition-drop' }))
+  }, [contract, dispatch, network])
 
-  const onSuccess = ({ transactionHash, tokenId }) => {
+  const onSuccess = (result: TransactionResultWithId<TWNFT>[]) => {
     const data = {
-      tokenId: tokenId.toString(),
-      transactionHash,
+      tokenId: result[0].id.toString(),
+      transactionHash: result[0].receipt.transactionHash,
       network,
-      contract: contractAddress,
+      contract,
     }
     dispatch(mintSuccess(data))
     setLocalClaimedSupply(localClaimedSupply + amountToMint)
   }
 
   useEffect(() => {
-    if (!contractAddress) return
-    const contract = getContract({
-      client: TWClient,
-      chain: CHAINS[network],
-      address: contractAddress,
-    })
-    setContract(contract)
-    getContractMetadata({
-      contract,
-    }).then(setContractMetadata)
-  }, [contractAddress, network])
-
-  useEffect(() => {
     const claimedSupply = propOr(0, 'claimedSupply')(data) as number
-    const maxClaimable = pathOr("1", ['claimConditions', 'maxClaimablePerWallet'])(data)
     setLocalClaimedSupply(claimedSupply)
-    setMaxClaimable(maxClaimable)
   }, [data])
 
   const onPlus = () => {
-    if (amountToMint >= (maxClaimable === 'unlimited' ? 9999999999 : parseInt(maxClaimable as string, 10))) return
+    if (amountToMint >= pathOr(1, ['claimConditions', 0, 'maxClaimablePerWallet'])(data)) return
     setAmountToMint(amountToMint + 1)
   }
 
@@ -84,14 +59,15 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
 
   const claimedSupply = propOr(0, 'claimedSupply')(data) as number
   const unclaimedSupply = propOr(0, 'unclaimedSupply')(data) as number
-
+  const opens = pathOr('', ['claimConditions', 0, 'startTime'])(data)
   const totalSupply = add(claimedSupply, unclaimedSupply)
+  const canNotMint = totalSupply === localClaimedSupply && totalSupply > 0
 
   const header = match('succeeded')
     .with('succeeded', () => (
       <>
         <CollectionHeader
-          eyebrow="Welcome"
+          eyebrow="Signature drop"
           coverImage={pathOr('', ['metadata', 'image'])(data)}
           name={pathOr('', ['metadata', 'name'])(data)}
           description={pathOr('', ['metadata', 'description'])(data)}
@@ -99,8 +75,8 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
           <div className="flex flex-col">
             <div className="grid grid-cols-3 gap-4 w-full border-y border-y-gray-700 py-8 mt-6">
               <CollectionStat label="Price" loading={status === 'pending'}>
-                {pathOr('', ['claimConditions', 'currencyMetadata', 'displayValue'])(data)}{' '}
-                {pathOr('', ['claimConditions', 'currencyMetadata', 'symbol'])(data)}
+                {pathOr('', ['claimConditions', 0, 'currencyMetadata', 'displayValue'])(data)}{' '}
+                {pathOr('', ['claimConditions', 0, 'currencyMetadata', 'symbol'])(data)}
               </CollectionStat>
               <CollectionStat
                 label="Minted"
@@ -112,7 +88,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
             </div>
             <div className="grid grid-cols-1 gap-4 w-full border-b border-b-gray-700 py-8">
               <CollectionStat label="Opens:" loading={status === 'pending'}>
-                {new Date(pathOr('', ['claimConditions', 'startTime'])(data)).toLocaleDateString()}
+                {opens ? new Date(opens).toLocaleDateString() : ""}
               </CollectionStat>
             </div>
           </div>
@@ -121,40 +97,29 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
               <Amount amount={amountToMint} onMinus={onMinus} onPlus={onPlus} />
             </div>
             <div className="w-3/4 pl-4">
-              { maxClaimable === 'unlimited' || 0 < (maxClaimable as number) ? (
-                <TransactionButton
-                  className="!bg-yellow !text-black !w-full !border-black shadow-[5px_5px_0px_0px_rgba(234,179,8,1)] hover:shadow-[6px_6px_0px_0px_rgba(234,179,8,1)] !transition-all !epilogue !text-xl hover:cursor-pointer"
-                  style={{ padding: '0.75rem', border: '2px solid yellow', borderRadius: '0' }}
-                  transaction={() =>
-                    claimTo({
-                      contract,
-                      to: address,
-                      quantity: BigInt(amountToMint),
-                    })
-                  }
-                  onTransactionSent={({ transactionHash }) => dispatch(transactionSent(transactionHash))}
-                  onTransactionConfirmed={({ transactionHash }: TransactionReceipt ) => {
-                    onSuccess({transactionHash, tokenId: BigInt(0)})
-                  }}
-                  onError={error => {
-                    dispatch(transactionFailed(error))
-                  }}
-                >
-                  Claim
-                </TransactionButton>) : <>Not eligible to claim. Connect an eligible wallet.</> }
+              <FreeMintButton
+                contractAddress={contract}
+                onError={console.log}
+                onSuccess={onSuccess}
+                amountToMint={amountToMint}
+                disabled={canNotMint}
+                className="hover:text-yellow w-full border-black active:text-yellow focus-visible:outline-yellow bg-yellow hover:bg-black rounded-none font-bold p-5 transition-colors border-2 hover:border-yellow"
+              >
+                {canNotMint ? 'Sold out!' : 'Mint Now'}
+              </FreeMintButton>
             </div>
           </div>
           <div className="flex flex-col w-full mt-1 text-gray-600 border-y border-y-gray-700 py-8 text-sm">
             <ul>
               <li>
                 <span className="font-bold">Blockchain:</span>{' '}
-                {CurrencyChain[pathOr('', ['claimConditions', 'currencyMetadata', 'name'])(data)]}
+                {CHAINS[Network.SEPOLIA].name}
               </li>
               <li>
-                <span className="font-bold">Contract Address:</span> {contractAddress}
+                <span className="font-bold">Contract Address:</span> {contract}
               </li>
               <li>
-                <span className="font-bold">Token Standard:</span> {DropTypeStandards['nft-drop']}
+                <span className="font-bold">Token Standard:</span> {DropTypeStandards[DropTypes.Edition]}
               </li>
             </ul>
           </div>

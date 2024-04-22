@@ -5,14 +5,15 @@ import { ethers } from 'ethers'
 import { Network } from '../types'
 import { URLS } from '../config'
 import { getChainIdFromNetwork } from '../utils'
-import { createWalletClient, custom } from 'viem'
+import { createWalletClient, http, custom, createPublicClient } from "viem"
 import { TW_SUPPORTED_CHAINS } from '../config/chains'
 import { createThirdwebClient } from 'thirdweb'
+import { sepolia } from 'viem/chains'
 
 let web3Provider = null
 let signer = null
 const jsonRpcProvider = new ethers.providers.JsonRpcProvider(
-  `${URLS[Network.MAINNET].alchemy}/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
+  `${URLS[Network.SEPOLIA].alchemy}/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
 )
 if (typeof window !== 'undefined') {
   web3Provider =
@@ -53,14 +54,16 @@ const reservoirClient = (chain: Network) =>
         name: chain,
       },
     ],
-    source: process.env.NEXT_PUBLIC_APP_NAME || 'ikigailabs.xyz',
-    logLevel: 4,
+    source: process.env.NEXT_PUBLIC_EXPLORER_SOURCE || 'ikigailabs.xyz',
+    apiKey: process.env.NEXT_PUBLIC_RESERVOIR_KEY || '',
   })
 
-const walletClient = (address: `0x${string}`) =>
-  createWalletClient({
+const walletClient = (address: `0x${string}`) => {
+  return createWalletClient({
     account: address,
-    transport: custom(window?.ethereum),
+    chain: sepolia,
+    transport: custom(window.ethereum!),
   })
+}
 
 export { getTWClient, signer, reservoirClient, walletClient, jsonRpcProvider, TWClient }

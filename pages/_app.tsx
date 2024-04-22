@@ -26,7 +26,8 @@ import { changeRoute, initialPageLoad } from '../common/app'
 import { URLS } from '../common/config'
 import { SlideUp } from '../modules/SlideUp'
 import { SLIDEUPS } from '../common/slideup'
-import { ThirdwebProvider } from 'thirdweb/react'
+import { ThirdwebProvider  } from 'thirdweb/react'
+import { TW_SUPPORTED_CHAINS } from '../common/config/chains'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter()
@@ -59,13 +60,13 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
     <Provider store={store}>
       {/* <QueryClientProvider client={queryClient}> */}
       <ThirdwebProvider
-      // activeChain={network}
-      // sdkOptions={sdkOptions}
-      // clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-      // supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect(), phantomWallet()]}
-      // supportedChains={TW_SUPPORTED_CHAINS}
-      // autoSwitch={true}
-      // autoConnect={true}
+        // activeChain={network}
+        // sdkOptions={sdkOptions}
+        // clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
+        // supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect(), phantomWallet()]}
+        // supportedChains={TW_SUPPORTED_CHAINS}
+        // autoSwitch={true}
+        // autoConnect={true}
       >
         <Component {...pageProps} />
         <Modal modals={MODALS} />

@@ -1,11 +1,10 @@
 import Head from 'next/head'
 import React, { FC } from 'react'
-import { EditionDrop } from '../../modules/EditionDrop'
+import { NFT } from '../../modules/Drop/Token'
 import { Layout, Network } from '../../common/types'
 import { withLayout } from '../../common/layouts/MainLayout/withLayout'
 import { Footer } from '../../modules/Footer'
 import { customChains } from '../../common/constants/constants'
-import { Drop } from '../../modules/Drop'
 
 const Bera: FC = () => {
   return (
@@ -16,16 +15,11 @@ const Bera: FC = () => {
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
       <main className="w-full">
-        {/* <EditionDrop
+        <NFT
           contractAddress={process.env.NEXT_PUBLIC_BERA_CONTRACT_ADDRESS}
           tokenId={process.env.NEXT_PUBLIC_BERA_TOKEN_ID}
           network={Network.BERA}
           chain={customChains[Network.BERA]}
-        /> */}
-        <Drop
-          contractAddress={process.env.NEXT_PUBLIC_BERA_CONTRACT_ADDRESS}
-          tokenId={process.env.NEXT_PUBLIC_BERA_TOKEN_ID}
-          network={Network.BERA}
         />
       </main>
       <Footer />

@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react'
 import { addMonths, addSeconds } from 'date-fns/fp'
+import Image from 'next/image'
 import Flatpickr from 'react-flatpickr'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
@@ -12,6 +13,7 @@ import { ReservoirActionButton } from '../ReservoirActionButton/ReservoirActionB
 import { Listbox } from '../Listbox'
 import { Toggle } from '../Toggle'
 import { useWallet } from '../../common/useWallet'
+import { FREE_MINT_TOKEN_ID } from '@/common/config'
 
 interface ListTokenProps {
   contract: string
@@ -34,18 +36,23 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
   }
   const [selectedCurrency, setSelectedCurrency] = useState<Option>(SUPPORTED_CURRENCY[0])
 
-  const onCreateAsk = () => {
-    const wei = ethToWei(parseFloat(eth)).toString()
+  const onCreateAsk = async () => {
+    const marketplaceFee = 0.01;
+    const royaltyFee = 0.01;
+    const totalFee = marketplaceFee + royaltyFee;
+    const totalWei = parseFloat(eth) * (1 + totalFee)
+    const wei = ethToWei(totalWei).toString()
+ 
     return dispatch(
       listToken({
         contract,
         tokenId,
-        wei,
         address,
-        network,
-        currency: SUPPORTED_CURRENCY[0].id,
+        wei,
+        network: Network.SEPOLIA,
         expiration,
-        platforms,
+        currency: "0x0000000000000000000000000000000000000000",
+        platforms: ['Solana', 'OpenSea'],
       }),
     )
   }
@@ -74,7 +81,7 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
       </div>
       <div className="flex flex-row">
         <div className="w-full md:w-1/2 hidden md:flex pr-10">
-          <img
+          <Image
             src={image}
             alt={name}
             width={800}

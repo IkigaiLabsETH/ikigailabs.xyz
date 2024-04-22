@@ -141,7 +141,7 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
                       <div className="flex flex-col items-end justify-end">
                         {order?.source && (
                           <div className="flex flex-row items-center">
-                            {order.source?.icon && <img src={order.source.icon} width={20} height={20} alt={order.source.domain} /> }
+                            {order.source?.icon && <Image src={order.source.icon} width={20} height={20} alt={order.source.domain} /> }
                             <div className="text-gray-500 ml-1 -mt-0.5">{order.source.domain}</div>
                           </div>
                         )}
@@ -149,9 +149,7 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
                           <div className="text-gray-500 text-xs">{truncateAddress(fromAddress)}</div>
                           {toAddress && (
                             <div className="text-gray-500 text-xs">
-                              <div className='h-3 w-3 mr-1 inline-block'>
-                                <FaArrowRight className="inline font-light mx-0.5 -mt-0.5" />
-                              </div>
+                              <FaArrowRight className="inline font-light mx-0.5 -mt-0.5" />
                               {truncateAddress(toAddress)}
                             </div>
                           )}

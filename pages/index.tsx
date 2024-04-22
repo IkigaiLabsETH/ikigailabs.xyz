@@ -2,19 +2,20 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { FC } from 'react'
-// import { FREE_MINT_CONTRACT, MINT_PASSES } from '../common/config'
+import { FREE_MINT_CONTRACT, MINT_PASSES } from '../common/config'
 
 import { withLayout } from '../common/layouts/MainLayout/withLayout'
-import { Layout } from '../common/types'
+import { Layout, Network } from '../common/types'
 // import { Button } from '../modules/Button'
 // import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
-// import { FreeMint } from '../modules/FreeMint'
+import { FreeMint } from '../modules/FreeMint'
 // import { MintPasses } from '../modules/MintPasses'
 import { Featured } from '../modules/Featured'
 // import { selectedNetwork } from '../modules/NetworkSelector'
 // import { useAppSelector } from '../common/redux/store'
-// import { MintPasses } from '../modules/MintPasses'
+import { MintPasses } from '../modules/MintPasses'
+import { BurnToMint } from '../modules/BurnToMint'
 
 const Home: FC = () => {
   return (
@@ -50,7 +51,7 @@ const Home: FC = () => {
             </Button>
           </div> */}
         </div>
-        <div className="mb-10 flex justify-center items-center flex-col w-12 h-12">
+        <div className="pb-10 flex justify-center items-center flex-col">
           {/* <Eyebrow>Free mint</Eyebrow> */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -58,15 +59,15 @@ const Home: FC = () => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="!w-12 !h-12 stroke-yellow"
+            className="w-12 h-12"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5" />
           </svg>
         </div>
       </header>
       <main className="w-full">
-        {/* <Featured /> */}
-        {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} /> */}
+        <Featured />
+        <FreeMint contract={FREE_MINT_CONTRACT} network={Network.SEPOLIA} />
         {/* <MintPasses contracts={MINT_PASSES} /> */}
         {/* <BurnToMint
           sourceContract={pathOr('', ['odessyGenesisCollection', 'sourceContract'])(BURN_TO_MINT)}

@@ -2,8 +2,14 @@ import React, { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import Head from 'next/head'
+import { isEmpty, isNil } from 'ramda'
 
+import { userApi } from '../../../../../modules/User'
 import { useAppDispatch, useAppSelector } from '../../../../../common/redux/store'
+import { selectUserActivity } from '../../../../../modules/User/user.api'
+import { useInfiniteLoading } from '../../../../../common/useInfiniteLoading'
+import { Loader } from '../../../../../modules/Loader'
+// import { Activity } from '../../../../../modules/Activity'
 import { Layout, Network } from '../../../../../common/types'
 import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
 import { Footer } from '../../../../../modules/Footer'
@@ -11,7 +17,6 @@ import { DashboardNav } from '../../../../../modules/DashboardNav'
 import { NetworkNav } from '../../../../../modules/NetworkNav'
 import { lookupAddress, selectENSByAddress, selectEnsStatus } from '../../../../../common/ens'
 import { truncateAddress } from '../../../../../common/utils'
-import { UserActivity } from '../../../../../modules/UserActivity'
 
 export const ActivityDashboard: FC = ({}) => {
   const {
@@ -19,9 +24,22 @@ export const ActivityDashboard: FC = ({}) => {
   } = useRouter()
   const dispatch = useAppDispatch()
 
-  
+  const { data: activity, status: activityStatus } = useAppSelector(
+    selectUserActivity({ address: address as string, network: network as Network }),
+  )
   const ens = useAppSelector(state => selectENSByAddress(state, address as string))
   const ensStatus = useAppSelector(selectEnsStatus)
+
+  const { ref: activityRef } = useInfiniteLoading(userApi.endpoints.getUserActivity.initiate, {
+    address: address as string,
+    continuation: activity?.continuation,
+    network,
+  })
+
+  useEffect(() => {
+    if (!address || !network) return
+    dispatch(userApi.endpoints.getUserActivity.initiate({ address: address as string, network: network as Network }))
+  }, [dispatch, address, network])
 
   useEffect(() => {
     if (!ens?.name && ensStatus !== QueryStatus.pending && address) {
@@ -58,7 +76,21 @@ export const ActivityDashboard: FC = ({}) => {
                 </div>
               </div>
               <div className="w-5/6">
-                <UserActivity />
+                {!isNil(activity?.activities) && !isEmpty(activity?.activities) && (
+                  <div className="mr-8">
+                    {/* <Activity activity={activity?.activities} showPrice={false} /> */}
+                  </div>
+                )}
+                {activityStatus !== QueryStatus.pending && isEmpty(activity?.activities) && (
+                  <div className="w-full text-center">No activity found</div>
+                )}
+                {activityStatus === QueryStatus.pending && (
+                  <div className="w-full text-center">
+                    <Loader />
+                  </div>
+                )}
+                {!address && <div className="w-full text-center">Not Connected</div>}
+                <div ref={activityRef} />
               </div>
             </div>
           </div>

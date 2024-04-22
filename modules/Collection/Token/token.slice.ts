@@ -1,8 +1,9 @@
 import { createAction, createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 
 import { RootState } from '../../../common/redux/store'
-import { jsonRpcProvider, reservoirClient, walletClient } from '../../../common/web3'
+import { reservoirClient, walletClient, signer } from '../../../common/web3'
 import { ReservoirClient } from '@reservoir0x/reservoir-sdk'
+import { adaptViemWallet } from '@reservoir0x/reservoir-sdk'
 import { Network } from '../../../common/types'
 import { getUnixTime } from 'date-fns/fp'
 
@@ -11,6 +12,32 @@ export const tokenAdapter = createEntityAdapter({})
 export const interactionProgressAction = createAction<any>('collection/interaction/progress')
 export const showListToken = createAction<any>('listToken/show')
 export const showCreateBid = createAction<any>('createBid/show')
+
+export const mintTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
+  createAsyncThunk<Promise<any>, { contract: string; address: string, tokenId: string; network: Network, amount: number }>(
+    'token/mint',
+    ({ contract, tokenId, network, amount, address }, { rejectWithValue }) => {
+      return client(network)
+        ?.actions.mintToken({
+          items: [{
+            token: `${contract}:${tokenId}`,
+            quantity: amount,
+          }],
+          options: {
+            referrer: address, /// 
+          },
+          wallet: adaptViemWallet(walletClient(address)), 
+          onProgress: steps => {
+            // dispatch(interactionProgressAction(steps))
+          },
+        })
+        .catch((err: any) => {
+          return rejectWithValue(err.response.data)
+        })
+    },
+  )
+
+export const mintToken = mintTokenTh(reservoirClient, walletClient)
 
 export const buyTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<Promise<any>, { contract: string; tokenId: string; address: string; network: Network }>(
@@ -56,14 +83,14 @@ export const createBidTh = (client: (network: Network) => ReservoirClient, walle
         weiPrice: string
         expirationTime: string
       }[] = [
-        {
-          token: `${contract}:${tokenId}`,
-          orderbook: 'reservoir',
-          orderKind: 'seaport-v1.5',
-          weiPrice: wei,
-          expirationTime: getUnixTime(expiration).toString(),
-        },
-      ]
+          {
+            token: `${contract}:${tokenId}`,
+            orderbook: 'reservoir',
+            orderKind: 'seaport-v1.5',
+            weiPrice: wei,
+            expirationTime: getUnixTime(expiration).toString(),
+          },
+        ]
 
       if (platforms.includes('opensea')) {
         bids.push({
@@ -78,7 +105,7 @@ export const createBidTh = (client: (network: Network) => ReservoirClient, walle
       return client(network)
         ?.actions.placeBid({
           bids: bids,
-          wallet: walletClient(address, network),
+          wallet: walletClient(signer),
           onProgress: steps => {
             // dispatch(interactionProgressAction(steps))
             console.log(steps)
@@ -108,38 +135,25 @@ export const listTokenTh = (client: (network: Network) => ReservoirClient, walle
   >(
     'token/list',
     ({ contract, tokenId, wei, address, network, currency, expiration, platforms }, { rejectWithValue, dispatch }) => {
-      const listings: {
-        token: string
-        orderbook: 'reservoir' | 'opensea'
-        orderKind: 'seaport-v1.5'
-        weiPrice: string
-        expirationTime: string
-      }[] = [
-        {
-          token: `${contract}:${tokenId}`,
-          orderbook: 'reservoir',
-          orderKind: 'seaport-v1.5',
-          weiPrice: wei,
-          expirationTime: getUnixTime(expiration).toString(),
-        },
-      ]
-
-      if (platforms.includes('opensea')) {
-        listings.push({
-          token: `${contract}:${tokenId}`,
-          orderbook: 'opensea',
-          orderKind: 'seaport-v1.5',
-          weiPrice: wei,
-          expirationTime: getUnixTime(expiration).toString(),
-        })
-      }
-
       return client(network)
         ?.actions.listToken({
-          listings,
-          wallet: walletClient(address, network),
+          listings: [{
+            token: `${contract}:${tokenId}`,
+            weiPrice: wei,
+            orderbook: "reservoir",
+            orderKind: "seaport-v1.5",
+            expirationTime: getUnixTime(expiration).toString(),
+            currency,
+            marketplaceFees: [`${contract}:100`],
+            customRoyalties: [`${address}:100`],
+            automatedRoyalties: false,
+            options: { 
+              "seaport-v1.5": { useOffChainCancellation: true },
+            }
+          }],
+          wallet: adaptViemWallet(walletClient(address)),
           onProgress: steps => {
-            // dispatch(interactionProgressAction(steps))
+            dispatch(interactionProgressAction(steps))
             console.log(steps)
           },
         })
@@ -206,6 +220,17 @@ export const tokenSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
+      .addCase(mintToken.pending, state => {
+        state.status = 'pending'
+      })
+      .addCase(mintToken.fulfilled, (state, action) => {
+        const { payload } = action
+        state.status = 'succeeded'
+        tokenAdapter.addOne(state, payload)
+      })
+      .addCase(mintToken.rejected, state => {
+        state.status = 'failed'
+      })
       .addCase(buyToken.pending, state => {
         state.status = 'pending'
       })
@@ -228,6 +253,7 @@ export const tokenSlice = createSlice({
       .addCase(createBid.rejected, state => {
         state.status = 'failed'
       })
+
       .addCase(listToken.pending, state => {
         state.status = 'pending'
       })

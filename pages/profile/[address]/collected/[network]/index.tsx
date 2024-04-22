@@ -26,6 +26,7 @@ export const Collected: FC = ({}) => {
   const { data: ownedTokens, status: ownedStatus } = useAppSelector(
     selectCollectedTokens({ address: address as string, network: network as Network }),
   )
+
   const ens = useAppSelector(state => selectENSByAddress(state, address as string))
   const ensStatus = useAppSelector(selectEnsStatus)
 

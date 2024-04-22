@@ -35,7 +35,7 @@ export const CollectionsList: FC<CollectionsListProps> = ({ collections, network
               <Row key={collection?.id}>
                 <Cell>
                   {collection?.image ? (
-                    <img
+                    <Image
                       src={collection?.image}
                       alt={collection?.name}
                       className="h-12 w-12 rounded-full"
@@ -98,7 +98,7 @@ export const CollectionsList: FC<CollectionsListProps> = ({ collections, network
             <div className="flex border-b-2 border-b-black flex-row">
               <div className="flex items-center mr-6">
                 {collection?.image ? (
-                  <img src={collection?.image} alt={collection?.name} className="h-12 w-12" width="48" height="48" />
+                  <Image src={collection?.image} alt={collection?.name} className="h-12 w-12" width="48" height="48" />
                 ) : null}
               </div>
               <div className="w-full">

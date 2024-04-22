@@ -5,9 +5,8 @@ import React, { FC } from 'react'
 
 import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
 import { ContractType, Layout, Network } from '../../../../../common/types'
-import { EditionDrop } from '../../../../../modules/EditionDrop'
+import { NFT } from '../../../../../modules/Drop/Token'
 import { Footer } from '../../../../../modules/Footer'
-import { CHAINS } from '../../../../../common/constants'
 
 const DropPage: FC = () => {
   const {
@@ -23,12 +22,11 @@ const DropPage: FC = () => {
       </Head>
       <main className="w-full">
         {contract && id ? (
-          <EditionDrop
+          <NFT
             contractAddress={contract as string}
             tokenId={id as string}
             network={network as Network}
             type={type as ContractType}
-            chain={CHAINS[network as Network]}
           />
         ) : null}
       </main>

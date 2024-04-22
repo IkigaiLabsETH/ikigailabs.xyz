@@ -9,12 +9,12 @@ export enum Layout {
 
 export enum Network {
   MAINNET = 'ethereum',
-  GOERLI = 'goerli',
+  SEPOLIA = 'sepolia',
   OPTIMISM = 'optimism',
   POLYGON = 'polygon',
   ARBITRUM = 'arbitrum',
   ARBITRUM_NOVA = 'arbitrum-nova',
-  ARBITRUM_GOERLI = 'arbitrum-goerli',
+  ARBITRUM_SEPOLIA = 'arbitrum-sepolia',
   MUMBAI = 'mumbai',
   ZORA = 'zora',
   BASE = 'base',
@@ -61,10 +61,9 @@ export interface Claim {
 }
 
 export enum CurrencyChain {
-  'Goerli Ether' = Network.GOERLI,
+  'Sepolia Ether' = Network.SEPOLIA,
   'Ether' = Network.MAINNET,
   'MATIC' = Network.POLYGON,
-  'BERA' = Network.BERA,
 }
 
 export interface Token {
