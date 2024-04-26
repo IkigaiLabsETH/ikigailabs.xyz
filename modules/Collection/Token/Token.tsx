@@ -176,7 +176,6 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                                 <div className="capitalize mb-0.5">floor</div>
                                 <div className="font-bold text-base">
                                   <Eth amount={attribute.floorAskPrice.amount.decimal } />
-
                                 </div>
                               </div>
                             </div>

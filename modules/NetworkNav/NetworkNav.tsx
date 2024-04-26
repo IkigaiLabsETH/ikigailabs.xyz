@@ -28,5 +28,20 @@ export const NetworkNav: FC<NetworkNavProps> = ({ tab, network, address }) => (
     <li className={clsx('p-1 pl-0', equals(network, Network.MUMBAI) ? 'font-bold' : '')}>
       <Link href={`/profile/${address}/${tab}/${Network.MUMBAI}`}>Mumbai</Link>
     </li>
+    <li className={clsx('p-1 pl-0', equals(network, Network.ZORA) ? 'font-bold' : '')}>
+      <Link href={`/profile/${address}/${tab}/${Network.ZORA}`}>Zora</Link>
+    </li>
+    <li className={clsx('p-1 pl-0', equals(network, Network.BASE) ? 'font-bold' : '')}>
+      <Link href={`/profile/${address}/${tab}/${Network.BASE}`}>Base</Link>
+    </li>
+    <li className={clsx('p-1 pl-0', equals(network, Network.BLAST) ? 'font-bold' : '')}>
+      <Link href={`/profile/${address}/${tab}/${Network.BLAST}`}>Blast</Link>
+    </li>
+    <li className={clsx('p-1 pl-0', equals(network, Network.SCROLL) ? 'font-bold' : '')}>
+      <Link href={`/profile/${address}/${tab}/${Network.SCROLL}`}>Scroll</Link>
+    </li>
+    <li className={clsx('p-1 pl-0', equals(network, Network.SEPOLIA) ? 'font-bold' : '')}>
+      <Link href={`/profile/${address}/${tab}/${Network.SEPOLIA}`}>Sepolia</Link>
+    </li>
   </ul>
 )

@@ -22,16 +22,19 @@ import {
   polygon,
   optimism,
   Chain,
-  bsc,
   polygonMumbai,
   zora,
   base,
+  baseSepolia,
   arbitrumNova,
   polygonZkEvm,
   avalanche,
   linea,
   scroll,
   zkSync,
+  sepolia,
+  blast,
+  
 } from 'wagmi/chains'
 import { Network } from '../types'
 
@@ -132,30 +135,20 @@ export const supportedChains = [
     community: process.env.NEXT_PUBLIC_OPTIMISM_COMMUNITY,
   },
   {
-    ...bsc,
-    lightIconUrl: '/icons/bsc-icon-dark.svg',
-    darkIconUrl: '/icons/bsc-icon-light.svg',
-    reservoirBaseUrl: 'https://api-bsc.reservoir.tools',
-    proxyApi: '/api/reservoir/bsc',
-    routePrefix: 'bsc',
-    apiKey: process.env.BSC_RESERVOIR_API_KEY,
-    coingeckoId: 'binancecoin',
-    collectionSetId: process.env.NEXT_PUBLIC_BSC_COLLECTION_SET_ID,
-    community: process.env.NEXT_PUBLIC_BSC_COMMUNITY,
-  },
-  { ...zora, routePrefix: Network.ZORA, reservoirBaseUrl: 'https://api-zora.reservoir.tools' },
-  { ...base, routePrefix: Network.BASE, reservoirBaseUrl: 'https://api-base.reservoir.tools' },
-  {
     ...arbitrumNova,
     routePrefix: Network.ARBITRUM_NOVA,
     reservoirBaseUrl: 'https://api-arbitrum-nova.reservoir.tools',
   },
+  { ...zora, routePrefix: Network.ZORA, reservoirBaseUrl: 'https://api-zora.reservoir.tools' },
+  { ...base, routePrefix: Network.BASE, reservoirBaseUrl: 'https://api-base.reservoir.tools' },
+  { ...baseSepolia, routePrefix: Network.BASE_SEPOLIA, reservoirBaseUrl: 'https://api-base-sepolia.reservoir.tools' },
+  { ...sepolia, routePrefix: Network.SEPOLIA, reservoirBaseUrl: 'https://api-sepolia.reservoir.tools' },
   { ...polygonZkEvm, routePrefix: Network.ZKEVM, reservoirBaseUrl: 'https://api-polygon-zkevm.reservoir.tools' },
   { ...avalanche, routePrefix: Network.AVALANCHE, reservoirBaseUrl: 'https://api-avalanche.reservoir.tools' },
   { ...linea, routePrefix: Network.LINEA, reservoirBaseUrl: 'https://api-linea.reservoir.tools' },
   { ...scroll, routePrefix: Network.SCROLL, reservoirBaseUrl: 'https://api-scroll.reservoir.tools' },
   { ...zkSync, routePrefix: Network.ZKSYNC, reservoirBaseUrl: 'https://api-zksync.reservoir.tools' },
-  { routePrefix: Network.BLAST, reservoirBaseUrl: 'https://api-blast.reservoir.tools' },
+  { ...blast, routePrefix: Network.BLAST, reservoirBaseUrl: 'https://api-blast.reservoir.tools' },
 ] as ReservoirChain[]
 
 export const TW_SUPPORTED_CHAINS = [

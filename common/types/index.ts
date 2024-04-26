@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ContractType, ContractPrimarySale, ClaimCondition, Currency, Amount } from '@thirdweb-dev/sdk'
+import { ContractType, ContractPrimarySale, ClaimCondition, } from '@thirdweb-dev/sdk'
 
 export type { Axios as HTTP } from 'axios'
 
@@ -9,12 +9,11 @@ export enum Layout {
 
 export enum Network {
   MAINNET = 'ethereum',
-  GOERLI = 'goerli',
   OPTIMISM = 'optimism',
+  SEPOLIA = 'sepolia',
   POLYGON = 'polygon',
   ARBITRUM = 'arbitrum',
   ARBITRUM_NOVA = 'arbitrum-nova',
-  ARBITRUM_GOERLI = 'arbitrum-goerli',
   MUMBAI = 'mumbai',
   ZORA = 'zora',
   BASE = 'base',
@@ -61,7 +60,6 @@ export interface Claim {
 }
 
 export enum CurrencyChain {
-  'Goerli Ether' = Network.GOERLI,
   'Ether' = Network.MAINNET,
   'MATIC' = Network.POLYGON,
   'BERA' = Network.BERA,
