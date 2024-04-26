@@ -11,11 +11,11 @@ export const URLS = {
     explorer: 'https://etherscan.io',
     openzeppelin: '',
   },
-  [Network.GOERLI]: {
-    reservoir: 'https://api-goerli.reservoir.tools',
+  [Network.OPTIMISM]: {
+    reservoir: 'https://api-optimism.reservoir.tools',
     tw: '',
-    alchemy: 'https://eth-goerli.g.alchemy.com',
-    explorer: 'https://goerli.etherscan.io',
+    alchemy: '',
+    explorer: 'https://optimistic.etherscan.io',
     openzeppelin: '',
   },
   [Network.POLYGON]: {
@@ -25,14 +25,6 @@ export const URLS = {
     explorer: 'https://polygonscan.com',
     openzeppelin: '',
   },
-  [Network.MUMBAI]: {
-    reservoir: 'https://api-mumbai.reservoir.tools',
-    tw: '',
-    alchemy: 'https://polygon-mumbai.g.alchemy.com',
-    explorer: 'https://mumbai.polygonscan.com',
-    openzeppelin:
-      'https://api.defender.openzeppelin.com/autotasks/3d39e44f-5ed0-4c66-9107-8f45e4c1b918/runs/webhook/d3bad3c5-947c-4dde-8868-915e797a8bc4/SkSiPovrShFkTHST4cPCHw',
-  },
   [Network.ARBITRUM]: {
     reservoir: 'https://api-arbitrum.reservoir.tools',
     tw: '',
@@ -40,19 +32,13 @@ export const URLS = {
     explorer: 'https://arbiscan.io',
     openzeppelin: '',
   },
-  [Network.ARBITRUM_GOERLI]: {
-    reservoir: '',
+  [Network.MUMBAI]: {
+    reservoir: 'https://api-mumbai.reservoir.tools',
     tw: '',
-    alchemy: 'https://arb-goerli.g.alchemy.com',
-    explorer: 'https://goerli.arbiscan.io',
-    openzeppelin: '',
-  },
-  [Network.OPTIMISM]: {
-    reservoir: 'https://api-optimism.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://optimistic.etherscan.io',
-    openzeppelin: '',
+    alchemy: 'https://polygon-mumbai.g.alchemy.com',
+    explorer: 'https://mumbai.polygonscan.com',
+    openzeppelin:
+      'https://api.defender.openzeppelin.com/autotasks/3d39e44f-5ed0-4c66-9107-8f45e4c1b918/runs/webhook/d3bad3c5-947c-4dde-8868-915e797a8bc4/SkSiPovrShFkTHST4cPCHw',
   },
   [Network.ZORA]: {
     reservoir: 'https://api-zora.reservoir.tools',
@@ -110,6 +96,20 @@ export const URLS = {
     explorer: 'https://artio.beratrail.io',
     openzeppelin: '',
   },
+  [Network.BLAST]: {
+    reservoir: 'https://api-blast.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://blastscan.io',
+    openzeppelin: '',
+  },
+  [Network.SEPOLIA]: {
+    reservoir: 'https://api-sepolia.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://sepolia.etherscan.io',
+    openzeppelin: '',
+  },
 }
 
 export const COLLECTIONS = {
@@ -153,12 +153,6 @@ export const COLLECTIONS = {
     {
       id: 'be442cf7f246d8300544f092296c39f0986b5fd86959820edca867c751715125',
       name: 'Degens',
-    },
-  ],
-  [Network.GOERLI]: [
-    {
-      id: 'a85336cbd06421c67cefe53cd16b1f3dc4d340eaed6680a433279027005aa614',
-      name: 'Curated',
     },
   ],
   [Network.POLYGON]: [

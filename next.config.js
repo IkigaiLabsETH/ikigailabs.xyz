@@ -19,6 +19,35 @@ const nextConfig = {
 
     return config 
   },
+  async redirects() {
+    return [
+      {
+        source: '/profile/:address/offers',
+        destination: '/profile/:address/offers/ethereum',
+        permanent: true,
+      },
+      {
+        source: '/profile/:address/collected',
+        destination: '/profile/:address/collected/ethereum',
+        permanent: true,
+      },
+      {
+        source: '/profile/:address/bids',
+        destination: '/profile/:address/bids/ethereum',
+        permanent: true,
+      },
+      {
+        source: '/profile/:address/asks',
+        destination: '/profile/:address/asks/ethereum',
+        permanent: true,
+      },
+      {
+        source: '/profile/:address/activity',
+        destination: '/profile/:address/activity/ethereum',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

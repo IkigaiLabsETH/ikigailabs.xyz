@@ -1,7 +1,7 @@
 import { setParams } from '@reservoir0x/reservoir-sdk'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { defaultChain, supportedChains, wrappedContracts } from '../../../common/config'
-import { arbitrum, goerli, mainnet, optimism } from 'wagmi/chains'
+import { arbitrum, mainnet, optimism } from 'wagmi/chains'
 import { zeroAddress } from 'viem'
 
 // A proxy API endpoint to redirect all requests to `/api/reservoir/*` to
@@ -37,7 +37,7 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
     endpoint = endpoint.toLowerCase()
 
     if (
-      [mainnet.id as number, goerli.id, optimism.id, arbitrum.id].includes(chain.id) &&
+      [mainnet.id as number, optimism.id, arbitrum.id].includes(chain.id) &&
       endpoint.includes('currency')
     ) {
       if (endpoint.includes(zeroAddress)) {
