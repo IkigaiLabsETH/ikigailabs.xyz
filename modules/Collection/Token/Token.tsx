@@ -23,7 +23,7 @@ import { selectCollection } from '../collection.selectors'
 import { ListingsList } from '../../ListingsList'
 import { OffersList } from '../../OffersList'
 import { TokenMedia } from '../../TokenMedia'
-import { selectENSByAddress, selectEnsStatus } from '../../../common/ens'
+import { selectENSByAddress } from '../../../common/ens'
 import { SkeletonLoader } from '../../SkeletonLoader'
 import { Warning } from '../../Warning'
 import { useWallet } from '../../../common/useWallet'
@@ -42,8 +42,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
 
   const { data: collection } = useAppSelector(selectCollection({ contract, network }))
   const { status: tokenInteractionStatus } = useAppSelector(selectCollectionTokenInteractionStatus)
-  const ens = useAppSelector(state => selectENSByAddress(state, token?.token?.owner))
-  const ensStatus = useAppSelector(selectEnsStatus)
+  const { data: ens, status: ensStatus} = useAppSelector(selectENSByAddress({ address: token?.token?.owner }))
 
   const [activeTab, setActiveTab] = useState<string>('Activity')
   const dispatch = useAppDispatch()
@@ -134,7 +133,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                   ) : (
                     <div>
                       <span className="font-bold">Owned by:</span>
-                      <Link href={`/profile/${owner}/collected/${network}`}> {ens?.name ? ens?.name : owner} </Link>
+                      <Link href={`/profile/${owner}/collected/${network}`}> {ens?.displayName} </Link>
                     </div>
                   )}
                 </p>
@@ -165,21 +164,21 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                         }) => (
                           <li
                             key={`${attribute.value}-${attribute.key}`}
-                            className="text-gray-800 text-xs p-2 border-2 border-gray-200"
+                            className="text-gray-800 text-xs p-2 border-2 border-gray-200 flex flex-col h-full justify-between"
                           >
                             <div className="flex flex-row w-full mb-2">
-                              <div className="w-3/4">
+                              <div className="w-1/2">
                                 <div className="capitalize mb-0.5">{attribute.key}</div>
                                 <div className="text-lg font-bold">{attribute.value}</div>
                               </div>
-                              <div className="w-1/4">
+                              <div className="w-1/2">
                                 <div className="capitalize mb-0.5">floor</div>
                                 <div className="font-bold text-base">
-                                  <Eth amount={attribute.floorAskPrice.amount.decimal } />
+                                  <Eth amount={attribute.floorAskPrice?.amount?.decimal } />
                                 </div>
                               </div>
                             </div>
-                            <div className="bg-slate-100 w-auto p-1 inline">
+                            <div className="bg-slate-100 p-1 w-auto">
                               Rarity:{' '}
                               {Intl.NumberFormat('en-US', {
                                 style: 'percent',

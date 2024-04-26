@@ -15,7 +15,7 @@ import { Footer } from '../../../../../modules/Footer'
 import { DashboardNav } from '../../../../../modules/DashboardNav'
 import { NetworkNav } from '../../../../../modules/NetworkNav'
 import { UserBids } from '../../../../../modules/UserBids'
-import { lookupAddress, selectENSByAddress, selectEnsStatus } from '../../../../../common/ens'
+import { lookupAddress, selectENSByAddress } from '../../../../../common/ens'
 import { truncateAddress } from '../../../../../common/utils'
 
 export const ActivityDashboard: FC = ({}) => {
@@ -25,8 +25,7 @@ export const ActivityDashboard: FC = ({}) => {
   const dispatch = useAppDispatch()
 
   const { data, status } = useAppSelector(selectUserBids({ address: address as string, network: network as Network }))
-  const ens = useAppSelector(state => selectENSByAddress(state, address as string))
-  const ensStatus = useAppSelector(selectEnsStatus)
+  const { data: ens, status: ensStatus } = useAppSelector(selectENSByAddress({ address: address as string }))
 
   const { ref: activityRef } = useInfiniteLoading(userApi.endpoints.getUserBidsMade.initiate, {
     address: address as string,
@@ -41,7 +40,7 @@ export const ActivityDashboard: FC = ({}) => {
 
   useEffect(() => {
     if (!ens?.name && ensStatus !== QueryStatus.pending && address) {
-      dispatch(lookupAddress({ address: address as string }))
+      dispatch(lookupAddress.initiate({ address: address as string }))
     }
   }, [ens, address, ensStatus, dispatch])
 

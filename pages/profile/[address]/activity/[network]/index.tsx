@@ -9,7 +9,7 @@ import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
 import { Footer } from '../../../../../modules/Footer'
 import { DashboardNav } from '../../../../../modules/DashboardNav'
 import { NetworkNav } from '../../../../../modules/NetworkNav'
-import { lookupAddress, selectENSByAddress, selectEnsStatus } from '../../../../../common/ens'
+import { lookupAddress, selectENSByAddress } from '../../../../../common/ens'
 import { truncateAddress } from '../../../../../common/utils'
 import { UserActivity } from '../../../../../modules/UserActivity'
 
@@ -18,14 +18,11 @@ export const ActivityDashboard: FC = ({}) => {
     query: { network, address },
   } = useRouter()
   const dispatch = useAppDispatch()
-
-  
-  const ens = useAppSelector(state => selectENSByAddress(state, address as string))
-  const ensStatus = useAppSelector(selectEnsStatus)
+  const { data: ens, status: ensStatus} = useAppSelector(selectENSByAddress({ address: address as string }))
 
   useEffect(() => {
     if (!ens?.name && ensStatus !== QueryStatus.pending && address) {
-      dispatch(lookupAddress({ address: address as string }))
+      dispatch(lookupAddress.initiate({ address: address as string }))
     }
   }, [ens, address, ensStatus, dispatch])
 
