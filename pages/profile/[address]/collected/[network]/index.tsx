@@ -14,7 +14,7 @@ import { useInfiniteLoading } from '../../../../../common/useInfiniteLoading'
 import { Footer } from '../../../../../modules/Footer'
 import { DashboardNav } from '../../../../../modules/DashboardNav'
 import { NetworkNav } from '../../../../../modules/NetworkNav'
-import { lookupAddress, selectENSByAddress, selectEnsStatus } from '../../../../../common/ens'
+import { lookupAddress, selectENSByAddress } from '../../../../../common/ens'
 import { truncateAddress } from '../../../../../common/utils'
 
 export const Collected: FC = ({}) => {
@@ -26,8 +26,7 @@ export const Collected: FC = ({}) => {
   const { data: ownedTokens, status: ownedStatus } = useAppSelector(
     selectCollectedTokens({ address: address as string, network: network as Network }),
   )
-  const ens = useAppSelector(state => selectENSByAddress(state, address as string))
-  const ensStatus = useAppSelector(selectEnsStatus)
+  const { data: ens, status: ensStatus } = useAppSelector(selectENSByAddress({address: address as string}))
 
   const { ref: nftRef } = useInfiniteLoading(userApi.endpoints.getOwnedTokens.initiate, {
     address: address as string,
@@ -42,7 +41,7 @@ export const Collected: FC = ({}) => {
 
   useEffect(() => {
     if (!ens?.name && ensStatus !== QueryStatus.pending && address) {
-      dispatch(lookupAddress({ address: address as string }))
+      dispatch(lookupAddress.initiate({ address: address as string }))
     }
   }, [ens, address, ensStatus, dispatch])
 

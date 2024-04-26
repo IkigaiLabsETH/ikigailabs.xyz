@@ -43,7 +43,7 @@ import { initialPageLoadMiddleware } from '../app'
 import { closeSlideUpMiddleware, openSlideUpMiddleware, slideUpReducer } from '../../modules/SlideUp'
 import { closeSlideUpActions, openSlideUpActions } from '../slideup'
 import { tokenFetchCompleteMiddleware } from '../../modules/Collection/Token'
-import { ensReducer } from '../ens'
+import { ensApi } from '../ens'
 import { transactionFailed, transactionSent } from '../transaction'
 import { editionDropApi } from '../../modules/EditionDrop'
 
@@ -126,7 +126,7 @@ const combinedReducer = combineReducers({
   [editionDropApi.reducerPath]: prop('reducer')(editionDropApi),
   confetti: confettiReducer,
   network: networkSelectorReducer,
-  ens: ensReducer,
+  [ensApi.reducerPath]: prop('reducer')(ensApi),
   [userApi.reducerPath]: prop('reducer')(userApi),
 })
 
@@ -151,6 +151,7 @@ const makeStore = () =>
           dropApi.middleware,
           userApi.middleware,
           editionDropApi.middleware,
+          ensApi.middleware,
         ),
     devTools: true,
   })

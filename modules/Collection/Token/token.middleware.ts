@@ -30,6 +30,6 @@ export const tokenFetchCompleteMiddleware = {
     action: PayloadAction<{ token: { owner: string } }>,
     listenerApi: ListenerEffectAPI<RootState, AppDispatch>,
   ) => {
-    listenerApi.dispatch(lookupAddress({ address: action?.payload.token?.owner }))
+    listenerApi.dispatch(lookupAddress.initiate({ address: action?.payload.token?.owner }))
   },
 }
