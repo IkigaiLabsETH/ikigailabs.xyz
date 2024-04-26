@@ -37,7 +37,8 @@ export const collectionTokenApi = createApi({
       },
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
-        currentCache.activities = uniqBy(path(['timestamp']), [...currentCache.activities, ...newItems.activities])
+        console.log(newItems)
+        currentCache.activities = uniqBy(path(['logIndex']), [...currentCache.activities, ...newItems.activities])
         currentCache.continuation = newItems.continuation
       },
       // Refetch when the page arg changes
