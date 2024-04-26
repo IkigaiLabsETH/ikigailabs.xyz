@@ -116,9 +116,9 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
           </div>
           <ul>
             {tokenActivity &&
-              map(({ type, fromAddress, toAddress, timestamp, price, order }: IActivity) => {
+              map(({ type, fromAddress, toAddress, timestamp, price, order, logIndex, txHash }: IActivity) => {
                 return (
-                  <li key={`${type}-${timestamp}}`} className="my-2 pb-2 border-b-2 border-black">
+                  <li key={`${type}-${timestamp}-${logIndex}-${txHash}}`} className="my-2 pb-2 border-b-2 border-black">
                     <div className="grid grid-cols-2 gap-2">
                       <div>
                         <div className="flex flex-row">
