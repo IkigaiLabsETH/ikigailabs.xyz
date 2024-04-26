@@ -13,7 +13,8 @@ import { ReservoirActionButton } from '../ReservoirActionButton/ReservoirActionB
 import { Listbox } from '../Listbox'
 import { Toggle } from '../Toggle'
 import { useWallet } from '../../common/useWallet'
-import { FREE_MINT_TOKEN_ID } from '@/common/config'
+import { collectionTokenApi } from '../Collection/Token/token.api'
+import { hide } from '@/modules/SlideUp/slideUp.slice'
 
 interface ListTokenProps {
   contract: string
@@ -37,13 +38,13 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
   const [selectedCurrency, setSelectedCurrency] = useState<Option>(SUPPORTED_CURRENCY[0])
 
   const onCreateAsk = async () => {
-    const marketplaceFee = 0.01;
-    const royaltyFee = 0.01;
+    const marketplaceFee = 0.005;
+    const royaltyFee = 0.005;
     const totalFee = marketplaceFee + royaltyFee;
     const totalWei = parseFloat(eth) * (1 + totalFee)
     const wei = ethToWei(totalWei).toString()
  
-    return dispatch(
+    await dispatch(
       listToken({
         contract,
         tokenId,
@@ -55,6 +56,11 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
         platforms: ['Solana', 'OpenSea'],
       }),
     )
+
+    if(tokenInteractionStatus === 'failed') return
+
+    await dispatch(collectionTokenApi.endpoints.getTokenListings.initiate({ contract, tokenId, network }))
+    await dispatch(hide())
   }
 
   const setEndDate = (item: any) => {

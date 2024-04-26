@@ -21,7 +21,7 @@ const FreeMintButton = ({disabled, contractAddress, className = "", onError, onS
                     address,
                     tokenId: `${FREE_MINT_TOKEN_ID}`,
                     network: Network.SEPOLIA,
-                    amount: amountToMint,
+                    amount: 1,
                 }),
             )
             // onSuccess()

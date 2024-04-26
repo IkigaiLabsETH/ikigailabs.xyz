@@ -16,7 +16,7 @@ export const showCreateBid = createAction<any>('createBid/show')
 export const mintTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<Promise<any>, { contract: string; address: string, tokenId: string; network: Network, amount: number }>(
     'token/mint',
-    ({ contract, tokenId, network, amount, address }, { rejectWithValue }) => {
+    ({ contract, tokenId, network, amount, address }, { rejectWithValue, dispatch }) => {
       return client(network)
         ?.actions.mintToken({
           items: [{
@@ -24,11 +24,13 @@ export const mintTokenTh = (client: (network: Network) => ReservoirClient, walle
             quantity: amount,
           }],
           options: {
-            referrer: address, /// 
+            referrer: address, 
+            feesOnTop: [`${process.env.NEXT_PUBLIC_FEES_ADDRESS}:100`]
           },
           wallet: adaptViemWallet(walletClient(address)), 
           onProgress: steps => {
-            // dispatch(interactionProgressAction(steps))
+            console.log("ziad", steps)
+            dispatch(interactionProgressAction(steps))
           },
         })
         .catch((err: any) => {
@@ -144,8 +146,8 @@ export const listTokenTh = (client: (network: Network) => ReservoirClient, walle
             orderKind: "seaport-v1.5",
             expirationTime: getUnixTime(expiration).toString(),
             currency,
-            marketplaceFees: [`${contract}:100`],
-            customRoyalties: [`${address}:100`],
+            marketplaceFees: [`${contract}:50`],
+            customRoyalties: [`${address}:50`],
             automatedRoyalties: false,
             options: { 
               "seaport-v1.5": { useOffChainCancellation: true },
