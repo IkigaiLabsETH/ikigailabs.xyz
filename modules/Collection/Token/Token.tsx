@@ -16,7 +16,7 @@ import {
   showListToken,
   showCreateBid,
 } from './token.slice'
-import { NFT, Network } from '../../../common/types'
+import { NFT, Network, ResPrice } from '../../../common/types'
 import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
 import { Button } from '../../Button'
 import { selectCollection } from '../collection.selectors'
@@ -159,7 +159,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                         (attribute: {
                           key: string
                           value: string
-                          floorAskPrice: number | null
+                          floorAskPrice: ResPrice
                           onSaleCount: number
                           tokenCount: number
                         }) => (
@@ -174,8 +174,9 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                               </div>
                               <div className="w-1/4">
                                 <div className="capitalize mb-0.5">floor</div>
-                                <div className="text-lg font-bold">
-                                  <Eth amount={attribute.floorAskPrice} />
+                                <div className="font-bold text-base">
+                                  <Eth amount={attribute.floorAskPrice.amount.decimal } />
+
                                 </div>
                               </div>
                             </div>
