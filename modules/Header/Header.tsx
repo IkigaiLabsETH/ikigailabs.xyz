@@ -29,7 +29,7 @@ export const Header: FC = () => {
           </div>
 
           <div className="flex flex-row justify-end">
-            <div className="hidden md:flex">
+            <div className="flex">
               <Profile />
             </div>
             <div className='ml-2 w-12 h-12 flex items-center justify-center bg-black border border-solid border-gray-400 mt-0.5 rounded-lg'>

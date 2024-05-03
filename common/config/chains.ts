@@ -42,7 +42,7 @@ import { Network } from '../types'
 // or adding chains will result in adding more or less chains to the marketplace.
 // They are an extension of the wagmi chain objects
 
-type ReservoirChain = Chain & {
+export type ReservoirChain = Chain & {
   lightIconUrl: string
   darkIconUrl: string
   reservoirBaseUrl: string
@@ -91,18 +91,6 @@ export const supportedChains = [
     reservoirBaseUrl: 'https://api-polygon.reservoir.tools',
     proxyApi: '/api/reservoir/polygon',
     routePrefix: 'polygon',
-    apiKey: process.env.POLYGON_RESERVOIR_API_KEY,
-    coingeckoId: 'matic-network',
-    collectionSetId: process.env.NEXT_PUBLIC_POLYGON_COLLECTION_SET_ID,
-    community: process.env.NEXT_PUBLIC_POLYGON_COMMUNITY,
-  },
-  {
-    ...polygonMumbai,
-    lightIconUrl: '/icons/polygon-icon-dark.svg',
-    darkIconUrl: '/icons/polygon-icon-light.svg',
-    reservoirBaseUrl: 'https://api-mumbai.reservoir.tools',
-    proxyApi: '/api/reservoir/mumbai',
-    routePrefix: 'mumbai',
     apiKey: process.env.POLYGON_RESERVOIR_API_KEY,
     coingeckoId: 'matic-network',
     collectionSetId: process.env.NEXT_PUBLIC_POLYGON_COLLECTION_SET_ID,
