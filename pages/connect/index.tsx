@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { FC } from "react"
+import { FC, useEffect } from "react"
 import { ConnectEmbed, useActiveWalletConnectionStatus } from 'thirdweb/react'
 import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
@@ -8,9 +8,22 @@ import Image from 'next/image'
 import { match } from 'ts-pattern'
 import { Loader, Size } from '../../modules/Loader'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const Connect: FC = () => {
   const connectionStatus = useActiveWalletConnectionStatus()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (connectionStatus !== 'connected') {
+      return
+    }
+
+    if (router.query.ref) {
+      router.push(router.query.ref as string)
+    }
+    return
+  }, [connectionStatus, router])
 
   const signIn = (
     <>
