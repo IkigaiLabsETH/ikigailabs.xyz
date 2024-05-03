@@ -105,7 +105,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
               <CollectionStat
                 label="Minted"
                 loading={status === 'pending'}
-              >{`${localClaimedSupply}/${totalSupply?.toString()}`}</CollectionStat>
+              >{`${localClaimedSupply} / ${pathOr('', ['claimConditions', 'maxClaimableSupply'])(data) === "unlimited" ? "Unlimited" : totalSupply?.toString()}`}</CollectionStat>
               {/* <CollectionStat label="Unique Owners" loading={isNil(ownersCount)}>
                 {ownersCount?.toString()}
               </CollectionStat> */}
