@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
 import { Footer } from '../../../modules/Footer'
-import { withLayout } from '../../../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../../../common/layouts'
 import { Layout, Network } from '../../../common/types'
 import { collectionsApi, selectCollectionsBySetId } from '../../../modules/Collections/collections.api'
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'

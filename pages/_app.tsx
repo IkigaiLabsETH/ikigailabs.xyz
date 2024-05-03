@@ -2,14 +2,6 @@
 import type { AppProps } from 'next/app'
 import { FC, useEffect } from 'react'
 import { Provider } from 'react-redux'
-// import {
-//   ThirdwebProvider,
-//   coinbaseWallet,
-//   metamaskWallet,
-//   rainbowWallet,
-//   walletConnect,
-//   phantomWallet,
-// } from '@thirdweb-dev/react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -51,22 +43,13 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
 
   useEffect(() => {
     query && store.dispatch(initialPageLoad(route))
-  }, [query])
+  }, [query, route])
 
   const queryClient = new QueryClient()
 
   return (
     <Provider store={store}>
-      {/* <QueryClientProvider client={queryClient}> */}
-      <ThirdwebProvider
-      // activeChain={network}
-      // sdkOptions={sdkOptions}
-      // clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-      // supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect(), phantomWallet()]}
-      // supportedChains={TW_SUPPORTED_CHAINS}
-      // autoSwitch={true}
-      // autoConnect={true}
-      >
+      <ThirdwebProvider>
         <Component {...pageProps} />
         <Modal modals={MODALS} />
         <SlideUp slideUps={SLIDEUPS} />
@@ -84,7 +67,6 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
         />
         <Confetti />
       </ThirdwebProvider>
-      {/* </QueryClientProvider> */}
     </Provider>
   )
 }

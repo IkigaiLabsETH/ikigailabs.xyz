@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { FC } from 'react'
 // import { FREE_MINT_CONTRACT, MINT_PASSES } from '../common/config'
 
-import { withLayout } from '../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../common/layouts'
 import { Layout } from '../common/types'
 // import { Button } from '../modules/Button'
 // import { Eyebrow } from '../modules/Eyebrow'

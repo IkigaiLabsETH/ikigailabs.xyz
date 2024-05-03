@@ -6,7 +6,7 @@ import { append, has, keys, map, pipe } from 'ramda'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
 import { Footer } from '../../../modules/Footer'
-import { withLayout } from '../../../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../../../common/layouts'
 import { CollectionSet, Layout, Network, Option } from '../../../common/types'
 import { Collections } from '../../../modules/Collections'
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
