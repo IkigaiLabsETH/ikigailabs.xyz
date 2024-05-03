@@ -22,14 +22,14 @@ export const Header: FC = () => {
     <header className="fixed py-4 sm:py-6 z-20 w-full">
       <div className="px-4 mx-auto max-w-screen-2xl sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between">
-          <div className="w-52 z-20">
+          <div className="z-20 w-10">
             <Link href="/" title="" className="flex items-center">
               <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="32" height="32" />
             </Link>
           </div>
 
           <div className="flex flex-row justify-end">
-            <div className="hidden md:flex">
+            <div className="flex">
               <Profile />
             </div>
             <div className='ml-2 w-12 h-12 flex items-center justify-center bg-black border border-solid border-gray-400 mt-0.5 rounded-lg'>

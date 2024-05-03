@@ -116,11 +116,11 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
               </CollectionStat>
             </div>
           </div>
-          <div className="flex flex-row w-full mt-1 justify-between items-center">
-            <div className="w-1/4 flex justify-center text-3xl font-bold">
+          <div className="flex flex-col md:flex-row w-full mt-1 justify-between items-center">
+            <div className="w-full md:w-1/4 flex justify-center text-3xl font-bold">
               <Amount amount={amountToMint} onMinus={onMinus} onPlus={onPlus} />
             </div>
-            <div className="w-3/4 pl-4">
+            <div className="w-full md:w-3/4 md:pl-4">
               { maxClaimable === 'unlimited' || 0 < (maxClaimable as number) ? (
                 <TransactionButton
                   className="!bg-yellow !text-black !w-full !border-black shadow-[5px_5px_0px_0px_rgba(234,179,8,1)] hover:shadow-[6px_6px_0px_0px_rgba(234,179,8,1)] !transition-all !epilogue !text-xl hover:cursor-pointer"
@@ -150,7 +150,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
                 <span className="font-bold">Blockchain:</span>{' '}
                 {CurrencyChain[pathOr('', ['claimConditions', 'currencyMetadata', 'name'])(data)]}
               </li>
-              <li>
+              <li className='break-all'>
                 <span className="font-bold">Contract Address:</span> {contractAddress}
               </li>
               <li>
