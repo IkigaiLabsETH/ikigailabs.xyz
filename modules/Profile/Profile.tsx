@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 
 import { AutoConnect, ConnectButton, useActiveWalletConnectionStatus } from 'thirdweb/react'
 import { TWClient } from '../../common/web3/web3'
@@ -18,10 +18,6 @@ interface ProfileProps {
 export const Profile: FC<ProfileProps> = () => {
   const connectionStatus = useActiveWalletConnectionStatus()
   const router = useRouter()
-  
-  useEffect(() => {
-    console.log('connectionStatus: ', connectionStatus)
-  }, [connectionStatus])
 
   const wallets = [
     createWallet('io.metamask'),
