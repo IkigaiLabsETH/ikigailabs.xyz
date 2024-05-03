@@ -1,11 +1,14 @@
 import React, { FC } from 'react'
 
-import { ConnectButton } from 'thirdweb/react'
+import { ConnectButton, useActiveWalletConnectionStatus } from 'thirdweb/react'
 import { TWClient } from '../../common/web3/web3'
 import { createWallet, inAppWallet, walletConnect } from 'thirdweb/wallets'
 import { values } from 'ramda'
 import { CHAINS } from '../../common/constants'
 import { Network } from '../../common/types'
+import { match } from 'ts-pattern'
+import { Loader, Size } from '../Loader'
+import Link from 'next/link'
 
 interface ProfileProps {
   connectLabel?: string
@@ -13,6 +16,8 @@ interface ProfileProps {
 }
 
 export const Profile: FC<ProfileProps> = () => {
+  const connectionStatus = useActiveWalletConnectionStatus()
+  
   const wallets = [
     createWallet('io.metamask'),
     createWallet('com.coinbase.wallet'),
@@ -26,15 +31,35 @@ export const Profile: FC<ProfileProps> = () => {
     createWallet('app.phantom'),
   ]
 
+  const connected = (
+    <ConnectButton
+      client={TWClient}
+      wallets={wallets}
+      theme={'dark'}
+      connectModal={{ size: 'wide' }}
+      chains={values(CHAINS)}
+    />
+  )
+
+  const loading = (
+    <div>
+      <Loader size={Size.m} color="yellow"/>
+    </div>
+  )
+
+  const connect = (
+    <Link href='/connect' title='Connect' className='z-20 h-12 flex items-center justify-center mr-2 bg-black border border-solid border-gray-400 mt-0.5 rounded-lg px-5 hover:border-yellow'>Sign In</Link>
+  )
+
   return (
     <div className="">
-      <ConnectButton
-        client={TWClient}
-        wallets={wallets}
-        theme={'dark'}
-        connectModal={{ size: 'wide' }}
-        chains={values(CHAINS)}
-      />
+      {
+        match(connectionStatus)
+          .with('disconnected', () => connect)
+          .with('connecting', () => loading)
+          .with('connected', () => connected)
+          .exhaustive()
+      }
     </div>
   )
 }

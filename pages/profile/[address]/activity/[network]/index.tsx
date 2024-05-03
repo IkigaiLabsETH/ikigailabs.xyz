@@ -5,7 +5,7 @@ import Head from 'next/head'
 
 import { useAppDispatch, useAppSelector } from '../../../../../common/redux/store'
 import { Layout, Network } from '../../../../../common/types'
-import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../../../../../common/layouts'
 import { Footer } from '../../../../../modules/Footer'
 import { DashboardNav } from '../../../../../modules/DashboardNav'
 import { NetworkNav } from '../../../../../modules/NetworkNav'

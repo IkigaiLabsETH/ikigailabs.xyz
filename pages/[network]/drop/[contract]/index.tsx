@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { FC } from 'react'
 
-import { withLayout } from '../../../../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../../../../common/layouts'
 import { Layout, Network } from '../../../../common/types'
 import { Drop } from '../../../../modules/Drop'
 import { Footer } from '../../../../modules/Footer'

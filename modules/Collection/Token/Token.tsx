@@ -97,7 +97,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
     const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
     const floorPriceSource = prop('source')(floorAsk)
     const topBidSource = prop('source')(topBid)
-
+    
     return (
       <div className="w-full bg-white flex items-center flex-col">
         <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col border-b-4 border-black bg-black">
@@ -139,13 +139,13 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                 </p>
               )}
               <div className="py-2 w-full h-auto">
-                <img
+                {imageSmall && <img
                   className="w-48 mr-8 mb-4 border-black border-4 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]"
                   src={imageSmall}
                   alt={name as string}
                   width={150}
                   height={150}
-                />
+                /> }
                 <div className="text-xl text-black pr-16 leading-relaxed">
                   <Markdown>{description}</Markdown>
                 </div>
