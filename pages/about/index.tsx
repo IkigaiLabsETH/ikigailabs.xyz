@@ -2,7 +2,7 @@
 import Head from 'next/head'
 import React, { FC } from 'react'
 
-import { withLayout } from '../../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
 import { Footer } from '../../modules/Footer'
 import Image from 'next/image'

@@ -5,6 +5,7 @@ export type { Axios as HTTP } from 'axios'
 
 export enum Layout {
   main = 'main',
+  skeleton = 'skeleton',
 }
 
 export enum Network {

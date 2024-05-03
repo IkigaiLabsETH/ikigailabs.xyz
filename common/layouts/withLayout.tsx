@@ -2,8 +2,9 @@
 
 import { match } from 'ts-pattern'
 
-import { Layout } from '../../types'
+import { Layout } from '../types'
 import { MainLayout } from './MainLayout'
+import { SkeletonLayout } from './SkeletonLayout'
 
 export const withLayout =
   (layout: Layout) =>
@@ -14,5 +15,10 @@ export const withLayout =
         <MainLayout>
           <Component {...props} />
         </MainLayout>
+      ))
+      .with(Layout.skeleton, () => (
+        <SkeletonLayout>
+          <Component {...props} />
+        </SkeletonLayout>
       ))
       .exhaustive()

@@ -5,7 +5,7 @@ import React, { FC } from 'react'
 
 import { Footer } from '../../../modules/Footer'
 import { Collection } from '../../../modules/Collection'
-import { withLayout } from '../../../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../../../common/layouts'
 import { Layout, Network } from '../../../common/types'
 
 const SignatureCollection: FC = () => {
