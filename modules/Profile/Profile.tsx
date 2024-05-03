@@ -1,14 +1,14 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 
-import { ConnectButton, useActiveWalletConnectionStatus } from 'thirdweb/react'
+import { AutoConnect, ConnectButton, useActiveWalletConnectionStatus } from 'thirdweb/react'
 import { TWClient } from '../../common/web3/web3'
 import { createWallet, inAppWallet, walletConnect } from 'thirdweb/wallets'
 import { values } from 'ramda'
 import { CHAINS } from '../../common/constants'
-import { Network } from '../../common/types'
 import { match } from 'ts-pattern'
 import { Loader, Size } from '../Loader'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 interface ProfileProps {
   connectLabel?: string
@@ -17,7 +17,12 @@ interface ProfileProps {
 
 export const Profile: FC<ProfileProps> = () => {
   const connectionStatus = useActiveWalletConnectionStatus()
+  const router = useRouter()
   
+  useEffect(() => {
+    console.log('connectionStatus: ', connectionStatus)
+  }, [connectionStatus])
+
   const wallets = [
     createWallet('io.metamask'),
     createWallet('com.coinbase.wallet'),
@@ -48,11 +53,16 @@ export const Profile: FC<ProfileProps> = () => {
   )
 
   const connect = (
-    <Link href='/connect' title='Connect' className='z-20 h-12 flex items-center justify-center mr-2 bg-black border border-solid border-gray-400 mt-0.5 rounded-lg px-5 hover:border-yellow'>Sign In</Link>
+    <Link href={`/connect?ref=${router.asPath}`} title='Connect' className='z-20 h-12 flex items-center justify-center mr-2 bg-black border border-solid border-gray-400 mt-0.5 rounded-lg px-5 hover:border-yellow'>Sign In</Link>
   )
 
   return (
     <div className="">
+      <AutoConnect
+        client={TWClient}
+        timeout={10000}
+        wallets={wallets}
+      />
       {
         match(connectionStatus)
           .with('disconnected', () => connect)
