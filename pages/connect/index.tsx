@@ -70,12 +70,10 @@ const Connect: FC = () => {
             backgroundImage: "linear-gradient(#131418, #070708)",
           }}
         >
-          <Image
+          <img
             className="z-0 absolute inset-0 object-cover w-full h-full"
             src="https://0b6ff6d257685c2de8cc8e51755a0ae9.ipfscdn.io/ipfs/bafybeigzmthry6a5bzqscvlwjpson4ledcgok2oygge4vylpkfmioo3nay/332.png"
             alt=""
-            width={1920}
-            height={1080}
           />
         </div>
         <div className="flex items-center justify-center pt-12 xl:pt-0">
