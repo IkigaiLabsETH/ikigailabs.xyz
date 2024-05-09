@@ -21,8 +21,14 @@ export const Loader: FC<LoaderProps> = ({ size = Size.m, color = 'black' }) => {
   }
 
   return match(color)
-    .with('black', () => <Image src="/assets/images/loader.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} alt="One moment" />)
-    .with('white', () => <Image src="/assets/images/loader-white.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} alt="One moment" />)
-    .with('yellow', () => <Image src="/assets/images/loader-yellow.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} alt="One moment" />)
+    .with('black', () => (
+      <Image src="/assets/images/loader.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} alt="One moment" />
+    ))
+    .with('white', () => (
+      <Image src="/assets/images/loader-white.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} alt="One moment" />
+    ))
+    .with('yellow', () => (
+      <Image src="/assets/images/loader-yellow.svg" height={SIZE_MAP[size]} width={SIZE_MAP[size]} alt="One moment" />
+    ))
     .exhaustive()
 }

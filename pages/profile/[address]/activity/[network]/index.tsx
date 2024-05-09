@@ -18,7 +18,7 @@ export const ActivityDashboard: FC = ({}) => {
     query: { network, address },
   } = useRouter()
   const dispatch = useAppDispatch()
-  const { data: ens, status: ensStatus} = useAppSelector(selectENSByAddress({ address: address as string }))
+  const { data: ens, status: ensStatus } = useAppSelector(selectENSByAddress({ address: address as string }))
 
   useEffect(() => {
     if (!ens?.name && ensStatus !== QueryStatus.pending && address) {

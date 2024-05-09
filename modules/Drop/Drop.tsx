@@ -67,7 +67,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
 
   useEffect(() => {
     const claimedSupply = propOr(0, 'claimedSupply')(data) as number
-    const maxClaimable = pathOr("1", ['claimConditions', 'maxClaimablePerWallet'])(data)
+    const maxClaimable = pathOr('1', ['claimConditions', 'maxClaimablePerWallet'])(data)
     setLocalClaimedSupply(claimedSupply)
     setMaxClaimable(maxClaimable)
   }, [data])
@@ -102,10 +102,11 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
                 {pathOr('', ['claimConditions', 'currencyMetadata', 'displayValue'])(data)}{' '}
                 {pathOr('', ['claimConditions', 'currencyMetadata', 'symbol'])(data)}
               </CollectionStat>
-              <CollectionStat
-                label="Minted"
-                loading={status === 'pending'}
-              >{`${localClaimedSupply} / ${pathOr('', ['claimConditions', 'maxClaimableSupply'])(data) === "unlimited" ? "Unlimited" : totalSupply?.toString()}`}</CollectionStat>
+              <CollectionStat label="Minted" loading={status === 'pending'}>{`${localClaimedSupply} / ${
+                pathOr('', ['claimConditions', 'maxClaimableSupply'])(data) === 'unlimited'
+                  ? 'Unlimited'
+                  : totalSupply?.toString()
+              }`}</CollectionStat>
               {/* <CollectionStat label="Unique Owners" loading={isNil(ownersCount)}>
                 {ownersCount?.toString()}
               </CollectionStat> */}
@@ -121,7 +122,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
               <Amount amount={amountToMint} onMinus={onMinus} onPlus={onPlus} />
             </div>
             <div className="w-full md:w-3/4 md:pl-4">
-              { maxClaimable === 'unlimited' || 0 < (maxClaimable as number) ? (
+              {maxClaimable === 'unlimited' || 0 < (maxClaimable as number) ? (
                 <TransactionButton
                   className="!bg-yellow !text-black !w-full !border-black shadow-[5px_5px_0px_0px_rgba(234,179,8,1)] hover:shadow-[6px_6px_0px_0px_rgba(234,179,8,1)] !transition-all !epilogue !text-xl hover:cursor-pointer"
                   style={{ padding: '0.75rem', border: '2px solid yellow', borderRadius: '0' }}
@@ -133,15 +134,18 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
                     })
                   }
                   onTransactionSent={({ transactionHash }) => dispatch(transactionSent(transactionHash))}
-                  onTransactionConfirmed={({ transactionHash }: TransactionReceipt ) => {
-                    onSuccess({transactionHash, tokenId: BigInt(0)})
+                  onTransactionConfirmed={({ transactionHash }: TransactionReceipt) => {
+                    onSuccess({ transactionHash, tokenId: BigInt(0) })
                   }}
                   onError={error => {
                     dispatch(transactionFailed(error))
                   }}
                 >
                   Claim
-                </TransactionButton>) : <>Not eligible to claim. Connect an eligible wallet.</> }
+                </TransactionButton>
+              ) : (
+                <>Not eligible to claim. Connect an eligible wallet.</>
+              )}
             </div>
           </div>
           <div className="flex flex-col w-full mt-1 text-gray-600 border-y border-y-gray-700 py-8 text-sm">
@@ -150,7 +154,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
                 <span className="font-bold">Blockchain:</span>{' '}
                 {CurrencyChain[pathOr('', ['claimConditions', 'currencyMetadata', 'name'])(data)]}
               </li>
-              <li className='break-all'>
+              <li className="break-all">
                 <span className="font-bold">Contract Address:</span> {contractAddress}
               </li>
               <li>

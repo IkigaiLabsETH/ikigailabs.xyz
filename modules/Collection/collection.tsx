@@ -1,5 +1,5 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
-import { equals, isEmpty, isNil, pathOr, pipe, propOr, unless } from 'ramda'
+import { equals, isNil, pathOr, pipe, propOr, unless } from 'ramda'
 import React, { FC, Fragment, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 import { format, parseISO } from 'date-fns/fp'
@@ -10,11 +10,7 @@ import { Loader, Size } from '../Loader'
 import { NFTGrid } from '../NFTGrid'
 import { Facets } from '../Facets'
 import { formatAttributes } from '../../common/utils'
-import {
-  selectNFTS,
-  selectCollection,
-  selectCollectionAttributes,
-} from './collection.selectors'
+import { selectNFTS, selectCollection, selectCollectionAttributes } from './collection.selectors'
 import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
 import { Eth } from '../Eth'
@@ -43,7 +39,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
   const [selectedSort, setSelectedSort] = useState<Option>(COLLECTION_SORTING_OPTIONS[0])
   const [nfts, setNfts] = useState({ tokens: [], continuation: '', status: 'idle' })
   const [showFilter, setShowFilter] = useState(false)
-  
+
   const { data: nftData, status } = useAppSelector(
     selectNFTS({
       contract,
@@ -178,75 +174,66 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
 
   return (
     <div className="flex flex-col w-full">
-      {collectionDataStatus === QueryStatus.pending && (
-        <div className="w-full text-center h-screen flex flex-col items-center justify-center">
-          <Loader size={Size.l} color='white'  />
-        </div>
-      )} 
-      {collectionDataStatus === QueryStatus.fulfilled && !isNil(collection) ? (
-        <>
-          <CollectionHeader
-            eyebrow="Collection"
-            coverImage={propOr('', 'image')(collection)}
-            name={propOr('', 'name')(collection)}
-            description={propOr('', 'description')(collection)}
-          >
-            <div className="flex border-y border-y-gray-700 py-8">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-                <CollectionStat label="Floor Price" loading={collectionDataStatus === 'pending'}>
-                  <Eth amount={pipe(pathOr('—', ['floorAsk', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
-                </CollectionStat>
-                <CollectionStat label="Top Bid" loading={collectionDataStatus === 'pending'}>
-                  <Eth amount={pipe(pathOr('—', ['topBid', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
-                </CollectionStat>
-                <CollectionStat label="Volume" loading={collectionDataStatus === 'pending'}>
-                  <Eth amount={pipe(pathOr('—', ['volume', 'allTime']), parseFloat)(collection)} />
-                </CollectionStat>
-                <CollectionStat label="Supply" loading={collectionDataStatus === 'pending'}>
-                  {propOr('—', 'tokenCount')(collection)}
-                </CollectionStat>
-                <CollectionStat label="Created On" loading={collectionDataStatus === 'pending'}>
-                  {pipe(propOr('—', 'createdAt'), unless(equals('—'), pipe(parseISO, format('yyyy-MM-dd'))))(collection)}
-                </CollectionStat>
-              </div>
-            </div>
-          </CollectionHeader>
-          <div className="bg-white w-full flex py-4 justify-center items-center text-black flex-col">
-            <div className="max-w-screen-2xl w-full m-4 flex md:px-6 lg:px-8">
-              <div className="block w-full">
-                <nav className="flex space-x-4 font-bold border-b border-b-gray-400 w-full" aria-label="Tabs">
-                  <button
-                    onClick={() => setActiveTab(Tab.collection)}
-                    className={`p-4 border-b-4 border-white hover:border-black hover:text-black transition-all ${
-                      activeTab === Tab.collection ? 'text-black' : 'text-gray-400 border-b-white'
-                    }`}
-                  >
-                    Collection
-                  </button>
-                  <button
-                    onClick={() => setActiveTab(Tab.activity)}
-                    className={`p-4 border-b-4 border-white hover:border-black hover:text-black transition-all ${
-                      activeTab === Tab.activity ? 'text-black' : 'text-gray-400 border-b-white'
-                    }`}
-                  >
-                    Activity
-                  </button>
-                </nav>
-              </div>
-            </div>
-            <div className="max-w-screen-2xl w-full m-4 md:px-6 lg:px-8">
-              {match(activeTab)
-                .with(Tab.collection, () => nftsDisplay)
-                .with(Tab.activity, () => activityComponent)
-                .otherwise(() => null)}
+      {collectionDataStatus === QueryStatus.fulfilled && isNil(collection) ?
+      <div className="w-full text-center h-screen flex justify-center items-center">Nothing found</div> : 
+      <>
+        <CollectionHeader
+          eyebrow="Collection"
+          coverImage={propOr('', 'image')(collection)}
+          name={propOr('', 'name')(collection)}
+          description={propOr('', 'description')(collection)}
+        >
+          <div className="flex border-y border-y-gray-700 py-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+              <CollectionStat label="Floor Price" loading={collectionDataStatus === QueryStatus.pending}>
+                <Eth amount={pipe(pathOr('—', ['floorAsk', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
+              </CollectionStat>
+              <CollectionStat label="Top Bid" loading={collectionDataStatus === QueryStatus.pending}>
+                <Eth amount={pipe(pathOr('—', ['topBid', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
+              </CollectionStat>
+              <CollectionStat label="Volume" loading={collectionDataStatus === QueryStatus.pending}>
+                <Eth amount={pipe(pathOr('—', ['volume', 'allTime']), parseFloat)(collection)} />
+              </CollectionStat>
+              <CollectionStat label="Supply" loading={collectionDataStatus === QueryStatus.pending}>
+                {propOr('—', 'tokenCount')(collection)}
+              </CollectionStat>
+              <CollectionStat label="Created On" loading={collectionDataStatus === QueryStatus.pending}>
+                {pipe(propOr('—', 'createdAt'), unless(equals('—'), pipe(parseISO, format('yyyy-MM-dd'))))(collection)}
+              </CollectionStat>
             </div>
           </div>
-        </>
-      ) : (
-        <div className="w-full text-center h-screen flex flex-col items-center justify-center">
-          This collection cannot be found
+        </CollectionHeader>
+        <div className="bg-white w-full flex py-4 justify-center items-center text-black flex-col">
+          <div className="max-w-screen-2xl w-full m-4 flex md:px-6 lg:px-8">
+            <div className="block w-full">
+              <nav className="flex space-x-4 font-bold border-b border-b-gray-400 w-full" aria-label="Tabs">
+                <button
+                  onClick={() => setActiveTab(Tab.collection)}
+                  className={`p-4 border-b-4 border-white hover:border-black hover:text-black transition-all ${
+                    activeTab === Tab.collection ? 'text-black' : 'text-gray-400 border-b-white'
+                  }`}
+                >
+                  Collection
+                </button>
+                <button
+                  onClick={() => setActiveTab(Tab.activity)}
+                  className={`p-4 border-b-4 border-white hover:border-black hover:text-black transition-all ${
+                    activeTab === Tab.activity ? 'text-black' : 'text-gray-400 border-b-white'
+                  }`}
+                >
+                  Activity
+                </button>
+              </nav>
+            </div>
+          </div>
+          <div className="max-w-screen-2xl w-full m-4 md:px-6 lg:px-8">
+            {match(activeTab)
+              .with(Tab.collection, () => nftsDisplay)
+              .with(Tab.activity, () => activityComponent)
+              .otherwise(() => null)}
+          </div>
         </div>
-      )}
+      </>}
     </div>
   )
 }

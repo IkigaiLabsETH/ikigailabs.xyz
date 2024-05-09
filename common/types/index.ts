@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ContractType, ContractPrimarySale, ClaimCondition, } from '@thirdweb-dev/sdk'
+import { ContractType, ContractPrimarySale, ClaimCondition } from '@thirdweb-dev/sdk'
 
 export type { Axios as HTTP } from 'axios'
 
@@ -249,6 +249,7 @@ export interface Token {
   isFlagged: boolean
   isNsfw: boolean
   isSpam: boolean
+  supply: number
 }
 
 export interface Ownership {

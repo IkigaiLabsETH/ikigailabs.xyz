@@ -1,9 +1,9 @@
-import { FC, useEffect } from "react"
-import { useWallet } from "../../common/useWallet"
-import { useRouter } from "next/router"
-import { Profile } from "../../modules/Profile"
-import { withLayout } from "../../common/layouts"
-import { Layout } from "../../common/types"
+import { FC, useEffect } from 'react'
+import { useWallet } from '../../common/useWallet'
+import { useRouter } from 'next/router'
+import { Profile } from '../../modules/Profile'
+import { withLayout } from '../../common/layouts'
+import { Layout } from '../../common/types'
 
 export const ProfilePage: FC = () => {
   const { address, network } = useWallet()

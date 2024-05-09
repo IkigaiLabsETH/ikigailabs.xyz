@@ -201,19 +201,44 @@ export const CHAIN_ICON_MAP = {
 }
 
 export const ACTIVITY_ICON_MAP = {
-  [ActivityType.mint]: <div className='h-4 w-4 mr-2'><FaSeedling className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>,
-  [ActivityType.transfer]: (
-    <div className='h-4 w-4 mr-2'><FaArrowRightArrowLeft className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>
+  [ActivityType.mint]: (
+    <div className="h-4 w-4 mr-2">
+      <FaSeedling className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+    </div>
   ),
-  [ActivityType.burned]: <div className='h-4 w-4 mr-2'><FaFireFlameCurved className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>,
+  [ActivityType.transfer]: (
+    <div className="h-4 w-4 mr-2">
+      <FaArrowRightArrowLeft className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+    </div>
+  ),
+  [ActivityType.burned]: (
+    <div className="h-4 w-4 mr-2">
+      <FaFireFlameCurved className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+    </div>
+  ),
   [ActivityType.ask_cancel]: (
-    <div className='h-4 w-4 mr-2'><FaRegCircleXmark className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>
+    <div className="h-4 w-4 mr-2">
+      <FaRegCircleXmark className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+    </div>
   ),
   [ActivityType.bid_cancel]: (
-    <div className='h-4 w-4 mr-2'><FaRegCircleXmark className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>
+    <div className="h-4 w-4 mr-2">
+      <FaRegCircleXmark className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+    </div>
   ),
-  [ActivityType.bid]: <div className='h-4 w-4 mr-2'><FaHand className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>,
-  [ActivityType.ask]: <div className='h-4 w-4 mr-2'><FaTag className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" /></div>,
-  [ActivityType.sale]: <div className='h-4 w-4 mr-2'><FaCartShopping className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,</div>
+  [ActivityType.bid]: (
+    <div className="h-4 w-4 mr-2">
+      <FaHand className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+    </div>
+  ),
+  [ActivityType.ask]: (
+    <div className="h-4 w-4 mr-2">
+      <FaTag className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />
+    </div>
+  ),
+  [ActivityType.sale]: (
+    <div className="h-4 w-4 mr-2">
+      <FaCartShopping className="mr-1 !h-4 !w-4 text-neutral-400 md:mr-[10px] md:h-5 md:w-5" />,
+    </div>
+  ),
 }
-

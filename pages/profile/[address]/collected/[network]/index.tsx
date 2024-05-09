@@ -26,7 +26,7 @@ export const Collected: FC = ({}) => {
   const { data: ownedTokens, status: ownedStatus } = useAppSelector(
     selectCollectedTokens({ address: address as string, network: network as Network }),
   )
-  const { data: ens, status: ensStatus } = useAppSelector(selectENSByAddress({address: address as string}))
+  const { data: ens, status: ensStatus } = useAppSelector(selectENSByAddress({ address: address as string }))
 
   const { ref: nftRef } = useInfiniteLoading(userApi.endpoints.getOwnedTokens.initiate, {
     address: address as string,

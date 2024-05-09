@@ -21,9 +21,7 @@ export const CollectionsGrid: FC<CollectionsGridProps> = ({ collections, network
           className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] h-[32rem]"
         >
           <div className="overflow-clip h-1/2">
-            {collection?.image ? (
-              <img src={collection?.image} alt={collection?.name} width="384" height="384" />
-            ) : null}
+            {collection?.image ? <img src={collection?.image} alt={collection?.name} width="384" height="384" /> : null}
           </div>
           <div className="p-4 flex h-1/2">
             <div className="flex flex-col justify-between w-full">

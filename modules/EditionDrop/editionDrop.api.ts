@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { ContractType, Network } from '../../common/types';
+import { ContractType, Network } from '../../common/types'
 
 export const editionDropApi = createApi({
   reducerPath: 'editionDrop',

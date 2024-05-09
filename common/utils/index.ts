@@ -8,6 +8,7 @@ export {
   getChainIdFromNetwork,
   getTokenDataFromTokenSetId,
   formatAmount,
+  formatNumber,
   formatAttributes,
   formatDateAndTime,
   isOwner,
