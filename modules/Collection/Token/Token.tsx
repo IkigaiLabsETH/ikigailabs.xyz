@@ -10,12 +10,7 @@ import { Loader } from '../../Loader'
 import { selectCollectionToken } from './token.selectors'
 import { Eth } from '../../Eth'
 import { isOwner } from '../../../common/utils'
-import {
-  buyToken,
-  selectCollectionTokenInteractionStatus,
-  showListToken,
-  showCreateBid,
-} from './token.slice'
+import { buyToken, selectCollectionTokenInteractionStatus, showListToken, showCreateBid } from './token.slice'
 import { NFT, Network, ResPrice } from '../../../common/types'
 import { ReservoirActionButton } from '../../ReservoirActionButton/ReservoirActionButton'
 import { Button } from '../../Button'
@@ -42,7 +37,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
 
   const { data: collection } = useAppSelector(selectCollection({ contract, network }))
   const { status: tokenInteractionStatus } = useAppSelector(selectCollectionTokenInteractionStatus)
-  const { data: ens, status: ensStatus} = useAppSelector(selectENSByAddress({ address: token?.token?.owner }))
+  const { data: ens, status: ensStatus } = useAppSelector(selectENSByAddress({ address: token?.token?.owner }))
 
   const [activeTab, setActiveTab] = useState<string>('Activity')
   const dispatch = useAppDispatch()
@@ -91,13 +86,14 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
         isFlagged,
         isNsfw,
         isSpam,
+        supply,
       },
       market: { floorAsk, topBid },
     } = token as NFT
     const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
     const floorPriceSource = prop('source')(floorAsk)
     const topBidSource = prop('source')(topBid)
-    
+
     return (
       <div className="w-full bg-white flex items-center flex-col">
         <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col border-b-4 border-black bg-black">
@@ -139,13 +135,15 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                 </p>
               )}
               <div className="py-2 w-full h-auto">
-                {imageSmall && <img
-                  className="w-48 mr-8 mb-4 border-black border-4 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]"
-                  src={imageSmall}
-                  alt={name as string}
-                  width={150}
-                  height={150}
-                /> }
+                {imageSmall && (
+                  <img
+                    className="w-48 mr-8 mb-4 border-black border-4 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]"
+                    src={imageSmall}
+                    alt={name as string}
+                    width={150}
+                    height={150}
+                  />
+                )}
                 <div className="text-xl text-black pr-16 leading-relaxed">
                   <Markdown>{description}</Markdown>
                 </div>
@@ -174,7 +172,7 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                               <div className="w-1/2">
                                 <div className="capitalize mb-0.5">floor</div>
                                 <div className="font-bold text-base">
-                                  <Eth amount={attribute.floorAskPrice?.amount?.decimal } />
+                                  <Eth amount={attribute.floorAskPrice?.amount?.decimal} />
                                 </div>
                               </div>
                             </div>
@@ -205,6 +203,9 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
                   </li>
                   <li className="mb-1">
                     <span className="font-bold">Standard:</span> {kind}
+                  </li>
+                  <li className="mb-1">
+                    <span className="font-bold">Supply:</span> {supply}
                   </li>
                 </ul>
               </div>
@@ -297,7 +298,6 @@ export const Token: FC<TokenProps> = ({ contract, tokenId, network }) => {
               </div>
               <div className="block w-full">
                 <nav className="flex space-x-4 font-bold border-b border-b-gray-400 w-full" aria-label="Tabs">
-                  
                   <button
                     onClick={() => setActiveTab('Activity')}
                     className={`p-4 border-b-4 border-white hover:border-black hover:text-black transition-all ${

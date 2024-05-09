@@ -1,7 +1,6 @@
 import { includes, map } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
 
-
 import { Activity as IActivity, ActivityType, ActivityMap, Network } from '../../common/types'
 import { formatDistance } from 'date-fns'
 import { truncateAddress } from '../../common/utils'
@@ -141,7 +140,9 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
                       <div className="flex flex-col items-end justify-end">
                         {order?.source && (
                           <div className="flex flex-row items-center">
-                            {order.source?.icon && <img src={order.source.icon} width={20} height={20} alt={order.source.domain} /> }
+                            {order.source?.icon && (
+                              <img src={order.source.icon} width={20} height={20} alt={order.source.domain} />
+                            )}
                             <div className="text-gray-500 ml-1 -mt-0.5">{order.source.domain}</div>
                           </div>
                         )}
@@ -149,7 +150,7 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
                           <div className="text-gray-500 text-xs">{truncateAddress(fromAddress)}</div>
                           {toAddress && (
                             <div className="text-gray-500 text-xs">
-                              <div className='h-3 w-3 mr-1 inline-block'>
+                              <div className="h-3 w-3 mr-1 inline-block">
                                 <FaArrowRight className="inline font-light mx-0.5 -mt-0.5" />
                               </div>
                               {truncateAddress(toAddress)}
@@ -163,7 +164,7 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
               })(tokenActivity.activities)}
           </ul>
           {tokenActivityStatus === QueryStatus.pending ? loader : null}
-          <div ref={ref} className='h-1'/>
+          <div ref={ref} className="h-1" />
         </div>
       </div>
     </div>

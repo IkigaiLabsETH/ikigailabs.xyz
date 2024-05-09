@@ -21,7 +21,13 @@ export const SuccessfulModal: FC<SuccessfulModalProps> = ({ transactionHash, net
           <span className="text-yellow text-xl">View your NFT</span>
         </Link>
       </div> */}
-      {network === Network.BERA ? <a href={`${URLS[network].explorer}/nft/${contract}/${tokenId}#metadata`} className="text-yellow text-xl">View your NFT</a> : '' }
+      {network === Network.BERA ? (
+        <a href={`${URLS[network].explorer}/nft/${contract}/${tokenId}#metadata`} className="text-yellow text-xl">
+          View your NFT
+        </a>
+      ) : (
+        ''
+      )}
       <div>
         <Link
           href={`${URLS[network].explorer}/tx/${transactionHash}`}
