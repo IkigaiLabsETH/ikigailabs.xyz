@@ -156,7 +156,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
         <div className="w-full lg:w-4/5">
           {nfts?.tokens.length ? <NFTGrid nfts={nfts.tokens} network={network} /> : <div>No results found</div>}
           {nfts?.status === 'pending' && (
-            <div className="w-full text-center">
+            <div className="w-full text-center flex items-center justify-center">
               <Loader />
             </div>
           )}
