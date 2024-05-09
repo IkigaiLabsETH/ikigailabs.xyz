@@ -9,6 +9,7 @@ import { match } from 'ts-pattern'
 import { Loader, Size } from '../Loader'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { TW_SUPPORTED_CHAINS } from '../../common/config/chains'
 
 interface ProfileProps {
   connectLabel?: string
@@ -21,13 +22,24 @@ export const Profile: FC<ProfileProps> = () => {
 
   const wallets = [
     createWallet('io.metamask'),
-    createWallet('com.coinbase.wallet'),
-    walletConnect(),
-    inAppWallet({
-      auth: {
-        options: ['email', 'google', 'apple', 'facebook'],
+    createWallet('com.coinbase.wallet', {
+      walletConfig: {
+        options: "smartWalletOnly",
+      },
+      chains: [TW_SUPPORTED_CHAINS],
+      appMetadata: {
+        name: "IKIGAI Labs",
+        description: "Shaped by Photography",
+        logoUrl:
+          "https://ikigailabs.xyz/assets/images/IKIGAI_LABS_logo.svg",
       },
     }),
+    walletConnect(),
+    // inAppWallet({
+    //   auth: {
+    //     options: ['email', 'google', 'apple', 'facebook'],
+    //   },
+    // }),
     createWallet('me.rainbow'),
     createWallet('app.phantom'),
   ]

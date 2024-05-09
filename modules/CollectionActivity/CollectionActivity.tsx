@@ -7,9 +7,8 @@ import { SkeletonLoader } from '../SkeletonLoader'
 import { collectionApi } from '../Collection/collection.api'
 import { useInfiniteLoading } from '../../common/useInfiniteLoading'
 import { Toggle } from '../Toggle'
-import { includes, isNil, map } from 'ramda'
+import { has, includes, isNil, map } from 'ramda'
 import { ACTIVITY_ICON_MAP, CHAIN_ICON_MAP } from '../../common/constants/constants'
-import Image from 'next/image'
 import { truncateAddress } from '../../common/utils'
 import { FaArrowRight, FaArrowUpRightFromSquare } from 'react-icons/fa6'
 import { formatDistance } from 'date-fns'
@@ -111,12 +110,12 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
           <ul className='hidden lg:block'>
             {activity &&
               map((activity: any) => {
-                const collection = isNil(activity.token.tokenId)
+                const isCollection = isNil(activity.token.tokenId)
                 return (
-                <li key={activity.type === ActivityType.transfer ? `${activity.txHash}-${activity.logIndex}`  : activity.order.id} className="my-4 pb-4 border-b-2 border-black">
+                <li key={has('txHash')(activity) ? `${activity.txHash}-${activity.logIndex}`  : activity?.order?.id} className="my-4 pb-4 border-b-2 border-black">
                   <div className='grid grid-cols-6 justify-center items-center'>
                     <div className='flex flex-row items-center'>
-                      {ACTIVITY_ICON_MAP[activity.type]} {collection ? 'Collection ' : ''} {ActivityMap[activity.type]}
+                      {ACTIVITY_ICON_MAP[activity.type]} {isCollection ? 'Collection ' : ''} {ActivityMap[activity.type]}
                     </div>
                     <div className='flex flex-row items-center justify-center'>
                       {activity.token ? <>
@@ -161,13 +160,13 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
           <ul className='block lg:hidden'>
             {activity &&
               map((activity: any) => {
-                const collection = isNil(activity.token.tokenId)
+                const isCollection = isNil(activity.token.tokenId)
                 return (
-                <li key={activity.type === ActivityType.transfer ? `${activity.txHash}-${activity.logIndex}` : activity.order.id} className="my-4 pb-4 border-b-2 border-black">
+                <li key={has('txHash')(activity) ? `${activity.txHash}-${activity.logIndex}` : activity?.order?.id} className="my-4 pb-4 border-b-2 border-black">
                   <div className='grid grid-cols-2 justify-center items-center'>
                     <div className='flex items-start flex-col'>
                       <div className='flex flex-row items-center mb-4'>
-                        {ACTIVITY_ICON_MAP[activity.type]} {collection ? 'Collection ' : ''} {ActivityMap[activity.type]}
+                        {ACTIVITY_ICON_MAP[activity.type]} {isCollection ? 'Collection ' : ''} {ActivityMap[activity.type]}
                       </div>
                       <div className='flex flex-row items-center'>
                         {activity.token ? <>
