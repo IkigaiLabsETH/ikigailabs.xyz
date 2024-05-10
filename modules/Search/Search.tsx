@@ -45,7 +45,7 @@ export const Search: FC<SearchProps> = ({}) => {
     dispatch(searchApi.endpoints.search.initiate({ query }))
   }, [query, dispatch])
 
-  const updateChainSelection = (chain: string) => {
+  const updateChainSelection = (chain: number) => {
     const updatedChains = toggleListItem(chain, selectedChains)
     setSelectedChains(updatedChains)
   }
