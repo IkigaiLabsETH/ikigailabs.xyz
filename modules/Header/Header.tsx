@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Network } from '../../common/types'
 import { useWallet } from '../../common/useWallet'
+import { Search } from '../Search'
 
 export const Header: FC = () => {
   const [expanded, setExpanded] = useState<Boolean>(false)
@@ -27,7 +28,9 @@ export const Header: FC = () => {
               <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="32" height="32" />
             </Link>
           </div>
-
+          <div className='w-1/2 justify-center hidden md:flex'>
+            <Search />
+          </div>
           <div className="flex flex-row justify-end">
             <div className="flex">
               <Profile />

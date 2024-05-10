@@ -41,7 +41,7 @@ import { Network } from '../types'
 // or adding chains will result in adding more or less chains to the marketplace.
 // They are an extension of the wagmi chain objects
 
-type ReservoirChain = Chain & {
+export type ReservoirChain = Chain & {
   lightIconUrl: string
   darkIconUrl: string
   reservoirBaseUrl: string
@@ -96,18 +96,6 @@ export const supportedChains = [
     community: process.env.NEXT_PUBLIC_POLYGON_COMMUNITY,
   },
   {
-    ...polygonMumbai,
-    lightIconUrl: '/icons/polygon-icon-dark.svg',
-    darkIconUrl: '/icons/polygon-icon-light.svg',
-    reservoirBaseUrl: 'https://api-mumbai.reservoir.tools',
-    proxyApi: '/api/reservoir/mumbai',
-    routePrefix: 'mumbai',
-    apiKey: process.env.POLYGON_RESERVOIR_API_KEY,
-    coingeckoId: 'matic-network',
-    collectionSetId: process.env.NEXT_PUBLIC_POLYGON_COLLECTION_SET_ID,
-    community: process.env.NEXT_PUBLIC_POLYGON_COMMUNITY,
-  },
-  {
     ...arbitrum,
     name: 'Arbitrum',
     lightIconUrl: '/icons/arbitrum-icon-dark.svg',
@@ -137,17 +125,79 @@ export const supportedChains = [
     ...arbitrumNova,
     routePrefix: Network.ARBITRUM_NOVA,
     reservoirBaseUrl: 'https://api-arbitrum-nova.reservoir.tools',
+    lightIconUrl: '/icons/arbitrum-nova-icon-dark.svg',
+    darkIconUrl: '/icons/arbitrum-nova-icon-light.svg',
   },
-  { ...zora, routePrefix: Network.ZORA, reservoirBaseUrl: 'https://api-zora.reservoir.tools' },
-  { ...base, routePrefix: Network.BASE, reservoirBaseUrl: 'https://api-base.reservoir.tools' },
-  { ...baseSepolia, routePrefix: Network.BASE_SEPOLIA, reservoirBaseUrl: 'https://api-base-sepolia.reservoir.tools' },
-  { ...sepolia, routePrefix: Network.SEPOLIA, reservoirBaseUrl: 'https://api-sepolia.reservoir.tools' },
-  { ...polygonZkEvm, routePrefix: Network.ZKEVM, reservoirBaseUrl: 'https://api-polygon-zkevm.reservoir.tools' },
-  { ...avalanche, routePrefix: Network.AVALANCHE, reservoirBaseUrl: 'https://api-avalanche.reservoir.tools' },
-  { ...linea, routePrefix: Network.LINEA, reservoirBaseUrl: 'https://api-linea.reservoir.tools' },
-  { ...scroll, routePrefix: Network.SCROLL, reservoirBaseUrl: 'https://api-scroll.reservoir.tools' },
-  { ...zkSync, routePrefix: Network.ZKSYNC, reservoirBaseUrl: 'https://api-zksync.reservoir.tools' },
-  { ...blast, routePrefix: Network.BLAST, reservoirBaseUrl: 'https://api-blast.reservoir.tools' },
+  {
+    ...zora,
+    routePrefix: Network.ZORA,
+    reservoirBaseUrl: 'https://api-zora.reservoir.tools',
+    lightIconUrl: '/icons/zora-icon-dark.svg',
+    darkIconUrl: '/icons/zora-icon-light.svg',
+  },
+  {
+    ...base,
+    routePrefix: Network.BASE,
+    reservoirBaseUrl: 'https://api-base.reservoir.tools',
+    lightIconUrl: '/icons/base-icon-dark.svg',
+    darkIconUrl: '/icons/base-icon-light.svg',
+  },
+  {
+    ...baseSepolia,
+    routePrefix: Network.BASE_SEPOLIA,
+    reservoirBaseUrl: 'https://api-base-sepolia.reservoir.tools',
+    lightIconUrl: '/icons/base-icon-dark.svg',
+    darkIconUrl: '/icons/base-icon-light.svg',
+  },
+  {
+    ...sepolia,
+    routePrefix: Network.SEPOLIA,
+    reservoirBaseUrl: 'https://api-sepolia.reservoir.tools',
+    lightIconUrl: '/icons/eth-icon-dark.svg',
+    darkIconUrl: '/icons/eth-icon-light.svg',
+  },
+  {
+    ...polygonZkEvm,
+    routePrefix: Network.ZKEVM,
+    reservoirBaseUrl: 'https://api-polygon-zkevm.reservoir.tools',
+    lightIconUrl: '/icons/polygon-zkevm-icon-dark.svg',
+    darkIconUrl: '/icons/polygon-zkevm-icon-light.svg',
+  },
+  {
+    ...avalanche,
+    routePrefix: Network.AVALANCHE,
+    reservoirBaseUrl: 'https://api-avalanche.reservoir.tools',
+    lightIconUrl: '/icons/avalanche-icon-dark.svg',
+    darkIconUrl: '/icons/avalanche-icon-light.svg',
+  },
+  {
+    ...linea,
+    routePrefix: Network.LINEA,
+    reservoirBaseUrl: 'https://api-linea.reservoir.tools',
+    lightIconUrl: '/icons/linea-icon-dark.svg',
+    darkIconUrl: '/icons/linea-icon-light.svg',
+  },
+  {
+    ...scroll,
+    routePrefix: Network.SCROLL,
+    reservoirBaseUrl: 'https://api-scroll.reservoir.tools',
+    lightIconUrl: '/icons/scroll-testnet-icon-dark.svg',
+    darkIconUrl: '/icons/scroll-testnet-icon-light.svg',
+  },
+  {
+    ...zkSync,
+    routePrefix: Network.ZKSYNC,
+    reservoirBaseUrl: 'https://api-zksync.reservoir.tools',
+    lightIconUrl: '/icons/zksync-icon-dark.svg',
+    darkIconUrl: '/icons/zksync-icon-light.svg',
+  },
+  {
+    ...blast,
+    routePrefix: Network.BLAST,
+    reservoirBaseUrl: 'https://api-blast.reservoir.tools',
+    lightIconUrl: '/icons/blast-icon-dark.svg',
+    darkIconUrl: '/icons/blast-icon-light.svg',
+  },
 ] as ReservoirChain[]
 
 export const TW_SUPPORTED_CHAINS = [
