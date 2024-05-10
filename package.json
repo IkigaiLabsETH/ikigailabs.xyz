@@ -45,7 +45,7 @@
     "react-toastify": "^9.1.1",
     "redux-persist": "^6.0.0",
     "sharp": "^0.32.6",
-    "thirdweb": "^5.2.0",
+    "thirdweb": "^5.15.0",
     "ts-pattern": "^4.0.5",
     "viem": "^2.7.8",
     "wagmi": "2.5.12"

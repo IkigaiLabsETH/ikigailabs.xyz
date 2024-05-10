@@ -7,9 +7,8 @@ import { SkeletonLoader } from '../SkeletonLoader'
 import { collectionApi } from '../Collection/collection.api'
 import { useInfiniteLoading } from '../../common/useInfiniteLoading'
 import { Toggle } from '../Toggle'
-import { includes, isNil, map } from 'ramda'
+import { has, includes, isNil, map } from 'ramda'
 import { ACTIVITY_ICON_MAP, CHAIN_ICON_MAP } from '../../common/constants/constants'
-import Image from 'next/image'
 import { truncateAddress } from '../../common/utils'
 import { FaArrowRight, FaArrowUpRightFromSquare } from 'react-icons/fa6'
 import { formatDistance } from 'date-fns'
@@ -20,11 +19,13 @@ interface CollectionActivityProps {
   network: Network
 }
 
-export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, network }) => {
+export const CollectionActivity: FC<CollectionActivityProps> = ({ contract, network }) => {
   const dispatch = useAppDispatch()
   const [selectedActivityTypes, setSelectedActivityTypes] = useState<ActivityType[]>([])
 
-  const { data: activity, status: activityStatus } = useAppSelector(selectCollectionActivity({ contract, network, selectedActivityTypes }))
+  const { data: activity, status: activityStatus } = useAppSelector(
+    selectCollectionActivity({ contract, network, selectedActivityTypes }),
+  )
 
   useEffect(() => {
     if (activityStatus === QueryStatus.uninitialized) {
@@ -108,114 +109,170 @@ export const CollectionActivity:FC<CollectionActivityProps> = ({ contract, netwo
               />
             </div>
           </div>
-          <ul className='hidden lg:block'>
+          <ul className="hidden lg:block">
             {activity &&
               map((activity: any) => {
-                const collection = isNil(activity.token.tokenId)
+                const isCollection = isNil(activity.token.tokenId)
                 return (
-                <li key={activity.type === ActivityType.transfer ? `${activity.txHash}-${activity.logIndex}`  : activity.order.id} className="my-4 pb-4 border-b-2 border-black">
-                  <div className='grid grid-cols-6 justify-center items-center'>
-                    <div className='flex flex-row items-center'>
-                      {ACTIVITY_ICON_MAP[activity.type]} {collection ? 'Collection ' : ''} {ActivityMap[activity.type]}
-                    </div>
-                    <div className='flex flex-row items-center justify-center'>
-                      {activity.token ? <>
-                        {activity.token.tokenImage && <img src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} />}
-                      </>
-                      : null }
-                    </div>
-                    <div className='flex flex-row items-center'>
-                      <span className='mr-2 inline-block'>{CHAIN_ICON_MAP[network]}</span> {activity.price}
-                    </div>
-                    <div className='flex justify-center items-center flex-col'>
-                      <div className="text-gray-500 text-xs">{truncateAddress(activity.fromAddress)}</div>
+                  <li
+                    key={
+                      has('txHash')(activity) && has('logIndex')(activity)
+                        ? `${activity.txHash}-${activity.logIndex}`
+                        : activity?.order?.id
+                    }
+                    className="my-4 pb-4 border-b-2 border-black"
+                  >
+                    <div className="grid grid-cols-6 justify-center items-center">
+                      <div className="flex flex-row items-center">
+                        {ACTIVITY_ICON_MAP[activity.type]} {isCollection ? 'Collection ' : ''}{' '}
+                        {ActivityMap[activity.type]}
+                      </div>
+                      <div className="flex flex-row items-center justify-center">
+                        {activity.token ? (
+                          <>
+                            {activity.token.tokenImage && (
+                              <img
+                                src={activity.token.tokenImage}
+                                alt={activity.token.tokenName}
+                                width={50}
+                                height={50}
+                              />
+                            )}
+                          </>
+                        ) : null}
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="mr-2 inline-block">{CHAIN_ICON_MAP[network]}</span> {activity.price}
+                      </div>
+                      <div className="flex justify-center items-center flex-col">
+                        <div className="text-gray-500 text-xs">{truncateAddress(activity.fromAddress)}</div>
                         {activity.toAddress && (
                           <div className="text-gray-500 text-xs">
                             <FaArrowRight className="inline font-light mx-0.5 -mt-0.5" />
                             {truncateAddress(activity.toAddress)}
                           </div>
                         )}
-                    </div>
-                    <div className='flex justify-center items-center flex-col'>
-                      {activity.order?.source && (
-                        <div className="flex flex-row items-center">
-                          {activity.order.source?.icon && <img src={activity.order.source.icon} width={20} height={20} alt={activity.order.source.domain} /> }
-                          <div className="text-gray-500 ml-1 -mt-0.5">{activity.order.source.domain}</div>
+                      </div>
+                      <div className="flex justify-center items-center flex-col">
+                        {activity.order?.source && (
+                          <div className="flex flex-row items-center">
+                            {activity.order.source?.icon && (
+                              <img
+                                src={activity.order.source.icon}
+                                width={20}
+                                height={20}
+                                alt={activity.order.source.domain}
+                              />
+                            )}
+                            <div className="text-gray-500 ml-1 -mt-0.5">{activity.order.source.domain}</div>
+                          </div>
+                        )}
+                        <div className="text-gray-500 text-xs">
+                          {formatDistance(new Date(activity.timestamp * 1000), new Date(), {
+                            includeSeconds: true,
+                            addSuffix: true,
+                          })}
                         </div>
-                      )}
-                      <div className="text-gray-500 text-xs">
-                        {formatDistance(new Date(activity.timestamp * 1000), new Date(), {
-                          includeSeconds: true,
-                          addSuffix: true,
-                        })}
+                      </div>
+                      <div className="flex items-end justify-end">
+                        {activity.type === ActivityType.transfer && (
+                          <a href={`${URLS[network].explorer}/tx/${activity.txHash}`}>
+                            <FaArrowUpRightFromSquare />
+                          </a>
+                        )}
                       </div>
                     </div>
-                    <div className='flex items-end justify-end'>
-                      {activity.type === ActivityType.transfer &&  <a href={`${URLS[network].explorer}/tx/${activity.txHash}`}><FaArrowUpRightFromSquare /></a> }
-                    </div>
-                  </div>
-                  <span className="text-neutral-400">{activity.description}</span>
-                </li>
-              )})((activity as any).activities)}
+                    <span className="text-neutral-400">{activity.description}</span>
+                  </li>
+                )
+              })((activity as any).activities)}
           </ul>
-          <ul className='block lg:hidden'>
+          <ul className="block lg:hidden">
             {activity &&
               map((activity: any) => {
-                const collection = isNil(activity.token.tokenId)
+                const isCollection = isNil(activity.token.tokenId)
                 return (
-                <li key={activity.type === ActivityType.transfer ? `${activity.txHash}-${activity.logIndex}` : activity.order.id} className="my-4 pb-4 border-b-2 border-black">
-                  <div className='grid grid-cols-2 justify-center items-center'>
-                    <div className='flex items-start flex-col'>
-                      <div className='flex flex-row items-center mb-4'>
-                        {ACTIVITY_ICON_MAP[activity.type]} {collection ? 'Collection ' : ''} {ActivityMap[activity.type]}
-                      </div>
-                      <div className='flex flex-row items-center'>
-                        {activity.token ? <>
-                            {activity.token.tokenImage && <img src={activity.token.tokenImage} alt={activity.token.tokenName} width={50} height={50} />}
-                            <div className='ml-4'>{activity.token.tokenId}</div>
-                          </>
-                          : null }
-                      </div>
-                      <div className='mt-4'>
-                        <div className="text-gray-500 text-xs">{truncateAddress(activity.fromAddress)}</div>
-                        <div>
-                          {activity.toAddress && (
-                            <div className="text-gray-500 text-xs">
-                              <FaArrowRight className="inline font-light mx-0.5 -mt-0.5" />
-                              {truncateAddress(activity.toAddress)}
-                            </div>
-                          )}
+                  <li
+                    key={
+                      has('txHash')(activity) && has('logIndex')(activity)
+                        ? `${activity.txHash}-${activity.logIndex}`
+                        : activity?.order?.id
+                    }
+                    className="my-4 pb-4 border-b-2 border-black"
+                  >
+                    <div className="grid grid-cols-2 justify-center items-center">
+                      <div className="flex items-start flex-col">
+                        <div className="flex flex-row items-center mb-4">
+                          {ACTIVITY_ICON_MAP[activity.type]} {isCollection ? 'Collection ' : ''}{' '}
+                          {ActivityMap[activity.type]}
                         </div>
-                      </div>
-                    </div>
-                    <div className='flex flex-row items-start justify-end'>
-                      <div className='flex flex-col justify-between'>
-                        <div className='font-bold text-xl'>
-                          {CHAIN_ICON_MAP.ETH} {activity.price}
+                        <div className="flex flex-row items-center">
+                          {activity.token ? (
+                            <>
+                              {activity.token.tokenImage && (
+                                <img
+                                  src={activity.token.tokenImage}
+                                  alt={activity.token.tokenName}
+                                  width={50}
+                                  height={50}
+                                />
+                              )}
+                              <div className="ml-4">{activity.token.tokenId}</div>
+                            </>
+                          ) : null}
                         </div>
-                        <div>
-                          <div className="text-gray-500 text-xs">
-                            {formatDistance(new Date(activity.timestamp * 1000), new Date(), {
-                              includeSeconds: true,
-                              addSuffix: true,
-                            })}
+                        <div className="mt-4">
+                          <div className="text-gray-500 text-xs">{truncateAddress(activity.fromAddress)}</div>
+                          <div>
+                            {activity.toAddress && (
+                              <div className="text-gray-500 text-xs">
+                                <FaArrowRight className="inline font-light mx-0.5 -mt-0.5" />
+                                {truncateAddress(activity.toAddress)}
+                              </div>
+                            )}
                           </div>
-                          {activity.order?.source && (
-                            <div className="flex flex-row items-center">
-                              {activity.order.source?.icon && <img src={activity.order.source.icon} width={20} height={20} alt={activity.order.source.domain} /> }
-                              <div className="text-gray-500 ml-1 -mt-0.5">{activity.order.source.domain}</div>
+                        </div>
+                      </div>
+                      <div className="flex flex-row items-start justify-end">
+                        <div className="flex flex-col justify-between">
+                          <div className="font-bold text-xl">
+                            {CHAIN_ICON_MAP.ETH} {activity.price}
+                          </div>
+                          <div>
+                            <div className="text-gray-500 text-xs">
+                              {formatDistance(new Date(activity.timestamp * 1000), new Date(), {
+                                includeSeconds: true,
+                                addSuffix: true,
+                              })}
                             </div>
+                            {activity.order?.source && (
+                              <div className="flex flex-row items-center">
+                                {activity.order.source?.icon && (
+                                  <img
+                                    src={activity.order.source.icon}
+                                    width={20}
+                                    height={20}
+                                    alt={activity.order.source.domain}
+                                  />
+                                )}
+                                <div className="text-gray-500 ml-1 -mt-0.5">{activity.order.source.domain}</div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div>
+                          {activity.type === ActivityType.transfer && (
+                            <a href={`${URLS[network].explorer}/tx/${activity.txHash}`}>
+                              <FaArrowUpRightFromSquare />
+                            </a>
                           )}
                         </div>
                       </div>
-                      <div>
-                      {activity.type === ActivityType.transfer &&  <a href={`${URLS[network].explorer}/tx/${activity.txHash}`}><FaArrowUpRightFromSquare /></a> }
-                      </div>
                     </div>
-                  </div>
-                  <span className="text-neutral-400">{activity.description}</span>
-                </li>
-              )})((activity as any).activities)}
+                    <span className="text-neutral-400">{activity.description}</span>
+                  </li>
+                )
+              })((activity as any).activities)}
           </ul>
           {activityStatus === QueryStatus.pending ? loader : null}
           <div ref={ref} />

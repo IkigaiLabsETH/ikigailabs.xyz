@@ -7,6 +7,6 @@ export const useWallet = () => {
   const networkId = useActiveWalletChain()
   const network = TW_SUPPORTED_CHAINS.find(propEq('id', networkId))
   const address = account?.address || ''
-  
+
   return { address, network: network?.slug }
 }

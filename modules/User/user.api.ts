@@ -21,10 +21,15 @@ export const userApi = createApi({
         return currentArg !== previousArg
       },
     }),
-    getUserActivity: builder.query<{ activities: Activity[], continuation: string }, { address: string; continuation?: string; network: Network, selectedActivityTypes?: ActivityType[] }>({
+    getUserActivity: builder.query<
+      { activities: Activity[]; continuation: string },
+      { address: string; continuation?: string; network: Network; selectedActivityTypes?: ActivityType[] }
+    >({
       query: ({ address, continuation, network, selectedActivityTypes = [] }) => {
         const activityTypes = selectedActivityTypes.map(type => `&types=${type}`).join('&')
-        return `${network}/users/activity/v6?sortBy=eventTimestamp&includeMetadata=true&users=${address}${selectedActivityTypes.length ? `${activityTypes}` : ''}${continuation ? `&continuation=${continuation}` : ''}`
+        return `${network}/users/activity/v6?sortBy=eventTimestamp&includeMetadata=true&users=${address}${
+          selectedActivityTypes.length ? `${activityTypes}` : ''
+        }${continuation ? `&continuation=${continuation}` : ''}`
       },
       serializeQueryArgs: ({ queryArgs: { address, network, selectedActivityTypes } }) => {
         const activityTypes = selectedActivityTypes.map(type => `types=${type}`).join('&')

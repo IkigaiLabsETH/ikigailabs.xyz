@@ -45,7 +45,7 @@ export const EditionDrop: FC<EditionDropProps> = ({ contractAddress, tokenId, ne
   }, [contractAddress, tokenId, network, dispatch, token, type])
 
   useEffect(() => {
-    if (contractAddress ) {
+    if (contractAddress) {
       const contract = getContract({
         client: TWClient,
         chain,
@@ -57,7 +57,7 @@ export const EditionDrop: FC<EditionDropProps> = ({ contractAddress, tokenId, ne
       }).then(setContractMetadata)
     }
   }, [contractAddress, chain])
-  
+
   useEffect(() => {
     if (contract && tokenId) {
       getActiveClaimCondition({ contract, tokenId: BigInt(tokenId) }).then(setActiveClaimConditions)
@@ -99,9 +99,18 @@ export const EditionDrop: FC<EditionDropProps> = ({ contractAddress, tokenId, ne
           {contract && (
             <div>
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 w-full border-y border-y-gray-700 py-8">
-                <CollectionStat label="Claimed:" loading={status === 'pending'}>{supply}</CollectionStat>
-                <CollectionStat label="Price:" loading={status === 'pending'}>Free</CollectionStat>
-                <CollectionStat label="Opens:" loading={status === 'pending'}>{activeClaimConditions?.startTimestamp}{activeClaimConditions?.startTimestamp ? `${formatDateAndTime(Number(activeClaimConditions.startTimestamp))}` : null}</CollectionStat>
+                <CollectionStat label="Claimed:" loading={status === 'pending'}>
+                  {supply}
+                </CollectionStat>
+                <CollectionStat label="Price:" loading={status === 'pending'}>
+                  Free
+                </CollectionStat>
+                <CollectionStat label="Opens:" loading={status === 'pending'}>
+                  {activeClaimConditions?.startTimestamp}
+                  {activeClaimConditions?.startTimestamp
+                    ? `${formatDateAndTime(Number(activeClaimConditions.startTimestamp))}`
+                    : null}
+                </CollectionStat>
               </div>
               <div className="grid grid-cols-3 justify-center items-center mt-10">
                 <TransactionButton

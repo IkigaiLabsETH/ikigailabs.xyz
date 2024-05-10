@@ -36,10 +36,7 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
     // versions without any padding
     endpoint = endpoint.toLowerCase()
 
-    if (
-      [mainnet.id as number, optimism.id, arbitrum.id].includes(chain.id) &&
-      endpoint.includes('currency')
-    ) {
+    if ([mainnet.id as number, optimism.id, arbitrum.id].includes(chain.id) && endpoint.includes('currency')) {
       if (endpoint.includes(zeroAddress)) {
         res.redirect('/icons/currency/no-padding-eth.png')
         return

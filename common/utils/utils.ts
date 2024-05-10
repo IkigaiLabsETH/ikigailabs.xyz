@@ -45,6 +45,7 @@ import {
   chain,
 } from 'ramda'
 import { Network } from '../types'
+import { number } from 'ts-pattern/dist/patterns'
 
 export const truncate = (length: number) =>
   when(
@@ -67,6 +68,8 @@ export const formatAmount = (number: number) =>
           maximumSignificantDigits: 2,
         },
   ).format(number)
+
+export const formatNumber = (number: number) => new Intl.NumberFormat('en', { notation: 'compact' }).format(number)
 
 export const getRemainingTime = (start: Date, end: Date) =>
   formatDuration(

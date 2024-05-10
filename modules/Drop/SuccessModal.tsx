@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { URLS } from '../../common/config'
 import { Network } from '../../common/types'
 import Link from 'next/link'
+import { TW_SUPPORTED_CHAINS } from '../../common/config/chains'
 
 interface SuccessfulModalProps {
   transactionHash: string
@@ -20,6 +21,13 @@ export const SuccessfulModal: FC<SuccessfulModalProps> = ({ transactionHash, net
           <span className="text-yellow text-xl">View your NFT</span>
         </Link>
       </div> */}
+      {network === Network.BERA ? (
+        <a href={`${URLS[network].explorer}/nft/${contract}/${tokenId}#metadata`} className="text-yellow text-xl">
+          View your NFT
+        </a>
+      ) : (
+        ''
+      )}
       <div>
         <Link
           href={`${URLS[network].explorer}/tx/${transactionHash}`}

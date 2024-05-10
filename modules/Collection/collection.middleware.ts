@@ -2,11 +2,7 @@ import { ListenerEffectAPI, PayloadAction } from '@reduxjs/toolkit'
 import { pathOr } from 'ramda'
 
 import { AppDispatch, RootState } from '../../common/redux/store'
-import {
-  fetchCollection,
-  getCollectionAttributesByContract,
-  getCollectionByContract,
-} from './collection.api'
+import { fetchCollection, getCollectionAttributesByContract, getCollectionByContract } from './collection.api'
 import { Network } from '../../common/types'
 
 export const middleware = {

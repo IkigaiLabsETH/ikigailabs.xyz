@@ -22,7 +22,7 @@ export const Header: FC = () => {
     <header className="fixed py-4 sm:py-6 z-20 w-full">
       <div className="px-4 mx-auto max-w-screen-2xl sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between">
-          <div className="w-52 z-20">
+          <div className="z-20 w-10">
             <Link href="/" title="" className="flex items-center">
               <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="32" height="32" />
             </Link>
@@ -32,42 +32,42 @@ export const Header: FC = () => {
             <div className="flex">
               <Profile />
             </div>
-            <div className='ml-2 w-12 h-12 flex items-center justify-center bg-black border border-solid border-gray-400 mt-0.5 rounded-lg'>
-            <button
-              className="z-20 w-12 h-12 flex items-center justify-center "
-              onClick={() => setExpanded(!expanded)}
-              aria-expanded={expanded ? 'true' : 'false'}
-            >
-              {!expanded && (
-                <span>
-                  <svg
-                    className="!w-6 !h-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </span>
-              )}
+            <div className="ml-2 w-12 h-12 flex items-center justify-center bg-black border border-solid border-gray-400 mt-0.5 rounded-lg">
+              <button
+                className="z-20 w-12 h-12 flex items-center justify-center "
+                onClick={() => setExpanded(!expanded)}
+                aria-expanded={expanded ? 'true' : 'false'}
+              >
+                {!expanded && (
+                  <span>
+                    <svg
+                      className="!w-6 !h-6"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  </span>
+                )}
 
-              {expanded && (
-                <span aria-hidden="true">
-                  <svg
-                    className="!w-6 !h-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </span>
-              )}
-            </button>
+                {expanded && (
+                  <span aria-hidden="true">
+                    <svg
+                      className="!w-6 !h-6"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </nav>
