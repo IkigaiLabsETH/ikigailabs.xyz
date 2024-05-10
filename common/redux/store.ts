@@ -46,6 +46,7 @@ import { tokenFetchCompleteMiddleware } from '../../modules/Collection/Token'
 import { ensApi } from '../ens'
 import { transactionFailed, transactionSent } from '../transaction'
 import { editionDropApi } from '../../modules/EditionDrop'
+import { searchApi } from '../../modules/Search'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -128,6 +129,7 @@ const combinedReducer = combineReducers({
   network: networkSelectorReducer,
   [ensApi.reducerPath]: prop('reducer')(ensApi),
   [userApi.reducerPath]: prop('reducer')(userApi),
+  [searchApi.reducerPath]: prop('reducer')(searchApi),
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => combinedReducer(state, action)
@@ -152,6 +154,7 @@ const makeStore = () =>
           userApi.middleware,
           editionDropApi.middleware,
           ensApi.middleware,
+          searchApi.middleware,
         ),
     devTools: true,
   })

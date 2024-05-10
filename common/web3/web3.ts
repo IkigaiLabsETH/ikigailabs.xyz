@@ -16,7 +16,9 @@ const jsonRpcProvider = new ethers.providers.JsonRpcProvider(
 )
 if (typeof window !== 'undefined') {
   web3Provider =
-    window.ethereum != null ? new ethers.providers.Web3Provider(window.ethereum as any) : ethers.providers.getDefaultProvider()
+    window.ethereum != null
+      ? new ethers.providers.Web3Provider(window.ethereum as any)
+      : ethers.providers.getDefaultProvider()
   signer = web3Provider.getSigner?.()
 }
 

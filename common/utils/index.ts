@@ -19,4 +19,7 @@ export {
   normalizeContentType,
   renameKeys,
   slugify,
+  filterOutChains,
+  findChainIconByChainId,
+  findChainNameByChainId,
 } from './utils'

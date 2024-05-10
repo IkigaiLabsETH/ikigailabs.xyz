@@ -136,6 +136,7 @@ export enum ActivityMap {
 export interface Collection {
   collectionId: string
   collectionName: string
+  chainId: number
 }
 
 export interface Activity {
@@ -485,4 +486,16 @@ export interface TokenDefinition {
   tokenId: string
   network: Network
   type: ContractType
+}
+
+export interface SearchResult {
+  allTimeVolume: number 
+  chainId: number 
+  contract: string
+  floorAskPrice: number
+  id: string
+  image: string 
+  name: string
+  openseaVerificationStatus: string
+  tokenCount: string 
 }

@@ -65,8 +65,7 @@
 @layer base {
   body {
     font-family: 'satoshi';
-    @apply text-white;
-    background-color: #121212;
+    @apply text-white bg-neutral-900;
   }
 
   h1, h2, h3, h4 {

@@ -4,7 +4,6 @@ import {
   addIndex,
   adjust,
   append,
-  concat,
   curry,
   findIndex,
   gt,
@@ -43,9 +42,11 @@ import {
   assoc,
   keys,
   chain,
+  reject,
+  find,
 } from 'ramda'
 import { Network } from '../types'
-import { number } from 'ts-pattern/dist/patterns'
+import { supportedChains } from '../config'
 
 export const truncate = (length: number) =>
   when(
@@ -87,13 +88,6 @@ export const formatNFTMetadata = (metadata: any) =>
   set(lensPath(['metadata', 'id'] as never), metadata.metadata.id.toString())(metadata)
 
 export const toggleListItem = curry((value, list) => ifElse(includes(value), without([value]), append(value))(list))
-
-// export const formatAttributes = pipe(
-//   toPairs,
-//   reduce((acc, facet: any) => {
-//     return concat(reduce((acc, value) => concat(`&attributes[${facet[0]}]=${value}`)(acc), '')(facet[1]))(acc)
-//   }, ''),
-// )
 
 export const formatAttributes = pipe(
   chain(({ key, values }: { key: string; values: string[] }) =>
@@ -230,3 +224,8 @@ export const slugify = (str: string) =>
     .replace(/[^\w\s-]/g, '')
     .replace(/[\s_-]+/g, '-')
     .replace(/^-+|-+$/g, '')
+
+export const filterOutChains = (chains: string[]) => reject(propSatisfies(includes(__, chains), 'routePrefix'))
+
+export const findChainIconByChainId = (chainId: number) => pipe(find(propEq('id', chainId)), prop('darkIconUrl'))(supportedChains)
+export const findChainNameByChainId = (chainId: number) => pipe(find(propEq('id', chainId)), prop('routePrefix'))(supportedChains)
