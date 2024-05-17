@@ -227,5 +227,7 @@ export const slugify = (str: string) =>
 
 export const filterOutChains = (chains: string[]) => reject(propSatisfies(includes(__, chains), 'routePrefix'))
 
-export const findChainIconByChainId = (chainId: number) => pipe(find(propEq('id', chainId)), prop('darkIconUrl'))(supportedChains)
-export const findChainNameByChainId = (chainId: number) => pipe(find(propEq('id', chainId)), prop('routePrefix'))(supportedChains)
+export const findChainIconByChainId = (chainId: number) =>
+  pipe(find(propEq('id', chainId)), prop('darkIconUrl'))(supportedChains)
+export const findChainNameByChainId = (chainId: number) =>
+  pipe(find(propEq('id', chainId)), prop('routePrefix'))(supportedChains)

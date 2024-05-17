@@ -5,10 +5,7 @@ export const searchApi = createApi({
   reducerPath: 'searchApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'api/reservoir' }),
   endpoints: builder => ({
-    search: builder.query<
-      {collections: SearchResult[] },
-      { query: string }
-    >({
+    search: builder.query<{ collections: SearchResult[] }, { query: string }>({
       query: ({ query }) => `https://api.reservoir.tools/collections/search/v1?${query}&excludeSpam=true&limit=5`,
     }),
   }),

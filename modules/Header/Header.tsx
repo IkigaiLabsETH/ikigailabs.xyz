@@ -28,7 +28,7 @@ export const Header: FC = () => {
               <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="32" height="32" />
             </Link>
           </div>
-          <div className='w-1/2 justify-center hidden md:flex'>
+          <div className="w-1/2 justify-center hidden md:flex">
             <Search />
           </div>
           <div className="flex flex-row justify-end">

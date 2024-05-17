@@ -6,7 +6,7 @@ interface EthProps {
 
 export const Eth: FC<EthProps> = ({ amount }) => (
   <div className="flex flex-row justify-left items-center">
-    <img src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2" />
+    {/* <img src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2" /> */}Ξ
     {typeof amount === 'number' && !Number.isNaN(amount)
       ? new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(amount)
       : '—'}

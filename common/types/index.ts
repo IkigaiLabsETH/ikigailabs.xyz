@@ -244,9 +244,7 @@ export interface Token {
   lastSale?: LastSale
   attributes?: Record<string, unknown>[]
   kind?: string
-  collection?: {
-    name: string
-  }
+  collection?: Collection 
   isFlagged: boolean
   isNsfw: boolean
   isSpam: boolean
@@ -489,13 +487,13 @@ export interface TokenDefinition {
 }
 
 export interface SearchResult {
-  allTimeVolume: number 
-  chainId: number 
+  allTimeVolume: number
+  chainId: number
   contract: string
   floorAskPrice: number
   id: string
-  image: string 
+  image: string
   name: string
   openseaVerificationStatus: string
-  tokenCount: string 
+  tokenCount: string
 }
