@@ -50,7 +50,8 @@ export const TextField: FC<TextFieldProps> = ({
       >
         <span className="text-lg mb-2">{label}</span>
         <div className="flex">
-          {eth ? <Image src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2 mt-2" alt="Eth" /> : null}
+          {/* {eth ? <Image src="/assets/images/eth-diamond.png" className="w-5 h-5 pr-2 mt-2" alt="Eth" /> : null} */}
+          {eth ? 'Ξ' : null}
           {type === 'number' ? (
             <input
               {...attributes}

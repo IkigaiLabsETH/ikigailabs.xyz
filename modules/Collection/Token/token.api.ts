@@ -8,7 +8,7 @@ export const collectionTokenApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api/reservoir' }),
   endpoints: builder => ({
     getTokenByContractAndTokenId: builder.query<
-      { token: any },
+      NFT,
       { contract: string; tokenId: string; network: Network }
     >({
       query: ({ contract, tokenId, network }) =>

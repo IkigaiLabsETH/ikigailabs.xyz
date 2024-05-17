@@ -2,7 +2,23 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { match } from 'ts-pattern'
 
 import { airtable } from '../../../common/airtable'
-import { __, assoc, equals, isEmpty, map, pick, pipe, prop, propSatisfies, reject, uniq, when } from 'ramda'
+import {
+  __,
+  assoc,
+  complement,
+  equals,
+  has,
+  isEmpty,
+  map,
+  pick,
+  pipe,
+  prop,
+  propSatisfies,
+  reject,
+  tap,
+  uniq,
+  when,
+} from 'ramda'
 import { renameKeys } from '../../../common/utils'
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -28,6 +44,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               }),
             ),
             reject(isEmpty),
+            reject(x => !has('id')(x)),
             when(propSatisfies(equals(__, 1), 'length'), map(assoc('name', 'All'))),
           )(records)
           res.status(200).json(result)

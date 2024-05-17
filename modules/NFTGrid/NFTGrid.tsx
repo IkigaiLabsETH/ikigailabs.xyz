@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../common/redux/store'
 import { showListToken } from '../Collection/Token/token.slice'
 import Link from 'next/link'
 import { formatNumber } from '../../common/utils'
+import { useRouter } from 'next/router'
 
 interface NFTGridProps {
   nfts: NFT[]
@@ -26,63 +27,61 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
           ownership,
           market,
         }: NFT) => (
-          <Link
-            href={`/${network}/${contract}/${tokenId}`}
-            title={name}
-            key={`${contract}-${tokenId}`}
-            className="max-w-1/2 font-bold justify-end self-end hover:text-black"
-          >
-            <div className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-              <div>
-                {kind === 'erc1155' ? (
-                  <div className="text-xs p-1 bg-gray-100 rounded-sm inline m-1 absolute">
-                    &times; {formatNumber(supply)}
-                  </div>
-                ) : null}
-                <div className="overflow-clip">
-                  {image && (
-                    <img
-                      src={image}
-                      alt={name}
-                      width="512"
-                      height="512"
-                      className="w-full h-full object-cover aspect-square"
-                    />
-                  )}
-                </div>
-              </div>
-              <div className="p-4 flex justify-between flex-col min-h-[10rem]">
+          <div>
+            <Link
+              href={`/${network}/${contract}/${tokenId}`}
+              title={name}
+              key={`${contract}-${tokenId}`}
+              className="max-w-1/2 font-bold justify-end self-end hover:text-black"
+            >
+              <div className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                 <div>
-                  <h5 className="font-bold text-xl mb-2">{name}</h5>
-                  <div>
-                    {!isNil(market?.floorAsk?.id) && (
-                      <p className="text-black text-l font-bold m-0">
-                        Floor: {market?.floorAsk?.price?.amount?.decimal} {market?.floorAsk?.price?.currency.symbol}
-                      </p>
-                    )}
-                    {lastSale && (
-                      <span className="text-black text-xs p-1 bg-gray-100 border-gray-100 rounded max-w-fit">
-                        Last sale: {lastSale?.price?.amount?.decimal} {lastSale?.price?.currency.symbol}
-                      </span>
+                  {kind === 'erc1155' ? (
+                    <div className="text-xs p-1 bg-gray-100 rounded-sm inline m-1 absolute">
+                      &times; {formatNumber(supply)}
+                    </div>
+                  ) : null}
+                  <div className="overflow-clip">
+                    {image && (
+                      <img
+                        src={image}
+                        alt={name}
+                        width="512"
+                        height="512"
+                        className="w-full h-full object-cover aspect-square"
+                      />
                     )}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  {parseInt(ownership?.tokenCount) > 0 ? (
-                    <button
-                      className="text-black font-bold hover:text-yellow border-b-2"
-                      onClick={() => onListToken({ contract, tokenId, name, media, description, image, network })}
-                    >
-                      List
-                    </button>
-                  ) : (
-                    <span></span>
-                  )}
-                  &rarr;
+                <div className="p-4 flex justify-between flex-col min-h-[10rem]">
+                  <div>
+                    <h5 className="font-bold text-xl mb-2">{name}</h5>
+                    <div>
+                      {!isNil(market?.floorAsk?.id) && (
+                        <p className="text-black text-l font-bold m-0">
+                          Floor: {market?.floorAsk?.price?.amount?.decimal} {market?.floorAsk?.price?.currency.symbol}
+                        </p>
+                      )}
+                      {lastSale && (
+                        <span className="text-black text-xs p-1 bg-gray-100 border-gray-100 rounded max-w-fit">
+                          Last sale: {lastSale?.price?.amount?.decimal} {lastSale?.price?.currency.symbol}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex justify-end font-bold text-lg">&rarr;</div>
                 </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+            {parseInt(ownership?.tokenCount) > 0 ? (
+              <button
+                className="inline-block mt-1 items-center justify-center px-3 overflow-hidden transition-all duration-150 ease-in-out border-2 group shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]  hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-black border-black active:text-black bg-yellow font-bold hover:text-black disabled:cursor-not-allowed"
+                onClick={() => onListToken({ contract, tokenId, name, media, description, image, network })}
+              >
+                List
+              </button>
+            ) : null}
+          </div>
         ),
       )(nfts)}
     </div>
