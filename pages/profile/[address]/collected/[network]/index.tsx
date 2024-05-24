@@ -16,12 +16,18 @@ import { DashboardNav } from '../../../../../modules/DashboardNav'
 import { NetworkNav } from '../../../../../modules/NetworkNav'
 import { lookupAddress, selectENSByAddress } from '../../../../../common/ens'
 import { truncateAddress } from '../../../../../common/utils'
+import { useValidAddress } from '../../../../../common/useValidAddress'
+import { useValidNetwork } from '../../../../../common/useValidNetwork'
+import { InvalidAddress } from '../../../../../modules/InvalidAddress'
+import { InvalidNetwork } from '../../../../../modules/InvalidNetwork'
 
 export const Collected: FC = ({}) => {
   const {
     query: { network, address },
   } = useRouter()
   const dispatch = useAppDispatch()
+  const isValidAddress = useValidAddress(address as string)
+  const isValidNetwork = useValidNetwork(network as Network)
 
   const { data: ownedTokens, status: ownedStatus } = useAppSelector(
     selectCollectedTokens({ address: address as string, network: network as Network }),
@@ -44,6 +50,42 @@ export const Collected: FC = ({}) => {
       dispatch(lookupAddress.initiate({ address: address as string }))
     }
   }, [ens, address, ensStatus, dispatch])
+
+  const content = () => {
+    if (!isValidAddress) {
+      return (
+        <div className='flex justify-center items-center h-full'>
+          <InvalidAddress />
+        </div>
+      )
+    }
+
+    if (!isValidNetwork) {
+      return (
+        <div className='flex justify-center items-center h-full'>
+          <InvalidNetwork />
+        </div>
+      )
+    }
+
+    if(!isNil(ownedTokens?.tokens) && !isEmpty(ownedTokens?.tokens)) { 
+      return <>
+        <NFTGrid nfts={ownedTokens?.tokens} network={network as Network} />
+        <div ref={nftRef} />
+      </>
+    }
+    if (ownedStatus !== QueryStatus.pending && isEmpty(ownedTokens?.tokens)) {
+      return <div className="w-full text-center">No tokens found</div>
+    }
+    
+    if (ownedStatus === QueryStatus.pending) { 
+      return (
+        <div className="w-full text-center">
+          <Loader />
+        </div>
+      )
+    }
+  }
 
   return (
     <div className="flex items-center flex-col">
@@ -74,19 +116,7 @@ export const Collected: FC = ({}) => {
                 </div>
               </div>
               <div className="w-5/6">
-                {!isNil(ownedTokens?.tokens) && !isEmpty(ownedTokens?.tokens) && (
-                  <NFTGrid nfts={ownedTokens?.tokens} network={network as Network} />
-                )}
-                {ownedStatus !== QueryStatus.pending && isEmpty(ownedTokens?.tokens) && (
-                  <div className="w-full text-center">No tokens found</div>
-                )}
-                {ownedStatus === QueryStatus.pending && (
-                  <div className="w-full text-center">
-                    <Loader />
-                  </div>
-                )}
-                {!address && <div className="w-full text-center">Not Connected</div>}
-                <div ref={nftRef} />
+                {content()} 
               </div>
             </div>
           </div>
