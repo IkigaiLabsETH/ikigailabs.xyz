@@ -70,7 +70,7 @@ export const CollectionToken: FC<TokenProps> = ({ collection, token, network, en
   
   return (
     <div className="w-full bg-white flex items-center flex-col">
-      <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col border-b-4 border-black bg-black">
+      <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col bg-gradient">
         <div className="w-full md:w-2/3 lg:3/4 h-screen items-center justify-center flex p-8">
           <div className="w-full flex items-center justify-center relative h-5/6">
             <TokenMedia token={token.token} imageResolution="large" />
@@ -95,12 +95,12 @@ export const CollectionToken: FC<TokenProps> = ({ collection, token, network, en
           <div className="w-full lg:w-1/2 mr-8">
             <h1 className="boska text-[3rem] lg:text-[4rem] text-black mb-1">{name}</h1>
             {owner && (
-              <p className="text-s text-slate-400 pl-1 mb-4">
+              <div className="text-s text-slate-400 pl-1 mb-4">
                 <div>
                   <span className="font-bold">Owned by:</span>
                   <Link href={`/profile/${owner}/collected/${network}`}> {ens ? ens : owner} </Link>
                 </div>
-              </p>
+              </div>
             )}
             <div className="py-2 w-full h-auto">
               {imageSmall && (

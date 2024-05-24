@@ -52,12 +52,13 @@ export const TokenMedia: FC<Props> = ({
   const [mediaType, setMediaType] = useState<MediaType | null>(null)
   const mediaRef = useRef<HTMLAudioElement | HTMLVideoElement>(null)
   const media = token?.media
+  console.log(token)
   const tokenImage = (() => {
     switch (imageResolution) {
       case 'small':
         return token?.imageSmall
       case 'large':
-        return token?.imageLarge
+        return token?.metadata?.imageOriginal ? token?.metadata?.imageOriginal : token?.imageLarge
       case 'medium':
       default:
         return token?.image

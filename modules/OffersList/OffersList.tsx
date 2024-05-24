@@ -2,7 +2,7 @@ import { map, prop } from 'ramda'
 import React, { FC, useEffect } from 'react'
 
 import { formatDistance } from 'date-fns'
-import { getTokenDataFromTokenSetId, isMaker, truncateAddress } from '../../common/utils'
+import { formatAmountWithoutDecimals, getTokenDataFromTokenSetId, isMaker, truncateAddress } from '../../common/utils'
 import { Network, Order } from '../../common/types'
 import { Button } from '../Button'
 import { Eth } from '../Eth'
@@ -77,7 +77,7 @@ export const OffersList: FC<OffersListProps> = ({ contract, tokenId, network, is
                         <Eth amount={order.price.netAmount.decimal} />
                       </span>{' '}
                       <span className="text-xs text-slate-800 rounded bg-slate-100 p-0.5 ml-1">
-                        $ {order.price.netAmount.usd}
+                        $ {formatAmountWithoutDecimals(order.price.netAmount.usd)}
                       </span>
                     </div>
                     <div className="text-sm text-gray-500">by {truncateAddress(order.maker)}</div>

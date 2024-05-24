@@ -18,13 +18,13 @@ import { Featured } from '../modules/Featured'
 
 const Home: FC = () => {
   return (
-    <div className="flex items-center flex-col">
+    <div className="flex items-center flex-col bg-gradient">
       <Head>
         <title>Ikigai Labs - Shaped by Photography</title>
         <meta name="description" content="Shaped by Photography" />
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
-      <header className="flex h-screen justify-center items-center flex-col">
+      <header className="flex h-screen justify-center items-center flex-col ">
         <div className="flex flex-grow flex-col justify-center">
           <div className="flex flex-col md:flex-row">
             <div className="md:border-r md:pr-16">

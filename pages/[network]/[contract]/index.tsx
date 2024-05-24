@@ -14,7 +14,7 @@ const SignatureCollection: FC = () => {
   } = useRouter()
 
   return (
-    <div className="flex items-center flex-col">
+    <div className="flex items-center flex-col bg-gradient">
       <Head>
         <title>Ikigai Labs - Shaped by Photography</title>
         <meta name="description" content="Shaped by Photography" />
