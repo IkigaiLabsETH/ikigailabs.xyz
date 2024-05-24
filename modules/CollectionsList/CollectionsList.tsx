@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import { Body, Cell, HeaderCell, Row, Table, Head as THead } from '../Table'
-import Image from 'next/image'
 import { map, times } from 'ramda'
 import { Eth } from '../Eth'
 import { Percentage } from '../Percentage'
@@ -23,7 +22,7 @@ export const CollectionsList: FC<CollectionsListProps> = ({ collections, network
             <Row>
               <HeaderCell colspan={2}>Collection</HeaderCell>
               <HeaderCell>Volume</HeaderCell>
-              <HeaderCell>Floor price</HeaderCell>
+              <HeaderCell>Floor</HeaderCell>
               <HeaderCell>Supply</HeaderCell>
               <HeaderCell>
                 <span className="sr-only">Actions</span>

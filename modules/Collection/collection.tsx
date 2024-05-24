@@ -186,7 +186,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
           >
             <div className="flex border-y border-y-gray-700 py-8">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-                <CollectionStat label="Floor Price" loading={collectionDataStatus === QueryStatus.pending}>
+                <CollectionStat label="Floor" loading={collectionDataStatus === QueryStatus.pending}>
                   <Eth amount={pipe(pathOr('—', ['floorAsk', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
                 </CollectionStat>
                 <CollectionStat label="Top Bid" loading={collectionDataStatus === QueryStatus.pending}>
