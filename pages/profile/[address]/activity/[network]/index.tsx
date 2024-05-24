@@ -12,6 +12,10 @@ import { NetworkNav } from '../../../../../modules/NetworkNav'
 import { lookupAddress, selectENSByAddress } from '../../../../../common/ens'
 import { truncateAddress } from '../../../../../common/utils'
 import { UserActivity } from '../../../../../modules/UserActivity'
+import { useValidAddress } from '../../../../../common/useValidAddress'
+import { useValidNetwork } from '../../../../../common/useValidNetwork'
+import { InvalidAddress } from '../../../../../modules/InvalidAddress'
+import { InvalidNetwork } from '../../../../../modules/InvalidNetwork'
 
 export const ActivityDashboard: FC = ({}) => {
   const {
@@ -19,12 +23,33 @@ export const ActivityDashboard: FC = ({}) => {
   } = useRouter()
   const dispatch = useAppDispatch()
   const { data: ens, status: ensStatus } = useAppSelector(selectENSByAddress({ address: address as string }))
+  const isValidAddress = useValidAddress(address as string)
+  const isValidNetwork = useValidNetwork(network as Network)
 
   useEffect(() => {
     if (!ens?.name && ensStatus !== QueryStatus.pending && address) {
       dispatch(lookupAddress.initiate({ address: address as string }))
     }
   }, [ens, address, ensStatus, dispatch])
+
+  const content = () => {
+    if (!isValidAddress) {
+      return (
+        <div className='flex justify-center items-center h-full'>
+          <InvalidAddress />
+        </div>
+      )
+    }
+
+    if (!isValidNetwork) {
+      return (
+        <div className='flex justify-center items-center h-full'>
+          <InvalidNetwork />
+        </div>
+      )
+    }
+    return  <UserActivity />
+  }
 
   return (
     <div className="flex items-center flex-col">
@@ -55,7 +80,7 @@ export const ActivityDashboard: FC = ({}) => {
                 </div>
               </div>
               <div className="w-5/6">
-                <UserActivity />
+                { content() }
               </div>
             </div>
           </div>

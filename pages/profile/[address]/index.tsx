@@ -2,29 +2,22 @@ import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { isAddress } from 'viem'
 
-import { useWallet } from '../../common/useWallet'
-import { Profile } from '../../modules/Profile'
-import { withLayout } from '../../common/layouts'
-import { Layout } from '../../common/types'
+import { withLayout } from '../../../common/layouts'
+import { Layout } from '../../../common/types'
+import { InvalidAddress } from '../../../modules/InvalidAddress'
 
 export const ProfilePage: FC = () => {
-  const { address } = useWallet()
-  const { push, query } = useRouter()
+  const { push, query: { address } } = useRouter()
 
   useEffect(() => {
-    if (!address) return
-
-    if (!isAddress(address)) {
+    if (address && isAddress(String(address))) {
       push(`/profile/${address}/collected/ethereum`)
-      return
     }
-
-    push(`/profile/${address}/collected/ethereum`)
   }, [address, push])
 
   return (
     <div className="flex min-h-screen justify-center items-center">
-      <Profile />
+      <InvalidAddress />
     </div>
   )
 }

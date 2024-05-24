@@ -17,12 +17,18 @@ import { NetworkNav } from '../../../../../modules/NetworkNav'
 import { UserBidsReceived } from '../../../../../modules/UserBidsReceived'
 import { lookupAddress, selectENSByAddress } from '../../../../../common/ens'
 import { truncateAddress } from '../../../../../common/utils'
+import { useValidAddress } from '../../../../../common/useValidAddress'
+import { useValidNetwork } from '../../../../../common/useValidNetwork'
+import { InvalidAddress } from '../../../../../modules/InvalidAddress'
+import { InvalidNetwork } from '../../../../../modules/InvalidNetwork'
 
 export const ActivityDashboard: FC = ({}) => {
   const {
     query: { network, address },
   } = useRouter()
   const dispatch = useAppDispatch()
+  const isValidAddress = useValidAddress(address as string)
+  const isValidNetwork = useValidNetwork(network as Network)
 
   const { data, status } = useAppSelector(
     selectUserBidsReceived({ address: address as string, network: network as Network }),
@@ -47,6 +53,47 @@ export const ActivityDashboard: FC = ({}) => {
       dispatch(lookupAddress.initiate({ address: address as string }))
     }
   }, [ens, address, ensStatus, dispatch])
+
+  const content = () => {
+    if (!isValidAddress) {
+      return (
+        <div className='flex justify-center items-center h-full'>
+          <InvalidAddress />
+        </div>
+      )
+    }
+
+    if (!isValidNetwork) {
+      return (
+        <div className='flex justify-center items-center h-full'>
+          <InvalidNetwork />
+        </div>
+      )
+    }
+
+    if(!isNil(data?.topBids) && !isEmpty(data?.topBids)) {
+      return (
+        <>
+          <div className="mr-8">
+            <UserBidsReceived bids={data?.topBids} network={network as Network} owner={address as string} />
+          </div>
+          <div ref={activityRef} />
+        </>
+      )
+    }
+
+    if (status !== QueryStatus.pending && isEmpty(data?.topBids)) {
+      return <div className="w-full text-center">No offers found</div>
+    }
+
+    if (status === QueryStatus.pending) {
+      return ( 
+        <div className="w-full text-center">
+          <Loader />
+        </div>
+      )
+    }
+  }
 
   return (
     <div className="flex items-center flex-col">
@@ -77,21 +124,7 @@ export const ActivityDashboard: FC = ({}) => {
                 </div>
               </div>
               <div className="w-5/6">
-                {!isNil(data?.topBids) && !isEmpty(data?.topBids) && (
-                  <div className="mr-8">
-                    <UserBidsReceived bids={data?.topBids} network={network as Network} owner={address as string} />
-                  </div>
-                )}
-                {status !== QueryStatus.pending && isEmpty(data?.orders) && (
-                  <div className="w-full text-center">No bids found</div>
-                )}
-                {status === QueryStatus.pending && (
-                  <div className="w-full text-center">
-                    <Loader />
-                  </div>
-                )}
-                {!address && <div className="w-full text-center">Not Connected</div>}
-                <div ref={activityRef} />
+                { content() }
               </div>
             </div>
           </div>
