@@ -5,7 +5,7 @@ import { NFT, Network } from '../../common/types'
 import { useAppDispatch } from '../../common/redux/store'
 import { showListToken } from '../Collection/Token/token.slice'
 import Link from 'next/link'
-import { formatNumber } from '../../common/utils'
+import { formatAmount, formatNumber } from '../../common/utils'
 import { useRouter } from 'next/router'
 
 interface NFTGridProps {
@@ -56,20 +56,23 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
                 <div className="p-4 flex justify-between flex-col min-h-[10rem]">
                   <div>
                     <h5 className="font-bold text-xl mb-2">{name}</h5>
-                    <div>
+                    <div className='flex flex-col'>
                       {!isNil(market?.floorAsk?.id) && (
-                        <p className="text-black text-l font-bold m-0">
-                          Floor: {market?.floorAsk?.price?.amount?.decimal} {market?.floorAsk?.price?.currency.symbol}
+                        <p className="text-black text-2xl font-bold m-0">
+                          {market?.floorAsk?.price?.amount?.decimal} {market?.floorAsk?.price?.currency.symbol} <span className='italic text-xs text-gray-600'>$ {formatAmount(market?.floorAsk?.price?.amount?.usd)}</span>
                         </p>
                       )}
-                      {lastSale && (
-                        <span className="text-black text-xs p-1 bg-gray-100 border-gray-100 rounded max-w-fit">
-                          Last sale: {lastSale?.price?.amount?.decimal} {lastSale?.price?.currency.symbol}
-                        </span>
-                      )}
+                      
                     </div>
                   </div>
-                  <div className="flex justify-end font-bold text-lg">&rarr;</div>
+                  <div className='flex flex-row justify-between'>
+                    {lastSale && (
+                      <div className="text-xs p-1 bg-gray-100 border-gray-100 rounded max-w-fit">
+                        Last sale: {lastSale?.price?.amount?.decimal} {lastSale?.price?.currency.symbol}
+                      </div>
+                    )}
+                    <div className="flex justify-end font-bold text-lg">&rarr;</div>
+                  </div>
                 </div>
               </div>
             </Link>

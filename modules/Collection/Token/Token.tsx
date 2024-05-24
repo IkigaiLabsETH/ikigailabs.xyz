@@ -190,7 +190,7 @@ export const CollectionToken: FC<TokenProps> = ({ collection, token, network, en
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div className="border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] p-4 mb-6">
                 <div className="text-2xl mb-8 font-bold">
-                  Floor price:
+                  Price:
                   <div className="font-bold text-4xl my-4">
                     <Eth amount={pathOr('—', ['price', 'amount', 'native'])(floorAsk)} />
                   </div>

@@ -148,7 +148,7 @@ export const Search: FC<SearchProps> = ({}) => {
                             </div>
                             <div className="flex flex-row">
                               <div className="text-lg mr-4 font-bold mt-2 leading-tight text-slate-500">
-                                <h6 className="font-bold text-xs uppercase">Floor price</h6>
+                                <h6 className="font-bold text-xs uppercase">Floor</h6>
                                 {formatAmount(collection.floorAskPrice)}
                               </div>
                               <div className="text-lg mr-4 font-bold mt-2 leading-tight text-slate-500">
