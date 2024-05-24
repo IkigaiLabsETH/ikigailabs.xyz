@@ -58,7 +58,7 @@ export const TokenMedia: FC<Props> = ({
       case 'small':
         return token?.imageSmall
       case 'large':
-        return token?.metadata?.imageOriginal ? token?.metadata?.imageOriginal : token?.imageLarge
+        return token?.imageLarge
       case 'medium':
       default:
         return token?.image
