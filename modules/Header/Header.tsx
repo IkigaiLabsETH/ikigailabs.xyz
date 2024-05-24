@@ -105,11 +105,6 @@ export const Header: FC = () => {
                 About
               </Link>
             </div>
-            <div className="flex justify-end">
-              <Link title="About" href="https://livethelife.tv" className="p-4 bg-black mb-1 inline-block">
-                Edito
-              </Link>
-            </div>
           </div>
         </nav>
       </div>

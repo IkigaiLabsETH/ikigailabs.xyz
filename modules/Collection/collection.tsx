@@ -1,5 +1,5 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
-import { equals, isNil, pathOr, pipe, propOr, unless } from 'ramda'
+import { divide, equals, isNil, multiply, pathOr, pipe, propOr, unless } from 'ramda'
 import React, { FC, Fragment, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 import { format, parseISO } from 'date-fns/fp'
@@ -9,7 +9,7 @@ import { fetchCollection, collectionApi } from './collection.api'
 import { Loader, Size } from '../Loader'
 import { NFTGrid } from '../NFTGrid'
 import { Facets } from '../Facets'
-import { formatAttributes } from '../../common/utils'
+import { formatAmountWithoutDecimals, formatAttributes, formatNumber } from '../../common/utils'
 import { selectNFTS, selectCollection, selectCollectionAttributes } from './collection.selectors'
 import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
@@ -189,14 +189,20 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
                 <CollectionStat label="Floor" loading={collectionDataStatus === QueryStatus.pending}>
                   <Eth amount={pipe(pathOr('—', ['floorAsk', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
                 </CollectionStat>
-                <CollectionStat label="Top Bid" loading={collectionDataStatus === QueryStatus.pending}>
-                  <Eth amount={pipe(pathOr('—', ['topBid', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
-                </CollectionStat>
-                <CollectionStat label="Volume" loading={collectionDataStatus === QueryStatus.pending}>
-                  <Eth amount={pipe(pathOr('—', ['volume', 'allTime']), parseFloat)(collection)} />
-                </CollectionStat>
-                <CollectionStat label="Supply" loading={collectionDataStatus === QueryStatus.pending}>
+                <CollectionStat label="Items" loading={collectionDataStatus === QueryStatus.pending}>
                   {propOr('—', 'tokenCount')(collection)}
+                </CollectionStat>
+                <CollectionStat label="Owners" loading={collectionDataStatus === QueryStatus.pending}>
+                  {propOr('—', 'ownerCount')(collection)}
+                </CollectionStat>
+                <CollectionStat label="Top Bid" loading={collectionDataStatus === QueryStatus.pending}>
+                  <Eth amount={pathOr('—', ['topBid', 'price', 'amount', 'decimal'])(collection)} />
+                </CollectionStat>
+                {/* <CollectionStat label="% Listed" loading={collectionDataStatus === QueryStatus.pending}>
+                  {pipe(divide((propOr(0, 'onSaleCount')(collection) as number)), multiply(100), formatNumber)(propOr(1, 'tokenCount')(collection) as number) }
+                </CollectionStat> */}
+                <CollectionStat label="Volume" loading={collectionDataStatus === QueryStatus.pending}>
+                  <Eth amount={Math.trunc(pathOr(0, ['volume', 'allTime'])(collection))} />
                 </CollectionStat>
                 <CollectionStat label="Created On" loading={collectionDataStatus === QueryStatus.pending}>
                   {pipe(

@@ -67,7 +67,7 @@ export const CollectionToken: FC<TokenProps> = ({ collection, token, network, en
   const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
   const floorPriceSource = prop('source')(floorAsk)
   const topBidSource = prop('source')(topBid)
-  console.log('Collection', collection)
+  
   return (
     <div className="w-full bg-white flex items-center flex-col">
       <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col border-b-4 border-black bg-black">

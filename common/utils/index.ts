@@ -8,6 +8,7 @@ export {
   getChainIdFromNetwork,
   getTokenDataFromTokenSetId,
   formatAmount,
+  formatAmountWithoutDecimals,
   formatNumber,
   formatAttributes,
   formatDateAndTime,
