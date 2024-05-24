@@ -21,6 +21,7 @@ import { COLLECTION_SORTING_OPTIONS } from '../../common/constants'
 import clsx from 'clsx'
 import { Dialog, Transition } from '@headlessui/react'
 import { CollectionActivity } from '../CollectionActivity'
+import { FaDiscord, FaGlobe, FaXTwitter } from 'react-icons/fa6'
 
 interface CollectionProps {
   contract: string
@@ -211,6 +212,17 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
                   )(collection)}
                 </CollectionStat>
               </div>
+            </div>
+            <div className='flex flex-row mt-3'>
+              { collection.twitterUsername ? <div className='w-9 h-9 text-white'>
+                <a href={`https://x.com/${collection.twitterUsername}`} title={`${collection.name} on X`} target='_blank' rel="noreferrer" className='hover:text-yellow'><FaXTwitter /></a>
+              </div> : null }
+              { collection.discordUrl ? <div className='w-9 h-9 text-white'>
+                <a href={collection.discordUrl} title={`${collection.name} on X`} target='_blank' rel="noreferrer" className='hover:text-yellow'><FaDiscord /></a>
+              </div> : null }
+              { collection.externalUrl ? <div className='w-9 h-9 text-white'>
+                <a href={collection.externalUrl} title={`${collection.name} on X`} target='_blank' rel="noreferrer" className='hover:text-yellow'><FaGlobe /></a>
+              </div> : null }
             </div>
           </CollectionHeader>
           <div className="bg-white w-full flex py-4 justify-center items-center text-black flex-col">

@@ -135,9 +135,7 @@
   @apply bg-black;
 }
 
-.collection-header a {
-  @apply text-yellow font-bold hover:text-yellow-600;
-}
+
 
 .info-tab p {
   @apply !text-black;
