@@ -13,7 +13,7 @@ interface CollectionHeaderProps {
 }
 
 export const CollectionHeader: FC<CollectionHeaderProps> = ({ children, eyebrow, coverImage, name, description }) => (
-  <div className="flex relative flex-col lg:flex-row-reverse lg:min-h-screen lg:h-min items-stretch collection-header">
+  <div className="flex relative flex-col lg:flex-row-reverse lg:min-h-screen lg:h-min items-stretch collection-header bg-gradient">
     <div
       className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover h-96 lg:h-auto"
       style={{ backgroundImage: `url(${replaceImageResolution(2000)(coverImage)})` }}

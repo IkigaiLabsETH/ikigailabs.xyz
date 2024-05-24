@@ -5,8 +5,7 @@ import { NFT, Network } from '../../common/types'
 import { useAppDispatch } from '../../common/redux/store'
 import { showListToken } from '../Collection/Token/token.slice'
 import Link from 'next/link'
-import { formatAmount, formatNumber } from '../../common/utils'
-import { useRouter } from 'next/router'
+import { formatAmountWithoutDecimals, formatNumber } from '../../common/utils'
 import { Eth } from '../Eth'
 
 interface NFTGridProps {
@@ -63,7 +62,7 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
                           <p className="text-black text-2xl font-bold m-0">
                             <Eth amount={market?.floorAsk?.price?.amount?.decimal} />
                           </p>
-                          <span className='italic text-xs text-gray-600 text-nowrap'>$ {formatAmount(market?.floorAsk?.price?.amount?.usd)}</span>
+                          <span className='italic text-xs text-gray-600 text-nowrap'>$ {formatAmountWithoutDecimals(market?.floorAsk?.price?.amount?.usd)}</span>
                         </>
                       )}
                       

@@ -9,7 +9,7 @@ import { fetchCollection, collectionApi } from './collection.api'
 import { Loader, Size } from '../Loader'
 import { NFTGrid } from '../NFTGrid'
 import { Facets } from '../Facets'
-import { formatAmountWithoutDecimals, formatAttributes, formatNumber } from '../../common/utils'
+import { formatAttributes, formatNumber } from '../../common/utils'
 import { selectNFTS, selectCollection, selectCollectionAttributes } from './collection.selectors'
 import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
@@ -214,14 +214,14 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
               </div>
             </div>
             <div className='flex flex-row mt-3'>
-              { collection.twitterUsername ? <div className='w-9 h-9 text-white'>
-                <a href={`https://x.com/${collection.twitterUsername}`} title={`${collection.name} on X`} target='_blank' rel="noreferrer" className='hover:text-yellow'><FaXTwitter /></a>
+              { collection?.twitterUsername ? <div className='w-9 h-9 text-white'>
+                <a href={`https://x.com/${collection?.twitterUsername}`} title={`${collection?.name} on X`} target='_blank' rel="noreferrer" className='hover:text-yellow'><FaXTwitter /></a>
               </div> : null }
-              { collection.discordUrl ? <div className='w-9 h-9 text-white'>
-                <a href={collection.discordUrl} title={`${collection.name} on X`} target='_blank' rel="noreferrer" className='hover:text-yellow'><FaDiscord /></a>
+              { collection?.discordUrl ? <div className='w-9 h-9 text-white'>
+                <a href={collection?.discordUrl} title={`${collection?.name} on X`} target='_blank' rel="noreferrer" className='hover:text-yellow'><FaDiscord /></a>
               </div> : null }
-              { collection.externalUrl ? <div className='w-9 h-9 text-white'>
-                <a href={collection.externalUrl} title={`${collection.name} on X`} target='_blank' rel="noreferrer" className='hover:text-yellow'><FaGlobe /></a>
+              { collection?.externalUrl ? <div className='w-9 h-9 text-white'>
+                <a href={collection?.externalUrl} title={`${collection?.name} on X`} target='_blank' rel="noreferrer" className='hover:text-yellow'><FaGlobe /></a>
               </div> : null }
             </div>
           </CollectionHeader>
