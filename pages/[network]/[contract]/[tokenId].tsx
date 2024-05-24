@@ -31,7 +31,7 @@ const Token: FC = () => {
       )
     }
   }, [contract, tokenId, network, dispatch])
-  console.log(token?.token)
+  
   return (
     <div className="flex items-center flex-col">
       <Head>

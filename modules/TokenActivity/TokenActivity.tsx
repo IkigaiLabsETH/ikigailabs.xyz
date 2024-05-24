@@ -14,6 +14,7 @@ import { QueryStatus } from '@reduxjs/toolkit/query'
 import { SkeletonLoader } from '../SkeletonLoader'
 import { ACTIVITY_ICON_MAP } from '../../common/constants/constants'
 import { FaArrowRight } from 'react-icons/fa6'
+import { Eth } from '../Eth'
 
 interface TokenActivityProps {
   contract: string
@@ -133,8 +134,8 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
                           </div>
                         </div>
                         <div className="flex flex-row items-baseline mt-1 ">
-                          <div className="text-gray-600 text-xs mr-0.5">{price.currency.symbol}</div>{' '}
-                          <div className="font-bold"> {price.amount.decimal}</div>
+                          {/* <div className="text-gray-600 text-xs mr-0.5">{price.currency.symbol}</div>{' '} */}
+                          <div className="font-bold"> <Eth amount={price.amount.decimal} /></div>
                         </div>
                       </div>
                       <div className="flex flex-col items-end justify-end">

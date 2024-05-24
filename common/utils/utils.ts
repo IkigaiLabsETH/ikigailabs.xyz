@@ -70,6 +70,8 @@ export const formatAmount = (number: number) =>
         },
   ).format(number)
 
+export const formatAmountWithoutDecimals = Math.trunc
+
 export const formatNumber = (number: number) => new Intl.NumberFormat('en', { notation: 'compact' }).format(number)
 
 export const getRemainingTime = (start: Date, end: Date) =>

@@ -7,6 +7,7 @@ import { showListToken } from '../Collection/Token/token.slice'
 import Link from 'next/link'
 import { formatAmount, formatNumber } from '../../common/utils'
 import { useRouter } from 'next/router'
+import { Eth } from '../Eth'
 
 interface NFTGridProps {
   nfts: NFT[]
@@ -55,12 +56,15 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
                 </div>
                 <div className="p-4 flex justify-between flex-col min-h-[10rem]">
                   <div>
-                    <h5 className="font-bold text-xl mb-2">{name}</h5>
+                    <h5 className="font-bold text-xl mb-2">{name ? name : `# ${tokenId}`}</h5>
                     <div className='flex flex-col'>
                       {!isNil(market?.floorAsk?.id) && (
-                        <p className="text-black text-2xl font-bold m-0">
-                          {market?.floorAsk?.price?.amount?.decimal} {market?.floorAsk?.price?.currency.symbol} <span className='italic text-xs text-gray-600'>$ {formatAmount(market?.floorAsk?.price?.amount?.usd)}</span>
-                        </p>
+                        <>
+                          <p className="text-black text-2xl font-bold m-0">
+                            <Eth amount={market?.floorAsk?.price?.amount?.decimal} />
+                          </p>
+                          <span className='italic text-xs text-gray-600 text-nowrap'>$ {formatAmount(market?.floorAsk?.price?.amount?.usd)}</span>
+                        </>
                       )}
                       
                     </div>

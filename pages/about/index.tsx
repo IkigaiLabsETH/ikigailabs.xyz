@@ -85,12 +85,6 @@ const About: FC = () => (
           talent, societal contribution, and livelihood. Our mission is to create a sustainable ecosystem that nurtures
           this balance, extending our vision beyond digital spaces to tangible, real-world artist residencies.
         </p>
-        <p className="font-bold">
-          Acting as a crucial bridge, LiveTheLife.TV connects the creative pursuits at Ikigai Labs with insights,
-          narratives, and viewpoints, enriching our understanding of the intertwining worlds of digital art and
-          blockchain technology. This platform is a haven for those driven by curiosity and vision, creating a nexus
-          where artistic exploration meets the multifaceted dynamics of contemporary web3 culture.
-        </p>
       </div>
     </main>
     <Footer />
