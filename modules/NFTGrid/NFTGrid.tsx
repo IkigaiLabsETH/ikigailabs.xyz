@@ -5,7 +5,7 @@ import { NFT, Network } from '../../common/types'
 import { useAppDispatch } from '../../common/redux/store'
 import { showListToken } from '../Collection/Token/token.slice'
 import Link from 'next/link'
-import { formatAmountWithoutDecimals, formatNumber } from '../../common/utils'
+import { formatAmount, formatAmountWithoutDecimals, formatNumber } from '../../common/utils'
 import { Eth } from '../Eth'
 
 interface NFTGridProps {
@@ -71,7 +71,7 @@ export const NFTGrid: FC<NFTGridProps> = ({ nfts, network }) => {
                   <div className='flex flex-row justify-between'>
                     {lastSale && (
                       <div className="text-xs p-1 bg-gray-100 border-gray-100 rounded max-w-fit">
-                        Last sale: {lastSale?.price?.amount?.decimal} {lastSale?.price?.currency.symbol}
+                        Last sale: {formatAmount(lastSale?.price?.amount?.decimal)} {lastSale?.price?.currency.symbol}
                       </div>
                     )}
                     <div className="flex justify-end font-bold text-lg">&rarr;</div>
