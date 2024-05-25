@@ -9,8 +9,6 @@ import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { fetchCollectionToken } from '../../../modules/Collection/Token/token.actions'
 import { Layout, Network } from '../../../common/types'
 import { withLayout } from '../../../common/layouts'
-import { fetchCollection } from '../../../modules/Collection'
-import { selectCollection } from '../../../modules/Collection/collection.selectors'
 import { selectENSByAddress } from '../../../common/ens'
 
 const Token: FC = () => {
@@ -21,8 +19,6 @@ const Token: FC = () => {
   const { data: token, status: tokenStatus } = useAppSelector(
     selectCollectionToken({ contract: String(contract), tokenId: String(tokenId), network: network as Network }),
   )
-  const collectionId = token?.token?.collection?.id
-  const { data: collection } = useAppSelector(selectCollection({ contract: collectionId, network: network as Network }))
   const { data: ens } = useAppSelector(selectENSByAddress({ address: token?.token?.owner }))
   useEffect(() => {
     if (contract && tokenId) {
@@ -40,7 +36,7 @@ const Token: FC = () => {
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
       <main className="w-full">
-        {token ? <CollectionToken collection={collection} ens={ens?.displayName} token={token} network={network as Network} /> : null}
+        {token ? <CollectionToken ens={ens?.displayName} token={token} network={network as Network} /> : null}
       </main>
       <Footer />
     </div>
