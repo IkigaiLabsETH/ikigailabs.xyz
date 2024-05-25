@@ -19,13 +19,12 @@ import { useWallet } from '../../../common/useWallet'
 import { TokenActivity } from '../../TokenActivity'
 
 interface TokenProps {
-  collection: Collection
   token: NFT
   network: Network
   ens: string
 }
 
-export const CollectionToken: FC<TokenProps> = ({ collection, token, network, ens }) => {
+export const CollectionToken: FC<TokenProps> = ({ token, network, ens }) => {
   const { address } = useWallet()
 
   const { status: tokenInteractionStatus } = useAppSelector(selectCollectionTokenInteractionStatus)
@@ -61,13 +60,14 @@ export const CollectionToken: FC<TokenProps> = ({ collection, token, network, en
       isNsfw,
       isSpam,
       supply,
+      collection,
     },
     market: { floorAsk, topBid },
   } = token as NFT
   const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
   const floorPriceSource = prop('source')(floorAsk)
   const topBidSource = prop('source')(topBid)
-  
+
   return (
     <div className="w-full bg-white flex items-center flex-col">
       <div className="flex max-h-screen w-full h-screen justify-center items-center flex-col bg-gradient">
@@ -79,18 +79,18 @@ export const CollectionToken: FC<TokenProps> = ({ collection, token, network, en
         <div className="relative w-full">
           <div className="absolute bottom-5 left-5 p-6 bg-yellow-500 text-black tracking-wide">
             <h3 className="text-black opacity-40 text-xs md:text-sm font-bold uppercase mb-0 pb-0">
-              {collection?.name}
+              {}
             </h3>
             <h1 className="text-black boska text-base md:text-lg lg:text-xl mb-0 pb-0">{name}</h1>
           </div>
         </div>
       </div>
       <div className="p-8 max-w-screen-2xl w-full">
-        {/* <div className="mb-8">
-            <div className="pb-4 text-red font-bold">
-              <Link href={`/${network}/${contract}`}>&larr; {collection?.name}</Link>
-            </div>
-          </div> */}
+        <div className="mb-8">
+          <div className="pb-4 text-red font-bold">
+            <Link href={`/${network}/${token?.token?.collection.id}`}>&larr; {collection?.name}</Link>
+          </div>
+        </div>
         <div className="flex bg-white text-black flex-col lg:flex-row">
           <div className="w-full lg:w-1/2 mr-8">
             <h1 className="boska text-[3rem] lg:text-[4rem] text-black mb-1">{name}</h1>
@@ -177,9 +177,11 @@ export const CollectionToken: FC<TokenProps> = ({ collection, token, network, en
                 </li>
               </ul>
             </div>
-            {/* <div className="pt-8 text-red font-bold">
-                <Link href={`/${network}/${contract}`}>&larr; {collection?.name}</Link>
-              </div> */}
+            <div className="mb-8">
+              <div className="pb-4 text-red font-bold">
+                <Link href={`/${network}/${token?.token?.collection.id}`}>&larr; {collection?.name}</Link>
+              </div>
+            </div>
           </div>
           <div className="w-full lg:w-1/2 mt-2">
             <div className="mb-5">
