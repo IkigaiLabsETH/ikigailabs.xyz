@@ -220,3 +220,5 @@ export const MINT_PASSES = [
 ]
 
 export type ContractTokenId = [string, number]
+
+export const GEMS_ON_THE_FLOOR_COLLECTION_SET_ID = 'efe448766a5cbb8279736d8585ddd4e39393b8ab1f2d04ee1c19f2d0bf1b028b'
