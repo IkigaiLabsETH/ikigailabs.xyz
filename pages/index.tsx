@@ -68,8 +68,10 @@ const Home: FC = () => {
         </header>
       </div>
       <main className="w-full">
-        <div className='bg-white max-w-screen-2xl'>
-          <GemsOnTheFloor />
+        <div className='bg-white flex items-center justify-center'>
+          <div className='max-w-screen-2xl'>
+            <GemsOnTheFloor />
+          </div>
         </div>
         {/* <Featured /> */}
         {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} /> */}

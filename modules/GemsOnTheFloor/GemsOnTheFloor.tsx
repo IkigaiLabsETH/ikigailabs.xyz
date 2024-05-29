@@ -1,19 +1,14 @@
-import React, { FC, use, useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { GEMS_ON_THE_FLOOR_COLLECTION_SET_ID } from '../../common/config'
 import { collectionsApi, selectCollectionFloorsByCollectionSetId, selectCollectionsBySetId } from '../Collections/collections.api'
-import { Collection, NFT, Network, Token } from '../../common/types'
-import { equals, join, map, pipe, pluck } from 'ramda'
+import { Network } from '../../common/types'
+import { equals } from 'ramda'
 import { QueryStatus } from '@reduxjs/toolkit/query'
 import { SkeletonLoader } from '../SkeletonLoader'
-import { collectionApi } from '../Collection'
 import { NFTGrid } from '../NFTGrid'
 
-interface GemsOnTheFloorProps {
-
-}
-
-export const GemsOnTheFloor:FC<GemsOnTheFloorProps> = ({}) => {
+export const GemsOnTheFloor:FC = () => {
   const dispatch = useAppDispatch()
   const network = Network.MAINNET
   const { data: floors, status } = useAppSelector(selectCollectionFloorsByCollectionSetId({ collectionSetId: GEMS_ON_THE_FLOOR_COLLECTION_SET_ID }))
@@ -25,9 +20,9 @@ export const GemsOnTheFloor:FC<GemsOnTheFloorProps> = ({}) => {
   }, [dispatch, network])
 
   return (
-    <div>
+    <div className='w-full'>
       <div>
-        <h1 className='flex items-center boska w-full pt-16 pb-8 text-[6rem] text-black justify-center text-center'>Gems on the <br/>floor</h1>
+        <h1 className='flex items-center boska w-full pt-16 pb-8 text-4xl md:text-6xl lg:text-8xl text-black justify-center text-center'>Gems on the <br/>floor</h1>
       </div>
       <div>
         {equals(status, QueryStatus.pending) ?
