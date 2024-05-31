@@ -25,7 +25,7 @@ const Home: FC = () => {
         <meta name="description" content="Shaped by Photography" />
         <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
       </Head>
-      <div className='bg-gradient w-full'>
+      <div className="bg-gradient w-full">
         <header className="flex h-screen justify-center items-center flex-col ">
           <div className="flex flex-grow flex-col justify-center">
             <div className="flex flex-col md:flex-row">
@@ -62,14 +62,18 @@ const Home: FC = () => {
               stroke="currentColor"
               className="!w-12 !h-12 stroke-yellow"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5"
+              />
             </svg>
           </div>
         </header>
       </div>
       <main className="w-full">
-        <div className='bg-white flex items-center justify-center'>
-          <div className='max-w-screen-2xl'>
+        <div className="bg-white flex items-center justify-center">
+          <div className="">
             <GemsOnTheFloor />
           </div>
         </div>

@@ -54,7 +54,7 @@ export const Collected: FC = ({}) => {
   const content = () => {
     if (!isValidAddress) {
       return (
-        <div className='flex justify-center items-center h-full'>
+        <div className="flex justify-center items-center h-full">
           <InvalidAddress />
         </div>
       )
@@ -62,23 +62,25 @@ export const Collected: FC = ({}) => {
 
     if (!isValidNetwork) {
       return (
-        <div className='flex justify-center items-center h-full'>
+        <div className="flex justify-center items-center h-full">
           <InvalidNetwork />
         </div>
       )
     }
 
-    if(!isNil(ownedTokens?.tokens) && !isEmpty(ownedTokens?.tokens)) { 
-      return <>
-        <NFTGrid nfts={ownedTokens?.tokens} network={network as Network} />
-        <div ref={nftRef} />
-      </>
+    if (!isNil(ownedTokens?.tokens) && !isEmpty(ownedTokens?.tokens)) {
+      return (
+        <>
+          <NFTGrid nfts={ownedTokens?.tokens} network={network as Network} />
+          <div ref={nftRef} />
+        </>
+      )
     }
     if (ownedStatus !== QueryStatus.pending && isEmpty(ownedTokens?.tokens)) {
       return <div className="w-full text-center">No tokens found</div>
     }
-    
-    if (ownedStatus === QueryStatus.pending) { 
+
+    if (ownedStatus === QueryStatus.pending) {
       return (
         <div className="w-full text-center">
           <Loader />
@@ -115,9 +117,7 @@ export const Collected: FC = ({}) => {
                   <NetworkNav network={network as Network} tab="collected" address={address as string} />
                 </div>
               </div>
-              <div className="w-5/6">
-                {content()} 
-              </div>
+              <div className="w-5/6">{content()}</div>
             </div>
           </div>
         </div>

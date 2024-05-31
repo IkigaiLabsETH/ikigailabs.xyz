@@ -1,8 +1,7 @@
-import { includes } from "ramda"
-import { Network } from "../types"
+import { includes } from 'ramda'
+import { Network } from '../types'
 
 export const useValidNetwork = (network: string) => {
-
   const supportedNetworks = [
     Network.MAINNET,
     Network.OPTIMISM,

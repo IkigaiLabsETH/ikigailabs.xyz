@@ -12,19 +12,27 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const collections = await fetch(`https://api.reservoir.tools/collections/v7?collectionsSetId=${collectionSetId}`).then(res => res.json())
+    const collections = await fetch(
+      `https://api.reservoir.tools/collections/v7?collectionsSetId=${collectionSetId}`,
+    ).then(res => res.json())
     while (collections.continuation) {
-      const nextCollections = await fetch(`https://api.reservoir.tools/collections/v7?collectionsSetId=${collectionSetId}&continuation=${collections.continuation}`).then(res => res.json())
+      const nextCollections = await fetch(
+        `https://api.reservoir.tools/collections/v7?collectionsSetId=${collectionSetId}&continuation=${collections.continuation}`,
+      ).then(res => res.json())
       collections.collections = collections.collections.concat(nextCollections.collections)
       collections.continuation = nextCollections.continuation
     }
 
     const tokens = []
 
-    await Promise.allSettled(map(async (collection: Collection) => {
-      const token = await fetch(`https://api.reservoir.tools/tokens/v7?collection=${collection.id}&sortBy=floorAskPrice&limit=1`).then(res => res.json())
-      tokens.push(token.tokens[0])
-    })(collections.collections))
+    await Promise.allSettled(
+      map(async (collection: Collection) => {
+        const token = await fetch(
+          `https://api.reservoir.tools/tokens/v7?collection=${collection.id}&sortBy=floorAskPrice&limit=1`,
+        ).then(res => res.json())
+        tokens.push(token.tokens[0])
+      })(collections.collections),
+    )
 
     const sortedTokens = sortBy(path(['market', 'floorAsk', 'price', 'amount', 'decimal']), tokens)
 
@@ -34,8 +42,9 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export const handler = async (req: NextApiRequest, res: NextApiResponse) => match(req.method).with(
-  'GET', () => get(req, res)
-).otherwise(() => res.status(405).json({ message: 'Method not allowed' }))
+export const handler = async (req: NextApiRequest, res: NextApiResponse) =>
+  match(req.method)
+    .with('GET', () => get(req, res))
+    .otherwise(() => res.status(405).json({ message: 'Method not allowed' }))
 
 export default handler

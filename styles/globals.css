@@ -845,6 +845,7 @@ span.flatpickr-weekday {
   @apply border-t-0 border-l-0 border-r-0 border-b-2 border-black outline-none font-bold;
   cursor: pointer;
 }
+
 @-webkit-keyframes fpFadeInDown {
   from {
     opacity: 0;
@@ -869,4 +870,3 @@ span.flatpickr-weekday {
             transform: translate3d(0, 0, 0);
   }
 }
-

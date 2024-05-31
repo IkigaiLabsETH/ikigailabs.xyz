@@ -60,8 +60,11 @@ export const collectionsApi = createApi({
         return currentArg !== previousArg
       },
     }),
-    getCollectionsBySetId: builder.query<any, { collectionSetId: string; continuation?: string; network: Network, limit?: number }>({
-      query: ({ collectionSetId, continuation, network, limit = 30 }) =>
+    getCollectionsBySetId: builder.query<
+      any,
+      { collectionSetId: string; continuation?: string; network: Network; limit?: number }
+    >({
+      query: ({ collectionSetId, continuation, network, limit = 20 }) =>
         `reservoir/${network}/collections/v7?limit=${limit}&collectionsSetId=${collectionSetId}${
           continuation ? `&continuation=${continuation}` : ''
         }`,
@@ -76,9 +79,9 @@ export const collectionsApi = createApi({
         return currentArg !== previousArg
       },
     }),
-    getCollectionFloorsByCollectionSetId: builder.query<any, { collectionSetId: string; }>({
+    getCollectionFloorsByCollectionSetId: builder.query<any, { collectionSetId: string }>({
       query: ({ collectionSetId }) => `collection-sets/floors/${collectionSetId}`,
-    })
+    }),
   }),
 })
 
@@ -98,7 +101,8 @@ export const selectCollectionsBySetId = collectionsApi.endpoints.getCollectionsB
 export const selectCollectionsByCommunity = collectionsApi.endpoints.getCollectionsByCommunity.select
 export const selectSupportedNetworks = collectionsApi.endpoints.getSupportedNetworks.select
 export const selectCollectionSets = collectionsApi.endpoints.getCollectionSets.select
-export const selectCollectionFloorsByCollectionSetId = collectionsApi.endpoints.getCollectionFloorsByCollectionSetId.select
+export const selectCollectionFloorsByCollectionSetId =
+  collectionsApi.endpoints.getCollectionFloorsByCollectionSetId.select
 export const selectSupportedNetworkTableIdByNetwork = (network: Network) => (state: RootState) => {
   return selectSupportedNetworks()(state)?.data?.[network]
 }

@@ -27,7 +27,7 @@ const Token: FC = () => {
       )
     }
   }, [contract, tokenId, network, dispatch])
-  
+
   return (
     <div className="flex items-center flex-col">
       <Head>

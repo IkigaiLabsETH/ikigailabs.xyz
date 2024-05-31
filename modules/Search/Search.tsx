@@ -59,9 +59,10 @@ export const Search: FC<SearchProps> = ({}) => {
 
   return (
     <>
-      <div className={clsx('w-full min-h-svh backdrop-blur-sm absolute top-0 left-0', inFocus ? 'block' : 'hidden')}></div>
+      <div
+        className={clsx('w-full min-h-svh backdrop-blur-sm absolute top-0 left-0', inFocus ? 'block' : 'hidden')}
+      ></div>
       <div className={clsx('relative transition-all ease-in-out duration-300', inFocus ? 'w-full' : 'w-1/3')}>
-        
         <div
           onClick={e => {
             e.stopPropagation()

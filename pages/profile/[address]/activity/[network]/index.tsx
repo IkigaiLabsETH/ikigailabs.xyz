@@ -35,7 +35,7 @@ export const ActivityDashboard: FC = ({}) => {
   const content = () => {
     if (!isValidAddress) {
       return (
-        <div className='flex justify-center items-center h-full'>
+        <div className="flex justify-center items-center h-full">
           <InvalidAddress />
         </div>
       )
@@ -43,12 +43,12 @@ export const ActivityDashboard: FC = ({}) => {
 
     if (!isValidNetwork) {
       return (
-        <div className='flex justify-center items-center h-full'>
+        <div className="flex justify-center items-center h-full">
           <InvalidNetwork />
         </div>
       )
     }
-    return  <UserActivity />
+    return <UserActivity />
   }
 
   return (
@@ -79,9 +79,7 @@ export const ActivityDashboard: FC = ({}) => {
                   <NetworkNav network={network as Network} tab="activity" address={address as string} />
                 </div>
               </div>
-              <div className="w-5/6">
-                { content() }
-              </div>
+              <div className="w-5/6">{content()}</div>
             </div>
           </div>
         </div>

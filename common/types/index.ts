@@ -244,7 +244,7 @@ export interface Token {
   lastSale?: LastSale
   attributes?: Record<string, unknown>[]
   kind?: string
-  collection?: Collection 
+  collection?: Collection
   isFlagged: boolean
   isNsfw: boolean
   isSpam: boolean

@@ -78,9 +78,7 @@ export const CollectionToken: FC<TokenProps> = ({ token, network, ens }) => {
         </div>
         <div className="relative w-full">
           <div className="absolute bottom-5 left-5 p-6 bg-yellow-500 text-black tracking-wide">
-            <h3 className="text-black opacity-40 text-xs md:text-sm font-bold uppercase mb-0 pb-0">
-              {}
-            </h3>
+            <h3 className="text-black opacity-40 text-xs md:text-sm font-bold uppercase mb-0 pb-0">{}</h3>
             <h1 className="text-black boska text-base md:text-lg lg:text-xl mb-0 pb-0">{name}</h1>
           </div>
         </div>
@@ -145,12 +143,13 @@ export const CollectionToken: FC<TokenProps> = ({ token, network, ens }) => {
                             </div>
                           </div>
                           <div className="bg-slate-100 p-1 w-auto">
-                            {attribute.tokenCount}{' '}
-                            ({Intl.NumberFormat('en-US', {
+                            {attribute.tokenCount} (
+                            {Intl.NumberFormat('en-US', {
                               style: 'percent',
                               minimumFractionDigits: 2,
                               maximumFractionDigits: 2,
-                            }).format(attribute.tokenCount / collection?.tokenCount)}){' '}have this
+                            }).format(attribute.tokenCount / collection?.tokenCount)}
+                            ) have this
                           </div>
                         </li>
                       ),

@@ -19,9 +19,16 @@ export const middleware = {
       tokenId: pathOr('', ['payload', 'tokenId'])(action),
       network: pathOr(Network.MAINNET, ['payload', 'network'])(action),
     }
-    listenerApi.dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate(params)).then(({ data }) => {
-      listenerApi.dispatch(collectionApi.endpoints.getCollectionByContract.initiate({ contract: data.token.collection.id, network: params.network}))
-    })
+    listenerApi
+      .dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate(params))
+      .then(({ data }) => {
+        listenerApi.dispatch(
+          collectionApi.endpoints.getCollectionByContract.initiate({
+            contract: data.token.collection.id,
+            network: params.network,
+          }),
+        )
+      })
   },
 }
 

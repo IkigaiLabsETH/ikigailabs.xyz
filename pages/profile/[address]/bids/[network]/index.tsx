@@ -53,7 +53,7 @@ export const ActivityDashboard: FC = ({}) => {
   const content = () => {
     if (!isValidAddress) {
       return (
-        <div className='flex justify-center items-center h-full'>
+        <div className="flex justify-center items-center h-full">
           <InvalidAddress />
         </div>
       )
@@ -61,13 +61,13 @@ export const ActivityDashboard: FC = ({}) => {
 
     if (!isValidNetwork) {
       return (
-        <div className='flex justify-center items-center h-full'>
+        <div className="flex justify-center items-center h-full">
           <InvalidNetwork />
         </div>
       )
     }
 
-    if(!isNil(data?.orders) && !isEmpty(data?.orders)) {
+    if (!isNil(data?.orders) && !isEmpty(data?.orders)) {
       return (
         <>
           <div className="mr-8">
@@ -83,7 +83,7 @@ export const ActivityDashboard: FC = ({}) => {
     }
 
     if (status === QueryStatus.pending) {
-      return ( 
+      return (
         <div className="w-full text-center">
           <Loader />
         </div>
@@ -119,9 +119,7 @@ export const ActivityDashboard: FC = ({}) => {
                   <NetworkNav network={network as Network} tab="bids" address={address as string} />
                 </div>
               </div>
-              <div className="w-5/6">
-                { content() }
-              </div>
+              <div className="w-5/6">{content()}</div>
             </div>
           </div>
         </div>

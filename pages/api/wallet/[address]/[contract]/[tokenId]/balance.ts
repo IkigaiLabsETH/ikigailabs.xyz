@@ -24,8 +24,9 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export const handler = async (req: NextApiRequest, res: NextApiResponse) => match(req.method).with(
-  'GET', () => get(req, res)
-).otherwise(() => res.status(405).json({ message: 'Method not allowed' }))
+export const handler = async (req: NextApiRequest, res: NextApiResponse) =>
+  match(req.method)
+    .with('GET', () => get(req, res))
+    .otherwise(() => res.status(405).json({ message: 'Method not allowed' }))
 
 export default handler

@@ -135,7 +135,10 @@ export const TokenActivity: FC<TokenActivityProps> = ({ contract, tokenId, netwo
                         </div>
                         <div className="flex flex-row items-baseline mt-1 ">
                           {/* <div className="text-gray-600 text-xs mr-0.5">{price.currency.symbol}</div>{' '} */}
-                          <div className="font-bold"> <Eth amount={price.amount.decimal} /></div>
+                          <div className="font-bold">
+                            {' '}
+                            <Eth amount={price.amount.decimal} />
+                          </div>
                         </div>
                       </div>
                       <div className="flex flex-col items-end justify-end">

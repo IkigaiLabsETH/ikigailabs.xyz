@@ -9,7 +9,9 @@ export const userApi = createApi({
   endpoints: builder => ({
     getOwnedTokens: builder.query<any, { address: string; continuation?: string; network: Network }>({
       query: ({ address, continuation, network }) =>
-        `${network}/users/${address}/tokens/v7?limit=20&excludeSpam=true${continuation ? `&continuation=${continuation}` : ''}`,
+        `${network}/users/${address}/tokens/v7?limit=20&excludeSpam=true${
+          continuation ? `&continuation=${continuation}` : ''
+        }`,
       serializeQueryArgs: ({ queryArgs: { address, network } }) => `tokens-${network}-${address}`,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {

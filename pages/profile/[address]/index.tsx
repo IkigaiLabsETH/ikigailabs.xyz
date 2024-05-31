@@ -7,7 +7,10 @@ import { Layout } from '../../../common/types'
 import { InvalidAddress } from '../../../modules/InvalidAddress'
 
 export const ProfilePage: FC = () => {
-  const { push, query: { address } } = useRouter()
+  const {
+    push,
+    query: { address },
+  } = useRouter()
 
   useEffect(() => {
     if (address && isAddress(String(address))) {
