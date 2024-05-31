@@ -10,14 +10,22 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).json({ error: 'Bad Request' })
     return
   }
+  const options = {
+    headers: new Headers()
+  }
+
+  options.headers.set('x-api-key', process.env.ETH_RESERVOIR_API_KEY)
 
   try {
     const collections = await fetch(
       `https://api.reservoir.tools/collections/v7?collectionsSetId=${collectionSetId}`,
+      options,
     ).then(res => res.json())
+
     while (collections.continuation) {
       const nextCollections = await fetch(
         `https://api.reservoir.tools/collections/v7?collectionsSetId=${collectionSetId}&continuation=${collections.continuation}`,
+        options,
       ).then(res => res.json())
       collections.collections = collections.collections.concat(nextCollections.collections)
       collections.continuation = nextCollections.continuation
@@ -29,15 +37,16 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
       map(async (collection: Collection) => {
         const token = await fetch(
           `https://api.reservoir.tools/tokens/v7?collection=${collection.id}&sortBy=floorAskPrice&limit=1`,
+          options,
         ).then(res => res.json())
         tokens.push(token.tokens[0])
       })(collections.collections),
     )
 
     const sortedTokens = sortBy(path(['market', 'floorAsk', 'price', 'amount', 'decimal']), tokens)
-
     res.status(200).json(sortedTokens)
   } catch (error) {
+    console.log('error', error.message)
     res.status(500).json({ error: error.message })
   }
 }
