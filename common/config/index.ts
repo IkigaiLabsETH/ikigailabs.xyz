@@ -222,3 +222,6 @@ export const MINT_PASSES = [
 export type ContractTokenId = [string, number]
 
 export const GEMS_ON_THE_FLOOR_COLLECTION_SET_ID = '43502d998b4c47fd8ab293df930524fd26558d9a9ab869caeea9601ba1c35b43'
+export const PHOTO_ON_THE_FLOOR_COLLECTION_SET_ID = 'b17113b5247f7bed318da0bc7043a5462d9359ad4d50bfeb55292b43d219230d';
+export const AI_ON_THE_FLOOR_COLLECTION_SET_ID = '388dc9d1f54f426162d4e6b3bad5dad43aa07edaee30ddb098c6afea3067cc17';
+export const ICONS_ON_THE_FLOOR_COLLECTION_SET_ID = '2d66f77bbad6fa3d55d7b78690c6e8603766bbaaf5c8b6fd43bda1caf0e98ad7';
