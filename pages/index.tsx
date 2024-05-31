@@ -13,6 +13,7 @@ import { Footer } from '../modules/Footer'
 // import { MintPasses } from '../modules/MintPasses'
 import { Featured } from '../modules/Featured'
 import { GemsOnTheFloor } from '../modules/GemsOnTheFloor'
+import { GEMS_ON_THE_FLOOR_COLLECTION_SET_ID, PHOTO_ON_THE_FLOOR_COLLECTION_SET_ID, AI_ON_THE_FLOOR_COLLECTION_SET_ID, ICONS_ON_THE_FLOOR_COLLECTION_SET_ID } from '../common/config'
 // import { selectedNetwork } from '../modules/NetworkSelector'
 // import { useAppSelector } from '../common/redux/store'
 // import { MintPasses } from '../modules/MintPasses'
@@ -69,7 +70,10 @@ const Home: FC = () => {
       </div>
       <main className="w-full">
         <div className='bg-white max-w-screen-2xl'>
-          <GemsOnTheFloor />
+          <GemsOnTheFloor collectionSetId={GEMS_ON_THE_FLOOR_COLLECTION_SET_ID} />
+          <GemsOnTheFloor collectionSetId={PHOTO_ON_THE_FLOOR_COLLECTION_SET_ID} />
+          <GemsOnTheFloor collectionSetId={AI_ON_THE_FLOOR_COLLECTION_SET_ID} />
+          <GemsOnTheFloor collectionSetId={ICONS_ON_THE_FLOOR_COLLECTION_SET_ID} />
         </div>
         {/* <Featured /> */}
         {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} /> */}
