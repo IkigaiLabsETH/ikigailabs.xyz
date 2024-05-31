@@ -36,7 +36,7 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
     await Promise.allSettled(
       map(async (collection: Collection) => {
         const token = await fetch(
-          `https://api.reservoir.tools/tokens/v7?collection=${collection.id}&sortBy=floorAskPrice&limit=1`,
+          `https://api.reservoir.tools/tokens/v7?collection=${collection.id}&sortBy=floorAskPrice&limit=1&flagStatus=0`,
           options,
         ).then(res => res.json())
         tokens.push(token.tokens[0])
