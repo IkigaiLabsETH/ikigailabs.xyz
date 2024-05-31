@@ -66,8 +66,8 @@ export const GemsOnTheFloor: FC = () => {
           On the floor
         </h1>
       </div>
-      <div className='w-full !text-black max-w-screen-2xl mt-3'>
-        <h1 className="ml-3 text-6xl text-black translate-y-11">Photography</h1>
+      <div className='w-full !text-black max-w-80 md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl mt-3'>
+        <h1 className="ml-3 text-3xl lg:text-6xl text-black lg:translate-y-11">Photography</h1>
         <div className="bg-white">
           {equals(photographyFloorsStatus, QueryStatus.pending) ? (
             <div className="grid grid-cols-4 gap-4 mb-8">
@@ -82,8 +82,8 @@ export const GemsOnTheFloor: FC = () => {
         </div>
       </div>
 
-      <div className='w-full !text-black max-w-screen-2xl mt-3'>
-        <h1 className="ml-3 text-6xl text-black translate-y-11">AI</h1>
+      <div className='w-full !text-black max-w-80 md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl mt-3'>
+        <h1 className="ml-3 text-3xl lg:text-6xl text-black lg:translate-y-11">AI</h1>
         <div className="bg-white">
           {equals(aiFloorsStatus, QueryStatus.pending) ? (
             <div className="grid grid-cols-4 gap-4 mb-8">
@@ -98,8 +98,8 @@ export const GemsOnTheFloor: FC = () => {
         </div>
       </div>
 
-      <div className='w-full !text-black max-w-screen-2xl mt-3'>
-        <h1 className="ml-3 text-6xl text-black translate-y-11">Gems</h1>
+      <div className='w-full !text-black max-w-80 md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl mt-3'>
+        <h1 className="ml-3 text-3xl lg:text-6xl text-black lg:translate-y-11">Gems</h1>
         <div className="bg-white">
           {equals(gemsFloorsStatus, QueryStatus.pending) ? (
             <div className="grid grid-cols-4 gap-4 mb-8">
@@ -114,8 +114,8 @@ export const GemsOnTheFloor: FC = () => {
         </div>
       </div>
 
-      <div className='w-full !text-black max-w-screen-2xl mt-3'>
-        <h1 className="ml-3 text-6xl text-black translate-y-11">Icons</h1>
+      <div className='w-full !text-black max-w-80 md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl mt-3'>
+        <h1 className="ml-3 text-3xl lg:text-6xl text-black lg:translate-y-11">Icons</h1>
         <div className="bg-white">
           {equals(iconsFloorsStatus, QueryStatus.pending) ? (
             <div className="grid grid-cols-4 gap-4 mb-8">
