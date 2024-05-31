@@ -10,19 +10,19 @@ import { collectionApi } from '../Collection'
 import { NFTGrid } from '../NFTGrid'
 
 interface GemsOnTheFloorProps {
-
+  collectionSetId: string;
 }
 
-export const GemsOnTheFloor:FC<GemsOnTheFloorProps> = ({}) => {
+export const GemsOnTheFloor:FC<GemsOnTheFloorProps> = ({ collectionSetId }) => {
   const dispatch = useAppDispatch()
   const network = Network.MAINNET
-  const { data: floors, status } = useAppSelector(selectCollectionFloorsByCollectionSetId({ collectionSetId: GEMS_ON_THE_FLOOR_COLLECTION_SET_ID }))
+  const { data: floors, status } = useAppSelector(selectCollectionFloorsByCollectionSetId({ collectionSetId }))
 
   useEffect(() => {
     if (GEMS_ON_THE_FLOOR_COLLECTION_SET_ID) {
-      dispatch(collectionsApi.endpoints.getCollectionFloorsByCollectionSetId.initiate({ collectionSetId: GEMS_ON_THE_FLOOR_COLLECTION_SET_ID }))
+      dispatch(collectionsApi.endpoints.getCollectionFloorsByCollectionSetId.initiate({ collectionSetId }))
     }
-  }, [dispatch, network])
+  }, [dispatch, network, collectionSetId ])
 
   return (
     <div>
