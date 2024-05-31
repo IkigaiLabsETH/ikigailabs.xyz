@@ -70,10 +70,10 @@ const Home: FC = () => {
       </div>
       <main className="w-full">
         <div className='bg-white max-w-screen-2xl'>
-          <GemsOnTheFloor collectionSetId={GEMS_ON_THE_FLOOR_COLLECTION_SET_ID} />
-          <GemsOnTheFloor collectionSetId={PHOTO_ON_THE_FLOOR_COLLECTION_SET_ID} />
-          <GemsOnTheFloor collectionSetId={AI_ON_THE_FLOOR_COLLECTION_SET_ID} />
-          <GemsOnTheFloor collectionSetId={ICONS_ON_THE_FLOOR_COLLECTION_SET_ID} />
+          <GemsOnTheFloor collectionSetId={PHOTO_ON_THE_FLOOR_COLLECTION_SET_ID} title="Photography" />
+          <GemsOnTheFloor collectionSetId={AI_ON_THE_FLOOR_COLLECTION_SET_ID} title="AI" />
+          <GemsOnTheFloor collectionSetId={GEMS_ON_THE_FLOOR_COLLECTION_SET_ID} title="Gen Art" />
+          <GemsOnTheFloor collectionSetId={ICONS_ON_THE_FLOOR_COLLECTION_SET_ID} title="Iconic Gems" />
         </div>
         {/* <Featured /> */}
         {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} /> */}
