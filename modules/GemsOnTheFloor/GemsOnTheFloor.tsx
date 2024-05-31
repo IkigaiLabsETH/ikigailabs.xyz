@@ -11,9 +11,10 @@ import { NFTGrid } from '../NFTGrid'
 
 interface GemsOnTheFloorProps {
   collectionSetId: string;
+  title: string;
 }
 
-export const GemsOnTheFloor:FC<GemsOnTheFloorProps> = ({ collectionSetId }) => {
+export const GemsOnTheFloor:FC<GemsOnTheFloorProps> = ({ collectionSetId, title }) => {
   const dispatch = useAppDispatch()
   const network = Network.MAINNET
   const { data: floors, status } = useAppSelector(selectCollectionFloorsByCollectionSetId({ collectionSetId }))
@@ -27,7 +28,7 @@ export const GemsOnTheFloor:FC<GemsOnTheFloorProps> = ({ collectionSetId }) => {
   return (
     <div>
       <div>
-        <h1 className='flex items-center boska w-full pt-16 pb-8 text-[6rem] text-black justify-center text-center'>Gems on the <br/>floor</h1>
+        <h1 className='flex items-center boska w-full pt-16 pb-8 text-[6rem] text-black justify-center text-center'>{title}</h1>
       </div>
       <div>
         {equals(status, QueryStatus.pending) ?
