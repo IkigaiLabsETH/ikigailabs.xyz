@@ -4,6 +4,8 @@ import { match } from 'ts-pattern'
 
 import { delay } from '../../../../common/utils'
 
+export const maxDuration = 30
+
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { collectionSetId } = req.query
 
