@@ -42,8 +42,10 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
         options,
       ).then((res: any) => res.json())
       .catch((error) => console.log('error', error.message))
-      console.log(token)
-      tokens.push(token?.tokens?.[0])
+
+      if (token?.tokens?.[0]) {
+        tokens.push(token?.tokens?.[0])
+      }
     }
 
     const sortedTokens = sortBy(path(['market', 'floorAsk', 'price', 'amount', 'decimal']), tokens)
