@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { map, path, sortBy } from 'ramda'
+import { path, sortBy } from 'ramda'
 import { match } from 'ts-pattern'
-import { Collection } from '../../../../common/types'
+
+import { delay } from '../../../../common/utils'
 
 export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { collectionSetId } = req.query
@@ -21,27 +22,29 @@ export const get = async (req: NextApiRequest, res: NextApiResponse) => {
       `https://api.reservoir.tools/collections/v7?collectionsSetId=${collectionSetId}`,
       options,
     ).then(res => res.json())
-
+    
     while (collections.continuation) {
       const nextCollections = await fetch(
         `https://api.reservoir.tools/collections/v7?collectionsSetId=${collectionSetId}&continuation=${collections.continuation}`,
         options,
       ).then(res => res.json())
+      await delay(250)
       collections.collections = collections.collections.concat(nextCollections.collections)
       collections.continuation = nextCollections.continuation
     }
 
     const tokens = []
 
-    await Promise.allSettled(
-      map(async (collection: Collection) => {
-        const token = await fetch(
-          `https://api.reservoir.tools/tokens/v7?collection=${collection.id}&sortBy=floorAskPrice&limit=1&flagStatus=0`,
-          options,
-        ).then(res => res.json())
-        tokens.push(token.tokens[0])
-      })(collections.collections),
-    )
+    for (const collection of collections.collections) {
+      await delay(400)
+      const token = await fetch(
+        `https://api.reservoir.tools/tokens/v7?collection=${collection.id}&sortBy=floorAskPrice&limit=1&flagStatus=0`,
+        options,
+      ).then((res: any) => res.json())
+      .catch((error) => console.log('error', error.message))
+      console.log(token)
+      tokens.push(token?.tokens?.[0])
+    }
 
     const sortedTokens = sortBy(path(['market', 'floorAsk', 'price', 'amount', 'decimal']), tokens)
     res.status(200).json(sortedTokens)

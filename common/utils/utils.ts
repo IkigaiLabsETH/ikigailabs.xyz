@@ -233,3 +233,5 @@ export const findChainIconByChainId = (chainId: number) =>
   pipe(find(propEq('id', chainId)), prop('darkIconUrl'))(supportedChains)
 export const findChainNameByChainId = (chainId: number) =>
   pipe(find(propEq('id', chainId)), prop('routePrefix'))(supportedChains)
+
+export const delay = (time: number) => new Promise(resolve => setTimeout(resolve, time))

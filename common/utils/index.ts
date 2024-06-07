@@ -3,6 +3,7 @@ export {
   truncateAddress,
   getRemainingTime,
   toggleListItem,
+  delay,
   ethToWei,
   capitalize,
   getChainIdFromNetwork,
