@@ -8,8 +8,8 @@ import { QueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 
 import '../styles/globals.css'
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 import { store } from '../common/redux'
 import { Modal } from '../modules/Modal'

@@ -13,6 +13,7 @@ import { Footer } from '../modules/Footer'
 // import { MintPasses } from '../modules/MintPasses'
 import { Featured } from '../modules/Featured'
 import { GemsOnTheFloor } from '../modules/GemsOnTheFloor'
+import { Ambassadors } from '../modules/Ambassadors'
 // import { selectedNetwork } from '../modules/NetworkSelector'
 // import { useAppSelector } from '../common/redux/store'
 // import { MintPasses } from '../modules/MintPasses'
@@ -72,6 +73,9 @@ const Home: FC = () => {
         </header>
       </div>
       <main className="w-full">
+        <div className='max-w-screen-2xl flex items-center justify-center self-center mx-auto'>
+          <Ambassadors />
+        </div>
         <div className="bg-white flex items-center justify-center">
           <div className="">
             <GemsOnTheFloor />
