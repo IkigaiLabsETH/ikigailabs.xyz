@@ -6,12 +6,14 @@ import { AmbassadorHeader } from '../../modules/AmbassadorHeader'
 import { Footer } from '../../modules/Footer'
 import Image from 'next/image'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { withLayout } from '../../common/layouts'
+import { Layout } from '../../common/types'
 
 const name = 'Letizia Le Fur'
 const intro = 'Letizia Le Fur, an alumnus of the prestigious École des Beaux-Arts in France, embarked on her creative journey as a painter, graduating in 1998. Her artistic trajectory took a pivotal turn under the mentorship of Valérie Belin, an influential artist and teacher, who steered her towards the realm of photography. This transition marked the genesis of an aesthetic quest that blends the fluidity of painting with the precision of photography.'
 const coverImage = '/assets/images/ambassadors/letizia-le-fur/Mythologies-by-Letizia-Le-Fur.png'
 
-const DimitriDaniloff: FC = () => {
+const LetiziaLeFur: FC = () => {
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -114,4 +116,4 @@ const DimitriDaniloff: FC = () => {
   )
 }
 
-export default DimitriDaniloff
+export default withLayout(Layout.main)(LetiziaLeFur)

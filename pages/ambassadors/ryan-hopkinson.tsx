@@ -6,12 +6,14 @@ import { AmbassadorHeader } from '../../modules/AmbassadorHeader'
 import { Footer } from '../../modules/Footer'
 import Image from 'next/image'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { withLayout } from '../../common/layouts'
+import { Layout } from '../../common/types'
 
 const name = 'Ryan Hopkinson'
 const intro = 'After assisting various photographers in London and receiving guidance from seasoned mentors, Hopkinson has carved out a style that harmoniously bridges the worlds of art and commerce. His collaborations with esteemed brands such as Issey Miyake, Louis Vuitton and Craig Green have each provided a platform to fully express his creative vision, whilst the London Philharmonic and Saudi Arabia’s art institute have given him the platform to showcase creative interpretations of sound, landscapes and color through unique photographic techniques.'
 const coverImage = '/assets/images/ambassadors/ryan-hopkinson/-Refusing-to-be-still--Exhibition-in-Jeddah-Museum-by-Ryan-Hopkins.jpg'
 
-const DimitriDaniloff: FC = () => {
+const RyanHopkinson: FC = () => {
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -102,4 +104,4 @@ const DimitriDaniloff: FC = () => {
   )
 }
 
-export default DimitriDaniloff
+export default withLayout(Layout.main)(RyanHopkinson)

@@ -6,12 +6,14 @@ import { AmbassadorHeader } from '../../modules/AmbassadorHeader'
 import { Footer } from '../../modules/Footer'
 import Image from 'next/image'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { withLayout } from '../../common/layouts'
+import { Layout } from '../../common/types'
 
 const name = 'Edouard Taufenbach and Bastien Pourtout'
 const intro = 'Edouard Taufenbach and Bastien Pourtout stands as a testament to the transformative power of art when fused with technology. His illustrious career, spanning over more than two decades, is a journey that transcends the realms of traditional photography, venturing into the innovative frontiers of digital artistry.'
 const coverImage = '/assets/images/ambassadors/edouard-taufenbach-and-bastien-pourtout/profile.png'
 
-const DimitriDaniloff: FC = () => {
+const EdouardTaufenbachAndBastienPourtout: FC = () => {
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -111,4 +113,4 @@ const DimitriDaniloff: FC = () => {
   )
 }
 
-export default DimitriDaniloff
+export default withLayout(Layout.main)(EdouardTaufenbachAndBastienPourtout)

@@ -6,6 +6,8 @@ import { AmbassadorHeader } from '../../modules/AmbassadorHeader'
 import { Footer } from '../../modules/Footer'
 import Image from 'next/image'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { withLayout } from '../../common/layouts'
+import { Layout } from '../../common/types'
 
 const name = 'Cedric Delsaux'
 const intro = 'Cédric Delsaux, born in 1974, is a Paris-based artist originally known for his advertising photography. He has since gained international recognition for his long-term series that each time invent unique approaches. His work, inspired by cinema and literature, equally summons the fantastical and the mundane, to make visible the fictional power of images and the phantasmagorical potential of reality. His "Dark Lens" series, a photographic sequence that gradually shifts from "non-places" to urban "hyper-places" inhabited by characters from the Star Wars saga, has achieved global success since 2004.'
@@ -102,4 +104,4 @@ const CedricDelsaux: FC = () => {
   )
 }
 
-export default CedricDelsaux
+export default withLayout(Layout.main)(CedricDelsaux)

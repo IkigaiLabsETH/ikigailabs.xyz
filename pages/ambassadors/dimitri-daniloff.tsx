@@ -6,6 +6,8 @@ import { AmbassadorHeader } from '../../modules/AmbassadorHeader'
 import { Footer } from '../../modules/Footer'
 import Image from 'next/image'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { withLayout } from '../../common/layouts'
+import { Layout } from '../../common/types'
 
 const name = 'Dimitri Daniloff'
 const intro = 'Dimitri Daniloff stands as a testament to the transformative power of art when fused with technology. His illustrious career, spanning over more than two decades, is a journey that transcends the realms of traditional photography, venturing into the innovative frontiers of digital artistry.'
@@ -120,4 +122,4 @@ const DimitriDaniloff: FC = () => {
   )
 }
 
-export default DimitriDaniloff
+export default withLayout(Layout.main)(DimitriDaniloff)

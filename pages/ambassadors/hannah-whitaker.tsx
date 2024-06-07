@@ -6,12 +6,14 @@ import { AmbassadorHeader } from '../../modules/AmbassadorHeader'
 import { Footer } from '../../modules/Footer'
 import Image from 'next/image'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { withLayout } from '../../common/layouts'
+import { Layout } from '../../common/types'
 
 const name = 'Hannah Whitaker'
 const intro = 'Hannah Whitaker, an artist and photographer based in Brooklyn, New York, has become a prominent figure in the international art scene. Her captivating work has been featured in numerous prestigious exhibitions, such as the Henie Onstad Triennial for Photography and New Media in Norway (2020), the Public Art Fund&apos;s citywide exhibition, Foam Talent (2014), and Rencontres d&apos;Arles in France (2012), where she was a nominee for the Discovery Prize. In 2021, Galerie Christophe Gaillard in Paris showed her solo exhibition &quot;Shadow Detail&quot; and simultaneously presented her work at the prestigious Paris Photo Fair. Her publication &quot;Ursula&quot; (2021) further cements her status as a visionary in photographic art.'
 const coverImage = '/assets/images/ambassadors/hannah-whitaker/Aperture-anniversary--Hannah-Whitaker.png'
 
-const DimitriDaniloff: FC = () => {
+const HannahWhitaker: FC = () => {
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -102,4 +104,4 @@ const DimitriDaniloff: FC = () => {
   )
 }
 
-export default DimitriDaniloff
+export default withLayout(Layout.main)(HannahWhitaker)

@@ -6,12 +6,14 @@ import { AmbassadorHeader } from '../../modules/AmbassadorHeader'
 import { Footer } from '../../modules/Footer'
 import Image from 'next/image'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { withLayout } from '../../common/layouts'
+import { Layout } from '../../common/types'
 
 const name = 'Maia Flore'
 const intro = 'Maia Flore transforms the mundane into the extraordinary through the lens of her camera. Her artistry lies in staging improbable, poetic, and metaphorical scenes, often using herself as not just a model, but an active subject in her own surreal narratives.'
 const coverImage = '/assets/images/ambassadors/maia-flore/Maia-Flore---Cover-Image.png'
 
-const DimitriDaniloff: FC = () => {
+const MaiaFlore: FC = () => {
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -117,4 +119,4 @@ const DimitriDaniloff: FC = () => {
   )
 }
 
-export default DimitriDaniloff
+export default withLayout(Layout.main)(MaiaFlore)
