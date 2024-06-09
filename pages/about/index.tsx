@@ -28,28 +28,15 @@ const About: FC = () => (
           </div>
         </div>
 
-        <Image
-          src="/assets/images/about-1.png"
-          alt="Ikigai Labs - Create"
-          width={1920}
-          height={1080}
-          className="border-black border-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-        />
         <h2 className="mt-20">Create</h2>
         <p>
           At the heart of Ikigai Labs lies our commitment to exceptional creators. We not only curate but also empower
           artists by facilitating the onchain distribution and display of their art. Our collaboration with Transient
           Labs equips creators with tailored smart contracts, ensuring their art remains as unique and authentic as
-          their vision. Here, artists don&apos;t just showcase their work; they find a pathway to their
-          &quote;ikigai&quote; - a place where passion, creativity, and technology converge.
+          their vision. Here, artists do not just showcase their work; they find a pathway to their
+          ikigai - a place where passion, creativity, and technology converge.
         </p>
-        <Image
-          src="/assets/images/about-2.png"
-          alt="Ikigai Labs - Curate"
-          width={1920}
-          height={1080}
-          className="border-black border-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-        />
+
         <h2 className="mt-20">Curate</h2>
         <p>
           Curators play a pivotal role at Ikigai Labs, where curation transcends selection and becomes an art in itself.
@@ -58,13 +45,7 @@ const About: FC = () => (
           fresh and inspiring experience for all who visit. Our aggregator app allows curators to exhibit artworks from
           across all the major marketplaces.
         </p>
-        <Image
-          src="/assets/images/about-3.png"
-          alt="Ikigai Labs - Collect"
-          width={1920}
-          height={1080}
-          className="border-black border-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-        />
+
         <h2 className="mt-20">Collect</h2>
         <p>
           At Ikigai Labs, we recognize collectors as the vital heartbeat of the art world. Our dedication to them goes
@@ -72,13 +53,7 @@ const About: FC = () => (
           into the immersive realms of the metaverse. Leveraging our equity tokenization with Fairmint, collectors gain
           a unique opportunity to own a part of Ikigai Labs, deepening their involvement.
         </p>
-        <Image
-          src="/assets/images/about-4.png"
-          alt="Ikigai Labs - Vision"
-          width={1920}
-          height={1080}
-          className="border-black border-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-        />
+
         <h2 className="mt-20">Vision</h2>
         <p>
           Ikigai Labs embodies the Japanese concept of &quot;ikigai&quot; representing a harmonious balance of passion,
