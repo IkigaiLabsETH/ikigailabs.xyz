@@ -27,7 +27,7 @@ export const FreeMint: FC<FreeMintProps> = ({ contract, network }) => {
         style={{ backgroundImage: `url(${data?.image})` }}
       ></div>
       <div className="w-full lg:w-1/2 p-16">
-        <Eyebrow>Exclusive Free Mint</Eyebrow>
+        <Eyebrow>bARTIO Free Mint</Eyebrow>
         <h2 className="text-[2rem] md:text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska break-words">
           {data?.name}
         </h2>
