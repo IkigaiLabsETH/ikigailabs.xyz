@@ -9,7 +9,6 @@ import {
   PolygonZkevm,
   Avalanche,
   Linea,
-  Mumbai,
   Scroll,
   Zksync,
   Blast,
@@ -22,7 +21,6 @@ import {
   polygon,
   optimism,
   Chain,
-  polygonMumbai,
   zora,
   base,
   baseSepolia,
@@ -32,7 +30,6 @@ import {
   linea,
   scroll,
   zkSync,
-  sepolia,
   blast,
 } from 'wagmi/chains'
 import { Network } from '../types'
@@ -150,13 +147,6 @@ export const supportedChains = [
     darkIconUrl: '/icons/base-icon-light.svg',
   },
   {
-    ...sepolia,
-    routePrefix: Network.SEPOLIA,
-    reservoirBaseUrl: 'https://api-sepolia.reservoir.tools',
-    lightIconUrl: '/icons/eth-icon-dark.svg',
-    darkIconUrl: '/icons/eth-icon-light.svg',
-  },
-  {
     ...polygonZkEvm,
     routePrefix: Network.ZKEVM,
     reservoirBaseUrl: 'https://api-polygon-zkevm.reservoir.tools',
@@ -202,7 +192,6 @@ export const supportedChains = [
 
 export const TW_SUPPORTED_CHAINS = [
   Ethereum,
-  Mumbai,
   Arbitrum,
   Zora,
   Base,
