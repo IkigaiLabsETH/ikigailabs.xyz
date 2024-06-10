@@ -32,14 +32,6 @@ export const URLS = {
     explorer: 'https://arbiscan.io',
     openzeppelin: '',
   },
-  [Network.MUMBAI]: {
-    reservoir: 'https://api-mumbai.reservoir.tools',
-    tw: '',
-    alchemy: 'https://polygon-mumbai.g.alchemy.com',
-    explorer: 'https://mumbai.polygonscan.com',
-    openzeppelin:
-      'https://api.defender.openzeppelin.com/autotasks/3d39e44f-5ed0-4c66-9107-8f45e4c1b918/runs/webhook/d3bad3c5-947c-4dde-8868-915e797a8bc4/SkSiPovrShFkTHST4cPCHw',
-  },
   [Network.ZORA]: {
     reservoir: 'https://api-zora.reservoir.tools',
     tw: '',
@@ -90,7 +82,7 @@ export const URLS = {
     openzeppelin: '',
   },
   [Network.BERA]: {
-    reservoir: '',
+    reservoir: 'https://api-berachain-testnet.reservoir.tools/',
     tw: '',
     alchemy: '',
     explorer: 'https://artio.beratrail.io',
@@ -101,13 +93,6 @@ export const URLS = {
     tw: '',
     alchemy: '',
     explorer: 'https://blastscan.io',
-    openzeppelin: '',
-  },
-  [Network.SEPOLIA]: {
-    reservoir: 'https://api-sepolia.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://sepolia.etherscan.io',
     openzeppelin: '',
   },
 }
@@ -173,7 +158,6 @@ export const COLLECTIONS = {
       name: 'Curated',
     },
   ],
-  [Network.MUMBAI]: [],
 }
 
 export const FEATURED_DROP = '0x3C9A5EeB4D7126D759B64B9129C23012CF802313'
