@@ -7,7 +7,7 @@ export const Footer: FC = () => (
     <div className="flex items-center justify-center text-16 font-bold tracking-tighter leading-none">
       IKIGAI LABS XYZ
     </div>
-     <MarketStats />
+    <MarketStats />
     <div className="flex items-center justify-end">
       <a href="#" title="" className="flex items-center">
         <Image src="/assets/images/IKIGAI_LABS_logo.svg" alt="logo" width="32" height="32" />
