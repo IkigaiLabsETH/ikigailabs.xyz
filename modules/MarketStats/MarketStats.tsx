@@ -30,4 +30,4 @@ const CryptoPrices: React.FC = () => {
   );
 };
 
-export default CryptoPrices;
+export default MarketStats;
