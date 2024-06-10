@@ -78,7 +78,7 @@ const Home: FC = () => {
           </div>
         </div>
         {/* <Featured /> */}
-        {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} /> */}
+        {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.BERA} /> */}
         {/* <MintPasses contracts={MINT_PASSES} /> */}
         {/* <BurnToMint
           sourceContract={pathOr('', ['odessyGenesisCollection', 'sourceContract'])(BURN_TO_MINT)}
