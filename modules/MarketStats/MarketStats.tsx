@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const CryptoPrices: React.FC = () => {
+const MarketStats: React.FC = () => {
   const [btcPrice, setBtcPrice] = useState(0);
   const [ethPrice, setEthPrice] = useState(0);
   const [solPrice, setSolPrice] = useState(0);
