@@ -14,6 +14,7 @@ import { Footer } from '../modules/Footer'
 import { Featured } from '../modules/Featured'
 import { GemsOnTheFloor } from '../modules/GemsOnTheFloor'
 import { Ambassadors } from '../modules/Ambassadors'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../common/constants'
 // import { selectedNetwork } from '../modules/NetworkSelector'
 // import { useAppSelector } from '../common/redux/store'
 // import { MintPasses } from '../modules/MintPasses'
@@ -22,9 +23,26 @@ const Home: FC = () => {
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography</title>
-        <meta name="description" content="Shaped by Photography" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{SITE_TITLE}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={SITE_TITLE} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+  
+          {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={SITE_URL} />
+        <meta property="og:title" content={SITE_TITLE} />
+        <meta property="og:description" content={SITE_URL} />
+        <meta property="og:image" content={SITE_LOGO_PATH} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={SITE_LOGO_PATH} />
+        <meta property="twitter:url" content={SITE_URL} />
+        <meta property="twitter:title" content={SITE_TITLE} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={SITE_LOGO_PATH} />
       </Head>
       <div className="bg-gradient w-full">
         <header className="flex h-screen justify-center items-center flex-col ">

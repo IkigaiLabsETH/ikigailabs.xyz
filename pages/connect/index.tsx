@@ -8,10 +8,14 @@ import { match } from 'ts-pattern'
 import { Loader, Size } from '../../modules/Loader'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
 
 const Connect: FC = () => {
   const connectionStatus = useActiveWalletConnectionStatus()
   const router = useRouter()
+
+  const siteTitle = `${SITE_TITLE} | Sign in`
+  const url = `${SITE_URL}${router?.pathname}`
 
   useEffect(() => {
     if (connectionStatus !== 'connected') {
@@ -57,9 +61,28 @@ const Connect: FC = () => {
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography | Connect</title>
-        <meta name="description" content="Shaped by Photography | Connect" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={siteTitle} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+  
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={SITE_LOGO_PATH} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={SITE_LOGO_PATH} />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={SITE_LOGO_PATH} />
+
+        <meta name="robots" content="noindex" />
       </Head>
       <main className="w-full">
         <div className="w-full xl:grid xl:grid-cols-2 h-screen">

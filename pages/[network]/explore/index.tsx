@@ -23,6 +23,7 @@ import { NetworkSelector } from '../../../modules/NetworkSelector/NetworkSelecto
 import { useInfiniteLoading } from '../../../common/useInfiniteLoading'
 import { GridListToggle } from '../../../modules/GridListToggle'
 import { slugify } from '../../../common/utils'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../../common/constants'
 
 const Explore: FC = () => {
   const router = useRouter()
@@ -136,12 +137,32 @@ const Explore: FC = () => {
 
   const { ref: collectionsRef } = useInfiniteLoading(getInfiniteLoadingEndpoint(), getInfiniteLoadingOptions())
 
+  const siteTitle = `${SITE_TITLE} | Explore`
+  const url = `${SITE_URL}${router?.pathname}`
+
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography</title>
-        <meta name="description" content="Shaped by Photography" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={siteTitle} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={SITE_LOGO_PATH} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={SITE_LOGO_PATH} />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={SITE_LOGO_PATH} />
       </Head>
       <div className="text-left w-full p-8 pt-32 max-w-screen-2xl">
         <h1 className="text-yellow text-6xl lg:text-8xl ">Explore</h1>

@@ -5,14 +5,34 @@ import React, { FC } from 'react'
 import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
 import { Footer } from '../../modules/Footer'
-import Image from 'next/image'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
+
+const siteTitle = `${SITE_TITLE} | About`
+const url = `${SITE_URL}/about`
 
 const About: FC = () => (
   <div className="flex items-center flex-col">
     <Head>
-      <title>Ikigai Labs - Shaped by Photography | About</title>
-      <meta name="description" content="Shaped by Photography | About" />
-      <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+      <title>{siteTitle}</title>
+      <meta name="description" content={SITE_DESCRIPTION} />
+      <link rel="icon" href={SITE_LOGO_PATH} />
+
+      <meta name="title" content={siteTitle} />
+      <meta name="description" content={SITE_DESCRIPTION} />
+
+      {/* <!-- Open Graph / Facebook --> */}
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={url} />
+      <meta property="og:title" content={siteTitle} />
+      <meta property="og:description" content={SITE_DESCRIPTION} />
+      <meta property="og:image" content={SITE_LOGO_PATH} />
+
+      {/* <!-- Twitter --> */}
+      <meta property="twitter:card" content={SITE_LOGO_PATH} />
+      <meta property="twitter:url" content={url} />
+      <meta property="twitter:title" content={siteTitle} />
+      <meta property="twitter:description" content={SITE_DESCRIPTION} />
+      <meta property="twitter:image" content={SITE_LOGO_PATH} />
     </Head>
     <main className="max-w-screen-2xl w-full">
       <div className="flex relative flex-col text-lg my-48 max-w-3xl mx-auto p-8">

@@ -8,12 +8,15 @@ import Image from 'next/image'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
+import { useRouter } from 'next/router'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
 
 const name = 'Letizia Le Fur'
 const intro = 'Letizia Le Fur, an alumnus of the prestigious École des Beaux-Arts in France, embarked on her creative journey as a painter, graduating in 1998. Her artistic trajectory took a pivotal turn under the mentorship of Valérie Belin, an influential artist and teacher, who steered her towards the realm of photography. This transition marked the genesis of an aesthetic quest that blends the fluidity of painting with the precision of photography.'
 const coverImage = '/assets/images/ambassadors/letizia-le-fur/Mythologies-by-Letizia-Le-Fur.png'
 
 const LetiziaLeFur: FC = () => {
+  const { pathname } = useRouter()
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -28,12 +31,32 @@ const LetiziaLeFur: FC = () => {
     arrows: false,
   }
 
+  const siteTitle = `${SITE_TITLE} | Meet ${name}`
+  const url = `${SITE_URL}${pathname}`
+
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography | Letizia Le Fur</title>
-        <meta name="description" content="Shaped by Photography | Letizia Le Fur" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={siteTitle} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+  
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={coverImage} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={coverImage} />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={coverImage} />
       </Head>
       <main className="w-full">
         <AmbassadorHeader name={name} intro={intro} coverImage={coverImage} />

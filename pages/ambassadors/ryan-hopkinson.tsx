@@ -8,12 +8,15 @@ import Image from 'next/image'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
+import { useRouter } from 'next/router'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
 
 const name = 'Ryan Hopkinson'
 const intro = 'After assisting various photographers in London and receiving guidance from seasoned mentors, Hopkinson has carved out a style that harmoniously bridges the worlds of art and commerce. His collaborations with esteemed brands such as Issey Miyake, Louis Vuitton and Craig Green have each provided a platform to fully express his creative vision, whilst the London Philharmonic and Saudi Arabia’s art institute have given him the platform to showcase creative interpretations of sound, landscapes and color through unique photographic techniques.'
 const coverImage = '/assets/images/ambassadors/ryan-hopkinson/-Refusing-to-be-still--Exhibition-in-Jeddah-Museum-by-Ryan-Hopkins.jpg'
 
 const RyanHopkinson: FC = () => {
+  const { pathname } = useRouter()
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -28,12 +31,32 @@ const RyanHopkinson: FC = () => {
     arrows: false,
   }
 
+  const siteTitle = `${SITE_TITLE} | Meet ${name}`
+  const url = `${SITE_URL}${pathname}`
+
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography | Ryan Hopkinson</title>
-        <meta name="description" content="Shaped by Photography | Ryan Hopkinson" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={siteTitle} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+  
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={coverImage} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={coverImage} />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={coverImage} />
       </Head>
       <main className="w-full">
         <AmbassadorHeader name={name} intro={intro} coverImage={coverImage} />

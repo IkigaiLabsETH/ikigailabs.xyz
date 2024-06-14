@@ -8,12 +8,15 @@ import Image from 'next/image'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
+import { useRouter } from 'next/router'
 
 const name = 'Hannah Whitaker'
 const intro = 'Hannah Whitaker, an artist and photographer based in Brooklyn, New York, has become a prominent figure in the international art scene. Her captivating work has been featured in numerous prestigious exhibitions, such as the Henie Onstad Triennial for Photography and New Media in Norway (2020), the Public Art Fund&apos;s citywide exhibition, Foam Talent (2014), and Rencontres d&apos;Arles in France (2012), where she was a nominee for the Discovery Prize. In 2021, Galerie Christophe Gaillard in Paris showed her solo exhibition &quot;Shadow Detail&quot; and simultaneously presented her work at the prestigious Paris Photo Fair. Her publication &quot;Ursula&quot; (2021) further cements her status as a visionary in photographic art.'
 const coverImage = '/assets/images/ambassadors/hannah-whitaker/Aperture-anniversary--Hannah-Whitaker.png'
 
 const HannahWhitaker: FC = () => {
+  const { pathname } = useRouter()
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -28,12 +31,32 @@ const HannahWhitaker: FC = () => {
     arrows: false,
   }
 
+  const siteTitle = `${SITE_TITLE} | Meet ${name}`
+  const url = `${SITE_URL}${pathname}`
+
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography | Hannah Whitaker</title>
-        <meta name="description" content="Shaped by Photography | Hannah Whitaker" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={siteTitle} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+  
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={coverImage} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={coverImage} />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={coverImage} />
       </Head>
       <main className="w-full">
         <AmbassadorHeader name={name} intro={intro} coverImage={coverImage} />
