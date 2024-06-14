@@ -16,7 +16,7 @@ const intro = 'Cédric Delsaux, born in 1974, is a Paris-based artist originally
 const coverImage = '/assets/images/ambassadors/cedric-delsaux/23-Dark-Lens-Origins_DUBAI_Darth_Vader.-2009-copie.jpg'
 
 const CedricDelsaux: FC = () => {
-  const { pathname } = useRouter()
+  const { asPath } = useRouter()
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -32,7 +32,7 @@ const CedricDelsaux: FC = () => {
   }
 
   const siteTitle = `${SITE_TITLE} | Meet ${name}`
-  const url = `${SITE_URL}${pathname}`
+  const url = `${SITE_URL}${asPath}`
 
   return (
     <div className="flex items-center flex-col">

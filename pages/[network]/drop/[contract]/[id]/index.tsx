@@ -12,11 +12,11 @@ import { CHAINS, SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '
 const DropPage: FC = () => {
   const {
     query: { contract, id, network, type },
-    pathname,
+    asPath,
   } = useRouter()
 
   const siteTitle = `${SITE_TITLE} | Drop`
-  const url = `${SITE_URL}${pathname}`
+  const url = `${SITE_URL}${asPath}`
 
   return (
     <div className="flex items-center flex-col">

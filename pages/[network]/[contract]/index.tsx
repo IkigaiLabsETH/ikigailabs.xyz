@@ -12,11 +12,11 @@ import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../..
 const SignatureCollection: FC = () => {
   const {
     query: { contract, network },
-    pathname,
+    asPath,
   } = useRouter()
 
   const siteTitle = `${SITE_TITLE} | Collection ${contract}`
-  const url = `${SITE_URL}${pathname}`
+  const url = `${SITE_URL}${asPath}`
 
   return (
     <div className="flex items-center flex-col bg-gradient">
