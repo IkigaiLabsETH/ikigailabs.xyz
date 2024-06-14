@@ -5,7 +5,7 @@ import { Activity, ActivityType, NFT, Network, Order } from '../../../common/typ
 
 export const collectionTokenApi = createApi({
   reducerPath: 'collectionTokenApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'api/reservoir' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/reservoir' }),
   endpoints: builder => ({
     getTokenByContractAndTokenId: builder.query<NFT, { contract: string; tokenId: string; network: Network }>({
       query: ({ contract, tokenId, network }) =>
