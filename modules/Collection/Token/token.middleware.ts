@@ -24,7 +24,7 @@ export const middleware = {
       .then(({ data }) => {
         listenerApi.dispatch(
           collectionApi.endpoints.getCollectionByContract.initiate({
-            contract: data.token.collection.id,
+            contract: data?.token?.collection?.id,
             network: params.network,
           }),
         )
