@@ -10,9 +10,10 @@ import { fetchCollectionToken } from '../../../modules/Collection/Token/token.ac
 import { Layout, Network } from '../../../common/types'
 import { withLayout } from '../../../common/layouts'
 import { selectENSByAddress } from '../../../common/ens'
-import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../../common/constants'
+import { SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../../common/constants'
+import { InferGetServerSidePropsType } from 'next'
 
-const Token: FC = () => {
+const Token: InferGetServerSidePropsType<typeof getServerSideProps> = ({ name, description, imageSmall, collection: { name: collectionName } }) => {
   const dispatch = useAppDispatch()
   const { query, asPath } = useRouter()
   const { contract, tokenId, network } = query
@@ -28,32 +29,32 @@ const Token: FC = () => {
     }
   }, [contract, tokenId, network, dispatch])
 
-  const siteTitle = `${SITE_TITLE} | ${token?.token?.collection.name} - ${token?.token?.name}`
+  const siteTitle = `${SITE_TITLE} | ${collectionName} - ${name}`
   const url = `${SITE_URL}${asPath}`
-  const image = token?.token?.imageSmall
+  const image = imageSmall
 
   return (
     <div className="flex items-center flex-col">
       <Head>
         <title>{siteTitle}</title>
-        <meta name="description" content={SITE_DESCRIPTION} />
+        <meta name="description" content={description} />
         <link rel="icon" href={SITE_LOGO_PATH} />
 
         <meta name="title" content={siteTitle} />
-        <meta name="description" content={SITE_DESCRIPTION} />
+        <meta name="description" content={description} />
 
         {/* <!-- Open Graph / Facebook --> */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content={url} />
         <meta property="og:title" content={siteTitle} />
-        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:description" content={description} />
         <meta property="og:image" content={image} />
 
         {/* <!-- Twitter --> */}
         <meta property="twitter:card" content={image} />
         <meta property="twitter:url" content={url} />
         <meta property="twitter:title" content={siteTitle} />
-        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:description" content={description} />
         <meta property="twitter:image" content={image} />
       </Head>
       <main className="w-full">
@@ -62,6 +63,24 @@ const Token: FC = () => {
       <Footer />
     </div>
   )
+}
+
+export async function getServerSideProps({ req, res, query }) {
+  const { contract, tokenId, network } = query
+  const protocol = req.headers['x-forwarded-proto'] || 'http'
+  const currentUrl = `${protocol}://${req.headers.host}`
+
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
+
+  const a =  await fetch(`${currentUrl}/api/reservoir/${network}/tokens/v7?tokens=${contract}:${tokenId}&includeTopBid=true&includeAttributes=true&normalizeRoyalties=true`)
+  const r = await a.json()
+
+  return {
+    props: r?.tokens[0]?.token,
+  }
 }
 
 export default withLayout(Layout.main)(Token)
