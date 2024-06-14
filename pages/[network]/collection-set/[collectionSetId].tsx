@@ -14,7 +14,7 @@ import { useInfiniteLoading } from '../../../common/useInfiniteLoading'
 import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../../common/constants'
 
 const CollectionsPage: FC = () => {
-  const { query, pathname } = useRouter()
+  const { query, asPath } = useRouter()
   const { collectionSetId, network } = query as { collectionSetId: string; network: Network }
 
   const dispatch = useAppDispatch()
@@ -32,7 +32,7 @@ const CollectionsPage: FC = () => {
   })
 
   const siteTitle = `${SITE_TITLE} | Collections`
-  const url = `${SITE_URL}${pathname}`
+  const url = `${SITE_URL}${asPath}`
 
   return (
     <div className="flex items-center flex-col ">

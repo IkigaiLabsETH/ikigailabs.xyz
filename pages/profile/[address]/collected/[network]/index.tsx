@@ -25,14 +25,14 @@ import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../..
 export const Collected: FC = ({}) => {
   const {
     query: { network, address },
-    pathname,
+    asPath,
   } = useRouter()
   const dispatch = useAppDispatch()
   const isValidAddress = useValidAddress(address as string)
   const isValidNetwork = useValidNetwork(network as Network)
 
   const siteTitle = `${SITE_TITLE} | Collected on ${network} by ${address}`
-  const url = `${SITE_URL}${pathname}`
+  const url = `${SITE_URL}${asPath}`
 
   const { data: ownedTokens, status: ownedStatus } = useAppSelector(
     selectCollectedTokens({ address: address as string, network: network as Network }),

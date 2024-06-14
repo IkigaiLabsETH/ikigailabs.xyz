@@ -16,7 +16,7 @@ const intro = 'Dimitri Daniloff stands as a testament to the transformative powe
 const coverImage = '/assets/images/ambassadors/dimitri-daniloff/Dimitri_Daniloff_Archives_Pills.jpg'
 
 const DimitriDaniloff: FC = () => {
-  const { pathname } = useRouter()
+  const { asPath } = useRouter()
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -32,7 +32,7 @@ const DimitriDaniloff: FC = () => {
   }
 
   const siteTitle = `${SITE_TITLE} | Meet ${name}`
-  const url = `${SITE_URL}${pathname}`
+  const url = `${SITE_URL}${asPath}`
 
   return (
     <div className="flex items-center flex-col">

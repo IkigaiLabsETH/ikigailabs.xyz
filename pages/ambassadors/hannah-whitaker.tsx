@@ -16,7 +16,7 @@ const intro = 'Hannah Whitaker, an artist and photographer based in Brooklyn, Ne
 const coverImage = '/assets/images/ambassadors/hannah-whitaker/Aperture-anniversary--Hannah-Whitaker.png'
 
 const HannahWhitaker: FC = () => {
-  const { pathname } = useRouter()
+  const { asPath } = useRouter()
   const sliderRef = useRef(null)
   const settings = {
     dots: false,
@@ -32,7 +32,7 @@ const HannahWhitaker: FC = () => {
   }
 
   const siteTitle = `${SITE_TITLE} | Meet ${name}`
-  const url = `${SITE_URL}${pathname}`
+  const url = `${SITE_URL}${asPath}`
 
   return (
     <div className="flex items-center flex-col">

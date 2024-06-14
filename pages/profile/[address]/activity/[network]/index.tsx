@@ -21,7 +21,7 @@ import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../..
 export const ActivityDashboard: FC = ({}) => {
   const {
     query: { network, address },
-    pathname,
+    asPath,
   } = useRouter()
   const dispatch = useAppDispatch()
   const { data: ens, status: ensStatus } = useAppSelector(selectENSByAddress({ address: address as string }))
@@ -29,7 +29,7 @@ export const ActivityDashboard: FC = ({}) => {
   const isValidNetwork = useValidNetwork(network as Network)
 
   const siteTitle = `${SITE_TITLE} | Activity on ${network} by ${address}`
-  const url = `${SITE_URL}${pathname}`
+  const url = `${SITE_URL}${asPath}`
 
   useEffect(() => {
     if (!ens?.name && ensStatus !== QueryStatus.pending && address) {

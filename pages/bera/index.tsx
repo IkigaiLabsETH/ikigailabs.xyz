@@ -8,10 +8,10 @@ import { Layout, Network } from '../../common/types'
 import { useRouter } from 'next/router'
 
 const Bera: FC = () => {
-  const { pathname } = useRouter()
+  const { asPath } = useRouter()
   const siteTitle = `${SITE_TITLE} | Bera free mint`
   const siteDescription = 'Bera free mint'
-  const url = `${SITE_URL}${pathname}`
+  const url = `${SITE_URL}${asPath}`
 
   return (
     <div className="flex items-center flex-col">
