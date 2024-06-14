@@ -90,10 +90,10 @@ export const URLS = {
     openzeppelin: '',
   },
   [Network.BERA]: {
-    reservoir: '',
+    reservoir: 'https://api-berachain-testnet.reservoir.tools',
     tw: '',
     alchemy: '',
-    explorer: 'https://artio.beratrail.io',
+    explorer: 'https://bartio.beratrail.io',
     openzeppelin: '',
   },
   [Network.BLAST]: {

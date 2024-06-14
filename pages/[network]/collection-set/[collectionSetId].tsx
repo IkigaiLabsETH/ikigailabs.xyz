@@ -11,9 +11,10 @@ import { collectionsApi, selectCollectionsBySetId } from '../../../modules/Colle
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
 import { Collections } from '../../../modules/Collections'
 import { useInfiniteLoading } from '../../../common/useInfiniteLoading'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../../common/constants'
 
 const CollectionsPage: FC = () => {
-  const { query } = useRouter()
+  const { query, pathname } = useRouter()
   const { collectionSetId, network } = query as { collectionSetId: string; network: Network }
 
   const dispatch = useAppDispatch()
@@ -30,12 +31,32 @@ const CollectionsPage: FC = () => {
     continuation: data?.continuation,
   })
 
+  const siteTitle = `${SITE_TITLE} | Collections`
+  const url = `${SITE_URL}${pathname}`
+
   return (
     <div className="flex items-center flex-col ">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography</title>
-        <meta name="description" content="Live the life - Collections" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={siteTitle} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={SITE_LOGO_PATH} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={SITE_LOGO_PATH} />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={SITE_LOGO_PATH} />
       </Head>
       <h1 className="text-yellow text-6xl lg:text-8xl text-left p-8 w-full pt-32 max-w-screen-2xl">Collections</h1>
       <main className="w-full bg-white ">

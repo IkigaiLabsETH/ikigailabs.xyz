@@ -6,10 +6,12 @@ import { useWallet } from '../../common/useWallet'
 import { Profile } from '../../modules/Profile'
 import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
+import Head from 'next/head'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
 
 export const ProfilePage: FC = () => {
   const { address } = useWallet()
-  const { push, query } = useRouter()
+  const { push, pathname } = useRouter()
 
   useEffect(() => {
     if (!address) return

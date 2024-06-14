@@ -21,14 +21,19 @@ import { useValidAddress } from '../../../../../common/useValidAddress'
 import { useValidNetwork } from '../../../../../common/useValidNetwork'
 import { InvalidAddress } from '../../../../../modules/InvalidAddress'
 import { InvalidNetwork } from '../../../../../modules/InvalidNetwork'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../../../../common/constants'
 
 export const ActivityDashboard: FC = ({}) => {
   const {
     query: { network, address },
+    pathname,
   } = useRouter()
   const dispatch = useAppDispatch()
   const isValidAddress = useValidAddress(address as string)
   const isValidNetwork = useValidNetwork(network as Network)
+
+  const siteTitle = `${SITE_TITLE} | Offers received on ${network} by ${address}`
+  const url = `${SITE_URL}${pathname}`
 
   const { data, status } = useAppSelector(
     selectUserBidsReceived({ address: address as string, network: network as Network }),
@@ -98,9 +103,26 @@ export const ActivityDashboard: FC = ({}) => {
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography</title>
-        <meta name="description" content="Shaped by Photography" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={siteTitle} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+  
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={SITE_LOGO_PATH} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={SITE_LOGO_PATH} />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={SITE_LOGO_PATH} />
       </Head>
       <div className="text-yellow text-left w-full pt-32 max-w-screen-2xl pl-8 pb-8">
         <h1 className="font-normal">{ens?.name ? ens?.name : truncateAddress(address)}</h1>
