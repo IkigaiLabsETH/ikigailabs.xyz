@@ -28,11 +28,19 @@ export const TokenCard: FC<TokenCardProps> = ({
       >
         <div className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <div>
-            {kind === 'erc1155' ? (
-              <div className="text-xs p-1 bg-gray-100 rounded-sm inline m-1 absolute">
-                &times; {formatNumber(supply)}
-              </div>
-            ) : null}
+            <div className='absolute'>
+              {
+                parseInt(ownership?.tokenCount, 10) > 0 ? 
+                <div className="text-xs p-1 rounded-sm inline m-1 bg-yellow">
+                  &times; {formatNumber(parseInt(ownership?.tokenCount, 10))}
+                </div> : null
+              }
+              {kind === 'erc1155' ? (
+                <div className="text-xs p-1 bg-gray-100 rounded-sm inline m-1">
+                  &times; {formatNumber(supply)}
+                </div>
+              ) : null}
+            </div>
             <div className="overflow-clip">
               {image && (
                 <img
