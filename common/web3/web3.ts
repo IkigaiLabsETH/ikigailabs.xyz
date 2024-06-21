@@ -8,6 +8,7 @@ import { getChainIdFromNetwork } from '../utils'
 import { createWalletClient, custom } from 'viem'
 import { TW_SUPPORTED_CHAINS } from '../config/chains'
 import { createThirdwebClient } from 'thirdweb'
+import { createWallet, walletConnect } from 'thirdweb/wallets'
 
 let web3Provider = null
 let signer = null
@@ -40,6 +41,24 @@ const getTWClient = (chain: Network) => {
   signer && sdk.updateSignerOrProvider(signer)
   return sdk
 }
+
+export const wallets = [
+  createWallet('io.metamask'),
+  createWallet('com.coinbase.wallet', {
+    walletConfig: {
+      options: 'smartWalletOnly',
+    },
+    chains: [TW_SUPPORTED_CHAINS],
+    appMetadata: {
+      name: 'IKIGAI Labs',
+      description: 'Shaped by Photography',
+      logoUrl: 'https://ikigailabs.xyz/assets/images/IKIGAI_LABS_logo.svg',
+    },
+  }),
+  walletConnect(),
+  createWallet('me.rainbow'),
+  createWallet('app.phantom'),
+]
 
 const TWClient = createThirdwebClient({
   clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,

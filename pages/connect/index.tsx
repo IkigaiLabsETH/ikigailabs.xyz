@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react'
 import { ConnectEmbed, useActiveWalletConnectionStatus } from 'thirdweb/react'
 import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
-import { TWClient } from '../../common/web3/web3'
+import { TWClient, wallets } from '../../common/web3'
 import { match } from 'ts-pattern'
 import { Loader, Size } from '../../modules/Loader'
 import Link from 'next/link'
@@ -37,7 +37,7 @@ const Connect: FC = () => {
         <div className="h-10" />
         <div className="flex justify-center"></div>
       </div>
-      <ConnectEmbed client={TWClient} />
+      <ConnectEmbed client={TWClient} wallets={wallets} showThirdwebBranding={false} showAllWallets={false}/>
     </>
   )
 

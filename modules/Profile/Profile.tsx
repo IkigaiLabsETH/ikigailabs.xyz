@@ -1,15 +1,13 @@
 import React, { FC } from 'react'
 
 import { AutoConnect, ConnectButton, useActiveWalletConnectionStatus } from 'thirdweb/react'
-import { TWClient } from '../../common/web3/web3'
-import { createWallet, inAppWallet, walletConnect } from 'thirdweb/wallets'
+import { TWClient, wallets } from '../../common/web3'
 import { values } from 'ramda'
 import { CHAINS } from '../../common/constants'
 import { match } from 'ts-pattern'
 import { Loader, Size } from '../Loader'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { TW_SUPPORTED_CHAINS } from '../../common/config/chains'
 
 interface ProfileProps {
   connectLabel?: string
@@ -19,29 +17,6 @@ interface ProfileProps {
 export const Profile: FC<ProfileProps> = () => {
   const connectionStatus = useActiveWalletConnectionStatus()
   const router = useRouter()
-
-  const wallets = [
-    createWallet('io.metamask'),
-    createWallet('com.coinbase.wallet', {
-      walletConfig: {
-        options: 'smartWalletOnly',
-      },
-      chains: [TW_SUPPORTED_CHAINS],
-      appMetadata: {
-        name: 'IKIGAI Labs',
-        description: 'Shaped by Photography',
-        logoUrl: 'https://ikigailabs.xyz/assets/images/IKIGAI_LABS_logo.svg',
-      },
-    }),
-    walletConnect(),
-    // inAppWallet({
-    //   auth: {
-    //     options: ['email', 'google', 'apple', 'facebook'],
-    //   },
-    // }),
-    createWallet('me.rainbow'),
-    createWallet('app.phantom'),
-  ]
 
   const connected = (
     <ConnectButton
