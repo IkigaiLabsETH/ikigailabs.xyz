@@ -13,7 +13,12 @@ import { selectENSByAddress } from '../../../common/ens'
 import { SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../../common/constants'
 import { InferGetServerSidePropsType } from 'next'
 
-const Token: InferGetServerSidePropsType<typeof getServerSideProps> = ({ name, description, imageSmall, collection: { name: collectionName } }) => {
+const Token: InferGetServerSidePropsType<typeof getServerSideProps> = ({
+  name,
+  description,
+  imageSmall,
+  collection: { name: collectionName },
+}) => {
   const dispatch = useAppDispatch()
   const { query, asPath } = useRouter()
   const { contract, tokenId, network } = query
@@ -70,16 +75,15 @@ export async function getServerSideProps({ req, res, query }) {
   const protocol = req.headers['x-forwarded-proto'] || 'http'
   const currentUrl = `${protocol}://${req.headers.host}`
 
-  res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59'
-  )
+  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59')
 
-  const a =  await fetch(`${currentUrl}/api/reservoir/${network}/tokens/v7?tokens=${contract}:${tokenId}&includeTopBid=true&includeAttributes=true&normalizeRoyalties=true`)
-  const r = await a.json()
+  const response = await fetch(
+    `${currentUrl}/api/reservoir/${network}/tokens/v7?tokens=${contract}:${tokenId}&includeTopBid=true&includeAttributes=true&normalizeRoyalties=true`,
+  )
+  const result = await response.json()
 
   return {
-    props: r?.tokens[0]?.token,
+    props: result?.tokens[0]?.token,
   }
 }
 

@@ -29,8 +29,8 @@ const Home: FC = () => {
 
         <meta name="title" content={SITE_TITLE} />
         <meta name="description" content={SITE_DESCRIPTION} />
-  
-          {/* <!-- Open Graph / Facebook --> */}
+
+        {/* <!-- Open Graph / Facebook --> */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content={SITE_URL} />
         <meta property="og:title" content={SITE_TITLE} />
@@ -91,7 +91,7 @@ const Home: FC = () => {
         </header>
       </div>
       <main className="w-full">
-        <div className='max-w-screen-2xl flex items-center justify-center self-center mx-auto'>
+        <div className="max-w-screen-2xl flex items-center justify-center self-center mx-auto">
           <Ambassadors />
         </div>
         <div className="bg-white flex items-center justify-center">

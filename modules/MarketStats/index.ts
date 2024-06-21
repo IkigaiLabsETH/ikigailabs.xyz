@@ -1,1 +1,1 @@
-export { default as MarketStats } from './MarketStats';
+export { default as MarketStats } from './MarketStats'

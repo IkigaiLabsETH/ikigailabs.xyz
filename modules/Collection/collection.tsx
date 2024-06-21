@@ -1,31 +1,37 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
-import { divide, equals, isNil, multiply, pathOr, pipe, propOr, unless } from 'ramda'
-import React, { FC, Fragment, useEffect, useState } from 'react'
+import { equals, isNil, pathOr, pipe, propOr, unless } from 'ramda'
+import React, { FC, Fragment, useState } from 'react'
 import { match } from 'ts-pattern'
 import { format, parseISO } from 'date-fns/fp'
+import clsx from 'clsx'
+import { Dialog, Transition } from '@headlessui/react'
 
-import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import { fetchCollection, collectionApi } from './collection.api'
-import { Loader, Size } from '../Loader'
+import { Loader } from '../Loader'
 import { NFTGrid } from '../NFTGrid'
 import { Facets } from '../Facets'
-import { formatAttributes, formatNumber } from '../../common/utils'
-import { selectNFTS, selectCollection, selectCollectionAttributes } from './collection.selectors'
 import { CollectionHeader } from '../CollectionHeader'
 import { CollectionStat } from '../CollectionStat'
 import { Eth } from '../Eth'
-import { useInfiniteLoading } from '../../common/useInfiniteLoading'
-import { Network, Option } from '../../common/types'
+import { Collection, NFT, Network, Option } from '../../common/types'
 import { Selector } from '../Form/Selector'
 import { COLLECTION_SORTING_OPTIONS } from '../../common/constants'
-import clsx from 'clsx'
-import { Dialog, Transition } from '@headlessui/react'
 import { CollectionActivity } from '../CollectionActivity'
 import { FaDiscord, FaGlobe, FaXTwitter } from 'react-icons/fa6'
+import { formatAttributes } from '../../common/utils'
+import { useInfiniteLoading } from '../../common/useInfiniteLoading'
 
 interface CollectionProps {
   contract: string
   network: Network
+  updateSort: (sort: Option) => void
+  selectedSort: Option
+  attributes?: any
+  updateFacets: (selection: any) => void
+  selectedAttributes: any
+  collection: Collection
+  status: QueryStatus
+  nfts: { tokens: NFT[]; continuation: string; status: QueryStatus }
+  loadMore: any
 }
 
 enum Tab {
@@ -33,68 +39,29 @@ enum Tab {
   activity,
 }
 
-export const Collection: FC<CollectionProps> = ({ contract, network }) => {
-  const dispatch = useAppDispatch()
-  const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
-  const [selectedAttributes, setSelectedAttributes] = useState<any>([])
-  const [selectedSort, setSelectedSort] = useState<Option>(COLLECTION_SORTING_OPTIONS[0])
-  const [nfts, setNfts] = useState({ tokens: [], continuation: '', status: 'idle' })
+export const CollectionComponent: FC<CollectionProps> = ({
+  contract,
+  network,
+  updateSort,
+  selectedSort,
+  attributes,
+  updateFacets,
+  selectedAttributes,
+  collection,
+  status,
+  nfts,
+  loadMore,
+}) => {
   const [showFilter, setShowFilter] = useState(false)
+  const [activeTab, setActiveTab] = useState<Tab>(Tab.collection)
 
-  const { data: nftData, status } = useAppSelector(
-    selectNFTS({
-      contract,
-      attributes: formatAttributes(selectedAttributes),
-      continuation: '',
-      network,
-      sortBy: selectedSort.id as string,
-    }),
-  )
-
-  const { data: collection, status: collectionDataStatus } = useAppSelector(selectCollection({ contract, network }))
-  const { data: attributes } = useAppSelector(selectCollectionAttributes({ contract, network }))
-
-  const { ref } = useInfiniteLoading(collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate, {
+  const { ref } = useInfiniteLoading(loadMore, {
     contract,
     attributes: formatAttributes(selectedAttributes),
     continuation: nfts?.continuation,
     network,
     sortBy: selectedSort.id as string,
   })
-
-  useEffect(() => {
-    nftData && setNfts({ tokens: nftData.tokens, continuation: nftData.continuation, status })
-  }, [nftData, setNfts, status])
-
-  const updateFacets = selection => {
-    setSelectedAttributes(selection)
-    return dispatch(
-      collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
-        contract,
-        attributes: formatAttributes(selection),
-        continuation: nfts?.continuation || '',
-        network,
-        sortBy: selectedSort.id as string,
-      }),
-    )
-  }
-
-  useEffect(() => {
-    contract && dispatch(fetchCollection({ contract, network }))
-  }, [contract, network, dispatch])
-
-  const updateSort = selection => {
-    setSelectedSort(selection)
-    return dispatch(
-      collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
-        contract,
-        attributes: formatAttributes(selectedAttributes),
-        continuation: nfts?.continuation || '',
-        network,
-        sortBy: selection.id as string,
-      }),
-    )
-  }
 
   const nftsDisplay = (
     <div className="flex flex-col">
@@ -175,7 +142,7 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
 
   return (
     <div className="flex flex-col w-full">
-      {collectionDataStatus === QueryStatus.fulfilled && isNil(collection) ? (
+      {status === QueryStatus.fulfilled && isNil(collection) ? (
         <div className="w-full text-center h-screen flex justify-center items-center">Nothing found</div>
       ) : (
         <>
@@ -187,25 +154,25 @@ export const Collection: FC<CollectionProps> = ({ contract, network }) => {
           >
             <div className="flex border-y border-y-gray-700 py-8">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-                <CollectionStat label="Floor" loading={collectionDataStatus === QueryStatus.pending}>
+                <CollectionStat label="Floor" loading={status === QueryStatus.pending}>
                   <Eth amount={pipe(pathOr('—', ['floorAsk', 'price', 'amount', 'decimal']), parseFloat)(collection)} />
                 </CollectionStat>
-                <CollectionStat label="Items" loading={collectionDataStatus === QueryStatus.pending}>
+                <CollectionStat label="Items" loading={status === QueryStatus.pending}>
                   {propOr('—', 'tokenCount')(collection)}
                 </CollectionStat>
-                <CollectionStat label="Owners" loading={collectionDataStatus === QueryStatus.pending}>
+                <CollectionStat label="Owners" loading={status === QueryStatus.pending}>
                   {propOr('—', 'ownerCount')(collection)}
                 </CollectionStat>
-                <CollectionStat label="Top Bid" loading={collectionDataStatus === QueryStatus.pending}>
+                <CollectionStat label="Top Bid" loading={status === QueryStatus.pending}>
                   <Eth amount={pathOr('—', ['topBid', 'price', 'amount', 'decimal'])(collection)} />
                 </CollectionStat>
-                {/* <CollectionStat label="% Listed" loading={collectionDataStatus === QueryStatus.pending}>
+                {/* <CollectionStat label="% Listed" loading={status === QueryStatus.pending}>
                   {pipe(divide((propOr(0, 'onSaleCount')(collection) as number)), multiply(100), formatNumber)(propOr(1, 'tokenCount')(collection) as number) }
                 </CollectionStat> */}
-                <CollectionStat label="Volume" loading={collectionDataStatus === QueryStatus.pending}>
+                <CollectionStat label="Volume" loading={status === QueryStatus.pending}>
                   <Eth amount={Math.trunc(pathOr(0, ['volume', 'allTime'])(collection))} />
                 </CollectionStat>
-                <CollectionStat label="Created On" loading={collectionDataStatus === QueryStatus.pending}>
+                <CollectionStat label="Created On" loading={status === QueryStatus.pending}>
                   {pipe(
                     propOr('—', 'createdAt'),
                     unless(equals('—'), pipe(parseISO, format('yyyy-MM-dd'))),
