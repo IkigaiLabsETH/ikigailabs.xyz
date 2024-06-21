@@ -1,12 +1,14 @@
 import React, { FC } from 'react'
 import { Button } from '../Button'
 import { formatDateAndTime, truncateAddress } from '../../common/utils'
-import { map } from 'ramda'
+import { equals, map } from 'ramda'
 import { Network, Order } from '../../common/types'
 import Image from 'next/image'
 import { useAppDispatch } from '../../common/redux/store'
 import { cancelOrder } from '../Collection/Token/token.slice'
 import { useWallet } from '../../common/useWallet'
+import { FaArrowUpRightFromSquare } from 'react-icons/fa6'
+import Link from 'next/link'
 
 interface UserBidsProps {
   bids: Order[]
@@ -31,7 +33,6 @@ export const UserBids: FC<UserBidsProps> = ({ bids, network }) => {
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Token
                 </th>
-                <th scope="col"></th>
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Taker
                 </th>
@@ -62,22 +63,27 @@ export const UserBids: FC<UserBidsProps> = ({ bids, network }) => {
                   validUntil,
                   status,
                   id,
+                  tokenSetId,
+                  maker,
+                  contract
                 }: Order) => {
+
                   return (
-                    <tr key={id}>
+                    <tr key={`${id}${tokenSetId}`}>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {token?.image && <img src={token?.image} width={40} height={40} alt={token?.name} />}
+                        {token?.tokenId}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <div className="font-medium text-gray-900">{token?.name}</div>
-                      </td>
-                      <td className="text-gray-500 px-3">{truncateAddress(taker)}</td>
+
+                      <td className="text-gray-500 px-3">{!equals(taker, "0x0000000000000000000000000000000000000000") ? truncateAddress(taker) : "–"}</td>
                       <td className="text-gray-500 px-3">{`${price?.currency?.symbol} ${price?.amount.decimal}`}</td>
                       <td className="text-gray-500 px-3">{formatDateAndTime(validFrom)}</td>
                       <td className="px-3 text-gray-500">{formatDateAndTime(validUntil)}</td>
                       <td className="px-3 text-gray-500 capitalize">{status}</td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <Button onClick={() => onCancelBid(id)}>Cancel</Button>
+                        {equals(address, maker) ? <Button onClick={() => onCancelBid(id)}>Cancel</Button> : null}
+                      </td>
+                      <td>
+                        <Link href={`/${network}/${contract}/${token?.tokenId}`}><FaArrowUpRightFromSquare /></Link>
                       </td>
                     </tr>
                   )

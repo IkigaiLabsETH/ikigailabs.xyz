@@ -49,7 +49,7 @@ export const userApi = createApi({
     }),
     getUserBidsMade: builder.query<any, { address: string; continuation?: string; network: Network }>({
       query: ({ address, continuation, network }) =>
-        `${network}/orders/bids/v5?maker=${address}${continuation ? `&continuation=${continuation}` : ''}`,
+        `${network}/orders/bids/v6?maker=${address}${continuation ? `&continuation=${continuation}` : ''}`,
       serializeQueryArgs: ({ queryArgs: { address, network } }) => `bids-${network}-${address}`,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
