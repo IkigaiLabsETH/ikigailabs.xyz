@@ -68,7 +68,7 @@ export const collectionTokenApi = createApi({
       { contract: string; tokenId: string; network: Network; continuation?: string }
     >({
       query: ({ contract, tokenId, network, continuation }) =>
-        `${network}/orders/bids/v5?token=${contract}:${tokenId}&includeCriteriaMetadata=true&includeRawData=true&sortBy=price&normalizeRoyalties=false${
+        `${network}/orders/bids/v6?token=${contract}:${tokenId}&includeCriteriaMetadata=true&includeRawData=true&sortBy=price&normalizeRoyalties=false${
           continuation ? `&continuation=${continuation}` : ''
         }`,
       serializeQueryArgs: ({ endpointName, queryArgs: { contract, tokenId } }) => {
