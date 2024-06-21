@@ -9,8 +9,8 @@ interface AmbassadorHeaderProps {
   coverImage: string
 }
 
-export const AmbassadorHeader:FC<AmbassadorHeaderProps> = ({name, intro, coverImage}) => {
-   return (
+export const AmbassadorHeader: FC<AmbassadorHeaderProps> = ({ name, intro, coverImage }) => {
+  return (
     <div className="flex relative flex-col lg:flex-row-reverse lg:min-h-screen lg:h-min items-stretch collection-header bg-gradient">
       <div
         className="w-full lg:w-1/2 bg-no-repeat bg-center bg-cover h-96 lg:h-auto"
@@ -26,5 +26,5 @@ export const AmbassadorHeader:FC<AmbassadorHeaderProps> = ({name, intro, coverIm
         </div>
       </div>
     </div>
-   )
+  )
 }

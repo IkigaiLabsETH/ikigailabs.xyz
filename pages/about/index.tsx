@@ -53,8 +53,8 @@ const About: FC = () => (
           At the heart of Ikigai Labs lies our commitment to exceptional creators. We not only curate but also empower
           artists by facilitating the onchain distribution and display of their art. Our collaboration with Transient
           Labs equips creators with tailored smart contracts, ensuring their art remains as unique and authentic as
-          their vision. Here, artists do not just showcase their work; they find a pathway to their
-          ikigai - a place where passion, creativity, and technology converge.
+          their vision. Here, artists do not just showcase their work; they find a pathway to their ikigai - a place
+          where passion, creativity, and technology converge.
         </p>
 
         <h2 className="mt-20">Curate</h2>

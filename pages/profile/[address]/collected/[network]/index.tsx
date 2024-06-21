@@ -103,7 +103,7 @@ export const Collected: FC = ({}) => {
 
         <meta name="title" content={siteTitle} />
         <meta name="description" content={SITE_DESCRIPTION} />
-  
+
         {/* <!-- Open Graph / Facebook --> */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content={url} />
