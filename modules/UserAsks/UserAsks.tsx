@@ -74,7 +74,9 @@ export const UserAsks: FC<UserAsksProps> = ({ asks, network }) => {
                         {token?.tokenId}
                       </td>
 
-                      <td className="text-gray-500 px-3">{!equals(taker, "0x0000000000000000000000000000000000000000") ? truncateAddress(taker) : "–"}</td>
+                      <td className="text-gray-500 px-3">
+                        {!equals(taker, '0x0000000000000000000000000000000000000000') ? truncateAddress(taker) : '–'}
+                      </td>
                       <td className="text-gray-500 px-3">{`${price?.currency?.symbol} ${price?.amount.decimal}`}</td>
                       <td className="text-gray-500 px-3">{formatDateAndTime(validFrom)}</td>
                       <td className="px-3 text-gray-500">{formatDateAndTime(validUntil)}</td>
@@ -83,7 +85,9 @@ export const UserAsks: FC<UserAsksProps> = ({ asks, network }) => {
                         {equals(address, maker) ? <Button onClick={() => onCancelListing(id)}>Cancel</Button> : null}
                       </td>
                       <td>
-                        <Link href={`/${network}/${contract}/${token?.tokenId}`}><FaArrowUpRightFromSquare /></Link>
+                        <Link href={`/${network}/${contract}/${token?.tokenId}`}>
+                          <FaArrowUpRightFromSquare />
+                        </Link>
                       </td>
                     </tr>
                   )

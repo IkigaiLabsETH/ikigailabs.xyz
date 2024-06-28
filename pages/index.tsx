@@ -1,11 +1,11 @@
 /* eslint-disable react/function-component-definition */
 import Head from 'next/head'
 import Image from 'next/image'
-import { FC } from 'react'
+import { FC, use, useEffect, useState } from 'react'
 // import { FREE_MINT_CONTRACT, MINT_PASSES } from '../common/config'
 
 import { withLayout } from '../common/layouts'
-import { Layout } from '../common/types'
+import { Layout, NFT, Network, Token } from '../common/types'
 // import { Button } from '../modules/Button'
 // import { Eyebrow } from '../modules/Eyebrow'
 import { Footer } from '../modules/Footer'
@@ -15,11 +15,42 @@ import { Featured } from '../modules/Featured'
 import { GemsOnTheFloor } from '../modules/GemsOnTheFloor'
 import { Ambassadors } from '../modules/Ambassadors'
 import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../common/constants'
+import { useAppDispatch, useAppSelector } from '../common/redux/store'
+import { collectionTokenApi, selectTokensByContractNetworkAndTokenId } from '../modules/Collection/Token/token.api'
+import { FEATURES } from '../common/config'
+import { map } from 'ramda'
+import { findChainNameByChainId } from '../common/utils'
 // import { selectedNetwork } from '../modules/NetworkSelector'
 // import { useAppSelector } from '../common/redux/store'
 // import { MintPasses } from '../modules/MintPasses'
 
 const Home: FC = () => {
+  const dispatch = useAppDispatch()
+  const data = useAppSelector((state) => selectTokensByContractNetworkAndTokenId(state, FEATURES))
+  const [features, setFeatures] = useState<any[]>([])
+
+  useEffect(() => {
+    map(({ contract, network, tokenId }: { contract: string; network: Network; tokenId: string }) => {
+      dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate({ contract, tokenId, network }))
+    })(FEATURES)
+  }, [])
+
+  useEffect(() => {
+    if (data.length) {
+      const newFeatured = map(({ token: { chainId, imageLarge, contract, tokenId, name, description, collection: { name: collectionName } } }: NFT) => ({
+        image: imageLarge,
+        contract,
+        tokenId,
+        name,
+        collectionName,
+        description,
+        network: findChainNameByChainId(chainId as number),
+      }))(data as NFT[])
+
+      setFeatures(newFeatured)
+    }
+  }, [data])
+
   return (
     <div className="flex items-center flex-col">
       <Head>
@@ -91,6 +122,11 @@ const Home: FC = () => {
         </header>
       </div>
       <main className="w-full">
+        <div className="w-full bg-white">
+          <Featured
+            features={features}
+          />
+        </div>
         <div className="max-w-screen-2xl flex items-center justify-center self-center mx-auto">
           <Ambassadors />
         </div>
@@ -99,7 +135,6 @@ const Home: FC = () => {
             <GemsOnTheFloor />
           </div>
         </div>
-        {/* <Featured /> */}
         {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} /> */}
         {/* <MintPasses contracts={MINT_PASSES} /> */}
         {/* <BurnToMint

@@ -37,7 +37,7 @@ const Connect: FC = () => {
         <div className="h-10" />
         <div className="flex justify-center"></div>
       </div>
-      <ConnectEmbed client={TWClient} wallets={wallets} showThirdwebBranding={false} showAllWallets={false}/>
+      <ConnectEmbed client={TWClient} wallets={wallets} showThirdwebBranding={false} showAllWallets={false} />
     </>
   )
 
