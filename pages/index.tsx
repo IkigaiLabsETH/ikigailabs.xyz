@@ -13,7 +13,6 @@ import { Footer } from '../modules/Footer'
 // import { MintPasses } from '../modules/MintPasses'
 import { Featured } from '../modules/Featured'
 import { GemsOnTheFloor } from '../modules/GemsOnTheFloor'
-import { Ambassadors } from '../modules/Ambassadors'
 import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../common/constants'
 import { useAppDispatch, useAppSelector } from '../common/redux/store'
 import { collectionTokenApi, selectTokensByContractNetworkAndTokenId } from '../modules/Collection/Token/token.api'
@@ -126,9 +125,6 @@ const Home: FC = () => {
           <Featured
             features={features}
           />
-        </div>
-        <div className="max-w-screen-2xl flex items-center justify-center self-center mx-auto">
-          <Ambassadors />
         </div>
         <div className="bg-white flex items-center justify-center">
           <div className="">
