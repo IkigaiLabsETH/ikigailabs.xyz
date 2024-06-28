@@ -78,7 +78,7 @@ export async function getServerSideProps({ req, res, query }) {
   res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59')
 
   const response = await fetch(
-    `${currentUrl}/api/reservoir/${network}/tokens/v7?tokens=${contract}:${tokenId}&includeTopBid=true&includeAttributes=true&normalizeRoyalties=true`,
+    `${currentUrl}/api/reservoir/${network}/tokens/v7?tokens=${contract}:${tokenId}&includeTopBid=true&includeAttributes=true&normalizeRoyalties=false`,
   )
   const result = await response.json()
 
