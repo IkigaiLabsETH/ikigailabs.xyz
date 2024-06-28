@@ -6,6 +6,7 @@ import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
 import { Footer } from '../../modules/Footer'
 import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
+import { Ambassadors } from '../../modules/Ambassadors'
 
 const siteTitle = `${SITE_TITLE} | About`
 const url = `${SITE_URL}/about`
@@ -35,7 +36,7 @@ const About: FC = () => (
       <meta property="twitter:image" content={SITE_LOGO_PATH} />
     </Head>
     <main className="max-w-screen-2xl w-full">
-      <div className="flex relative flex-col text-lg my-48 max-w-3xl mx-auto p-8">
+      <div className="flex relative flex-col text-lg mt-48 max-w-3xl mx-auto p-8">
         <h1 className="text-[2rem] md:text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska break-words">
           About
         </h1>
@@ -80,6 +81,9 @@ const About: FC = () => (
           talent, societal contribution, and livelihood. Our mission is to create a sustainable ecosystem that nurtures
           this balance, extending our vision beyond digital spaces to tangible, real-world artist residencies.
         </p>
+      </div>
+      <div className="max-w-screen-2xl flex items-center justify-center self-center mx-auto">
+        <Ambassadors />
       </div>
     </main>
     <Footer />
