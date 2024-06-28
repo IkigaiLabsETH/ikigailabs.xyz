@@ -16,7 +16,7 @@ import { Collection, NFT, Network, Option } from '../../common/types'
 import { Selector } from '../Form/Selector'
 import { COLLECTION_SORTING_OPTIONS } from '../../common/constants'
 import { CollectionActivity } from '../CollectionActivity'
-import { FaDiscord, FaGlobe, FaXTwitter } from 'react-icons/fa6'
+import { FaDiscord, FaGlobe, FaXTwitter, FaFilter } from 'react-icons/fa6'
 import { formatAttributes } from '../../common/utils'
 import { useInfiniteLoading } from '../../common/useInfiniteLoading'
 
@@ -62,66 +62,66 @@ export const CollectionComponent: FC<CollectionProps> = ({
     network,
     sortBy: selectedSort.id as string,
   })
-
+  console.log('attributes', attributes)
   const nftsDisplay = (
     <div className="flex flex-col">
-      <div className="w-full justify-between lg:justify-end flex flex-row mb-6 pr-8">
+      <div className={clsx('w-full flex flex-row mb-6 pr-8', attributes?.attributes.length ? 'justify-between' : 'justify-end')}>
+        {attributes?.attributes.length ? (
         <button
           onClick={() => setShowFilter(!showFilter)}
           className={clsx(
-            'bg-white text-black border border-black rounded-md p-2 text-sm font-bold ml-8 lg:hidden',
-            showFilter ? 'bg-black text-white' : '',
+            'bg-white text-black border-black rounded-md p-2 text-sm font-bold ml-8 border-2 w-11 flex justify-center items-center',
           )}
         >
-          Filters
-        </button>
+          <FaFilter />
+        </button> ) : null }
         <Selector options={COLLECTION_SORTING_OPTIONS} onChange={updateSort} selected={selectedSort} />
       </div>
       <div className="flex flex-row">
-        <Transition.Root show={showFilter} as={Fragment}>
-          <Dialog as="div" className="relative z-10" onClose={setShowFilter}>
-            <div className="fixed inset-0">
-              <div className="absolute inset-0">
-                <div className="fixed inset-y-0 right-0 flex max-w-full pr-10 sm:pr-16">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="transform transition ease-in-out duration-500 sm:duration-700"
-                    enterFrom="-translate-x-full"
-                    enterTo="translate-x-0"
-                    leave="transform transition ease-in-out duration-500 sm:duration-700"
-                    leaveFrom="translate-x-0"
-                    leaveTo="-translate-x-full"
-                  >
-                    <Dialog.Panel className="w-screen max-w-md">
-                      <div className="bg-white p-6 pt-16 text-black overflow-scroll" style={{ maxHeight: '100vh' }}>
-                        <div className="pb-6 font-bold text-xl w-full flex justify-between">
-                          Filters{' '}
-                          <div>
-                            <button onClick={() => setShowFilter(false)}>&times;</button>
+          <Transition.Root show={showFilter} as={Fragment}>
+            <Dialog as="div" className="fixed z-500 h-full" onClose={setShowFilter}>
+              <div className="fixed inset-0">
+                <div className="absolute">
+                  <div className="flex max-w-full">
+                    <Transition.Child
+                      as={Fragment}
+                      enter="transform transition ease-in-out duration-500 sm:duration-700"
+                      enterFrom="-translate-x-full"
+                      enterTo="translate-x-0"
+                      leave="transform transition ease-in-out duration-500 sm:duration-700"
+                      leaveFrom="translate-x-0"
+                      leaveTo="-translate-x-full"
+                    >
+                      <Dialog.Panel className="w-screen max-w-md">
+                        <div className="bg-white p-6 pt-16 text-black h-screen" style={{ maxHeight: '100vh' }}>
+                          <div className="pb-6 font-bold text-xl w-full flex justify-between">
+                            Filters{' '}
+                            <div>
+                              <button onClick={() => setShowFilter(false)}>&times;</button>
+                            </div>
                           </div>
+                          <Facets
+                            facets={attributes?.attributes}
+                            onUpdateFacets={updateFacets}
+                            selected={selectedAttributes}
+                          />
                         </div>
-                        <Facets
-                          facets={attributes?.attributes}
-                          onUpdateFacets={updateFacets}
-                          selected={selectedAttributes}
-                        />
-                      </div>
-                    </Dialog.Panel>
-                  </Transition.Child>
+                      </Dialog.Panel>
+                    </Transition.Child>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Dialog>
-        </Transition.Root>
+            </Dialog>
+          </Transition.Root>
 
-        <div className="hidden lg:block lg:w-1/5">
-          {attributes ? (
+        {/* <div className={clsx('hidden ml-8 ', showFilter ? 'lg:block' : 'hidden', attributes?.attributes.length ? 'lg:w-1/6' : 'lg:w-0')}>
+          {attributes?.attributes.length ? (
             <Facets facets={attributes?.attributes} onUpdateFacets={updateFacets} selected={selectedAttributes} />
           ) : (
             <></>
           )}
-        </div>
-        <div className="w-full lg:w-4/5">
+        </div> */}
+        <div className={clsx('w-full lg:w-full')}>
           {nfts?.tokens.length ? <NFTGrid nfts={nfts.tokens} network={network} /> : <div>No results found</div>}
           {nfts?.status === 'pending' && (
             <div className="w-full text-center flex items-center justify-center">
