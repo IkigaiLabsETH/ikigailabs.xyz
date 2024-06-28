@@ -87,6 +87,18 @@ const Contract: InferGetServerSidePropsType<typeof getServerSideProps> = ({ name
     )
   }
 
+  useEffect(() => {
+    dispatch(
+      collectionApi.endpoints.getCollectionTokensByContractWithAttributes.initiate({
+        contract: contract as string,
+        attributes: formatAttributes(selectedAttributes),
+        continuation: '',
+        network: network as Network,
+        sortBy: selectedSort.id as string,
+      }),
+    )
+  }, [])
+
   return (
     <div className="flex items-center flex-col bg-gradient">
       <Head>

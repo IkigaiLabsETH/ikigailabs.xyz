@@ -62,7 +62,7 @@ export const CollectionComponent: FC<CollectionProps> = ({
     network,
     sortBy: selectedSort.id as string,
   })
-  console.log('attributes', attributes)
+
   const nftsDisplay = (
     <div className="flex flex-col">
       <div className={clsx('w-full flex flex-row mb-6 pr-8', attributes?.attributes.length ? 'justify-between' : 'justify-end')}>
@@ -122,7 +122,9 @@ export const CollectionComponent: FC<CollectionProps> = ({
           )}
         </div> */}
         <div className={clsx('w-full lg:w-full')}>
+           
           {nfts?.tokens.length ? <NFTGrid nfts={nfts.tokens} network={network} /> : <div>No results found</div>}
+          {nfts?.status}
           {nfts?.status === 'pending' && (
             <div className="w-full text-center flex items-center justify-center">
               <Loader />
