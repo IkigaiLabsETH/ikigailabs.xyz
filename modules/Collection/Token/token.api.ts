@@ -1,7 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { flip, path, uncurryN, uniqBy } from 'ramda'
+import { empty, flip, isNil, map, path, pipe, pluck, reject, tap, uncurryN, uniqBy } from 'ramda'
 
 import { Activity, ActivityType, NFT, Network, Order } from '../../../common/types'
+import { FEATURES } from '../../../common/config'
+import { createSelector } from '@reduxjs/toolkit'
 
 export const collectionTokenApi = createApi({
   reducerPath: 'collectionTokenApi',
@@ -28,7 +30,7 @@ export const collectionTokenApi = createApi({
           selectedActivityTypes.length ? `${activityTypes}` : ''
         }${continuation ? `&continuation=${continuation}` : ''}`
       },
-      serializeQueryArgs: ({ endpointName, queryArgs: { selectedActivityTypes, contract, tokenId } }) => {
+      serializeQueryArgs: ({ endpointName, queryArgs: { selectedActivityTypes = [], contract, tokenId } }) => {
         const activityTypes = selectedActivityTypes.map(type => `types=${type}`).join('&')
         return `${endpointName}-${contract}-${tokenId}-${activityTypes}`
       },
@@ -90,3 +92,11 @@ export const collectionTokenApi = createApi({
 export const { reducer } = collectionTokenApi
 
 export const selectTokenByContract = flip(uncurryN(2, collectionTokenApi.endpoints.getTokenByContractAndTokenId.select))
+export const selectTokensByContractNetworkAndTokenId = createSelector(
+  [state => state.collectionTokenApi, (state, tokensToSelect) => tokensToSelect], ({ queries }, tokensToSelect) => {
+    return pipe(
+      map((tokenToSelect: any) => queries[`getTokenByContractAndTokenId(${JSON.stringify(tokenToSelect)})`]),
+      pluck('data'),
+      reject(isNil),
+    )(tokensToSelect)
+  })

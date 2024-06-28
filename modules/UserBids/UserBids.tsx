@@ -65,16 +65,15 @@ export const UserBids: FC<UserBidsProps> = ({ bids, network }) => {
                   id,
                   tokenSetId,
                   maker,
-                  contract
+                  contract,
                 }: Order) => {
-
                   return (
                     <tr key={`${id}${tokenSetId}`}>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {token?.tokenId}
-                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{token?.tokenId}</td>
 
-                      <td className="text-gray-500 px-3">{!equals(taker, "0x0000000000000000000000000000000000000000") ? truncateAddress(taker) : "–"}</td>
+                      <td className="text-gray-500 px-3">
+                        {!equals(taker, '0x0000000000000000000000000000000000000000') ? truncateAddress(taker) : '–'}
+                      </td>
                       <td className="text-gray-500 px-3">{`${price?.currency?.symbol} ${price?.amount.decimal}`}</td>
                       <td className="text-gray-500 px-3">{formatDateAndTime(validFrom)}</td>
                       <td className="px-3 text-gray-500">{formatDateAndTime(validUntil)}</td>
@@ -83,7 +82,9 @@ export const UserBids: FC<UserBidsProps> = ({ bids, network }) => {
                         {equals(address, maker) ? <Button onClick={() => onCancelBid(id)}>Cancel</Button> : null}
                       </td>
                       <td>
-                        <Link href={`/${network}/${contract}/${token?.tokenId}`}><FaArrowUpRightFromSquare /></Link>
+                        <Link href={`/${network}/${contract}/${token?.tokenId}`}>
+                          <FaArrowUpRightFromSquare />
+                        </Link>
                       </td>
                     </tr>
                   )

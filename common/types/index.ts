@@ -231,6 +231,7 @@ export interface LastSale {
 
 export interface Token {
   rarity: number
+  chainId: number
   description: string
   name: string
   image?: string

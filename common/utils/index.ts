@@ -24,4 +24,5 @@ export {
   filterOutChains,
   findChainIconByChainId,
   findChainNameByChainId,
+  mapIndexed,
 } from './utils'

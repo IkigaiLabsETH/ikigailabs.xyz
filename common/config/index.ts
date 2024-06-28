@@ -228,3 +228,11 @@ export const GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID =
   'c32a50eac3eca0e55189aa38b5d84ab701b84248a49ade72165807277a37bf34'
 export const GEMS_ON_THE_FLOOR_GEMS_COLLECTION_SET_ID =
   '1b1aae61af1ce46fa760abe00a474bba5172fc4d3dc9db8fb902dc5b0f12da3f'
+
+export const FEATURES = [
+  {
+    contract: '0x2559bf029b4981c0701149ac7fde65170c82b449',
+    network: Network.MAINNET,
+    tokenId: '4',
+  },
+]
