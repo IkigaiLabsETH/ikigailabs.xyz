@@ -68,15 +68,15 @@ const FlorenceMoll: FC = () => {
             </p>
             <p>
               This first edition on the Ikigai platform is not merely a showcase but a reinvention of vision. Far from
-              being simple reproductions, these photographs gain new life and dimension through their creators&apos; touch.
-              They offer a blend of spectacular and intimate experiences. The added layer of narration, be it the
-              artists&apos; voices or surprises in animation, enriches the encounter. Maia Flore&apos;s playful manipulation of
-              stillness, Tauffenbach-Pourtout&apos;s visual illusions, and Hannah Whitaker&apos;s creativity, along with Cédric
-              Delsaux&apos;s enhanced narratives in the &apos;Dark Lens&apos; series, promise a journey beyond the conventional. The
-              great artist&apos;s team under my curation is composed with: Dimitri Daniloff, Edouard Taufenbach & Bastien
-              Pourtout, Maia Flore, Ryan Hopkinson, Cédric Delsaux, Letizia Le Fur, Nick Meek, Hannah Whitaker and Joris
-              Baquet. I&apos;d like to thank them for their talent, faith, and commitment they&apos;ve given to the Ikigai
-              project.
+              being simple reproductions, these photographs gain new life and dimension through their creators&apos;
+              touch. They offer a blend of spectacular and intimate experiences. The added layer of narration, be it the
+              artists&apos; voices or surprises in animation, enriches the encounter. Maia Flore&apos;s playful
+              manipulation of stillness, Tauffenbach-Pourtout&apos;s visual illusions, and Hannah Whitaker&apos;s
+              creativity, along with Cédric Delsaux&apos;s enhanced narratives in the &apos;Dark Lens&apos; series,
+              promise a journey beyond the conventional. The great artist&apos;s team under my curation is composed
+              with: Dimitri Daniloff, Edouard Taufenbach & Bastien Pourtout, Maia Flore, Ryan Hopkinson, Cédric Delsaux,
+              Letizia Le Fur, Nick Meek, Hannah Whitaker and Joris Baquet. I&apos;d like to thank them for their talent,
+              faith, and commitment they&apos;ve given to the Ikigai project.
             </p>
           </div>
         </div>
