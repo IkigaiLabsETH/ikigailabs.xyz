@@ -1,14 +1,14 @@
 import React, { FC, useRef } from 'react'
 import Head from 'next/head'
 import Slider from 'react-slick'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 
 import { AmbassadorHeader } from '../../modules/AmbassadorHeader'
 import { Footer } from '../../modules/Footer'
-import Image from 'next/image'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
-import { useRouter } from 'next/router'
 import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
 
 const name = 'Joris Bacquet'
@@ -181,9 +181,19 @@ const JorisBacquet: FC = () => {
                   className="m-auto border-2 border-black border-r shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 />
               </div>
-              <div className='p-5 w-full'>
-              <iframe src="https://player.vimeo.com/video/729139875?h=405ada5ec0&color=ffffff&title=0&byline=0&portrait=0" width="500" height="209" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe>
-              <p><a href="https://vimeo.com/729139875">Azel Phara &nbsp;&quot;Infinity&quot;  | Joris Bacquet</a> from <a href="https://vimeo.com/tothemoonandback">to the moon and back</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+              <div className="p-5 w-full">
+                <iframe
+                  src="https://player.vimeo.com/video/729139875?h=405ada5ec0&color=ffffff&title=0&byline=0&portrait=0"
+                  width="500"
+                  height="209"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+                <p>
+                  <a href="https://vimeo.com/729139875">Azel Phara &nbsp;&quot;Infinity&quot; | Joris Bacquet</a> from{' '}
+                  <a href="https://vimeo.com/tothemoonandback">to the moon and back</a> on{' '}
+                  <a href="https://vimeo.com">Vimeo</a>.
+                </p>
               </div>
             </Slider>
           </div>

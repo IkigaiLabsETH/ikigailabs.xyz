@@ -10,6 +10,49 @@ export const Ambassadors: FC = () => {
         Ambassadors
       </h1>
       <div className="">
+        <div className="flex flex-row flex-wrap md:flex-nowrap md:justify-between">
+          {/* Florence Moll */}
+          <div className="w-full md:w-1/2 lg:w-1/3 lg:ml-8 group lg:pt-16 pb-0 p-5">
+            <Link href="/ambassadors/florence-moll/">
+              <div className="max-w-[1000px] px-12 pt-6 pb-3 bg-black lg:ml-12 lg:mr-6 z-10 relative lg:group-hover:-translate-x-2 lg:group-hover:-translate-y-2 transition-all">
+                <h1 className="text-xl lg:text-3xl font-bold boska">Florence Moll</h1>
+                <p className="text-xs lg:text-sm text-white">
+                  My fascination with evolving art forms, especially since the technological boom of the 2000s, drew me
+                  irresistibly towards this groundbreaking opportunity. The results have been nothing short of
+                  extraordinary.
+                </p>
+              </div>
+              <div className="lg:-translate-y-5 z-9 lg:group-hover:scale-105 transition-all">
+                <Image
+                  src="/assets/images/ambassadors/florence-moll/florence-moll.png"
+                  alt="Florence Moll"
+                  width={1000}
+                  height={1000}
+                />
+              </div>
+            </Link>
+          </div>
+          {/* Dimitri Daniloff */}
+          <div className="w-full md:w-1/2 md:pl-12 p-5 lg:mt-6 group pb-0">
+            <Link href="/ambassadors/dimitri-daniloff/">
+              <div className="max-w-[1000px] px-12 pt-6 pb-3 bg-black lg:ml-6 lg:mr-6 z-10 relative lg:group-hover:-translate-x-2 lg:group-hover:-translate-y-2 transition-all">
+                <h1 className="text-xl lg:text-3xl font-bold boska">Dimitri Daniloff</h1>
+                <p className="text-xs lg:text-sm text-white">
+                  His illustrious career, spanning over more than two decades, is a journey that transcends the realms
+                  of traditional photography, venturing into the innovative frontiers of digital artistry.
+                </p>
+              </div>
+              <div className="lg:group-hover:scale-105 transition-all lg:-translate-y-5">
+                <Image
+                  src="/assets/images/ambassadors/dimitri-daniloff/profile.jpg"
+                  alt="Dimitri Daniloff"
+                  width={800}
+                  height={800}
+                />
+              </div>
+            </Link>
+          </div>
+        </div>
         <div className="flex flex-row flex-wrap md:flex-nowrap">
           {/* Ryan Hopkinson */}
           <div className="w-full md:w-1/2 lg:w-7/12 p-5 lg:ml-8 group lg:pt-16 pb-0">
@@ -75,26 +118,26 @@ export const Ambassadors: FC = () => {
               </div>
             </Link>
           </div>
-          {/* Dimitri Daniloff */}
-          <div className="w-full md:w-1/2 p-5 md:mt-6 group pb-0">
-            <Link href="/ambassadors/dimitri-daniloff/">
+          {/* Joris Bacquet */}
+          <div className="w-full md:w-1/2 p-5 group pb-0">
+            <Link href="/ambassadors/joris-bacquet/">
               <div className="max-w-[1000px] px-12 pt-6 pb-3 bg-black lg:ml-6 lg:mr-6 z-10 relative lg:group-hover:-translate-x-2 lg:group-hover:-translate-y-2 transition-all">
-                <h1 className="text-xl lg:text-3xl font-bold boska">Dimitri Daniloff</h1>
+                <h1 className="text-xl lg:text-3xl font-bold boska">Joris Bacquet</h1>
                 <p className="text-xs lg:text-sm text-white">
-                  His illustrious career, spanning over more than two decades, is a journey that transcends the realms
-                  of traditional photography, venturing into the innovative frontiers of digital artistry.
+                  Joris Bacquet, a multifaceted visual artist, has established himself as a trailblazer in digital art,
+                  particularly through his innovative use of artificial intelligence.
                 </p>
               </div>
-              <div className="lg:group-hover:scale-105 transition-all lg:-translate-y-5">
+              <div className="lg:-translate-y-5 z-9 lg:group-hover:scale-105 transition-all">
                 <Image
-                  src="/assets/images/ambassadors/dimitri-daniloff/profile.jpg"
-                  alt="Dimitri Daniloff"
+                  src="/assets/images/ambassadors/joris-bacquet/joris-bacquet.png"
+                  alt="Cédric Delsaux"
                   width={800}
                   height={800}
                 />
               </div>
             </Link>
-          </div>
+          </div> 
         </div>
         {/* Maia Flore */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-10 gap-5 p-5 md:p-10">

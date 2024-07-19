@@ -40,46 +40,56 @@ const About: FC = () => (
         <h1 className="text-[2rem] md:text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska break-words">
           About
         </h1>
-        <div className="bg-black p-8 mt-8 mb-16 boska md:-translate-x-40">
-          <div className="text-[2rem] md:text-[3.5rem] text-white font-bold p-4 mb-2 leading-8 md:leading-10">
-            Ikigai Labs XYZ
-          </div>
-          <div className="p-4 md:pl-20 text-white font-bold text-2xl md:text-[2rem] leading-8 md:leading-10">
-            The quintessential destination for exquisite digital artifacts.
-          </div>
-        </div>
-
-        <h2 className="mt-20">Create</h2>
+        <h2 className="mt-20">Empowering Creators</h2>
         <p>
-          At the heart of Ikigai Labs lies our commitment to exceptional creators. We not only curate but also empower
-          artists by facilitating the onchain distribution and display of their art. Our collaboration with Transient
-          Labs equips creators with tailored smart contracts, ensuring their art remains as unique and authentic as
-          their vision. Here, artists do not just showcase their work; they find a pathway to their ikigai - a place
-          where passion, creativity, and technology converge.
+          At Ikigai Labs, we believe that every artist deserves a platform where their creativity can thrive without
+          boundaries. Our mission goes beyond simple curation; we empower creators by integrating cutting-edge
+          blockchain technology to distribute and display their art securely on-chain. With the support of Transient
+          Labs, we craft customized smart contracts, ensuring each piece remains as unique and authentic as the vision
+          behind it. Here, artists find their ikigai—a convergence of passion, innovation, and technology.
         </p>
 
-        <h2 className="mt-20">Curate</h2>
+        <h2 className="mt-20">Innovative Curation</h2>
         <p>
-          Curators play a pivotal role at Ikigai Labs, where curation transcends selection and becomes an art in itself.
-          Our curators contribute to a living, breathing art ecosystem to continuously enrich our galleries with iconic
-          collections. Their expertise and insight help shape the landscape of our platform, ensuring a consistently
-          fresh and inspiring experience for all who visit. Our aggregator app allows curators to exhibit artworks from
-          across all the major marketplaces.
+          Curation at Ikigai Labs is a transformative experience. Our curators are more than selectors; they are the
+          architects of an ever-evolving art ecosystem. By incorporating insights and expertise, they continually infuse
+          our galleries with groundbreaking collections that inspire and captivate. Utilizing our advanced aggregator
+          app, curators can seamlessly exhibit artworks from over 150 multi-chain marketplaces, offering a cohesive and
+          immersive discovery experience. Curatorship goes beyond selection; it&apos;s about creating meaningful narratives
+          and experiences. We focus on the context and story behind each artwork, connecting it to the community and
+          broader cultural dialogues. This approach combats collector fatigue by offering fresh and impactful
+          experiences that transcend the digital marketplace.
         </p>
 
-        <h2 className="mt-20">Collect</h2>
+        <h2 className="mt-20">Dynamic Collecting</h2>
         <p>
-          At Ikigai Labs, we recognize collectors as the vital heartbeat of the art world. Our dedication to them goes
-          beyond traditional appreciation; we offer a uniquely curated haven of extraordinary digital art, extending
-          into the immersive realms of the metaverse. Leveraging our equity tokenization with Fairmint, collectors gain
-          a unique opportunity to own a part of Ikigai Labs, deepening their involvement.
+          We recognize collectors as the lifeblood of the art world. At Ikigai Labs, we extend beyond traditional
+          collecting by creating a meticulously curated environment filled with extraordinary digital art and immersive
+          metaverse experiences. Our partnership with Fairmint introduces an innovative equity tokenization model,
+          allowing collectors to own a part of Ikigai Labs. This deepens their involvement, fostering a vibrant
+          community of passionate art enthusiasts.
         </p>
 
-        <h2 className="mt-20">Vision</h2>
+        <h2 className="mt-20">Revolutionizing Authenticity with TRACE</h2>
         <p>
-          Ikigai Labs embodies the Japanese concept of &quot;ikigai&quot; representing a harmonious balance of passion,
-          talent, societal contribution, and livelihood. Our mission is to create a sustainable ecosystem that nurtures
-          this balance, extending our vision beyond digital spaces to tangible, real-world artist residencies.
+          Authenticity and provenance are paramount in the digital art space. Our T.R.A.C.E. (Transparent, Reliable,
+          Authentic, Certified, and Encrypted) system revolutionizes this aspect by embedding secure chips in artworks,
+          paired with digital certificates of authenticity. This advanced technology, developed by Transient Labs,
+          guarantees the integrity and value of every piece on our platform.
+        </p>
+        <h2 className="mt-20">Our Vision</h2>
+        <p>
+          Inspired by the Japanese concept of &apos;ikigai&apos;, which represents the balance of passion, talent, societal
+          contribution, and livelihood, Ikigai Labs aims to create a sustainable ecosystem that nurtures this harmony.
+          Our vision transcends digital spaces, extending into real-world artist residencies that blend technology and
+          creativity. We are committed to fostering a community where art and innovation intersect, creating lasting
+          value for creators, curators, and collectors.
+        </p>
+        <h2 className="mt-20">Join us</h2>
+        <p>
+          Whether you are an artist looking to share your unique vision, a curator seeking to influence the art
+          landscape, or a collector passionate about digital art, we provide the tools, technology, and community to
+          help you find your ikigai.
         </p>
       </div>
       <div className="max-w-screen-2xl flex items-center justify-center self-center mx-auto">
