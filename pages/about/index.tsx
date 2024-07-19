@@ -70,7 +70,7 @@ const About: FC = () => (
           community of passionate art enthusiasts.
         </p>
 
-        <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Revolutionizing Authenticity with TRACE</h2>
+        <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Authenticity with TRACE</h2>
         <p>
           Authenticity and provenance are paramount in the digital art space. Our T.R.A.C.E. (Transparent, Reliable,
           Authentic, Certified, and Encrypted) system revolutionizes this aspect by embedding secure chips in artworks,
