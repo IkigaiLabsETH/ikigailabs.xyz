@@ -87,7 +87,7 @@ const Home: FC = () => {
         <meta property="twitter:image" content={SITE_LOGO_PATH} />
       </Head>
       <div className="bg-gradient w-full">
-        <header className="flex h-screen justify-center items-center flex-col ">
+        <header className="flex justify-center items-center flex-col py-40">
           <div className="flex flex-grow flex-col justify-center">
             <div className="flex flex-col md:flex-row">
               <div className="md:border-r md:pr-16">
@@ -113,23 +113,6 @@ const Home: FC = () => {
               </Button>
             </div> */}
           </div>
-          <div className="mb-10 flex justify-center items-center flex-col w-12 h-12">
-            {/* <Eyebrow>Free mint</Eyebrow> */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="!w-12 !h-12 stroke-yellow"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5"
-              />
-            </svg>
-          </div>
         </header>
       </div>
       <main className="w-full">
@@ -147,6 +130,9 @@ const Home: FC = () => {
           sourceContract={pathOr('', ['odessyGenesisCollection', 'sourceContract'])(BURN_TO_MINT)}
           targets={pathOr([], ['odessyGenesisCollection', 'targets'])(BURN_TO_MINT)}
         /> */}
+        <div className='bg-white w-full items-center justify-center flex py-20 px-10'>
+          <iframe src="https://www.spatial.io/embed/Ikigai-Labs-Gallery-1-6462268d593bb108f20206ee?share=5997893486131460079" width="1516px" height="720px" allow="camera; fullscreen; autoplay; display-capture; microphone; clipboard-write"></iframe>
+        </div>
       </main>
       <Footer />
     </div>
