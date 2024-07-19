@@ -93,10 +93,12 @@ export const { reducer } = collectionTokenApi
 
 export const selectTokenByContract = flip(uncurryN(2, collectionTokenApi.endpoints.getTokenByContractAndTokenId.select))
 export const selectTokensByContractNetworkAndTokenId = createSelector(
-  [state => state.collectionTokenApi, (state, tokensToSelect) => tokensToSelect], ({ queries }, tokensToSelect) => {
+  [state => state.collectionTokenApi, (state, tokensToSelect) => tokensToSelect],
+  ({ queries }, tokensToSelect) => {
     return pipe(
       map((tokenToSelect: any) => queries[`getTokenByContractAndTokenId(${JSON.stringify(tokenToSelect)})`]),
       pluck('data'),
       reject(isNil),
     )(tokensToSelect)
-  })
+  },
+)

@@ -212,13 +212,7 @@ export const TokenMedia: FC<Props> = ({
     mediaType === 'other' ||
     mediaType === 'svg'
   ) {
-    return (
-      <iframe
-        className="w-full h-full relative"
-        src={media}
-        sandbox="allow-scripts"
-      ></iframe>
-    )
+    return <iframe className="w-full h-full relative" src={media} sandbox="allow-scripts"></iframe>
   }
 
   return (

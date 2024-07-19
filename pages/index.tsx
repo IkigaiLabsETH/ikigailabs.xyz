@@ -25,7 +25,7 @@ import { findChainNameByChainId } from '../common/utils'
 
 const Home: FC = () => {
   const dispatch = useAppDispatch()
-  const data = useAppSelector((state) => selectTokensByContractNetworkAndTokenId(state, FEATURES))
+  const data = useAppSelector(state => selectTokensByContractNetworkAndTokenId(state, FEATURES))
   const [features, setFeatures] = useState<any[]>([])
 
   useEffect(() => {
@@ -36,15 +36,27 @@ const Home: FC = () => {
 
   useEffect(() => {
     if (data.length) {
-      const newFeatured = map(({ token: { chainId, imageLarge, contract, tokenId, name, description, collection: { name: collectionName } } }: NFT) => ({
-        image: imageLarge,
-        contract,
-        tokenId,
-        name,
-        collectionName,
-        description,
-        network: findChainNameByChainId(chainId as number),
-      }))(data as NFT[])
+      const newFeatured = map(
+        ({
+          token: {
+            chainId,
+            imageLarge,
+            contract,
+            tokenId,
+            name,
+            description,
+            collection: { name: collectionName },
+          },
+        }: NFT) => ({
+          image: imageLarge,
+          contract,
+          tokenId,
+          name,
+          collectionName,
+          description,
+          network: findChainNameByChainId(chainId as number),
+        }),
+      )(data as NFT[])
 
       setFeatures(newFeatured)
     }
@@ -122,9 +134,7 @@ const Home: FC = () => {
       </div>
       <main className="w-full">
         <div className="w-full bg-white">
-          <Featured
-            features={features}
-          />
+          <Featured features={features} />
         </div>
         <div className="bg-white flex items-center justify-center">
           <div className="">

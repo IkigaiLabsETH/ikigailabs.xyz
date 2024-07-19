@@ -65,54 +65,60 @@ export const CollectionComponent: FC<CollectionProps> = ({
 
   const nftsDisplay = (
     <div className="flex flex-col">
-      <div className={clsx('w-full flex flex-row mb-6 pr-8', attributes?.attributes.length ? 'justify-between' : 'justify-end')}>
+      <div
+        className={clsx(
+          'w-full flex flex-row mb-6 pr-8',
+          attributes?.attributes.length ? 'justify-between' : 'justify-end',
+        )}
+      >
         {attributes?.attributes.length ? (
-        <button
-          onClick={() => setShowFilter(!showFilter)}
-          className={clsx(
-            'bg-white text-black border-black rounded-md p-2 text-sm font-bold ml-8 border-2 w-11 flex justify-center items-center',
-          )}
-        >
-          <FaFilter />
-        </button> ) : null }
+          <button
+            onClick={() => setShowFilter(!showFilter)}
+            className={clsx(
+              'bg-white text-black border-black rounded-md p-2 text-sm font-bold ml-8 border-2 w-11 flex justify-center items-center',
+            )}
+          >
+            <FaFilter />
+          </button>
+        ) : null}
         <Selector options={COLLECTION_SORTING_OPTIONS} onChange={updateSort} selected={selectedSort} />
       </div>
       <div className="flex flex-row">
-          <Transition.Root show={showFilter} as={Fragment}>
-            <Dialog as="div" className="fixed z-500 h-full" onClose={setShowFilter}>
-              <div className="fixed inset-0">
-                <div className="absolute">
-                  <div className="flex max-w-full">
-                    <Transition.Child
-                      as={Fragment}
-                      enter="transform transition ease-in-out duration-500 sm:duration-700"
-                      enterFrom="-translate-x-full"
-                      enterTo="translate-x-0"
-                      leave="transform transition ease-in-out duration-500 sm:duration-700"
-                      leaveFrom="translate-x-0"
-                      leaveTo="-translate-x-full"
-                    >
-                      <Dialog.Panel className="w-screen max-w-md">
-                        <div className="bg-white p-6 pt-16 text-black h-screen" style={{ maxHeight: '100vh' }}>
-                          <div className="pb-6 font-bold text-xl w-full flex justify-between">
-                            Filters{' '}
-                            <div>
-                              <button onClick={() => setShowFilter(false)}>&times;</button>
-                            </div>
+        <Transition.Root show={showFilter} as={Fragment}>
+          <Dialog as="div" className="fixed z-500 h-full" onClose={setShowFilter}>
+            <div className="fixed inset-0">
+              <div className="absolute">
+                <div className="flex max-w-full">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="transform transition ease-in-out duration-500 sm:duration-700"
+                    enterFrom="-translate-x-full"
+                    enterTo="translate-x-0"
+                    leave="transform transition ease-in-out duration-500 sm:duration-700"
+                    leaveFrom="translate-x-0"
+                    leaveTo="-translate-x-full"
+                  >
+                    <Dialog.Panel className="w-screen max-w-md">
+                      <div className="bg-white p-6 pt-16 text-black h-screen" style={{ maxHeight: '100vh' }}>
+                        <div className="pb-6 font-bold text-xl w-full flex justify-between">
+                          Filters{' '}
+                          <div>
+                            <button onClick={() => setShowFilter(false)}>&times;</button>
                           </div>
-                          <Facets
-                            facets={attributes?.attributes}
-                            onUpdateFacets={updateFacets}
-                            selected={selectedAttributes}
-                          />
                         </div>
-                      </Dialog.Panel>
-                    </Transition.Child>
-                  </div>
+                        <Facets
+                          facets={attributes?.attributes}
+                          onUpdateFacets={updateFacets}
+                          selected={selectedAttributes}
+                        />
+                      </div>
+                    </Dialog.Panel>
+                  </Transition.Child>
                 </div>
               </div>
-            </Dialog>
-          </Transition.Root>
+            </div>
+          </Dialog>
+        </Transition.Root>
 
         {/* <div className={clsx('hidden ml-8 ', showFilter ? 'lg:block' : 'hidden', attributes?.attributes.length ? 'lg:w-1/6' : 'lg:w-0')}>
           {attributes?.attributes.length ? (
@@ -122,7 +128,6 @@ export const CollectionComponent: FC<CollectionProps> = ({
           )}
         </div> */}
         <div className={clsx('w-full lg:w-full')}>
-           
           {nfts?.tokens.length ? <NFTGrid nfts={nfts.tokens} network={network} /> : <div>No results found</div>}
           {nfts?.status}
           {nfts?.status === 'pending' && (
