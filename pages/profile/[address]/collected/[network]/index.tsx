@@ -2,12 +2,11 @@ import { useRouter } from 'next/router'
 import React, { FC, useEffect } from 'react'
 import Head from 'next/head'
 import { isEmpty, isNil } from 'ramda'
-import { useAddress } from '@thirdweb-dev/react'
 
 import { useAppDispatch, useAppSelector } from '../../../../../common/redux/store'
 import { userApi, selectCollectedTokens } from '../../../../../modules/User'
 import { Layout, Network } from '../../../../../common/types'
-import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../../../../../common/layouts'
 import { NFTGrid } from '../../../../../modules/NFTGrid'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import { Loader } from '../../../../../modules/Loader'
@@ -15,20 +14,30 @@ import { useInfiniteLoading } from '../../../../../common/useInfiniteLoading'
 import { Footer } from '../../../../../modules/Footer'
 import { DashboardNav } from '../../../../../modules/DashboardNav'
 import { NetworkNav } from '../../../../../modules/NetworkNav'
-import { lookupAddress, selectENSByAddress, selectEnsStatus } from '../../../../../common/ens'
+import { lookupAddress, selectENSByAddress } from '../../../../../common/ens'
 import { truncateAddress } from '../../../../../common/utils'
+import { useValidAddress } from '../../../../../common/useValidAddress'
+import { useValidNetwork } from '../../../../../common/useValidNetwork'
+import { InvalidAddress } from '../../../../../modules/InvalidAddress'
+import { InvalidNetwork } from '../../../../../modules/InvalidNetwork'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../../../../common/constants'
 
 export const Collected: FC = ({}) => {
   const {
     query: { network, address },
+    asPath,
   } = useRouter()
   const dispatch = useAppDispatch()
+  const isValidAddress = useValidAddress(address as string)
+  const isValidNetwork = useValidNetwork(network as Network)
+
+  const siteTitle = `${SITE_TITLE} | Collected on ${network} by ${address}`
+  const url = `${SITE_URL}${asPath}`
 
   const { data: ownedTokens, status: ownedStatus } = useAppSelector(
     selectCollectedTokens({ address: address as string, network: network as Network }),
   )
-  const ens = useAppSelector(state => selectENSByAddress(state, address as string))
-  const ensStatus = useAppSelector(selectEnsStatus)
+  const { data: ens, status: ensStatus } = useAppSelector(selectENSByAddress({ address: address as string }))
 
   const { ref: nftRef } = useInfiniteLoading(userApi.endpoints.getOwnedTokens.initiate, {
     address: address as string,
@@ -43,16 +52,71 @@ export const Collected: FC = ({}) => {
 
   useEffect(() => {
     if (!ens?.name && ensStatus !== QueryStatus.pending && address) {
-      dispatch(lookupAddress({ address: address as string }))
+      dispatch(lookupAddress.initiate({ address: address as string }))
     }
   }, [ens, address, ensStatus, dispatch])
+
+  const content = () => {
+    if (!isValidAddress) {
+      return (
+        <div className="flex justify-center items-center h-full">
+          <InvalidAddress />
+        </div>
+      )
+    }
+
+    if (!isValidNetwork) {
+      return (
+        <div className="flex justify-center items-center h-full">
+          <InvalidNetwork />
+        </div>
+      )
+    }
+
+    if (!isNil(ownedTokens?.tokens) && !isEmpty(ownedTokens?.tokens)) {
+      return (
+        <>
+          <NFTGrid nfts={ownedTokens?.tokens} network={network as Network} />
+          <div ref={nftRef} />
+        </>
+      )
+    }
+    if (ownedStatus !== QueryStatus.pending && isEmpty(ownedTokens?.tokens)) {
+      return <div className="w-full text-center">No tokens found</div>
+    }
+
+    if (ownedStatus === QueryStatus.pending) {
+      return (
+        <div className="w-full text-center">
+          <Loader />
+        </div>
+      )
+    }
+  }
 
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography</title>
-        <meta name="description" content="Shaped by Photography" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={siteTitle} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={SITE_LOGO_PATH} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={SITE_LOGO_PATH} />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={SITE_LOGO_PATH} />
       </Head>
       <div className="text-yellow text-left w-full pt-32 max-w-screen-2xl pl-8 pb-8">
         <h1 className="font-normal">{ens?.name ? ens?.name : truncateAddress(address)}</h1>
@@ -75,21 +139,7 @@ export const Collected: FC = ({}) => {
                   <NetworkNav network={network as Network} tab="collected" address={address as string} />
                 </div>
               </div>
-              <div className="w-5/6">
-                {!isNil(ownedTokens?.tokens) && !isEmpty(ownedTokens?.tokens) && (
-                  <NFTGrid nfts={ownedTokens?.tokens} network={network as Network} />
-                )}
-                {ownedStatus !== QueryStatus.pending && isEmpty(ownedTokens?.tokens) && (
-                  <div className="w-full text-center">No tokens found</div>
-                )}
-                {ownedStatus === QueryStatus.pending && (
-                  <div className="w-full text-center">
-                    <Loader />
-                  </div>
-                )}
-                {!address && <div className="w-full text-center">Not Connected</div>}
-                <div ref={nftRef} />
-              </div>
+              <div className="w-5/6">{content()}</div>
             </div>
           </div>
         </div>

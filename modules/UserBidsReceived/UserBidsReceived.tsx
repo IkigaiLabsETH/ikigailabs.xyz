@@ -6,8 +6,7 @@ import { Network, TopBid } from '../../common/types'
 import Image from 'next/image'
 import { useAppDispatch } from '../../common/redux/store'
 import { acceptOffer } from '../Collection/Token/token.slice'
-import { useAddress } from '@thirdweb-dev/react'
-import { equal } from 'assert'
+import { useWallet } from '../../common/useWallet'
 
 interface UserBidsProps {
   bids: TopBid[]
@@ -17,10 +16,10 @@ interface UserBidsProps {
 
 export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network, owner }) => {
   const dispatch = useAppDispatch()
-  const connectedAddress = useAddress()
+  const { address } = useWallet()
 
   const onAccept = (tokenId: string, contract: string) => {
-    dispatch(acceptOffer({ tokenId, network, address: connectedAddress, contract }))
+    dispatch(acceptOffer({ tokenId, network, address, contract }))
   }
 
   return (
@@ -46,7 +45,7 @@ export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network, owner }) =>
                 <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900 text-left">
                   Valid until
                 </th>
-                {equals(owner, connectedAddress) ? (
+                {equals(owner, address) ? (
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                     Status
                   </th>
@@ -59,7 +58,7 @@ export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network, owner }) =>
                 return (
                   <tr key={`${token?.contract}${token?.tokenId}`}>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {token?.image && <Image src={token?.image} width={40} height={40} alt={token?.name} />}
+                      {token?.image && <img src={token?.image} width={40} height={40} alt={token?.name} />}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       <div className="font-medium text-gray-900">{token?.name}</div>
@@ -68,7 +67,7 @@ export const UserBidsReceived: FC<UserBidsProps> = ({ bids, network, owner }) =>
                     <td className="text-gray-500 px-3">{`${price?.currency?.symbol} ${price?.amount.decimal}`}</td>
                     <td className="text-gray-500 px-3">{formatDateAndTime(validFrom)}</td>
                     <td className="px-3 text-gray-500">{formatDateAndTime(validUntil)}</td>
-                    {equals(owner, connectedAddress) ? (
+                    {equals(owner, address) ? (
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         <Button onClick={() => onAccept(token?.tokenId, token?.contract)}>Accept</Button>
                       </td>

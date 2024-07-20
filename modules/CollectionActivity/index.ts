@@ -1,0 +1,1 @@
+export { CollectionActivity } from './CollectionActivity'

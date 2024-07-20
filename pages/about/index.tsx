@@ -2,93 +2,98 @@
 import Head from 'next/head'
 import React, { FC } from 'react'
 
-import { withLayout } from '../../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
 import { Footer } from '../../modules/Footer'
-import Image from 'next/image'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
+import { Ambassadors } from '../../modules/Ambassadors'
+
+const siteTitle = `${SITE_TITLE} | About`
+const url = `${SITE_URL}/about`
 
 const About: FC = () => (
   <div className="flex items-center flex-col">
     <Head>
-      <title>Ikigai Labs - Shaped by Photography | About</title>
-      <meta name="description" content="Shaped by Photography | About" />
-      <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+      <title>{siteTitle}</title>
+      <meta name="description" content={SITE_DESCRIPTION} />
+      <link rel="icon" href={SITE_LOGO_PATH} />
+
+      <meta name="title" content={siteTitle} />
+      <meta name="description" content={SITE_DESCRIPTION} />
+
+      {/* <!-- Open Graph / Facebook --> */}
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={url} />
+      <meta property="og:title" content={siteTitle} />
+      <meta property="og:description" content={SITE_DESCRIPTION} />
+      <meta property="og:image" content={SITE_LOGO_PATH} />
+
+      {/* <!-- Twitter --> */}
+      <meta property="twitter:card" content={SITE_LOGO_PATH} />
+      <meta property="twitter:url" content={url} />
+      <meta property="twitter:title" content={siteTitle} />
+      <meta property="twitter:description" content={SITE_DESCRIPTION} />
+      <meta property="twitter:image" content={SITE_LOGO_PATH} />
     </Head>
     <main className="max-w-screen-2xl w-full">
-      <div className="flex relative flex-col text-lg my-48 max-w-3xl mx-auto p-8">
-        <h1 className="text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska">About</h1>
-        <div className="bg-black p-8 mt-8 mb-16 boska md:-translate-x-40">
-          <div className="text-[2rem] md:text-[3.5rem] text-white font-bold p-4 mb-2 leading-8 md:leading-10">
-            Ikigai Labs XYZ
-          </div>
-          <div className="p-4 md:pl-20 text-white font-bold text-2xl md:text-[2rem] leading-8 md:leading-10">
-            The quintessential destination for exquisite digital artifacts.
-          </div>
-        </div>
+      <div className="flex relative flex-col text-lg mt-48 max-w-3xl mx-auto p-8">
+        <h1 className="text-[3rem] md:text-[4rem] lg:text-[6rem] leading-none font-bold mb-4 tracking-tight boska break-words">
+          About
+        </h1>
+        <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Empowering Creators</h2>
+        <p>
+          At Ikigai Labs, we believe that every artist deserves a platform where their creativity can thrive without
+          boundaries. Our mission goes beyond simple curation; we empower creators by integrating cutting-edge
+          blockchain technology to distribute and display their art securely on-chain. With the support of Transient
+          Labs, we craft customized smart contracts, ensuring each piece remains as unique and authentic as the vision
+          behind it. Here, artists find their ikigai—a convergence of passion, innovation, and technology.
+        </p>
 
-        <Image
-          src="/assets/images/about-1.png"
-          alt="Ikigai Labs - Create"
-          width={1920}
-          height={1080}
-          className="border-black border-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-        />
-        <h2 className="mt-20">Create</h2>
+        <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Innovative Curation</h2>
         <p>
-          At the heart of Ikigai Labs lies our commitment to exceptional creators. We not only curate but also empower
-          artists by facilitating the onchain distribution and display of their art. Our collaboration with Transient
-          Labs equips creators with tailored smart contracts, ensuring their art remains as unique and authentic as
-          their vision. Here, artists don&apos;t just showcase their work; they find a pathway to their
-          &quote;ikigai&quote; - a place where passion, creativity, and technology converge.
+          Curation at Ikigai Labs is a transformative experience. Our curators are more than selectors; they are the
+          architects of an ever-evolving art ecosystem. By incorporating insights and expertise, they continually infuse
+          our galleries with groundbreaking collections that inspire and captivate. Utilizing our advanced aggregator
+          app, curators can seamlessly exhibit artworks from over 150 multi-chain marketplaces, offering a cohesive and
+          immersive discovery experience. Curatorship goes beyond selection; it&apos;s about creating meaningful narratives
+          and experiences. We focus on the context and story behind each artwork, connecting it to the community and
+          broader cultural dialogues. This approach combats collector fatigue by offering fresh and impactful
+          experiences that transcend the digital marketplace.
         </p>
-        <Image
-          src="/assets/images/about-2.png"
-          alt="Ikigai Labs - Curate"
-          width={1920}
-          height={1080}
-          className="border-black border-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-        />
-        <h2 className="mt-20">Curate</h2>
+
+        <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Dynamic Collecting</h2>
         <p>
-          Curators play a pivotal role at Ikigai Labs, where curation transcends selection and becomes an art in itself.
-          Our curators contribute to a living, breathing art ecosystem to continuously enrich our galleries with iconic
-          collections. Their expertise and insight help shape the landscape of our platform, ensuring a consistently
-          fresh and inspiring experience for all who visit. Our aggregator app allows curators to exhibit artworks from
-          across all the major marketplaces.
+          We recognize collectors as the lifeblood of the art world. At Ikigai Labs, we extend beyond traditional
+          collecting by creating a meticulously curated environment filled with extraordinary digital art and immersive
+          metaverse experiences. Our partnership with Fairmint introduces an innovative equity tokenization model,
+          allowing collectors to own a part of Ikigai Labs. This deepens their involvement, fostering a vibrant
+          community of passionate art enthusiasts.
         </p>
-        <Image
-          src="/assets/images/about-3.png"
-          alt="Ikigai Labs - Collect"
-          width={1920}
-          height={1080}
-          className="border-black border-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-        />
-        <h2 className="mt-20">Collect</h2>
+
+        <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Authenticity with TRACE</h2>
         <p>
-          At Ikigai Labs, we recognize collectors as the vital heartbeat of the art world. Our dedication to them goes
-          beyond traditional appreciation; we offer a uniquely curated haven of extraordinary digital art, extending
-          into the immersive realms of the metaverse. Leveraging our equity tokenization with Fairmint, collectors gain
-          a unique opportunity to own a part of Ikigai Labs, deepening their involvement.
+          Authenticity and provenance are paramount in the digital art space. Our T.R.A.C.E. (Transparent, Reliable,
+          Authentic, Certified, and Encrypted) system revolutionizes this aspect by embedding secure chips in artworks,
+          paired with digital certificates of authenticity. This advanced technology, developed by Transient Labs,
+          guarantees the integrity and value of every piece on our platform.
         </p>
-        <Image
-          src="/assets/images/about-4.png"
-          alt="Ikigai Labs - Vision"
-          width={1920}
-          height={1080}
-          className="border-black border-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-        />
-        <h2 className="mt-20">Vision</h2>
+        <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Our Vision</h2>
         <p>
-          Ikigai Labs embodies the Japanese concept of &quot;ikigai&quot; representing a harmonious balance of passion,
-          talent, societal contribution, and livelihood. Our mission is to create a sustainable ecosystem that nurtures
-          this balance, extending our vision beyond digital spaces to tangible, real-world artist residencies.
+          Inspired by the Japanese concept of &apos;ikigai&apos;, which represents the balance of passion, talent, societal
+          contribution, and livelihood, Ikigai Labs aims to create a sustainable ecosystem that nurtures this harmony.
+          Our vision transcends digital spaces, extending into real-world artist residencies that blend technology and
+          creativity. We are committed to fostering a community where art and innovation intersect, creating lasting
+          value for creators, curators, and collectors.
         </p>
-        <p className="font-bold">
-          Acting as a crucial bridge, LiveTheLife.TV connects the creative pursuits at Ikigai Labs with insights,
-          narratives, and viewpoints, enriching our understanding of the intertwining worlds of digital art and
-          blockchain technology. This platform is a haven for those driven by curiosity and vision, creating a nexus
-          where artistic exploration meets the multifaceted dynamics of contemporary web3 culture.
+        <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Join us</h2>
+        <p>
+          Whether you are an artist looking to share your unique vision, a curator seeking to influence the art
+          landscape, or a collector passionate about digital art, we provide the tools, technology, and community to
+          help you find your ikigai.
         </p>
+      </div>
+      <div className="max-w-screen-2xl flex items-center justify-center self-center mx-auto">
+        <Ambassadors />
       </div>
     </main>
     <Footer />

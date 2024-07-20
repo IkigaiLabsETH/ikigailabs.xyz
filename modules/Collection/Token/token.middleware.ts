@@ -1,5 +1,5 @@
-import { ListenerEffectAPI, PayloadAction, isFulfilled } from '@reduxjs/toolkit'
-import { omit, pathOr } from 'ramda'
+import { ListenerEffectAPI, PayloadAction } from '@reduxjs/toolkit'
+import { pathOr } from 'ramda'
 
 import { AppDispatch, RootState } from '../../../common/redux/store'
 import { fetchCollectionToken } from './token.actions'
@@ -19,8 +19,16 @@ export const middleware = {
       tokenId: pathOr('', ['payload', 'tokenId'])(action),
       network: pathOr(Network.MAINNET, ['payload', 'network'])(action),
     }
-    listenerApi.dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate(params))
-    listenerApi.dispatch(collectionApi.endpoints.getCollectionByContract.initiate(omit(['tokenId'])(params)))
+    listenerApi
+      .dispatch(collectionTokenApi.endpoints.getTokenByContractAndTokenId.initiate(params))
+      .then(({ data }) => {
+        listenerApi.dispatch(
+          collectionApi.endpoints.getCollectionByContract.initiate({
+            contract: data?.token?.collection?.id,
+            network: params.network,
+          }),
+        )
+      })
   },
 }
 
@@ -30,6 +38,6 @@ export const tokenFetchCompleteMiddleware = {
     action: PayloadAction<{ token: { owner: string } }>,
     listenerApi: ListenerEffectAPI<RootState, AppDispatch>,
   ) => {
-    listenerApi.dispatch(lookupAddress({ address: action?.payload.token?.owner }))
+    listenerApi.dispatch(lookupAddress.initiate({ address: action?.payload.token?.owner }))
   },
 }

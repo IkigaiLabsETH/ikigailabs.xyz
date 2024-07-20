@@ -16,14 +16,14 @@ export const CollectionsGrid: FC<CollectionsGridProps> = ({ collections, network
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-w-screen-2xl text-black mb-12">
       {map((collection: Collection) => (
-        <div
+        <Link
+          href={`/${network}/${collection?.id}`}
+          title={collection?.name}
           key={collection?.id}
           className="border-2 border-black transition-all hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] h-[32rem]"
         >
           <div className="overflow-clip h-1/2">
-            {collection?.image ? (
-              <Image src={collection?.image} alt={collection?.name} width="384" height="384" />
-            ) : null}
+            {collection?.image ? <img src={collection?.image} alt={collection?.name} width="384" height="384" /> : null}
           </div>
           <div className="p-4 flex h-1/2">
             <div className="flex flex-col justify-between w-full">
@@ -48,14 +48,10 @@ export const CollectionsGrid: FC<CollectionsGridProps> = ({ collections, network
                   </span>
                 </div>
               </div>
-              <div className="flex justify-between mt-5">
-                <Link href={`/${network}/${collection?.id}`} title={collection?.name} className="max-w-1/2 font-bold">
-                  View &rarr;
-                </Link>
-              </div>
+              <div className="flex justify-end mt-5 text-lg font-bold">&rarr;</div>
             </div>
           </div>
-        </div>
+        </Link>
       ))(collections || [])}
     </div>
   )

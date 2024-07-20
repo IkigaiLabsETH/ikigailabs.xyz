@@ -1,7 +1,7 @@
 import { setParams } from '@reservoir0x/reservoir-sdk'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { defaultChain, supportedChains, wrappedContracts } from '../../../common/config'
-import { arbitrum, goerli, mainnet, optimism } from 'wagmi/chains'
+import { arbitrum, mainnet, optimism } from 'wagmi/chains'
 import { zeroAddress } from 'viem'
 
 // A proxy API endpoint to redirect all requests to `/api/reservoir/*` to
@@ -14,7 +14,6 @@ import { zeroAddress } from 'viem'
 const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method, headers: reqHeaders } = req
   const { slug } = query
-
   // Isolate the query object
   delete query.slug
 
@@ -28,9 +27,7 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const chainPrefix = endpoint.split('/')[0]
-
   const chain = supportedChains.find(chain => chain.routePrefix === chainPrefix) || defaultChain
-
   const url = new URL(endpoint.replace(chainPrefix, ''), chain.reservoirBaseUrl)
   setParams(url, query)
 
@@ -39,10 +36,7 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
     // versions without any padding
     endpoint = endpoint.toLowerCase()
 
-    if (
-      [mainnet.id as number, goerli.id, optimism.id, arbitrum.id].includes(chain.id) &&
-      endpoint.includes('currency')
-    ) {
+    if ([mainnet.id as number, optimism.id, arbitrum.id].includes(chain.id) && endpoint.includes('currency')) {
       if (endpoint.includes(zeroAddress)) {
         res.redirect('/icons/currency/no-padding-eth.png')
         return
@@ -81,7 +75,7 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     options.headers = headers
-    console.log(url.href)
+
     const response = await fetch(url.href, options)
 
     let data: any

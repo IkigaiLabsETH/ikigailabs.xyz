@@ -4,7 +4,6 @@ import {
   addIndex,
   adjust,
   append,
-  concat,
   curry,
   findIndex,
   gt,
@@ -42,8 +41,12 @@ import {
   tap,
   assoc,
   keys,
+  chain,
+  reject,
+  find,
 } from 'ramda'
 import { Network } from '../types'
+import { supportedChains } from '../config'
 
 export const truncate = (length: number) =>
   when(
@@ -67,6 +70,10 @@ export const formatAmount = (number: number) =>
         },
   ).format(number)
 
+export const formatAmountWithoutDecimals = Math.trunc
+
+export const formatNumber = (number: number) => new Intl.NumberFormat('en', { notation: 'compact' }).format(number)
+
 export const getRemainingTime = (start: Date, end: Date) =>
   formatDuration(
     intervalToDuration({
@@ -85,10 +92,10 @@ export const formatNFTMetadata = (metadata: any) =>
 export const toggleListItem = curry((value, list) => ifElse(includes(value), without([value]), append(value))(list))
 
 export const formatAttributes = pipe(
-  toPairs,
-  reduce((acc, facet: any) => {
-    return concat(reduce((acc, value) => concat(`&attributes[${facet[0]}]=${value}`)(acc), '')(facet[1]))(acc)
-  }, ''),
+  chain(({ key, values }: { key: string; values: string[] }) =>
+    map((value: string) => `&attributes[${encodeURIComponent(key)}]=${encodeURIComponent(value)}`)(values),
+  ),
+  join(''),
 )
 
 export const addOrReplace = (array: any[], object: {}, prop: string) =>
@@ -122,6 +129,13 @@ export const getChainIdFromNetwork = (network: Network) => {
     capitalizedChain = 'Mainnet'
   }
 
+  if (capitalizedChain === 'Berachain') {
+    return 80085
+  }
+
+  if (capitalizedChain === 'Base-sepolia') {
+    return 84532
+  }
   return ChainId[capitalizedChain]
 }
 
@@ -212,3 +226,12 @@ export const slugify = (str: string) =>
     .replace(/[^\w\s-]/g, '')
     .replace(/[\s_-]+/g, '-')
     .replace(/^-+|-+$/g, '')
+
+export const filterOutChains = (chains: string[]) => reject(propSatisfies(includes(__, chains), 'routePrefix'))
+
+export const findChainIconByChainId = (chainId: number) =>
+  pipe(find(propEq('id', chainId)), prop('darkIconUrl'))(supportedChains)
+export const findChainNameByChainId = (chainId: number) =>
+  pipe(find(propEq('id', chainId)), prop('routePrefix'))(supportedChains)
+
+export const delay = (time: number) => new Promise(resolve => setTimeout(resolve, time))

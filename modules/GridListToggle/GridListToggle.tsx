@@ -8,11 +8,11 @@ interface GridListToggleProps {
 
 export const GridListToggle: FC<GridListToggleProps> = ({ active, onToggle }) => {
   return (
-    <div className="flex justify-end px-4 sm:px-6 lg:px-8">
-      <div className="bg-white text-sm text-gray-500 leading-none border-2 border-black inline-flex p-0.5">
+    <div className="flex justify-end px-6 lg:px-4 w-full">
+      <div className="bg-white text-sm text-gray-500 leading-none border-2 border-black inline-flex p-0.5 w-full text-center">
         <button
           className={clsx(
-            'inline-flex items-center transition-all duration-300 ease-in focus:outline-none hover:text-black focus:text-black px-4 py-2 !outline-none !border-none font-bold',
+            'inline-flex items-center justify-center transition-all duration-300 ease-in focus:outline-none hover:text-black focus:text-black px-4 py-2 !outline-none !border-none font-bold w-1/2',
             active === 'grid' && 'bg-yellow text-black',
           )}
           id="grid"
@@ -39,7 +39,7 @@ export const GridListToggle: FC<GridListToggleProps> = ({ active, onToggle }) =>
         </button>
         <button
           className={clsx(
-            'inline-flex items-center transition-all duration-300 ease-in focus:outline-none hover:text-black focus:text-black px-4 py-2 !outline-none !border-none font-bold',
+            'inline-flex items-center justify-center transition-all duration-300 ease-in focus:outline-none hover:text-black focus:text-black px-4 py-2 !outline-none !border-none font-bold w-1/2',
             active === 'list' && 'bg-yellow text-black',
           )}
           id="list"

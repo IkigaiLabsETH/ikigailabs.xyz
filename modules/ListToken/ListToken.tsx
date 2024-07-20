@@ -1,8 +1,6 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { addMonths, addSeconds } from 'date-fns/fp'
-import Image from 'next/image'
 import Flatpickr from 'react-flatpickr'
-import { useAddress } from '@thirdweb-dev/react'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { listToken, selectCollectionTokenInteractionStatus } from '../Collection/Token/token.slice'
@@ -13,6 +11,7 @@ import { TextField } from '../Form'
 import { ReservoirActionButton } from '../ReservoirActionButton/ReservoirActionButton'
 import { Listbox } from '../Listbox'
 import { Toggle } from '../Toggle'
+import { useWallet } from '../../common/useWallet'
 
 interface ListTokenProps {
   contract: string
@@ -24,7 +23,7 @@ interface ListTokenProps {
 
 export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, image, name }) => {
   const [eth, setEth] = useState<string>('0')
-  const address = useAddress()
+  const { address } = useWallet()
   const dispatch = useAppDispatch()
   const { status: tokenInteractionStatus, data } = useAppSelector(selectCollectionTokenInteractionStatus)
   const [expiration, setExpiration] = useState<Date>(addMonths(1)(new Date()))
@@ -75,7 +74,7 @@ export const ListToken: FC<ListTokenProps> = ({ contract, tokenId, network, imag
       </div>
       <div className="flex flex-row">
         <div className="w-full md:w-1/2 hidden md:flex pr-10">
-          <Image
+          <img
             src={image}
             alt={name}
             width={800}

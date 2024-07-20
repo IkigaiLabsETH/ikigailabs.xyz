@@ -6,7 +6,7 @@ import { append, has, keys, map, pipe } from 'ramda'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 
 import { Footer } from '../../../modules/Footer'
-import { withLayout } from '../../../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../../../common/layouts'
 import { CollectionSet, Layout, Network, Option } from '../../../common/types'
 import { Collections } from '../../../modules/Collections'
 import { useAppDispatch, useAppSelector } from '../../../common/redux/store'
@@ -23,10 +23,11 @@ import { NetworkSelector } from '../../../modules/NetworkSelector/NetworkSelecto
 import { useInfiniteLoading } from '../../../common/useInfiniteLoading'
 import { GridListToggle } from '../../../modules/GridListToggle'
 import { slugify } from '../../../common/utils'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../../common/constants'
 
-const SignatureCollection: FC = () => {
-  const { query } = useRouter()
-  const { network } = query
+const Explore: FC = () => {
+  const router = useRouter()
+  const { network } = router.query
   const dispatch = useAppDispatch()
   const [active, setActive] = useState<'grid' | 'list'>('grid')
 
@@ -38,6 +39,7 @@ const SignatureCollection: FC = () => {
   const { data: supportedNetworks, status: getSupportedNetworksStatus } = useAppSelector(
     selectSupportedNetworks(undefined),
   )
+
   const tableId = useAppSelector(selectSupportedNetworkTableIdByNetwork(selectedNetworkOption?.name as Network))
   const { data: managedCollectionSets, status: collectionSetsStatus } = useAppSelector(
     selectCollectionSets({ tableId }),
@@ -61,9 +63,15 @@ const SignatureCollection: FC = () => {
         })),
       )(supportedNetworks)
       setNetworkOptions(networkOptions)
-      setSelectedNetworkOption(networkOptions.find(option => option.id === network))
+      const selectedNetwork = networkOptions.find(option => option.id === network)
+
+      if (selectedNetwork) {
+        return setSelectedNetworkOption(selectedNetwork)
+      }
+
+      window.location.href = '/ethereum/explore'
     }
-  }, [supportedNetworks, getSupportedNetworksStatus, network])
+  }, [supportedNetworks, getSupportedNetworksStatus, network, router])
 
   useEffect(() => {
     dispatch(collectionsApi.endpoints.getSupportedNetworks.initiate())
@@ -129,15 +137,35 @@ const SignatureCollection: FC = () => {
 
   const { ref: collectionsRef } = useInfiniteLoading(getInfiniteLoadingEndpoint(), getInfiniteLoadingOptions())
 
+  const siteTitle = `${SITE_TITLE} | Explore`
+  const url = `${SITE_URL}${router?.pathname}`
+
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography</title>
-        <meta name="description" content="Shaped by Photography" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={siteTitle} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={SITE_LOGO_PATH} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={SITE_LOGO_PATH} />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={SITE_LOGO_PATH} />
       </Head>
       <div className="text-left w-full p-8 pt-32 max-w-screen-2xl">
-        <h1 className="text-yellow text-8xl ">Explore</h1>
+        <h1 className="text-yellow text-6xl lg:text-8xl ">Explore</h1>
         <div className="flex items-center">
           <span className="mr-4 text-yellow">on</span>{' '}
           {networkOptions?.length ? (
@@ -146,10 +174,10 @@ const SignatureCollection: FC = () => {
         </div>
       </div>
       <main className="w-full bg-white">
-        <div className="flex justify-between max-w-screen-2xl mx-auto">
+        <div className="flex md:justify-between max-w-screen-2xl mx-auto sm:flex-col lg:flex-row flex-wrap">
           <div>
             {collectionSets?.length && has('name')(collectionSets[0]) ? (
-              <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+              <div className="max-w-screen-2xl mx-auto px-8 lg:px-6 mt-8">
                 <Selector
                   options={collectionSets}
                   onChange={value => setCollectionSet(value as CollectionSet)}
@@ -160,7 +188,7 @@ const SignatureCollection: FC = () => {
               </div>
             ) : null}
           </div>
-          <div className="mt-8">
+          <div className="mt-8 w-full md:w-auto">
             <GridListToggle active={active} onToggle={setActive} />
           </div>
         </div>
@@ -185,4 +213,4 @@ const SignatureCollection: FC = () => {
   )
 }
 
-export default withLayout(Layout.main)(SignatureCollection)
+export default withLayout(Layout.main)(Explore)

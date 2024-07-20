@@ -1,9 +1,16 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { Button } from '../Button'
 import { match } from 'ts-pattern'
 import { Network } from '../../common/types'
-import { metamaskWallet, useChain, useConnect, useConnectionStatus, useSwitchChain } from '@thirdweb-dev/react'
+import {
+  useActiveWalletChain,
+  useActiveWalletConnectionStatus,
+  useSwitchActiveWalletChain,
+  ConnectButton,
+} from 'thirdweb/react'
 import { getChainIdFromNetwork } from '../../common/utils'
+import { TWClient } from '../../common/web3/web3'
+import { CHAINS } from '../../common/constants'
 
 interface ReservoirActionButtonProps {
   onClick?: () => Promise<any>
@@ -20,17 +27,16 @@ export const ReservoirActionButton: FC<ReservoirActionButtonProps> = ({
   loading,
   network,
 }) => {
-  const chain = useChain()
-  const status = useConnectionStatus()
-  const connect = useConnect()
-  const switchChain = useSwitchChain()
+  const chain = useActiveWalletChain()
+  const status = useActiveWalletConnectionStatus()
+  const switchChain = useSwitchActiveWalletChain()
 
   return match(status)
     .with('connected', () => {
-      if (chain?.slug !== network) {
+      if (chain?.id !== CHAINS[network].id) {
         return (
           <Button
-            onClick={() => switchChain(getChainIdFromNetwork(network))}
+            onClick={() => switchChain(CHAINS[network])}
             className="w-full text-xl"
             loading={false}
             disabled={false}
@@ -47,28 +53,12 @@ export const ReservoirActionButton: FC<ReservoirActionButtonProps> = ({
       )
     })
     .with('disconnected', () => {
-      return (
-        <Button
-          onClick={() => connect(metamaskWallet())}
-          className="w-full text-xl"
-          loading={loading}
-          disabled={disabled}
-        >
-          Connect
-        </Button>
-      )
+      return <ConnectButton client={TWClient} />
     })
     .with('connecting', () => {
       return (
         <Button className="w-full text-xl" loading={false} disabled={true}>
           Connecting...
-        </Button>
-      )
-    })
-    .with('unknown', () => {
-      return (
-        <Button className="w-full text-xl" loading={false} disabled={true}>
-          Unsupported Network
         </Button>
       )
     })

@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { match } from 'ts-pattern'
+
 import { getTWClient } from '../../../../../../common/web3'
 import { Network } from '../../../../../../common/types'
 
-export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+export const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { contract, tokenId, address, network } = req.query
 
   if (!contract || !tokenId || !address || !network) {
@@ -21,5 +23,10 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ error: error.message })
   }
 }
+
+export const handler = async (req: NextApiRequest, res: NextApiResponse) =>
+  match(req.method)
+    .with('GET', () => get(req, res))
+    .otherwise(() => res.status(405).json({ message: 'Method not allowed' }))
 
 export default handler

@@ -4,3 +4,10 @@ declare module '*.svg' {
   const src: string
   export default src
 }
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    'swiper-container': SwiperContainerProps
+    'swiper-slide': SwiperSlideProps
+  }
+}

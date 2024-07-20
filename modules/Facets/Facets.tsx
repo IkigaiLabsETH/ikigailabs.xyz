@@ -1,4 +1,4 @@
-import { map } from 'ramda'
+import { adjust, append, assoc, equals, find, findIndex, map, pipe, prop, propEq, tap, when } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { Combobox } from '@headlessui/react'
@@ -10,18 +10,19 @@ import { toggleListItem } from '../../common/utils'
 interface FacetProps {
   facets: IFacet[]
   onUpdateFacets: (selection: Record<string, any>) => void
+  selected: []
 }
 
-export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
-  const [query, setQuery] = useState({})
-  const [selection, setSelection] = useState({})
+export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets, selected }) => {
+  const [selection, setSelection] = useState<{ key: string; values: string[] }[]>(selected)
 
   const updateSelection = (key: string, value: string) => {
-    const facetSelection = selection[key] || []
-    setSelection({ ...selection, [key]: toggleListItem(value, facetSelection) })
-  }
-  const updateQuery = (key: string, value: string) => {
-    setQuery({ ...query, [key]: value })
+    const index = findIndex(propEq('key', key))(selection)
+    if (!equals(index, -1)) {
+      setSelection(adjust(index, obj => assoc('values', toggleListItem(value)(obj.values), obj), selection))
+    } else {
+      setSelection(append({ key, values: [value] })(selection))
+    }
   }
 
   useEffect(() => {
@@ -31,18 +32,12 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
   return (
     <ul className="flex flex-col">
       {map(({ key, values }: IFacet) => {
-        const selectedValues =
-          !query[key] || query[key] === ''
-            ? values
-            : values.filter(value => {
-                return value.value.toLowerCase().includes(query[key].toLowerCase())
-              })
         return (
           <li className="mb-4" key={key}>
             <Combobox as="div" value={''} onChange={value => updateSelection(key, value)}>
               <Combobox.Label className="block font-bold leading-6 text-gray-900">{key}</Combobox.Label>
               <ul className="flex flex-row flex-wrap my-2">
-                {map((value: string) => (
+                {map((value: any) => (
                   <li
                     key={value}
                     className={`text-xs font-bold  text-yellow bg-black py-1 px-2 group hover:text-yellow rounded-full transition-colors hover:cursor-pointer m-1 mr-2`}
@@ -50,21 +45,21 @@ export const Facets: FC<FacetProps> = ({ facets, onUpdateFacets }) => {
                   >
                     {value} &times;
                   </li>
-                ))(selection[key] || [])}
+                ))((pipe(find(propEq('key', key)), prop('values'))(selection) as any) || [])}
               </ul>
               <div className="relative mt-2">
                 <Combobox.Input
                   className="w-full border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
-                  onChange={event => updateQuery(key, event.target.value)}
-                  displayValue={() => query[key]}
+                  onChange={event => updateSelection(key, event.target.value)}
+                  displayValue={() => ''}
                 />
                 <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
                   <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                 </Combobox.Button>
 
-                {selectedValues?.length > 0 && (
+                {values?.length > 0 && (
                   <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                    {selectedValues.map(value => (
+                    {values.map(value => (
                       <Combobox.Option
                         key={value.value}
                         value={value.value}

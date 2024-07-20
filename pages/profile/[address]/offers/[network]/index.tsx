@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import { QueryStatus } from '@reduxjs/toolkit/dist/query'
 import Head from 'next/head'
 import { isEmpty, isNil } from 'ramda'
-import { useAddress } from '@thirdweb-dev/react'
 
 import { userApi } from '../../../../../modules/User'
 import { useAppDispatch, useAppSelector } from '../../../../../common/redux/store'
@@ -11,25 +10,35 @@ import { selectUserBidsReceived } from '../../../../../modules/User/user.api'
 import { useInfiniteLoading } from '../../../../../common/useInfiniteLoading'
 import { Loader } from '../../../../../modules/Loader'
 import { Layout, Network } from '../../../../../common/types'
-import { withLayout } from '../../../../../common/layouts/MainLayout/withLayout'
+import { withLayout } from '../../../../../common/layouts'
 import { Footer } from '../../../../../modules/Footer'
 import { DashboardNav } from '../../../../../modules/DashboardNav'
 import { NetworkNav } from '../../../../../modules/NetworkNav'
 import { UserBidsReceived } from '../../../../../modules/UserBidsReceived'
-import { lookupAddress, selectENSByAddress, selectEnsStatus } from '../../../../../common/ens'
+import { lookupAddress, selectENSByAddress } from '../../../../../common/ens'
 import { truncateAddress } from '../../../../../common/utils'
+import { useValidAddress } from '../../../../../common/useValidAddress'
+import { useValidNetwork } from '../../../../../common/useValidNetwork'
+import { InvalidAddress } from '../../../../../modules/InvalidAddress'
+import { InvalidNetwork } from '../../../../../modules/InvalidNetwork'
+import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../../../../common/constants'
 
 export const ActivityDashboard: FC = ({}) => {
   const {
     query: { network, address },
+    asPath,
   } = useRouter()
   const dispatch = useAppDispatch()
+  const isValidAddress = useValidAddress(address as string)
+  const isValidNetwork = useValidNetwork(network as Network)
+
+  const siteTitle = `${SITE_TITLE} | Offers received on ${network} by ${address}`
+  const url = `${SITE_URL}${asPath}`
 
   const { data, status } = useAppSelector(
     selectUserBidsReceived({ address: address as string, network: network as Network }),
   )
-  const ens = useAppSelector(state => selectENSByAddress(state, address as string))
-  const ensStatus = useAppSelector(selectEnsStatus)
+  const { data: ens, status: ensStatus } = useAppSelector(selectENSByAddress({ address: address as string }))
 
   const { ref: activityRef } = useInfiniteLoading(userApi.endpoints.getUserBidsReceived.initiate, {
     address: address as string,
@@ -46,16 +55,74 @@ export const ActivityDashboard: FC = ({}) => {
 
   useEffect(() => {
     if (!ens?.name && ensStatus !== QueryStatus.pending && address) {
-      dispatch(lookupAddress({ address: address as string }))
+      dispatch(lookupAddress.initiate({ address: address as string }))
     }
   }, [ens, address, ensStatus, dispatch])
+
+  const content = () => {
+    if (!isValidAddress) {
+      return (
+        <div className="flex justify-center items-center h-full">
+          <InvalidAddress />
+        </div>
+      )
+    }
+
+    if (!isValidNetwork) {
+      return (
+        <div className="flex justify-center items-center h-full">
+          <InvalidNetwork />
+        </div>
+      )
+    }
+
+    if (!isNil(data?.topBids) && !isEmpty(data?.topBids)) {
+      return (
+        <>
+          <div className="mr-8">
+            <UserBidsReceived bids={data?.topBids} network={network as Network} owner={address as string} />
+          </div>
+          <div ref={activityRef} />
+        </>
+      )
+    }
+
+    if (status !== QueryStatus.pending && isEmpty(data?.topBids)) {
+      return <div className="w-full text-center">No offers found</div>
+    }
+
+    if (status === QueryStatus.pending) {
+      return (
+        <div className="w-full text-center">
+          <Loader />
+        </div>
+      )
+    }
+  }
 
   return (
     <div className="flex items-center flex-col">
       <Head>
-        <title>Ikigai Labs - Shaped by Photography</title>
-        <meta name="description" content="Shaped by Photography" />
-        <link rel="icon" href="/assets/images/IKIGAI_LABS_logo.svg" />
+        <title>{siteTitle}</title>
+        <meta name="description" content={SITE_DESCRIPTION} />
+        <link rel="icon" href={SITE_LOGO_PATH} />
+
+        <meta name="title" content={siteTitle} />
+        <meta name="description" content={SITE_DESCRIPTION} />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={SITE_LOGO_PATH} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content={SITE_LOGO_PATH} />
+        <meta property="twitter:url" content={url} />
+        <meta property="twitter:title" content={siteTitle} />
+        <meta property="twitter:description" content={SITE_DESCRIPTION} />
+        <meta property="twitter:image" content={SITE_LOGO_PATH} />
       </Head>
       <div className="text-yellow text-left w-full pt-32 max-w-screen-2xl pl-8 pb-8">
         <h1 className="font-normal">{ens?.name ? ens?.name : truncateAddress(address)}</h1>
@@ -78,23 +145,7 @@ export const ActivityDashboard: FC = ({}) => {
                   <NetworkNav network={network as Network} tab="offers" address={address as string} />
                 </div>
               </div>
-              <div className="w-5/6">
-                {!isNil(data?.topBids) && !isEmpty(data?.topBids) && (
-                  <div className="mr-8">
-                    <UserBidsReceived bids={data?.topBids} network={network as Network} owner={address as string} />
-                  </div>
-                )}
-                {status !== QueryStatus.pending && isEmpty(data?.orders) && (
-                  <div className="w-full text-center">No bids found</div>
-                )}
-                {status === QueryStatus.pending && (
-                  <div className="w-full text-center">
-                    <Loader />
-                  </div>
-                )}
-                {!address && <div className="w-full text-center">Not Connected</div>}
-                <div ref={activityRef} />
-              </div>
+              <div className="w-5/6">{content()}</div>
             </div>
           </div>
         </div>

@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { match } from 'ts-pattern'
+import { isExtensionEnabled, detectFeatures } from '@thirdweb-dev/sdk'
 
 import { getTWClient } from '../../../common/web3'
 import { Network } from '../../../common/types'
+import { BigNumber } from 'ethers'
 
 const get = async (req: NextApiRequest, res: NextApiResponse) => {
   const { contract, network, type } = req.query
@@ -19,16 +21,15 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const client = getTWClient(network as Network)
-
     const clientContract = await client.getContract(...args)
     const result = {} as any
 
     const metadataPromise = clientContract.metadata.get()
 
-    if (type === 'nft-drop') {
+    if (isExtensionEnabled(clientContract.abi, 'ERC721', detectFeatures(clientContract.abi))) {
       const claimedSupplyPromise = clientContract.erc721.totalClaimedSupply()
       const unclaimedSupplyPromise = clientContract.erc721.totalUnclaimedSupply()
-      const claimConditionsPromise = clientContract.erc721.claimConditions.getAll()
+      const claimConditionsPromise = clientContract.erc721.claimConditions.getActive()
       result.claimedSupply = await claimedSupplyPromise.then(supply => parseInt(supply.toString(), 10))
       result.unclaimedSupply = await unclaimedSupplyPromise.then(supply => parseInt(supply.toString(), 10))
       result.claimConditions = await claimConditionsPromise

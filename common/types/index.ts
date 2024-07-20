@@ -1,22 +1,31 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ContractType, ContractPrimarySale, ClaimCondition, Currency, Amount } from '@thirdweb-dev/sdk'
+import { ContractType, ContractPrimarySale, ClaimCondition } from '@thirdweb-dev/sdk'
 
 export type { Axios as HTTP } from 'axios'
 
 export enum Layout {
   main = 'main',
+  skeleton = 'skeleton',
 }
 
 export enum Network {
   MAINNET = 'ethereum',
-  GOERLI = 'goerli',
   OPTIMISM = 'optimism',
+  SEPOLIA = 'sepolia',
   POLYGON = 'polygon',
   ARBITRUM = 'arbitrum',
-  ARBITRUM_ONE = 'arbitrum-one',
   ARBITRUM_NOVA = 'arbitrum-nova',
-  ARBITRUM_GOERLI = 'arbitrum-goerli',
   MUMBAI = 'mumbai',
+  ZORA = 'zora',
+  BASE = 'base',
+  BASE_SEPOLIA = 'base-sepolia',
+  ZKEVM = 'polygon-zkevm',
+  AVALANCHE = 'avalanche',
+  LINEA = 'linea',
+  SCROLL = 'scroll',
+  ZKSYNC = 'zksync',
+  BLAST = 'blast',
+  BERA = 'berachain',
 }
 
 export enum NetworkName {
@@ -52,9 +61,9 @@ export interface Claim {
 }
 
 export enum CurrencyChain {
-  'Goerli Ether' = Network.GOERLI,
   'Ether' = Network.MAINNET,
   'MATIC' = Network.POLYGON,
+  'BERA' = Network.BERA,
 }
 
 export interface Token {
@@ -104,20 +113,34 @@ export type ErrorType = string | null | undefined
 export enum ActivityType {
   mint = 'mint',
   transfer = 'transfer',
+  bid = 'bid',
+  list = 'list',
+  sale = 'sale',
   burned = 'burned',
-  ask_canceled = 'ask_canceled',
-  bid_canceled = 'bid_canceled',
+  ask_cancel = 'ask_cancel',
+  bid_cancel = 'bid_cancel',
   ask = 'ask',
   buy = 'buy',
+}
+
+export enum ActivityMap {
+  mint = 'Mint',
+  transfer = 'Transfer',
+  bid = 'Offer',
+  bid_cancel = 'Offer Canceled',
+  sale = 'Sale',
+  ask = 'Listing',
+  ask_cancel = 'Listing Canceled',
 }
 
 export interface Collection {
   collectionId: string
   collectionName: string
+  chainId: number
 }
 
 export interface Activity {
-  type: ActivityType.mint
+  type: ActivityType
   fromAddress: string
   toAddress: string
   price: {
@@ -138,9 +161,15 @@ export interface Activity {
     tokenName: string
   }
   collection?: Collection
-  txHash: string
+  txHash?: string
   logIndex?: number
   batchIndex?: number
+  order: {
+    source: {
+      domain: string
+      icon: string
+    }
+  }
 }
 
 export interface CollectionActivity {
@@ -202,6 +231,7 @@ export interface LastSale {
 
 export interface Token {
   rarity: number
+  chainId: number
   description: string
   name: string
   image?: string
@@ -209,18 +239,17 @@ export interface Token {
   imageSmall?: string
   owner: string
   rarityRank: number
-  tokenId: number
+  tokenId: string
   contract: string
   media?: string
   lastSale?: LastSale
   attributes?: Record<string, unknown>[]
   kind?: string
-  collection?: {
-    name: string
-  }
+  collection?: Collection
   isFlagged: boolean
   isNsfw: boolean
   isSpam: boolean
+  supply: number
 }
 
 export interface Ownership {
@@ -456,4 +485,16 @@ export interface TokenDefinition {
   tokenId: string
   network: Network
   type: ContractType
+}
+
+export interface SearchResult {
+  allTimeVolume: number
+  chainId: number
+  contract: string
+  floorAskPrice: number
+  id: string
+  image: string
+  name: string
+  openseaVerificationStatus: string
+  tokenCount: string
 }

@@ -43,7 +43,10 @@ import { initialPageLoadMiddleware } from '../app'
 import { closeSlideUpMiddleware, openSlideUpMiddleware, slideUpReducer } from '../../modules/SlideUp'
 import { closeSlideUpActions, openSlideUpActions } from '../slideup'
 import { tokenFetchCompleteMiddleware } from '../../modules/Collection/Token'
-import { ensReducer } from '../ens'
+import { ensApi } from '../ens'
+import { transactionFailed, transactionSent } from '../transaction'
+import { editionDropApi } from '../../modules/EditionDrop'
+import { searchApi } from '../../modules/Search'
 
 export const listenerMiddleware = createListenerMiddleware()
 
@@ -71,6 +74,8 @@ const notifications = {
   'allowlistApi/executeMutation/fulfilled': 'You have successfully signed up',
   'allowlistApi/executeMutation/rejected': 'Failed to sign up',
   [mintSuccess.type]: 'You have successfully minted your token',
+  [transactionSent.type]: 'Transaction sent',
+  [transactionFailed.type]: 'Transaction failed',
 }
 
 startAppListening(collectionTokenMiddleware)
@@ -94,6 +99,8 @@ startAppListening(
     signUp.matchFulfilled,
     signUp.matchRejected,
     mintSuccess,
+    transactionSent,
+    transactionFailed,
   ]),
 )
 startAppListening(walletMiddleware([changeNetwork] as any))
@@ -117,21 +124,15 @@ const combinedReducer = combineReducers({
   burnToMint: burnToMintReducer,
   [walletApi.reducerPath]: prop('reducer')(walletApi),
   NFTDrops: NFTDropsReducer,
+  [editionDropApi.reducerPath]: prop('reducer')(editionDropApi),
   confetti: confettiReducer,
   network: networkSelectorReducer,
-  ens: ensReducer,
+  [ensApi.reducerPath]: prop('reducer')(ensApi),
   [userApi.reducerPath]: prop('reducer')(userApi),
+  [searchApi.reducerPath]: prop('reducer')(searchApi),
 })
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => combinedReducer(state, action)
-
-const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['network'],
-}
-
-const persistedReducer = persistReducer(persistConfig, reducer)
 
 const makeStore = () =>
   configureStore({
@@ -151,6 +152,9 @@ const makeStore = () =>
           walletApi.middleware,
           dropApi.middleware,
           userApi.middleware,
+          editionDropApi.middleware,
+          ensApi.middleware,
+          searchApi.middleware,
         ),
     devTools: true,
   })

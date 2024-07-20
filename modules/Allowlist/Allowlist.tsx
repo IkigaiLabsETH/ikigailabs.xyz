@@ -10,14 +10,14 @@ import { selectAllowlistSignUp, signUp } from './allowlist.api'
 interface AllowlistProps {}
 
 export const Allowlist: FC<AllowlistProps> = ({}) => {
-  const { address, connect } = useWallet()
+  const { address } = useWallet()
   const dispatch = useAppDispatch()
   const [request, setRequest] = useState<string>('')
   const { isLoading, isError, isSuccess } = useAppSelector(selectAllowlistSignUp(request))
 
   const handleConnect = (event: ChangeEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    connect()
+    // connect()
   }
 
   const handleSubmission = (event: ChangeEvent<HTMLButtonElement>) => {

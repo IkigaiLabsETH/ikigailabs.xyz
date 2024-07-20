@@ -1,16 +1,9 @@
 import { map } from 'ramda'
 import React, { FC, useEffect } from 'react'
-import { useAddress } from '@thirdweb-dev/react'
 import { match } from 'ts-pattern'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import useWeb3 from '../../common/useWeb3'
 import {
-  fetchNFTDropClaimedSupply,
-  fetchNFTDropMetadata,
-  fetchNFTDropOwnedTokenIds,
-  fetchNFTDropUnclaimedSupply,
-  fetchNFTsFromNFTDrop,
   selectClaimedSupply,
   selectClaimedSupplyLoadingState,
   selectMetadata,
@@ -25,6 +18,7 @@ import {
 } from './NFTDrop.slice'
 import { ContractMetadata } from '../../common/types'
 import { Loader } from '../Loader'
+import { useWallet } from '../../common/useWallet'
 
 interface NFTDropProps {
   contract: string
@@ -32,8 +26,7 @@ interface NFTDropProps {
 
 export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
   const dispatch = useAppDispatch()
-  // const { getAllNFTsFromNFTDrop, getNFTDrop } = useWeb3()
-  const address = useAddress()
+  const { address } = useWallet()
 
   const nfts = useAppSelector(selectNfts) as any[]
   const nftsLoadingState = useAppSelector(selectNftsLoadingState)
@@ -77,11 +70,11 @@ export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <h4 className="text-xs uppercase tracking-widest">Total Supply:</h4>
-                <span className="font-bold text-2xl tracking-tight">{totalSupply}</span>
+                <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">{totalSupply}</span>
               </div>
               <div>
                 <h4 className="text-xs uppercase tracking-widest">Claimed:</h4>
-                <span className="font-bold text-2xl tracking-tight">
+                <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">
                   {match(claimedSupplyLoadingState)
                     .with('loading', () => <Loader />)
                     .with('succeeded', () => claimedSupply)
@@ -92,7 +85,7 @@ export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
               </div>
               <div>
                 <h4 className="text-xs uppercase tracking-widest">Unclaimed:</h4>
-                <span className="font-bold text-2xl tracking-tight">
+                <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">
                   {match(unclaimedSupplyLoadingState)
                     .with('loading', () => <Loader />)
                     .with('succeeded', () => unclaimedSupply)
@@ -103,7 +96,7 @@ export const NFTDrop: FC<NFTDropProps> = ({ contract }) => {
               </div>
               <div>
                 <h4 className="text-xs uppercase tracking-widest">Owned:</h4>
-                <span className="font-bold text-2xl tracking-tight">
+                <span className="font-bold text-lg md:text-xl lg:text-2xl tracking-tight">
                   {match(ownedTokenIdsLoadingState)
                     .with('loading', () => <Loader />)
                     .with('succeeded', () => ownedTokenAmount)

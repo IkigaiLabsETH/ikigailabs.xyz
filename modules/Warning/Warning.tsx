@@ -11,7 +11,7 @@ export const Warning: FC<WarningProps> = ({ type }) => {
       {match(type)
         .with('flagged', () => <p className="mb-0">This item has been flagged and should not be traded</p>)
         .with('nsfw', () => <p className="mb-0">This item is not safe for work</p>)
-        .with('spam', () => <p className="mb-0">This item is spam</p>)
+        .with('spam', () => <p className="mb-0">This item has been marked as spam</p>)
         .exhaustive()}
     </div>
   )

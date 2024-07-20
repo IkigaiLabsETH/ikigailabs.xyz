@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 import { uniq } from 'ramda'
 
-import { Network } from '../../common/types'
+import { Activity, ActivityType, Network } from '../../common/types'
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -9,7 +9,9 @@ export const userApi = createApi({
   endpoints: builder => ({
     getOwnedTokens: builder.query<any, { address: string; continuation?: string; network: Network }>({
       query: ({ address, continuation, network }) =>
-        `${network}/users/${address}/tokens/v7?limit=4${continuation ? `&continuation=${continuation}` : ''}`,
+        `${network}/users/${address}/tokens/v7?limit=20&excludeSpam=true${
+          continuation ? `&continuation=${continuation}` : ''
+        }`,
       serializeQueryArgs: ({ queryArgs: { address, network } }) => `tokens-${network}-${address}`,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
@@ -21,10 +23,20 @@ export const userApi = createApi({
         return currentArg !== previousArg
       },
     }),
-    getUserActivity: builder.query<any, { address: string; continuation?: string; network: Network }>({
-      query: ({ address, continuation, network }) =>
-        `${network}/users/activity/v6?users=${address}${continuation ? `&continuation=${continuation}` : ''}`,
-      serializeQueryArgs: ({ queryArgs: { address, network } }) => `activity-${network}-${address}`,
+    getUserActivity: builder.query<
+      { activities: Activity[]; continuation: string },
+      { address: string; continuation?: string; network: Network; selectedActivityTypes?: ActivityType[] }
+    >({
+      query: ({ address, continuation, network, selectedActivityTypes = [] }) => {
+        const activityTypes = selectedActivityTypes.map(type => `&types=${type}`).join('&')
+        return `${network}/users/activity/v6?sortBy=eventTimestamp&includeMetadata=true&users=${address}${
+          selectedActivityTypes.length ? `${activityTypes}` : ''
+        }${continuation ? `&continuation=${continuation}` : ''}`
+      },
+      serializeQueryArgs: ({ queryArgs: { address, network, selectedActivityTypes } }) => {
+        const activityTypes = selectedActivityTypes.map(type => `types=${type}`).join('&')
+        return `activity-${network}-${address}-${activityTypes}`
+      },
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
         currentCache.activities = uniq([...currentCache.activities, ...newItems.activities])
@@ -37,7 +49,7 @@ export const userApi = createApi({
     }),
     getUserBidsMade: builder.query<any, { address: string; continuation?: string; network: Network }>({
       query: ({ address, continuation, network }) =>
-        `${network}/orders/bids/v5?maker=${address}${continuation ? `&continuation=${continuation}` : ''}`,
+        `${network}/orders/bids/v6?maker=${address}${continuation ? `&continuation=${continuation}` : ''}`,
       serializeQueryArgs: ({ queryArgs: { address, network } }) => `bids-${network}-${address}`,
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {

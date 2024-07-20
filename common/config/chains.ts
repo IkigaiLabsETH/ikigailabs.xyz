@@ -3,21 +3,45 @@ import {
   Zora,
   Base,
   Optimism,
+  Arbitrum,
   ArbitrumNova,
   Polygon,
   PolygonZkevm,
   Avalanche,
   Linea,
-  ZksyncEra,
+  Mumbai,
   Scroll,
+  Zksync,
+  Blast,
+  BerachainArtio,
+  BaseSepoliaTestnet,
 } from '@thirdweb-dev/chains'
-import { arbitrum, mainnet, polygon, optimism, Chain, bsc, polygonMumbai } from 'wagmi/chains'
+import {
+  arbitrum,
+  mainnet,
+  polygon,
+  optimism,
+  Chain,
+  polygonMumbai,
+  zora,
+  base,
+  baseSepolia,
+  arbitrumNova,
+  polygonZkEvm,
+  avalanche,
+  linea,
+  scroll,
+  zkSync,
+  sepolia,
+  blast,
+} from 'wagmi/chains'
+import { Network } from '../types'
 
 //CONFIGURABLE: The default export controls the supported chains for the marketplace. Removing
 // or adding chains will result in adding more or less chains to the marketplace.
 // They are an extension of the wagmi chain objects
 
-type ReservoirChain = Chain & {
+export type ReservoirChain = Chain & {
   lightIconUrl: string
   darkIconUrl: string
   reservoirBaseUrl: string
@@ -72,18 +96,6 @@ export const supportedChains = [
     community: process.env.NEXT_PUBLIC_POLYGON_COMMUNITY,
   },
   {
-    ...polygonMumbai,
-    lightIconUrl: '/icons/polygon-icon-dark.svg',
-    darkIconUrl: '/icons/polygon-icon-light.svg',
-    reservoirBaseUrl: 'https://api-mumbai.reservoir.tools',
-    proxyApi: '/api/reservoir/mumbai',
-    routePrefix: 'mumbai',
-    apiKey: process.env.POLYGON_RESERVOIR_API_KEY,
-    coingeckoId: 'matic-network',
-    collectionSetId: process.env.NEXT_PUBLIC_POLYGON_COLLECTION_SET_ID,
-    community: process.env.NEXT_PUBLIC_POLYGON_COMMUNITY,
-  },
-  {
     ...arbitrum,
     name: 'Arbitrum',
     lightIconUrl: '/icons/arbitrum-icon-dark.svg',
@@ -110,29 +122,99 @@ export const supportedChains = [
     community: process.env.NEXT_PUBLIC_OPTIMISM_COMMUNITY,
   },
   {
-    ...bsc,
-    lightIconUrl: '/icons/bsc-icon-dark.svg',
-    darkIconUrl: '/icons/bsc-icon-light.svg',
-    reservoirBaseUrl: 'https://api-bsc.reservoir.tools',
-    proxyApi: '/api/reservoir/bsc',
-    routePrefix: 'bsc',
-    apiKey: process.env.BSC_RESERVOIR_API_KEY,
-    coingeckoId: 'binancecoin',
-    collectionSetId: process.env.NEXT_PUBLIC_BSC_COLLECTION_SET_ID,
-    community: process.env.NEXT_PUBLIC_BSC_COMMUNITY,
+    ...arbitrumNova,
+    routePrefix: Network.ARBITRUM_NOVA,
+    reservoirBaseUrl: 'https://api-arbitrum-nova.reservoir.tools',
+    lightIconUrl: '/icons/arbitrum-nova-icon-dark.svg',
+    darkIconUrl: '/icons/arbitrum-nova-icon-light.svg',
+  },
+  {
+    ...zora,
+    routePrefix: Network.ZORA,
+    reservoirBaseUrl: 'https://api-zora.reservoir.tools',
+    lightIconUrl: '/icons/zora-icon-dark.svg',
+    darkIconUrl: '/icons/zora-icon-light.svg',
+  },
+  {
+    ...base,
+    routePrefix: Network.BASE,
+    reservoirBaseUrl: 'https://api-base.reservoir.tools',
+    lightIconUrl: '/icons/base-icon-dark.svg',
+    darkIconUrl: '/icons/base-icon-light.svg',
+  },
+  {
+    ...baseSepolia,
+    routePrefix: Network.BASE_SEPOLIA,
+    reservoirBaseUrl: 'https://api-base-sepolia.reservoir.tools',
+    lightIconUrl: '/icons/base-icon-dark.svg',
+    darkIconUrl: '/icons/base-icon-light.svg',
+  },
+  {
+    ...sepolia,
+    routePrefix: Network.SEPOLIA,
+    reservoirBaseUrl: 'https://api-sepolia.reservoir.tools',
+    lightIconUrl: '/icons/eth-icon-dark.svg',
+    darkIconUrl: '/icons/eth-icon-light.svg',
+  },
+  {
+    ...polygonZkEvm,
+    routePrefix: Network.ZKEVM,
+    reservoirBaseUrl: 'https://api-polygon-zkevm.reservoir.tools',
+    lightIconUrl: '/icons/polygon-zkevm-icon-dark.svg',
+    darkIconUrl: '/icons/polygon-zkevm-icon-light.svg',
+  },
+  {
+    ...avalanche,
+    routePrefix: Network.AVALANCHE,
+    reservoirBaseUrl: 'https://api-avalanche.reservoir.tools',
+    lightIconUrl: '/icons/avalanche-icon-dark.svg',
+    darkIconUrl: '/icons/avalanche-icon-light.svg',
+  },
+  {
+    ...linea,
+    routePrefix: Network.LINEA,
+    reservoirBaseUrl: 'https://api-linea.reservoir.tools',
+    lightIconUrl: '/icons/linea-icon-dark.svg',
+    darkIconUrl: '/icons/linea-icon-light.svg',
+  },
+  {
+    ...scroll,
+    routePrefix: Network.SCROLL,
+    reservoirBaseUrl: 'https://api-scroll.reservoir.tools',
+    lightIconUrl: '/icons/scroll-testnet-icon-dark.svg',
+    darkIconUrl: '/icons/scroll-testnet-icon-light.svg',
+  },
+  {
+    ...zkSync,
+    routePrefix: Network.ZKSYNC,
+    reservoirBaseUrl: 'https://api-zksync.reservoir.tools',
+    lightIconUrl: '/icons/zksync-icon-dark.svg',
+    darkIconUrl: '/icons/zksync-icon-light.svg',
+  },
+  {
+    ...blast,
+    routePrefix: Network.BLAST,
+    reservoirBaseUrl: 'https://api-blast.reservoir.tools',
+    lightIconUrl: '/icons/blast-icon-dark.svg',
+    darkIconUrl: '/icons/blast-icon-light.svg',
   },
 ] as ReservoirChain[]
 
 export const TW_SUPPORTED_CHAINS = [
   Ethereum,
+  Mumbai,
+  Arbitrum,
   Zora,
   Base,
+  BaseSepoliaTestnet,
   Optimism,
   ArbitrumNova,
   Polygon,
   PolygonZkevm,
   Avalanche,
   Linea,
-  ZksyncEra,
   Scroll,
+  Zksync,
+  Blast,
+  BerachainArtio,
 ] as any

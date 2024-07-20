@@ -2,7 +2,6 @@ import React, { FC, SyntheticEvent, useState, useRef, LegacyRef, useEffect } fro
 
 import { getContentType, normalizeContentType, replaceImageResolution } from '../../common/utils'
 import { Loader } from '../Loader'
-import Image from 'next/image'
 import clsx from 'clsx'
 
 type MediaType =
@@ -52,6 +51,7 @@ export const TokenMedia: FC<Props> = ({
   const [mediaType, setMediaType] = useState<MediaType | null>(null)
   const mediaRef = useRef<HTMLAudioElement | HTMLVideoElement>(null)
   const media = token?.media
+
   const tokenImage = (() => {
     switch (imageResolution) {
       case 'small':
@@ -112,7 +112,7 @@ export const TokenMedia: FC<Props> = ({
 
   if (staticOnly || !media) {
     return (
-      <Image
+      <img
         src={replaceImageResolution(2048)(tokenImage)}
         title={token.name as string}
         alt={token.name as string}
@@ -120,7 +120,7 @@ export const TokenMedia: FC<Props> = ({
         height={2048}
         // fill={true}
         style={{ maxHeight: '90vh', width: 'auto' }}
-        className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]  relative"
+        className="  relative"
       />
     )
   }
@@ -128,7 +128,7 @@ export const TokenMedia: FC<Props> = ({
   // VIDEO
   if (mediaType === 'mp4' || mediaType === 'mov') {
     return (
-      <div className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]  relative">
+      <div className=" relative">
         <video
           className={clsx('max-h-[90vh]')}
           poster={tokenImage}
@@ -181,7 +181,7 @@ export const TokenMedia: FC<Props> = ({
         camera-controls
         enable-pan
         {...modelViewerOptions}
-        className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]  relative"
+        className="  relative"
         onError={onErrorCb}
         //@ts-ignore
       ></model-viewer>
@@ -191,7 +191,7 @@ export const TokenMedia: FC<Props> = ({
   //Image
   if (mediaType === 'png' || mediaType === 'jpeg' || mediaType === 'jpg' || mediaType === 'gif') {
     return (
-      <Image
+      <img
         src={replaceImageResolution(2048)(media)}
         title={token.name as string}
         alt={token.name as string}
@@ -199,7 +199,7 @@ export const TokenMedia: FC<Props> = ({
         height={2048}
         // fill={true}
         style={{ maxHeight: '90vh', width: 'auto' }}
-        className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]  relative"
+        className="  relative"
       />
     )
   }
@@ -212,17 +212,11 @@ export const TokenMedia: FC<Props> = ({
     mediaType === 'other' ||
     mediaType === 'svg'
   ) {
-    return (
-      <iframe
-        className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]  relative"
-        src={media}
-        sandbox="allow-scripts"
-      ></iframe>
-    )
+    return <iframe className="w-full h-full relative" src={media} sandbox="allow-scripts"></iframe>
   }
 
   return (
-    <Image
+    <img
       src={replaceImageResolution(2048)(tokenImage)}
       title={token.name as string}
       alt={token.name as string}
@@ -230,7 +224,7 @@ export const TokenMedia: FC<Props> = ({
       height={2048}
       // fill={true}
       style={{ maxHeight: '90vh', width: 'auto' }}
-      className="border-yellow border-4 shadow-[6px_6px_0px_0px_rgba(249,212,0,1)]  relative"
+      className="  relative"
     />
   )
 }

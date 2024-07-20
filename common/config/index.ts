@@ -11,11 +11,11 @@ export const URLS = {
     explorer: 'https://etherscan.io',
     openzeppelin: '',
   },
-  [Network.GOERLI]: {
-    reservoir: 'https://api-goerli.reservoir.tools',
+  [Network.OPTIMISM]: {
+    reservoir: 'https://api-optimism.reservoir.tools',
     tw: '',
-    alchemy: 'https://eth-goerli.g.alchemy.com',
-    explorer: 'https://goerli.etherscan.io',
+    alchemy: '',
+    explorer: 'https://optimistic.etherscan.io',
     openzeppelin: '',
   },
   [Network.POLYGON]: {
@@ -23,6 +23,13 @@ export const URLS = {
     tw: '',
     alchemy: 'https://polygon-mainnet.g.alchemy.com',
     explorer: 'https://polygonscan.com',
+    openzeppelin: '',
+  },
+  [Network.ARBITRUM]: {
+    reservoir: 'https://api-arbitrum.reservoir.tools',
+    tw: '',
+    alchemy: 'https://arb-mainnet.g.alchemy.com',
+    explorer: 'https://arbiscan.io',
     openzeppelin: '',
   },
   [Network.MUMBAI]: {
@@ -33,25 +40,74 @@ export const URLS = {
     openzeppelin:
       'https://api.defender.openzeppelin.com/autotasks/3d39e44f-5ed0-4c66-9107-8f45e4c1b918/runs/webhook/d3bad3c5-947c-4dde-8868-915e797a8bc4/SkSiPovrShFkTHST4cPCHw',
   },
-  [Network.ARBITRUM]: {
-    reservoir: 'https://api-arbitrum.reservoir.tools',
-    tw: '',
-    alchemy: 'https://arb-mainnet.g.alchemy.com',
-    explorer: 'https://arbiscan.io',
-    openzeppelin: '',
-  },
-  [Network.ARBITRUM_GOERLI]: {
-    reservoir: '',
-    tw: '',
-    alchemy: 'https://arb-goerli.g.alchemy.com',
-    explorer: 'https://goerli.arbiscan.io',
-    openzeppelin: '',
-  },
-  [Network.OPTIMISM]: {
-    reservoir: 'https://api-optimism.reservoir.tools',
+  [Network.ZORA]: {
+    reservoir: 'https://api-zora.reservoir.tools',
     tw: '',
     alchemy: '',
-    explorer: 'https://optimistic.etherscan.io',
+    explorer: 'https://zorascan.xyz',
+    openzeppelin: '',
+  },
+  [Network.BASE]: {
+    reservoir: 'https://api-base.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://basescan.org',
+    openzeppelin: '',
+  },
+  [Network.BASE_SEPOLIA]: {
+    reservoir: 'https://api-base-sepolia.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://basescan.org',
+    openzeppelin: '',
+  },
+  [Network.ZKEVM]: {
+    reservoir: 'https://api-polygon-zkevm.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://zkevm.polygonscan.com',
+    openzeppelin: '',
+  },
+  [Network.AVALANCHE]: {
+    reservoir: 'https://api-avalanche.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://avascan.info',
+    openzeppelin: '',
+  },
+  [Network.LINEA]: {
+    reservoir: 'https://api-linea.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://lineascan.build',
+    openzeppelin: '',
+  },
+  [Network.SCROLL]: {
+    reservoir: 'https://api-scroll.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://scrollscan.com',
+    openzeppelin: '',
+  },
+  [Network.BERA]: {
+    reservoir: 'https://api-berachain-testnet.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://bartio.beratrail.io',
+    openzeppelin: '',
+  },
+  [Network.BLAST]: {
+    reservoir: 'https://api-blast.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://blastscan.io',
+    openzeppelin: '',
+  },
+  [Network.SEPOLIA]: {
+    reservoir: 'https://api-sepolia.reservoir.tools',
+    tw: '',
+    alchemy: '',
+    explorer: 'https://sepolia.etherscan.io',
     openzeppelin: '',
   },
 }
@@ -97,12 +153,6 @@ export const COLLECTIONS = {
     {
       id: 'be442cf7f246d8300544f092296c39f0986b5fd86959820edca867c751715125',
       name: 'Degens',
-    },
-  ],
-  [Network.GOERLI]: [
-    {
-      id: 'a85336cbd06421c67cefe53cd16b1f3dc4d340eaed6680a433279027005aa614',
-      name: 'Curated',
     },
   ],
   [Network.POLYGON]: [
@@ -170,3 +220,19 @@ export const MINT_PASSES = [
 ]
 
 export type ContractTokenId = [string, number]
+
+export const GEMS_ON_THE_FLOOR_PHOTOGRAPHY_COLLECTION_SET_ID =
+  '4de9b1ef1b6f70429577fba9c89e587f8f234bb59bb5c234b2e95f8c49af0ff3'
+export const GEMS_ON_THE_FLOOR_AI_COLLECTION_SET_ID = '2324aaaa92abea68744bb7284e0e853c6895fc52e432d2b005ce4ecd1e2da559'
+export const GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID =
+  'c32a50eac3eca0e55189aa38b5d84ab701b84248a49ade72165807277a37bf34'
+export const GEMS_ON_THE_FLOOR_GEMS_COLLECTION_SET_ID =
+  '1b1aae61af1ce46fa760abe00a474bba5172fc4d3dc9db8fb902dc5b0f12da3f'
+
+export const FEATURES = [
+  {
+    contract: '0x2559bf029b4981c0701149ac7fde65170c82b449',
+    network: Network.MAINNET,
+    tokenId: '4',
+  },
+]

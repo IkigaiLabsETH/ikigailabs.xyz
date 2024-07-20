@@ -1,4 +1,3 @@
-import { useAddress } from '@thirdweb-dev/react'
 import React, { FC } from 'react'
 import Markdown from 'react-markdown'
 
@@ -6,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { Button } from '../Button'
 import { claim, selectToken } from '../MintPasses/mintPasses.slice'
 import { selectedNetwork } from '../NetworkSelector'
+import { useWallet } from '../../common/useWallet'
 
 interface MintPassProps {
   pass: string
@@ -14,7 +14,7 @@ interface MintPassProps {
 export const MintPass: FC<MintPassProps> = ({ pass }) => {
   const { name, image, description, contract, tokenId } = useAppSelector(selectToken(pass))
   const dispatch = useAppDispatch()
-  const address = useAddress()
+  const { address } = useWallet()
   const network = useAppSelector(selectedNetwork)
 
   const claimPass = () => {

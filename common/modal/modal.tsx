@@ -1,4 +1,3 @@
-import { values } from 'ramda'
 import { Allowlist, showAllowlist } from '../../modules/Allowlist'
 import { MintPass } from '../../modules/MintPass'
 import { showMintPassDetails } from '../../modules/MintPasses'

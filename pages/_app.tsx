@@ -2,13 +2,14 @@
 import type { AppProps } from 'next/app'
 import { FC, useEffect } from 'react'
 import { Provider } from 'react-redux'
-import { ThirdwebProvider, coinbaseWallet, metamaskWallet, rainbowWallet, walletConnect } from '@thirdweb-dev/react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 
 import '../styles/globals.css'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 import { store } from '../common/redux'
 import { Modal } from '../modules/Modal'
@@ -17,10 +18,9 @@ import { Confetti } from '../modules/Confetti'
 import { Network } from '../common/types'
 import { changeRoute, initialPageLoad } from '../common/app'
 import { URLS } from '../common/config'
-import { getChainIdFromNetwork } from '../common/utils'
-import { TW_SUPPORTED_CHAINS } from '../common/config/chains'
 import { SlideUp } from '../modules/SlideUp'
 import { SLIDEUPS } from '../common/slideup'
+import { ThirdwebProvider } from 'thirdweb/react'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter()
@@ -45,41 +45,30 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
 
   useEffect(() => {
     query && store.dispatch(initialPageLoad(route))
-  }, [query])
+  }, [query, route])
 
   const queryClient = new QueryClient()
 
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <ThirdwebProvider
-          activeChain={getChainIdFromNetwork(network)}
-          queryClient={queryClient}
-          sdkOptions={sdkOptions}
-          clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-          supportedWallets={[rainbowWallet(), metamaskWallet(), coinbaseWallet(), walletConnect()]}
-          supportedChains={TW_SUPPORTED_CHAINS}
-          autoSwitch={true}
-          autoConnect={true}
-        >
-          <Component {...pageProps} />
-          <Modal modals={MODALS} />
-          <SlideUp slideUps={SLIDEUPS} />
-          <ToastContainer
-            position="bottom-center"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-          <Confetti />
-        </ThirdwebProvider>
-      </QueryClientProvider>
+      <ThirdwebProvider>
+        <Component {...pageProps} />
+        <Modal modals={MODALS} />
+        <SlideUp slideUps={SLIDEUPS} />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <Confetti />
+      </ThirdwebProvider>
     </Provider>
   )
 }

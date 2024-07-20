@@ -2,7 +2,7 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  important: true,
+  important: false,
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./modules/**/*.{js,ts,jsx,tsx}",
@@ -10,6 +10,7 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     colors: {
+      neutral: colors.neutral,
       black: colors.black,
       white: colors.white,
       gray: colors.gray,
@@ -41,6 +42,9 @@ module.exports = {
       transitionProperty: {
         'width': 'width'
       },
+      gridTemplateColumns: {
+        '13': 'repeat(13, minmax(0, 1fr))',
+      }
     },
     maxHeight: {
       'screen-40': '40vh',
