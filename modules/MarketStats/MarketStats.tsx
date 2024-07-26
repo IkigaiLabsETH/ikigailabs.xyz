@@ -24,11 +24,11 @@ const MarketStats: React.FC = () => {
   }, [])
 
   return (
-    <div className="flex items-center justify-center space-x-4">
-      <div>BTC: ${Math.floor(btcPrice)}</div>
-      <div>ETH: ${Math.floor(ethPrice)}</div>
-      <div>SOL: ${Math.floor(solPrice)}</div>
-    </div>
+    <ul className="flex justify-start flex-col font-normal">
+      <li className='p-1'>BTC: ${Math.floor(btcPrice)}</li>
+      <li className='p-1'>ETH: ${Math.floor(ethPrice)}</li>
+      <li className='p-1'>SOL: ${Math.floor(solPrice)}</li>
+    </ul>
   )
 }
 
