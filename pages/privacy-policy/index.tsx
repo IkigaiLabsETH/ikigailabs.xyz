@@ -6,7 +6,6 @@ import { withLayout } from '../../common/layouts'
 import { Layout } from '../../common/types'
 import { Footer } from '../../modules/Footer'
 import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
-import { Ambassadors } from '../../modules/Ambassadors'
 
 const siteTitle = `${SITE_TITLE} | Privacy Policy`
 const url = `${SITE_URL}/privacy-policy`
@@ -64,7 +63,7 @@ const PrivacyPolicy: FC = () => (
           1.2 Information We Collect Automatically When You Use the Services. When you access or use our Services, we
           may automatically collect information about you, including:
         </p>
-        <ul className='list-disc list-outside ps-6 mb-6'>
+        <ul className="list-disc list-outside ps-6 mb-6">
           <li>
             Log Information: We may collect log information about your use of the Ikigai Website, including the type of
             browser you use, access times, pages viewed, your IP address and the page you visited before navigating to
@@ -86,56 +85,53 @@ const PrivacyPolicy: FC = () => (
         </p>
 
         <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">2. Use of Information.</h2>
-        <p>
-          2.1 We may use information about you for various purposes, including to:</p>
-          <ul className='list-disc list-outside ps-6 mb-6'>
-            <li>Provide, maintain and improve our services;</li>
-            <li>Send you technical notices, updates, security alerts and administrative messages;</li>
-            <li>Respond to your comments, questions and requests;</li>
-            <li>
-              Communicate with you about products, services, offers and events offered by Ikigai Labs and others, and
-              provide news and information we think will be of interest to you;
-            </li>
-            <li>Monitor and analyze trends, usage and activities in connection with our services;</li>
-            <li>
-              Detect, investigate and prevent fraudulent transactions and other illegal activities and protect the
-              rights and property of Ikigai Labs and others;
-            </li>
-            <li>
-              Personalize and improve the services and provide content or features that match user profiles or
-              interests; and
-            </li>
-            <li>Carry out any other purpose described to you at the time the information was collected.</li>
-          </ul>
-        
+        <p>2.1 We may use information about you for various purposes, including to:</p>
+        <ul className="list-disc list-outside ps-6 mb-6">
+          <li>Provide, maintain and improve our services;</li>
+          <li>Send you technical notices, updates, security alerts and administrative messages;</li>
+          <li>Respond to your comments, questions and requests;</li>
+          <li>
+            Communicate with you about products, services, offers and events offered by Ikigai Labs and others, and
+            provide news and information we think will be of interest to you;
+          </li>
+          <li>Monitor and analyze trends, usage and activities in connection with our services;</li>
+          <li>
+            Detect, investigate and prevent fraudulent transactions and other illegal activities and protect the rights
+            and property of Ikigai Labs and others;
+          </li>
+          <li>
+            Personalize and improve the services and provide content or features that match user profiles or interests;
+            and
+          </li>
+          <li>Carry out any other purpose described to you at the time the information was collected.</li>
+        </ul>
 
         <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">3. Sharing of Information.</h2>
-        <p>
-          3.1 We may use share information about you as follows or as otherwise described in this Privacy Policy:</p>
-          <ul className='list-disc list-outside ps-6 mb-6'>
-            <li>
-              With vendors, consultants and other service providers who need access to such information to carry out
-              work on our behalf;
-            </li>
-            <li>
-              In response to a request for information if we believe disclosure is in accordance with, or required by,
-              any applicable law, regulation or legal process;
-            </li>
-            <li>
-              If we believe your actions are inconsistent with our user agreements or policies, or to protect the
-              rights, property and safety of Ikigai Labs, or others;
-            </li>
-            <li>
-              In connection with, or during negotiations of, any merger, sale of company assets, financing or
-              acquisition of all or a portion of our business by another company;
-            </li>
-            <li>
-              Between and among Ikigai Labs and our current and future parents, affiliates, subsidiaries and other
-              companies under common control and ownership; and
-            </li>
-            <li>With your consent or at your direction.</li>
-          </ul>
-        
+        <p>3.1 We may use share information about you as follows or as otherwise described in this Privacy Policy:</p>
+        <ul className="list-disc list-outside ps-6 mb-6">
+          <li>
+            With vendors, consultants and other service providers who need access to such information to carry out work
+            on our behalf;
+          </li>
+          <li>
+            In response to a request for information if we believe disclosure is in accordance with, or required by, any
+            applicable law, regulation or legal process;
+          </li>
+          <li>
+            If we believe your actions are inconsistent with our user agreements or policies, or to protect the rights,
+            property and safety of Ikigai Labs, or others;
+          </li>
+          <li>
+            In connection with, or during negotiations of, any merger, sale of company assets, financing or acquisition
+            of all or a portion of our business by another company;
+          </li>
+          <li>
+            Between and among Ikigai Labs and our current and future parents, affiliates, subsidiaries and other
+            companies under common control and ownership; and
+          </li>
+          <li>With your consent or at your direction.</li>
+        </ul>
+
         <p>
           3.2 We may also share aggregated or de-identified information, which cannot reasonably be used to identify
           you.
