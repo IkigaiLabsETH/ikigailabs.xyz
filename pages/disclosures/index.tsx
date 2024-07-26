@@ -41,71 +41,104 @@ const About: FC = () => (
           Disclosures
         </h1>
         <p>
-          ikigAI Labs XYZ is committed to transparency and maintaining the highest standards of integrity. Our disclosures aim to provide clarity on our operations, partnerships, and potential conflicts of interest.
+          ikigAI Labs XYZ is committed to transparency and maintaining the highest standards of integrity. Our
+          disclosures aim to provide clarity on our operations, partnerships, and potential conflicts of interest.
         </p>
 
-        <ol className='list-decimal font-bold'>
+        <ol className="list-decimal font-bold">
           <li>
             General Information
-            <ul className='list-disc ml-5 mb-4 font-normal'>
-              <li>ikigAI Labs XYZ is a pioneering firm in Web3 technologies, dedicated to leveraging real-time data and avant-garde art resources through advanced API endpoints.</li>
-              <li>Our operations encompass Artist Residency programs, curated destination experiences, and the integration of cutting-edge generative art technologies.</li>
+            <ul className="list-disc ml-5 mb-4 font-normal">
+              <li>
+                ikigAI Labs XYZ is a pioneering firm in Web3 technologies, dedicated to leveraging real-time data and
+                avant-garde art resources through advanced API endpoints.
+              </li>
+              <li>
+                Our operations encompass Artist Residency programs, curated destination experiences, and the integration
+                of cutting-edge generative art technologies.
+              </li>
             </ul>
           </li>
           <li>
             Affiliations and Partnerships
-            <ul className='list-disc ml-5 mb-4 font-normal'>
+            <ul className="list-disc ml-5 mb-4 font-normal">
               <li>
-                We collaborate with a range of organizations, including Translient Lab, Manifold Studio, and Thirdweb, to deliver top-tier services and innovations.
+                We collaborate with a range of organizations, including Translient Lab, Manifold Studio, and Thirdweb,
+                to deliver top-tier services and innovations.
               </li>
               <li>
-                Our business relationships are built on a foundation of trust, transparency, and mutual benefit. We rigorously audit partnerships to ensure alignment with our values.
+                Our business relationships are built on a foundation of trust, transparency, and mutual benefit. We
+                rigorously audit partnerships to ensure alignment with our values.
               </li>
             </ul>
           </li>
           <li>
             Financial Interests
-            <ul className='list-disc ml-5 mb-4 font-normal'>
+            <ul className="list-disc ml-5 mb-4 font-normal">
               <li>
-                ikigAI Labs XYZ and its leadership team may hold financial interests in projects, technologies, and companies that we discuss, collaborate with, or invest in.
+                ikigAI Labs XYZ and its leadership team may hold financial interests in projects, technologies, and
+                companies that we discuss, collaborate with, or invest in.
               </li>
               <li>
-                We are committed to disclosing any material financial interests that could influence our business decisions or the content we produce.
+                We are committed to disclosing any material financial interests that could influence our business
+                decisions or the content we produce.
               </li>
             </ul>
           </li>
           <li>
             Content and Recommendations
-            <ul className='list-disc ml-5 mb-4 font-normal'>
-              <li>Our content, including articles, reports, and analyses, is intended for informational purposes only and does not constitute financial, investment, or legal advice.</li>
-              <li>While we strive to provide accurate and up-to-date information, we do not guarantee the completeness or accuracy of the content. Readers are encouraged to conduct their own research and consult with professional advisors.</li>
+            <ul className="list-disc ml-5 mb-4 font-normal">
+              <li>
+                Our content, including articles, reports, and analyses, is intended for informational purposes only and
+                does not constitute financial, investment, or legal advice.
+              </li>
+              <li>
+                While we strive to provide accurate and up-to-date information, we do not guarantee the completeness or
+                accuracy of the content. Readers are encouraged to conduct their own research and consult with
+                professional advisors.
+              </li>
             </ul>
           </li>
           <li>
             Sponsorships and Advertisements
-            <ul className='list-disc ml-5 mb-4 font-normal'>
-              <li>ikigAI Labs XYZ may receive compensation from third parties for sponsorships, advertisements, and other promotional activities.</li>
+            <ul className="list-disc ml-5 mb-4 font-normal">
+              <li>
+                ikigAI Labs XYZ may receive compensation from third parties for sponsorships, advertisements, and other
+                promotional activities.
+              </li>
               <li>We clearly label sponsored content and advertisements to maintain transparency.</li>
             </ul>
           </li>
           <li>
             Conflicts of Interest
-            <ul className='list-disc ml-5 mb-4 font-normal'>
-              <li>We actively manage and disclose any potential conflicts of interest that may arise in our business operations or content production.</li>
-              <li>Our conflict of interest policy ensures that all stakeholders are aware of any situations that could influence our objectivity or decision-making processes.</li>
+            <ul className="list-disc ml-5 mb-4 font-normal">
+              <li>
+                We actively manage and disclose any potential conflicts of interest that may arise in our business
+                operations or content production.
+              </li>
+              <li>
+                Our conflict of interest policy ensures that all stakeholders are aware of any situations that could
+                influence our objectivity or decision-making processes.
+              </li>
             </ul>
           </li>
           <li>
             Privacy and Data Protection
-            <ul className='list-disc ml-5 mb-4 font-normal'>
-              <li>Protecting the privacy of our clients, partners, and users is of utmost importance to us. We adhere to stringent data protection policies and comply with relevant privacy laws.</li>
+            <ul className="list-disc ml-5 mb-4 font-normal">
+              <li>
+                Protecting the privacy of our clients, partners, and users is of utmost importance to us. We adhere to
+                stringent data protection policies and comply with relevant privacy laws.
+              </li>
               <li>Our privacy policy outlines how we collect, use, and safeguard personal data.</li>
             </ul>
           </li>
           <li>
             Feedback and Queries
-            <ul className='list-disc ml-5 mb-4 font-normal'>
-              <li>We welcome feedback and questions from our community. If you have any concerns or require further information regarding our disclosures, please contact us at contact@ikigailabs.xyz.</li>
+            <ul className="list-disc ml-5 mb-4 font-normal">
+              <li>
+                We welcome feedback and questions from our community. If you have any concerns or require further
+                information regarding our disclosures, please contact us at contact@ikigailabs.xyz.
+              </li>
             </ul>
           </li>
         </ol>
