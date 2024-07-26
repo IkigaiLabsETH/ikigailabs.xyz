@@ -55,10 +55,10 @@ const About: FC = () => (
           architects of an ever-evolving art ecosystem. By incorporating insights and expertise, they continually infuse
           our galleries with groundbreaking collections that inspire and captivate. Utilizing our advanced aggregator
           app, curators can seamlessly exhibit artworks from over 150 multi-chain marketplaces, offering a cohesive and
-          immersive discovery experience. Curatorship goes beyond selection; it&apos;s about creating meaningful narratives
-          and experiences. We focus on the context and story behind each artwork, connecting it to the community and
-          broader cultural dialogues. This approach combats collector fatigue by offering fresh and impactful
-          experiences that transcend the digital marketplace.
+          immersive discovery experience. Curatorship goes beyond selection; it&apos;s about creating meaningful
+          narratives and experiences. We focus on the context and story behind each artwork, connecting it to the
+          community and broader cultural dialogues. This approach combats collector fatigue by offering fresh and
+          impactful experiences that transcend the digital marketplace.
         </p>
 
         <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Dynamic Collecting</h2>
@@ -79,11 +79,11 @@ const About: FC = () => (
         </p>
         <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Our Vision</h2>
         <p>
-          Inspired by the Japanese concept of &apos;ikigai&apos;, which represents the balance of passion, talent, societal
-          contribution, and livelihood, Ikigai Labs aims to create a sustainable ecosystem that nurtures this harmony.
-          Our vision transcends digital spaces, extending into real-world artist residencies that blend technology and
-          creativity. We are committed to fostering a community where art and innovation intersect, creating lasting
-          value for creators, curators, and collectors.
+          Inspired by the Japanese concept of &apos;ikigai&apos;, which represents the balance of passion, talent,
+          societal contribution, and livelihood, Ikigai Labs aims to create a sustainable ecosystem that nurtures this
+          harmony. Our vision transcends digital spaces, extending into real-world artist residencies that blend
+          technology and creativity. We are committed to fostering a community where art and innovation intersect,
+          creating lasting value for creators, curators, and collectors.
         </p>
         <h2 className="mt-10 md:mt-20 text-[2rem] md:text-[3rem]">Join us</h2>
         <p>

@@ -137,7 +137,7 @@ export const Ambassadors: FC = () => {
                 />
               </div>
             </Link>
-          </div> 
+          </div>
         </div>
         {/* Maia Flore */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-10 gap-5 p-5 md:p-10">
