@@ -22,7 +22,6 @@ import {
   polygon,
   optimism,
   Chain,
-  polygonMumbai,
   zora,
   base,
   baseSepolia,
@@ -34,7 +33,6 @@ import {
   zkSync,
   sepolia,
   blast,
-  berachainTestnet,
 } from 'wagmi/chains'
 import { Network } from '../types'
 
