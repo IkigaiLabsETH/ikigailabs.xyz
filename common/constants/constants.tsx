@@ -93,7 +93,7 @@ export const EXPIRATION_DEFAULTS = [
 
 export const customChains = {
   [Network.BERA]: defineChain({
-    id: 80085,
+    id: 80084,
     name: 'Berachain',
     nativeCurrency: {
       name: 'BERA',
@@ -103,7 +103,7 @@ export const customChains = {
     blockExplorers: [
       {
         name: 'Beratrail',
-        url: 'https://artio.beratrail.io',
+        url: 'https://bartio.beratrail.io',
       },
     ],
   }),
