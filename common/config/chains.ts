@@ -34,6 +34,7 @@ import {
   zkSync,
   sepolia,
   blast,
+  berachainTestnet,
 } from 'wagmi/chains'
 import { Network } from '../types'
 

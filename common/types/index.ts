@@ -25,7 +25,7 @@ export enum Network {
   SCROLL = 'scroll',
   ZKSYNC = 'zksync',
   BLAST = 'blast',
-  BERA = 'berachain',
+  BERA = 'berachaintestnet',
 }
 
 export enum NetworkName {
