@@ -13,7 +13,7 @@ import {
   Scroll,
   Zksync,
   Blast,
-  BerachainArtio,
+  Berachain,
   BaseSepoliaTestnet,
 } from '@thirdweb-dev/chains'
 import {
@@ -34,6 +34,7 @@ import {
   zkSync,
   sepolia,
   blast,
+  berachain,
 } from 'wagmi/chains'
 import { Network } from '../types'
 
@@ -198,6 +199,13 @@ export const supportedChains = [
     lightIconUrl: '/icons/blast-icon-dark.svg',
     darkIconUrl: '/icons/blast-icon-light.svg',
   },
+  {
+    ...berachain,
+    routePrefix: Network.BERA,
+    reservoirBaseUrl: 'https://api-berachain-testnet.reservoir.tools',
+    lightIconUrl: '/icons/blast-icon-dark.svg',
+    darkIconUrl: '/icons/blast-icon-light.svg',
+  },
 ] as ReservoirChain[]
 
 export const TW_SUPPORTED_CHAINS = [
@@ -216,5 +224,5 @@ export const TW_SUPPORTED_CHAINS = [
   Scroll,
   Zksync,
   Blast,
-  BerachainArtio,
+  Berachain,
 ] as any
