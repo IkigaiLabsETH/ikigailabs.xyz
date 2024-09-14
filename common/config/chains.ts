@@ -13,7 +13,7 @@ import {
   Scroll,
   Zksync,
   Blast,
-  Berachainbartio,
+  BerachainTestnet,
   BaseSepoliaTestnet,
 } from '@thirdweb-dev/chains'
 import {
@@ -222,5 +222,5 @@ export const TW_SUPPORTED_CHAINS = [
   Scroll,
   Zksync,
   Blast,
-  Berachainbartio,
+  BerachainTestnet,
 ] as any
