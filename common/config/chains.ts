@@ -13,7 +13,7 @@ import {
   Scroll,
   Zksync,
   Blast,
-  Berachain,
+  BerachainTestnet,
   BaseSepoliaTestnet,
 } from '@thirdweb-dev/chains'
 import {
@@ -199,7 +199,7 @@ export const supportedChains = [
     darkIconUrl: '/icons/blast-icon-light.svg',
   },
   {
-    ...berachain,
+    ...BerachainTestnet,
     routePrefix: Network.BERA,
     reservoirBaseUrl: 'https://api-berachain-testnet.reservoir.tools',
     lightIconUrl: '/icons/blast-icon-dark.svg',
@@ -223,5 +223,5 @@ export const TW_SUPPORTED_CHAINS = [
   Scroll,
   Zksync,
   Blast,
-  Berachain,
+  BerachainTestnet,
 ] as any
