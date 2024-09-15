@@ -4,7 +4,6 @@ import { generateMessage } from "../../actions/openai-actions";
 import { MessageMarkdown } from "../../ama/components/messages/message-markdown";
 import ModelSelect from "../../ama/components/model-select";
 import Sidebar from "../../ama/components/sidebar";
-import { ThemeSwitcher } from "../../ama/components/theme-switcher";
 import { ScrollArea } from "../../ama/components/ui/scroll-area";
 import { getLocalStorageItem, setLocalStorageItem } from "../../ama/lib/local-storage/local-storage";
 import { cn } from "../../ama/lib/utils";
@@ -45,7 +44,7 @@ export default function Home() {
         setLocalStorageItem("chats", updatedChats);
       }
     }
-  }, [messages, currentChatId, model]);
+  }, [messages, currentChatId, model, chats]);
 
   const handleSubmit = async () => {
     if (!input.trim()) {
@@ -246,7 +245,7 @@ export default function Home() {
           <ReactTextareaAutosize
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask Me Anything..."
+            placeholder="Ask Me anything..."
             className="w-full resize-none rounded-md p-4 pr-12 bg-gray-900 text-white placeholder-gray-400 focus:outline-none border-2 border-yellow-400 font-sans"
             minRows={1}
             maxRows={20}
