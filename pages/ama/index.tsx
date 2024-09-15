@@ -197,7 +197,7 @@ export default function Home() {
 
       <div className="flex flex-col flex-1 gap-4">
         <div className="flex items-center justify-between w-full max-w-[1800px] p-4">
-          <div className="text-xl font-bold">Ikigai Labs AMA</div>
+          <div className="text-xl font-bold">IkigAI AMA</div>
 
           <div className="flex items-center gap-4">
             <div className="flex justify-between items-center w-[200px]">
