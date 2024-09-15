@@ -1,3 +1,4 @@
+"use server";
 
 import { Message } from "../ama/types/messages/messages-types";
 import { createOpenAI } from "@ai-sdk/openai";
