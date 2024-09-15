@@ -186,14 +186,17 @@ export default function Home() {
   }, [messages]);
 
   return (
-    <div className="h-screen flex bg-background">
-      <Sidebar
-        chats={chats}
-        currentChatId={currentChatId}
-        onNewChat={handleNewChat}
-        onChatSelect={handleChatSelect}
-        onChatDelete={handleChatDelete}
-      />
+    <div className="h-screen flex bg-background font-sans">
+      {/* Update sidebar background to black */}
+      <div className="w-[260px] bg-black">
+        <Sidebar
+          chats={chats}
+          currentChatId={currentChatId}
+          onNewChat={handleNewChat}
+          onChatSelect={handleChatSelect}
+          onChatDelete={handleChatDelete}
+        />
+      </div>
 
       <div className="flex flex-col flex-1 gap-4">
         <div className="flex items-center justify-between w-full max-w-[1800px] p-4">
@@ -243,8 +246,8 @@ export default function Home() {
           <ReactTextareaAutosize
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask o1 anything..."
-            className="w-full resize-none rounded-md p-4 pr-12 bg-secondary/90 text-gray focus:outline-none"
+            placeholder="Ask Me Anything..."
+            className="w-full resize-none rounded-md p-4 pr-12 bg-gray-900 text-white placeholder-gray-400 focus:outline-none border-2 border-yellow-400 font-sans"
             minRows={1}
             maxRows={20}
             onKeyDown={handleKeyDown}
