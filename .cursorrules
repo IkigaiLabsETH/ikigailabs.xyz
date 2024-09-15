@@ -1,56 +1,161 @@
 You are an expert in TypeScript, Node.js, Next.js App Router, React, Shadcn UI, Radix UI and Tailwind. You have a deep understanding of best practices and performance optimization techniques in these technologies.
   
-  Code Style and Structure
-  - Write concise, technical TypeScript code with accurate examples.
-  - Use functional and declarative programming patterns; avoid classes.
-  - Prefer iteration and modularization over code duplication.
-  - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
-  - Structure files: exported component, subcomponents, helpers, static content, types.
-  
-  Naming Conventions
-  - Favor named exports for modules.
-  
-  TypeScript Usage
-  - Use TypeScript for all code; prefer interfaces over types.
-  - Use functional modules and components with TypeScript interfaces.
-  
-  Syntax and Formatting
-  - Use TJSX.
-  
-  UI and Styling
-  - Use Shadcn UI, Radix, and Tailwind for components and styling.
-  - Implement responsive design with Tailwind CSS; use a mobile-first approach.
-  
-  Performance Optimization
-  - Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
-  - Wrap client components in Suspense with fallback.
-  - Use dynamic loading for non-critical components.
-  - Optimize images: include size data, implement lazy loading.
-  
-  Key Conventions
-  - Limit 'use client':
-    - Favor server components and Next.js SSR.
-    - Use only for Web API access in small components.
-    - Avoid for data fetching or state management.
-  
-  Follow Next.js docs for Data Fetching, Rendering, and Routing.
+# Project Guidelines
 
-Our application follows a modular and organized structure to enhance maintainability and scalability. This structure allows for easy navigation, separation of concerns, and scalability as the project grows. Here's an overview of the main directories and their purposes:
+## Technology Stack
+- Next.js 14+ (App Router)
+- React 18+
+- TypeScript 5.0.4+
+- Node.js 18.6+
+- Tailwind CSS 3+
+- Shadcn UI
+- Radix UI
+- Framer Motion
 
+## Code Style and Structure
+- Write concise, technical TypeScript code with accurate examples.
+- Use functional and declarative programming patterns; avoid classes.
+- Prefer iteration and modularization over code duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+- Structure files: exported component, subcomponents, helpers, static content, types.
+- Group components into folders within the `/modules` directory.
+- Use index.ts files to export components.
+
+## Naming Conventions
+- Use lowercase with dashes for directories (e.g., components/auth-wizard).
+- Favor named exports for components and modules.
+- Name component files as `example-component.tsx`.
+
+## TypeScript Usage
+- Use TypeScript for all code; prefer interfaces over types.
+- Avoid enums; use const objects instead.
+- Use functional components with TypeScript interfaces.
+
+## Syntax and Formatting
+- Use TSX for React components.
+- Use the "function" keyword for pure functions.
+- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
+- Use declarative JSX.
+
+## UI and Styling
+- Use Shadcn UI, Radix UI, and Tailwind for components and styling.
+- Implement responsive design with Tailwind CSS; use a mobile-first approach.
+- Utilize Framer Motion for animations.
+
+## Performance Optimization
+- Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
+- Wrap client components in Suspense with fallback.
+- Use dynamic loading for non-critical components.
+- Optimize images: use Next.js Image component, include size data, implement lazy loading.
+
+## Key Conventions
+- Use 'nuqs' for URL search parameter state management.
+- Optimize Web Vitals (LCP, CLS, FID).
+- Limit 'use client':
+  - Favor server components and Next.js SSR.
+  - Use only for Web API access in small components.
+  - Avoid for data fetching or state management.
+- All data fetching should be done in server components and passed down as props.
+- Client components (useState, hooks, etc.) require 'use client' at the top of the file.
+- Import useRouter from next/navigation.
+
+## State Management
+- Use React's built-in useState and useContext for local state.
+- For global state, prefer Zustand or Jotai over Redux.
+
+## Error Handling
+- Implement error boundaries for client-side error catching.
+- Use try/catch blocks for async operations.
+- Log errors to a service like Sentry in production.
+
+## Testing
+- Use Jest for unit and integration tests.
+- Use React Testing Library for component tests.
+- Use Cypress for end-to-end testing.
+
+## Accessibility (a11y)
+- Use semantic HTML elements.
+- Implement ARIA attributes where necessary.
+- Ensure keyboard navigation support.
+- Test with screen readers.
+
+## Internationalization (i18n)
+- Use Next.js built-in i18n routing.
+- Store translations in JSON files.
+- Use react-intl for complex translations.
+
+## API Layer
+- Use React Query for data fetching, caching, and state management.
+- Implement API routes in /app/api directory.
+- Use Axios for HTTP requests.
+- Utilize Server Actions for backend operations.
+
+## Environment Variables
+- Use .env.local for local development.
+- Prefix public variables with NEXT_PUBLIC_.
+- Use process.env to access variables in Node.js environment.
+- Use publicRuntimeConfig for client-side access.
+
+## Code Splitting
+- Use Next.js dynamic imports for component-level code splitting.
+- Implement route-based code splitting with App Router.
+
+## SEO
+- Use Next.js Head component for meta tags.
+- Implement structured data using JSON-LD.
+- Use dynamic OG images for social media sharing.
+
+## Security
+- Implement input validation on both client and server.
+- Use helmet.js for setting secure HTTP headers.
+- Implement CSRF protection for forms.
+- Use Content Security Policy (CSP) headers.
+
+## Performance Monitoring
+- Use Next.js Analytics for core web vitals monitoring.
+- Implement custom performance marks and measures.
+- Consider using a third-party APM tool like New Relic or Datadog.
+
+## Deployment
+- Use Vercel for seamless Next.js deployments.
+- Implement CI/CD pipelines for automated testing and deployment.
+
+## Code Quality Tools
+- Use ESLint with the Next.js configuration.
+- Use Prettier for code formatting.
+- Implement husky for pre-commit hooks.
+
+## Git Workflow
+- Use feature branches for development.
+- Follow conventional commits for commit messages.
+- Implement pull request templates.
+
+## Project Structure
 /app: Next.js 14+ App Router structure
 /api: API routes
 /components: Reusable UI components
 /ui: Shadcn UI components
 /hooks: Custom React hooks
 /lib: Utility functions and configurations
-/modules: Feature-specific modules
-/collections: Collection-related functionality
-page.tsx: Server Component for collections page
-collections-grid.tsx: Client Component for rendering collections
-use-collections.ts: Custom hook for collection data
+/modules: Feature-specific modules and components
+/pages: Next.js pages (create folders for new pages, use index.tsx)
 /providers: Context providers for state management
 /public: Static assets
 /styles: Global styles and Tailwind configuration
 /types: TypeScript type definitions and interfaces
+
+## Documentation and Comments
+- Use comments throughout the code to document functionality.
+- Provide clear explanations for complex logic or algorithms.
+- Keep README files up-to-date with project setup and contribution guidelines.
+
+## Helpful Resources
+- [Next.js Docs](https://nextjs.org/docs)
+- [Thirdweb Typescript](https://portal.thirdweb.com/typescript/v5)
+- [Thirdweb Engine](https://portal.thirdweb.com/engine/references/typescript)
+- [Reservoir Tools SDK](https://docs.reservoir.tools/reference/reservoir-sdk-jstsnode/)
+- [Tailwind CSS with Next.js Guide](https://tailwindcss.com/docs/guides/nextjs)
+- [Shadcn UI Installation for Next.js](https://ui.shadcn.com/docs/installation/next)
+- [Framer Motion Introduction](https://www.framer.com/motion/introduction/)
 
   

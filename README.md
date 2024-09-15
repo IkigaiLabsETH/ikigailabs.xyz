@@ -132,6 +132,7 @@ Our application follows a modular and organized structure to enhance maintainabi
 - `/public`: Static assets
 - `/styles`: Global styles and Tailwind configuration
 - `/types`: TypeScript type definitions and interfaces
+- `/ama`: Components for our AMA (incl. lib and types folder)
 
 This structure allows for easy navigation, separation of concerns, and scalability as the project grows.
 
@@ -172,6 +173,12 @@ To fully realize o1’s potential at IkigAI Labs XYZ, we need to:
 3. **Develop a framework for user interaction**, where users can directly engage with both o1 and delegated models for personalized AI-driven insights and actions.
 
 This will mark the next chapter in IkigAI Labs' journey—where intelligent systems, rather than developers, drive the process of creation and innovation. That being said a CTO will always be key!!!
+
+- ride the wave of code generating LLMs
+- become a big picture architect
+- constantly switch to the best AI tools & models
+- design with natural language 1st
+- don’t compete with the AI, use it to work better
 
 ### Reservoir Endpoints
 
