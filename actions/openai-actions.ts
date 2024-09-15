@@ -47,6 +47,7 @@ async function fetchMemories(query: string, userId: string) {
 export async function generateMessage(
   model: string,
   messages: Message[],
+  userId: string,
   signal?: AbortSignal
 ): Promise<string> {
   try {
