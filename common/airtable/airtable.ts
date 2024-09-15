@@ -5,4 +5,4 @@ Airtable.configure({
   endpointUrl: 'https://api.airtable.com',
 })
 
-export const airtable = Airtable.base(process.env.AIRTABLE_BASE_ID)
+export const airtable = Airtable.base(process.env.AIRTABLE_BASE_ID!)
