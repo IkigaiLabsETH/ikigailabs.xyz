@@ -1,11 +1,11 @@
 "use client";
 
-import { generateMessage } from "../../actions/openai-actions";
+import { generateMessage } from "../api/openai-actions";
 import { MessageMarkdown } from "../../ama/components/messages/message-markdown";
-import ModelSelect from "../../ama//components/model-select";
+import ModelSelect from "../../ama/components/model-select";
 import Sidebar from "../../ama/components/sidebar";
-import { ThemeSwitcher } from "../../ama//components/theme-switcher";
-import { ScrollArea } from "../../ama//components/ui/scroll-area";
+import { ThemeSwitcher } from "../../ama/components/theme-switcher";
+import { ScrollArea } from "../../ama/components/ui/scroll-area";
 import { getLocalStorageItem, setLocalStorageItem } from "../../ama/lib/local-storage/local-storage";
 import { cn } from "../../ama/lib/utils";
 import { Chat } from "../../ama/types/chat/chats-types";
@@ -197,7 +197,7 @@ export default function Home() {
 
       <div className="flex flex-col flex-1 gap-4">
         <div className="flex items-center justify-between w-full max-w-[1800px] p-4">
-          <div className="text-xl font-bold">o1 Playground</div>
+          <div className="text-xl font-bold">Ikigai Labs AMA</div>
 
           <div className="flex items-center gap-4">
             <div className="flex justify-between items-center w-[200px]">
@@ -213,8 +213,6 @@ export default function Home() {
                 }}
               />
             </div>
-
-            <ThemeSwitcher />
           </div>
         </div>
 
@@ -228,7 +226,7 @@ export default function Home() {
                 key={index}
                 className={cn("mb-4 flex", message.role === "user" ? "justify-end" : "justify-start", isGenerating && message.id.startsWith("loading-") && "animate-pulse")}
               >
-                <div className={`px-4 py-2 max-w-[600px] rounded ${message.role === "user" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>
+                <div className={`px-4 py-2 max-w-[600px] rounded ${message.role === "user" ? "bg-black text-gray" : "bg-secondary text-gray"}`}>
                   <MessageMarkdown
                     role={message.role}
                     content={message.content}
@@ -246,7 +244,7 @@ export default function Home() {
             value={input}
             onChange={(event) => setInput(event.target.value)}
             placeholder="Ask o1 anything..."
-            className="w-full resize-none rounded-md p-4 pr-12 bg-secondary/90 text-secondary-foreground focus:outline-none"
+            className="w-full resize-none rounded-md p-4 pr-12 bg-secondary/90 text-gray focus:outline-none"
             minRows={1}
             maxRows={20}
             onKeyDown={handleKeyDown}
@@ -260,7 +258,7 @@ export default function Home() {
           ) : (
             <Send
               onClick={handleSubmit}
-              className="absolute right-[14px] top-[28px] transform -translate-y-1/2 cursor-pointer text-primary hover:opacity-80"
+              className="absolute right-[14px] top-[28px] transform -translate-y-1/2 cursor-pointer text-gray hover:opacity-80"
             />
           )}
         </div>
