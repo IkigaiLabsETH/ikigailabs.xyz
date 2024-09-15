@@ -1,6 +1,6 @@
 "use client";
 
-import { generateMessage } from "../api/openai-actions";
+import { generateMessage } from "../../actions/openai-actions";
 import { MessageMarkdown } from "../../ama/components/messages/message-markdown";
 import ModelSelect from "../../ama/components/model-select";
 import Sidebar from "../../ama/components/sidebar";
