@@ -20,7 +20,7 @@ export default function Home() {
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const [model, setModel] = useState<"o1-preview" | "o1-mini">("o1-mini");
+  const [model, setModel] = useState<"o1-preview" | "o1-mini" | "gpt-4o-2024-08-06">("o1-mini");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isAborted, setIsAborted] = useState(false);
   const [chats, setChats] = useState<Chat[]>([]);
@@ -91,7 +91,7 @@ export default function Home() {
     setInput("");
 
     try {
-      const text = await generateMessage(model, [...messages, userMessage]);
+      const text = await generateMessage(model, [...messages, userMessage], abortController.current?.signal as any);
 
       let updatedMessages: Message[];
       setMessages((prev) => {
@@ -205,7 +205,7 @@ export default function Home() {
             <div className="flex justify-between items-center w-[200px]">
               <ModelSelect
                 model={model}
-                onSelect={(newModel) => {
+                onSelect={(newModel: "o1-preview" | "o1-mini" | "gpt-4o-2024-08-06") => {
                   setModel(newModel);
                   if (currentChatId) {
                     const updatedChats = chats.map((chat) => (chat.id === currentChatId ? { ...chat, model: newModel } : chat));

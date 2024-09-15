@@ -1,4 +1,5 @@
 import { Message } from "../ama/types/messages/messages-types";
+import { AbortSignal } from "abort-controller";
 
 // If you have control over the Message type, update it like this:
 // interface Message {
@@ -44,10 +45,10 @@ async function fetchMemories(query: string, userId: string) {
 }
 
 export async function generateMessage(
-  model: "o1-preview" | "o1-mini" | "gpt-4o-2024-08-06",
+  model: string,
   messages: Message[],
-  userId: string
-) {
+  signal?: AbortSignal
+): Promise<string> {
   try {
     console.log("Generating message for model:", model);
 
