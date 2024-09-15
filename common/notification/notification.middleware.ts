@@ -11,10 +11,10 @@ export const middleware = (notifications: Record<string, string>) => (actionCrea
         if (action.payload?.errors) {
           toast.error(
             `${action.payload?.message}: ${pipe(
-              path(['payload', 'errors']),
-              values,
-              pluck('message'),
-              join(', '),
+              path(['payload', 'errors']) as (obj: unknown) => unknown[],
+              values as (obj: unknown) => unknown[],
+              pluck('message') as (obj: unknown[]) => string[],
+              join(', ')
             )(action)}`,
           )
           return
