@@ -26,9 +26,10 @@ import {
 } from "../../ama/search/ui/credenza";
 import { useSearchParams } from "next/navigation";
 import WebReferences from "../../ama/search/web-references";
+import { useUser } from '../../ama/hooks/useUser'; 
 
 function ChatPage() {
-  // Remove user-related state and functions
+  const { user } = useUser(); // Use the custom hook
 
   const searchParams = useSearchParams();
 
@@ -54,10 +55,9 @@ function ChatPage() {
   // Handling Memory Submit
   const handleMemorySubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!customUserMemory) return;
+    if (!customUserMemory || !user) return;
     try {
-      const memory = await createCustomMemory(customUserMemory, user);
-      // @ts-ignore
+      const memory = await createCustomMemory(customUserMemory, user.id);
       setUserMemories([...userMemories, memory]);
     } catch (error) {
       console.error('Error creating memory:', error);
@@ -71,7 +71,7 @@ function ChatPage() {
     e?.preventDefault();
     e?.type === "keydown" && e.stopPropagation();
 
-    const data = await getSearchResultsFromMemory(query, user);
+    const data = await getSearchResultsFromMemory(query);
     if (!data) return;
 
     setSearchResultsData(data);
