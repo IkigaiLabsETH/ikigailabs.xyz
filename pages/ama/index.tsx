@@ -78,6 +78,7 @@ export default function Home() {
         name: chatName,
         messages: [userMessage],
         createdAt: new Date(),
+        updatedAt: new Date(), // Add this line
         model: model
       };
       setChats((prevChats) => [newChat, ...prevChats]);
@@ -141,6 +142,7 @@ export default function Home() {
       name: "New Chat",
       messages: [],
       createdAt: new Date(),
+      updatedAt: new Date(), // Add this line
       model
     };
     setChats([newChat, ...chats]);

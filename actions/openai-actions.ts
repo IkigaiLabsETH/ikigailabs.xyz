@@ -1,5 +1,7 @@
 import { Message } from "../ama/types/messages/messages-types";
 import { AbortSignal } from "abort-controller";
+// Remove the unused import
+// import { getMemories } from "./memo-actions";
 
 // If you have control over the Message type, update it like this:
 // interface Message {
@@ -56,15 +58,18 @@ export async function generateMessage(
     const lastUserMessage = messages.findLast(msg => msg.role === 'user')?.content || '';
     const memories = await fetchMemories(lastUserMessage, userId);
 
-    const systemMessage: ExtendedMessage = {
+    const systemMessage = {
       role: 'system',
       content: `You are a search assistant that answers the user query based on search results. We already know this about the user, try to tell the user about this showing up!: ${memories}`
     };
 
-    const updatedMessages: ExtendedMessage[] = [systemMessage, ...messages];
+    const updatedMessages = [systemMessage, ...messages];
 
     console.log("Sending request to /api/openai with model:", model);
     console.log("Messages:", JSON.stringify(updatedMessages, null, 2));
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
     const response = await fetch('/api/openai', {
       method: 'POST',
@@ -72,18 +77,25 @@ export async function generateMessage(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ model, messages: updatedMessages }),
+      signal: controller.signal,
     });
 
-    const data = await response.json();
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
-      console.error("Error response from server:", data);
-      throw new Error(`Failed to generate message: ${data.message}`);
+      const errorText = await response.text();
+      console.error("Error response from server:", errorText);
+      throw new Error(`Failed to generate message: ${errorText}`);
     }
 
+    const data = await response.json();
     console.log("Received response:", data);
     return data.text;
   } catch (error) {
+    if (error.name === 'AbortError') {
+      console.log('Request was aborted due to timeout');
+      throw new Error('Request timed out after 30 seconds');
+    }
     console.error("Detailed error in generateMessage:", error);
     throw error;
   }

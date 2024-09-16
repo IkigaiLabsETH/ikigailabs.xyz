@@ -169,3 +169,35 @@ export async function getSearchResultsFromMemory(query: string): Promise<BingRes
   // TODO: Implement the actual logic
   return null;
 }
+
+export async function fetchMemories(query: string, userId: string): Promise<string> {
+  if (!mem0ApiKey) {
+    console.error('Missing Mem0 API key');
+    return '';
+  }
+
+  try {
+    const mem0Response = await fetch('https://api.mem0.ai/v1/memories/search/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${mem0ApiKey}`,
+      },
+      body: JSON.stringify({
+        query: `What do you know about ${query}`,
+        user_id: userId,
+      }),
+    });
+
+    if (!mem0Response.ok) {
+      console.error('Error fetching memories:', await mem0Response.text());
+      return '';
+    }
+
+    const memories = await mem0Response.json() as { memory: string }[];
+    return memories.map(memory => memory.memory).join('\n\n');
+  } catch (error) {
+    console.error('Error fetching memories:', error);
+    return '';
+  }
+}
