@@ -2,37 +2,6 @@
 
 The platform is a comprehensive, non-custodial, open-source Web3 application, designed to empower creators and collectors while leveraging the advanced functionalities of Reservoir Tools and Thirdweb. Artists can securely mint, distribute, and sell their digital art across multiple chains, with smart contracts tailored through Transient Labs. By integrating T.R.A.C.E. system, authenticity and provenance are guaranteed. We like to call it RWA - Real World Art. Curators play a pivotal role, crafting narratives and experiences through a seamless multi-chain aggregator that showcases over 150 marketplaces. We feature the top 420 collections from the past 6.9 years. The concept of 'ikigai' guides this vision, blending technology, innovation, and passion to nurture both digital and physical art spaces through residencies and real-world experiences. 
 
-## Table of Contents
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Technologies](#technologies)
-- [Dependencies](#dependencies)
-- [App Architecture](#app-architecture)
-- [API Reference](#api-reference)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Features
-
-- Seamless NFT browsing and trading experience
-- Real-time pricing and advanced filtering
-- Multi-chain support
-- Optimized performance with React Server Components
-
-## Technologies
-
-- Next.js 13+ with App Router
-- React 18+
-- TypeScript
-- Shadcn UI
-- Radix UI
-- Tailwind CSS
-- Reservoir Tools
-- Thirdweb SDK
-
 ## Dependencies
 
 Our project relies on several key dependencies to function. Here's an overview of the main packages used:
@@ -50,61 +19,6 @@ Our project relies on several key dependencies to function. Here's an overview o
 
 For a complete list of dependencies and their versions, please refer to the `package.json` file in the project root.
 
-## Getting Started
-
-These instructions will help you set up and run the project on your local machine.
-
-### Prerequisites
-
-- Node.js (version X.X.X or higher)
-- npm or yarn
-- Thirdweb SDK
-- Reservoir API key
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/IkigaiLabsETH/ikigailabs.xyz.git
-   ```
-
-2. Navigate to the project directory:
-   ```bash
-   cd project
-   ```
-
-3. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-4. Set up environment variables:
-   Copy the `.env.example` file to `.env` and fill in the required values, including your Reservoir API key and Thirdweb project settings.
-
-## Usage
-
-To start the development server:
-
-1. Ensure you're in the project directory.
-
-2. Run one of the following commands:
-
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   ```
-
-3. Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
-
-The server will automatically reload if you make changes to the source files. You'll see any lint errors in the console.
-
-For production, build the application first: yarn build
-
 ## App Architecture
 
 Key architectural decisions:
@@ -118,7 +32,6 @@ Our application follows a modular and organized structure to enhance maintainabi
 
 - `/app`: Next.js 13+ App Router structure
   - `/api`: API routes
-  - `/[locale]`: Internationalized routes
 - `/components`: Reusable UI components
   - `/ui`: Shadcn UI components
 - `/hooks`: Custom React hooks
@@ -132,13 +45,7 @@ Our application follows a modular and organized structure to enhance maintainabi
 - `/public`: Static assets
 - `/styles`: Global styles and Tailwind configuration
 - `/types`: TypeScript type definitions and interfaces
-- `/ama`: Components for our AMA (incl. lib and types folder)
-
-This structure allows for easy navigation, separation of concerns, and scalability as the project grows.
-
-## API Reference
-
-Our application leverages both Reservoir and Thirdweb APIs, as well as AI endpoints.
+- `/ama`: Components for our AI Agents (incl. lib and types folder)
 
 ### Thesis: The Impact of o1 on IkigAI Labs XYZ’s Evolution in Web3 and AI Integration
 
@@ -163,8 +70,31 @@ At IkigAI Labs, we strive to push the boundaries of creativity and democratizati
 **Example Use Case:**
 - **Investment DApp with AI Insights:** o1 could manage complex, long-term financial planning algorithms, while Sonnet 3.5 handles rapid feedback loops for users. This model would deliver sustainable, AI-powered investment advice that is both real-time and future-forward, aligning with the lab’s mission to blend Web3 and sustainability for younger generations like Gen Z and Gen Alpha.
 
-#### Conclusion: o1’s Strategic Role in IkigAI Labs' Future
+#### o1’s Strategic Role in IkigAI Labs' Future
 The introduction of o1 into IkigAI Labs' development pipeline represents a quantum leap in our ability to build, iterate, and scale. By positioning o1 as the central "brain" that oversees complex planning and delegation, and by utilizing faster models for execution, the lab can continue innovating across its core projects—from NFTs to AI-driven decentralized apps. This hierarchical, multi-agent workflow will not only increase productivity but also ensure that IkigAI Labs remains at the cutting edge of Web3, AI, and decentralized systems.
+
+**Why is ikigAI Labs Building a Fine-Tuned LLM?** This is our **$AHA Moment**!
+
+## Because it handles the tasks that humans can’t easily scale.
+
+- Track the top 69 cryptocurrencies and the top 420 NFT collections
+- Entertain and educate us with daily, weekly, monthly, and yearly reports
+- Provide a search and chat UI so we can ask 'him' anything. $AHA is born
+
+## Spend Less Time Watching Charts—Go Touch Some Grass, LFG!
+
+The **LTL AI Travel Assistant** taps into Mem0’s memory capabilities to deliver context-aware, personalized responses. As you engage, it continuously learns and refines, offering ever more tailored travel recommendations. This creates a unique AI experience that reduces costs while enhancing user satisfaction. Think of it as a self-improving memory layer for AI agents—a personalized search engine that learns your preferences as you explore the top 1000 hotels that 'LiveTheLife' has curated the past 20 years. It's like a perplexity/gpt4o clone, but for you.
+
+## Lifestyle Design by LiveTheLifeTV. Driven by dreams. Powered by
+
+- [Mem0](https://mem0.ai) - Automatic memory collection and retrival
+- [GPT-4o-mini](https://openai.com) - With support for text, image, video and audio inputs and outputs
+
+## FOMO AI Agents, LTL Travel Assistant & Art Advisor with "supermemory"
+
+Mem0 differs from Retrieval-Augmented Generation (RAG) by offering dynamic memory capabilities for LLMs. Unlike RAG, which retrieves static information, Mem0 understands and relates entities across interactions, ensuring contextual continuity and adaptive learning. It prioritizes recent interactions while gradually forgetting outdated data, allowing for more relevant and up-to-date responses. Mem0 also supports dynamic updates and personalized improvements based on user feedback, making it ideal for applications requiring long-term engagement and real-time adaptation, such as our Founder Mode AI Agents, LiveTheLifeTV Travel Assistant & Ikigai Labs XYZ Art Advisor.
+
+For a model to become really good, it must finetune on your own data. This is why the "moat" is in "data". The more data you have, the more specialized your model can become. How much data to use depends on the model. Some models do well with 50 examples. Others need a few thousand, in that case, finetuning is a good option. 
 
 #### Next Steps
 To fully realize o1’s potential at IkigAI Labs XYZ, we need to:
@@ -179,58 +109,6 @@ This will mark the next chapter in IkigAI Labs' journey—where intelligent syst
 - constantly switch to the best AI tools & models
 - design with natural language 1st
 - don’t compete with the AI, use it to work better
-
-### Reservoir Endpoints
-
-1. Get Collections
-   ```
-   GET /api/reservoir/collections
-   ```
-   Fetches a list of NFT collections using Reservoir's API.
-
-2. Get Collection Details
-   ```
-   GET /api/reservoir/collections/{collectionId}
-   ```
-   Retrieves detailed information about a specific collection.
-
-3. Get Tokens
-   ```
-   GET /api/reservoir/tokens
-   ```
-   Fetches NFT tokens based on specified filters.
-
-### Thirdweb Endpoints
-
-1. Get Contract Metadata
-   ```
-   GET /api/thirdweb/contract/{contractAddress}
-   ```
-   Retrieves metadata for a specific smart contract.
-
-2. Create Listing
-   ```
-   POST /api/thirdweb/marketplace/create-listing
-   ```
-   Creates a new NFT listing on the marketplace.
-
-### Custom Endpoints
-
-1. User Authentication
-   ```
-   POST /api/auth/login
-   POST /api/auth/logout
-   GET /api/auth/user
-   ```
-   Handles user authentication and retrieval of user data.
-
-2. Marketplace Activity
-   ```
-   GET /api/activity
-   ```
-   Fetches recent marketplace activity, combining data from Reservoir and on-chain events.
-
-For detailed parameters and response formats, please refer to our API documentation.
 
 ## Contributing
 
