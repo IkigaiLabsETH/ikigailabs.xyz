@@ -14,7 +14,7 @@
     "@heroicons/react": "^2.0.12",
     "@reduxjs/toolkit": "^1.8.2",
     "@reservoir0x/reservoir-kit-client": "^0.2.5",
-    "@reservoir0x/reservoir-sdk": "^2.0.11",
+    "@reservoir0x/reservoir-sdk": "^2.4.18",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tanstack/react-query": "^5.28.14",
     "@thirdweb-dev/chains": "^0.1.81",
