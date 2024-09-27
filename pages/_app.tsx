@@ -4,8 +4,8 @@ import { FC, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { QueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
+import { ThirdwebProvider } from 'thirdweb/react'
 
 import '../styles/globals.css'
 import 'slick-carousel/slick/slick.css'
@@ -20,7 +20,6 @@ import { changeRoute, initialPageLoad } from '../common/app'
 import { URLS } from '../common/config'
 import { SlideUp } from '../modules/SlideUp'
 import { SLIDEUPS } from '../common/slideup'
-import { ThirdwebProvider } from 'thirdweb/react'
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter()
@@ -46,29 +45,27 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
     query && store.dispatch(initialPageLoad(route))
   }, [query, route])
-
-  const queryClient = new QueryClient()
-
+  console.log(pageProps)
   return (
     <Provider store={store}>
-      <ThirdwebProvider>
-        <Component {...pageProps} />
-        <Modal modals={MODALS} />
-        <SlideUp slideUps={SLIDEUPS} />
-        <ToastContainer
-          position="bottom-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        <Confetti />
-      </ThirdwebProvider>
+        <ThirdwebProvider>
+          <Component {...pageProps} />
+          <Modal modals={MODALS} />
+          <SlideUp slideUps={SLIDEUPS} />
+          <ToastContainer
+            position="bottom-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          <Confetti />
+        </ThirdwebProvider>
     </Provider>
   )
 }

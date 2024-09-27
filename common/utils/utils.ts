@@ -45,6 +45,9 @@ import {
   reject,
   find,
 } from 'ramda'
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
 import { Network } from '../types'
 import { supportedChains } from '../config'
 
@@ -235,3 +238,7 @@ export const findChainNameByChainId = (chainId: number) =>
   pipe(find(propEq('id', chainId)), prop('routePrefix'))(supportedChains)
 
 export const delay = (time: number) => new Promise(resolve => setTimeout(resolve, time))
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
