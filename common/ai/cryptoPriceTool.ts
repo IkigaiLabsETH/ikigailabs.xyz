@@ -21,8 +21,9 @@ export async function handleToolCallMessage(
       const { currency } = args;
 
       // call weather fetching function with extracted arguments
-      const price = await fetchPriceData(currency);
-
+      console.log(currency)
+      const price = await fetchPriceData(currency.toLowerCase());
+      console.log(price)
       // send ToolResponse message to the WebSocket
       const toolResponseMessage = {
         type: "tool_response",
@@ -41,7 +42,7 @@ export async function handleToolCallMessage(
         content: "There was an error with the crypto price tool",
       };
       console.log(cryptoPriceToolErrorMessage);
-
+      console.log(error)
       return cryptoPriceToolErrorMessage;
     }
   } else {
