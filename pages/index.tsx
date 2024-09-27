@@ -1,7 +1,10 @@
 /* eslint-disable react/function-component-definition */
 import Head from 'next/head'
 import Image from 'next/image'
-import { FC, use, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { VoiceProvider } from "@humeai/voice-react"
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { getHumeAccessToken } from '../common/ai'
 // import { FREE_MINT_CONTRACT, MINT_PASSES } from '../common/config'
 
 import { withLayout } from '../common/layouts'
@@ -19,11 +22,16 @@ import { collectionTokenApi, selectTokensByContractNetworkAndTokenId } from '../
 import { FEATURES } from '../common/config'
 import { map } from 'ramda'
 import { findChainNameByChainId } from '../common/utils'
+import { StartCall } from '../modules/StartCall'
+import { Controls } from '../modules/Controls'
+import { handleToolCallMessage } from '../common/ai/cryptoPriceTool'
 // import { selectedNetwork } from '../modules/NetworkSelector'
 // import { useAppSelector } from '../common/redux/store'
 // import { MintPasses } from '../modules/MintPasses'
 
-const Home: FC = () => {
+const Home: FC = ({
+  accessToken,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const dispatch = useAppDispatch()
   const data = useAppSelector(state => selectTokensByContractNetworkAndTokenId(state, FEATURES))
   const [features, setFeatures] = useState<any[]>([])
@@ -63,6 +71,11 @@ const Home: FC = () => {
   }, [data])
 
   return (
+    <VoiceProvider
+      auth={{ type: "accessToken", value: accessToken }}
+      configId="ccb6fd91-52cd-4f8c-bcc5-763f647407b5"
+      onToolCall={handleToolCallMessage}
+    >
     <div className="flex items-center flex-col">
       <Head>
         <title>{SITE_TITLE}</title>
@@ -99,7 +112,9 @@ const Home: FC = () => {
                 </div>
               </div>
               <div className="mt-4 md:mt-0 md:pl-16 flex justify-center items-center">
-                <Image src="/assets/images/IKIGAI_LABS_logo.svg" width="80" height="80" alt="IKIGAI logo" />
+                {/* <Image src="/assets/images/IKIGAI_LABS_logo.svg" width="80" height="80" alt="IKIGAI logo" /> */}
+                <Controls />
+                <StartCall />
               </div>
             </div>
             {/* <div className="mt-10 text-lg justify-center flex items-center">
@@ -141,7 +156,15 @@ const Home: FC = () => {
       </main>
       <Footer />
     </div>
+    </VoiceProvider>
   )
 }
 
 export default withLayout(Layout.main)(Home)
+
+export const getServerSideProps = (async () => {
+  // Fetch data from external API
+  const accessToken = await getHumeAccessToken()
+  // Pass data to the page via props
+  return { props: { accessToken } }
+}) satisfies GetServerSideProps<{ accessToken: string }>

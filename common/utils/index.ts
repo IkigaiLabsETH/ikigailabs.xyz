@@ -25,4 +25,5 @@ export {
   findChainIconByChainId,
   findChainNameByChainId,
   mapIndexed,
+  cn,
 } from './utils'
