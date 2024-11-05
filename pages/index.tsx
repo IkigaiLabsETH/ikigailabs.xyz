@@ -15,7 +15,6 @@ import { Footer } from '../modules/Footer'
 // import { FreeMint } from '../modules/FreeMint'
 // import { MintPasses } from '../modules/MintPasses'
 import { Featured } from '../modules/Featured'
-import { GemsOnTheFloor } from '../modules/GemsOnTheFloor'
 import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../common/constants'
 import { useAppDispatch, useAppSelector } from '../common/redux/store'
 import { collectionTokenApi, selectTokensByContractNetworkAndTokenId } from '../modules/Collection/Token/token.api'
@@ -134,25 +133,12 @@ const Home: FC = ({
         <div className="w-full bg-white">
           <Featured features={features} />
         </div>
-        <div className="bg-white flex items-center justify-center">
-          <div className="">
-            <GemsOnTheFloor />
-          </div>
-        </div>
         {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} /> */}
         {/* <MintPasses contracts={MINT_PASSES} /> */}
         {/* <BurnToMint
           sourceContract={pathOr('', ['odessyGenesisCollection', 'sourceContract'])(BURN_TO_MINT)}
           targets={pathOr([], ['odessyGenesisCollection', 'targets'])(BURN_TO_MINT)}
         /> */}
-        <div className="bg-white w-full items-center justify-center flex py-20 px-10">
-          <iframe
-            src="https://www.spatial.io/embed/Ikigai-Labs-Gallery-1-6462268d593bb108f20206ee?share=5997893486131460079"
-            width="1516px"
-            height="720px"
-            allow="camera; fullscreen; autoplay; display-capture; microphone; clipboard-write"
-          ></iframe>
-        </div>
       </main>
       <Footer />
     </div>
