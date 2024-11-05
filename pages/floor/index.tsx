@@ -2,12 +2,12 @@ import Head from 'next/head'
 import React, { FC } from 'react'
 import { withLayout } from '../../common/layouts'
 import { Footer } from '../../modules/Footer'
-import { GemsOnTheFloor } from '../modules/GemsOnTheFloor'
+import { GemsOnTheFloor } from '../../modules/GemsOnTheFloor'
 import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
 import { Layout, Network } from '../../common/types'
 import { useRouter } from 'next/router'
 
-const Bera: FC = () => {
+const Floor: FC = () => {
   const { asPath } = useRouter()
   const siteTitle = `${SITE_TITLE} | Gems On The Floor`
   const siteDescription = 'Gems On The Floor'
