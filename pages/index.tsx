@@ -134,11 +134,6 @@ const Home: FC = ({
         <div className="w-full bg-white">
           <Featured features={features} />
         </div>
-        <div className="bg-white flex items-center justify-center">
-          <div className="">
-            <GemsOnTheFloor />
-          </div>
-        </div>
         {/* <FreeMint contract={FREE_MINT_CONTRACT} network={Network.MUMBAI} /> */}
         {/* <MintPasses contracts={MINT_PASSES} /> */}
         {/* <BurnToMint
