@@ -44,7 +44,11 @@ const Bera: FC = () => {
           network={Network.BERA}
         />
       </main>
-      <Gems />
+        <div className="bg-white flex items-center justify-center">
+          <div className="">
+            <GemsOnTheFloor />
+          </div>
+        </div>
     </div>
   )
 }
