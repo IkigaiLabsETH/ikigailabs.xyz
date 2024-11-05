@@ -38,7 +38,11 @@ const Floor: FC = () => {
         <meta property="twitter:image" content={SITE_LOGO_PATH} />
       </Head>
       <main className="w-full">
-      <GemsOnTheFloor />
+        <div className="bg-white flex items-center justify-center">
+          <div className="">
+            <GemsOnTheFloor />
+          </div>
+        </div>
       </main>
     </div>
   )
