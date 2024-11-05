@@ -91,16 +91,6 @@ export const Header: FC = () => {
               </Link>
             </div>
             <div className="flex justify-end">
-              <Link href={`/${network}/explore`} className="p-4 bg-black mb-1 inline-block">
-                Explore
-              </Link>
-            </div>
-            <div className="flex justify-end">
-              <Link href={`/profile/${address}/collected/${network}`} className="p-4 bg-black mb-1 inline-block">
-                Profile
-              </Link>
-            </div>
-              <div className="flex justify-end">
               <Link href="/floor" className="p-4 bg-black mb-1 inline-block">
                 Curated
               </Link>
@@ -108,6 +98,16 @@ export const Header: FC = () => {
               <div className="flex justify-end">
               <Link href="/gallery" className="p-4 bg-black mb-1 inline-block">
                 Gallery
+              </Link>
+            </div>
+            <div className="flex justify-end">
+              <Link href={`/${network}/explore`} className="p-4 bg-black mb-1 inline-block">
+                Explore
+              </Link>
+            </div>
+            <div className="flex justify-end">
+              <Link href={`/profile/${address}/collected/${network}`} className="p-4 bg-black mb-1 inline-block">
+                Profile
               </Link>
             </div>
                 <div className="flex justify-end">
