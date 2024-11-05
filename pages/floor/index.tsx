@@ -38,17 +38,8 @@ const Bera: FC = () => {
         <meta property="twitter:image" content={SITE_LOGO_PATH} />
       </Head>
       <main className="w-full">
-        <Drop
-          contractAddress={process.env.NEXT_PUBLIC_BERA_CONTRACT_ADDRESS}
-          tokenId={process.env.NEXT_PUBLIC_BERA_TOKEN_ID}
-          network={Network.BERA}
-        />
+      <GemsOnTheFloor />
       </main>
-        <div className="bg-white flex items-center justify-center">
-          <div className="">
-            <GemsOnTheFloor />
-          </div>
-        </div>
     </div>
   )
 }
