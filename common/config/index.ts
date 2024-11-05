@@ -231,8 +231,8 @@ export const GEMS_ON_THE_FLOOR_GEMS_COLLECTION_SET_ID =
 
 export const FEATURES = [
   {
-    contract: '0x2559bf029b4981c0701149ac7fde65170c82b449',
+    contract: '0x830861ae472ddf7705fafef52d0e3aa2537f885a',
     network: Network.MAINNET,
-    tokenId: '4',
+    tokenId: '1',
   },
 ]
