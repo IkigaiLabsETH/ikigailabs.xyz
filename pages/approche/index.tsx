@@ -46,6 +46,7 @@ const Approche: FC = () => {
           ></iframe>
         </div>
       </main>
+      <Footer />
     </div>
   )
 }
