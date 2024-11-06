@@ -2,15 +2,14 @@ import Head from 'next/head'
 import React, { FC } from 'react'
 import { withLayout } from '../../common/layouts'
 import { Footer } from '../../modules/Footer'
-import { GemsOnTheFloor } from '../../modules/GemsOnTheFloor'
 import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
 import { Layout, Network } from '../../common/types'
 import { useRouter } from 'next/router'
 
-const Gallery: FC = () => {
+const Approche: FC = () => {
   const { asPath } = useRouter()
-  const siteTitle = `${SITE_TITLE} | Ikigai Labs Art Gallery`
-  const siteDescription = 'Ikigai Labs Art Gallery'
+  const siteTitle = `${SITE_TITLE} | 'a ppr oc he' X Ikigai Labs Art`
+  const siteDescription = 'a ppr oc he X Ikigai Labs Art'
   const url = `${SITE_URL}${asPath}`
 
   return (
@@ -40,7 +39,7 @@ const Gallery: FC = () => {
       <main className="w-full">
         <div className="bg-white w-full items-center justify-center flex py-20 px-10">
           <iframe
-            src="https://www.spatial.io/embed/Ikigai-Labs-Gallery-1-6462268d593bb108f20206ee?share=5997893486131460079"
+            src="https://www.spatial.io/s/a-ppr-oc-he-X-ikigai-66cc39a4a90d02467e6dd93a?share=4427510394877420095"
             width="1516px"
             height="720px"
             allow="camera; fullscreen; autoplay; display-capture; microphone; clipboard-write"
@@ -52,4 +51,4 @@ const Gallery: FC = () => {
   )
 }
 
-export default withLayout(Layout.main)(Gallery)
+export default withLayout(Layout.main)(Approche)
