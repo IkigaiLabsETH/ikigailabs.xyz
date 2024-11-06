@@ -47,6 +47,7 @@ const Gallery: FC = () => {
           ></iframe>
         </div>
       </main>
+      <Footer />
     </div>
   )
 }
