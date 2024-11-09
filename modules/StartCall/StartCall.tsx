@@ -23,7 +23,7 @@ export const StartCall:FC = () => {
           stroke={"currentColor"}
         />
       </span> */}
-      <span>Start Call</span>
+      <span>Call Eliza</span>
     </Button>
   )
 }
