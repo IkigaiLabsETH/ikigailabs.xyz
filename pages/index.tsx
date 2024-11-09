@@ -107,7 +107,7 @@ const Home: FC = ({
                   Ikigai Labs
                 </h1>
                 <div className="flex justify-end translate-x-4 -mt-6">
-                  <h2 className="text-2xl bg-black text-yellow inline-block leading-none p-2">Living The ELIZA Life</h2>
+                  <h2 className="text-2xl bg-black text-yellow inline-block leading-none p-2">Ask Her Anything</h2>
                 </div>
               </div>
               <div className="mt-4 md:mt-0 md:pl-16 flex justify-center items-center">
