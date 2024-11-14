@@ -140,7 +140,6 @@ const Home: FC = ({
           targets={pathOr([], ['odessyGenesisCollection', 'targets'])(BURN_TO_MINT)}
         /> */}
       </main>
-      <Footer />
     </div>
     </VoiceProvider>
   )
