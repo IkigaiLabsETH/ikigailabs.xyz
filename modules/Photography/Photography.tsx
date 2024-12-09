@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import {
-  GEMS_ON_THE_FLOOR_PHOTOGRAPHY_COLLECTION_SET_ID,
+  GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID,
 } from '../../common/config'
 import { collectionsApi, selectCollectionFloorsByCollectionSetId } from '../Collections/collections.api'
 import { Network } from '../../common/types'
@@ -15,14 +15,14 @@ export const Photography: FC = () => {
   const network = Network.MAINNET
 
   const { data: photographyFloors, status: photographyFloorsStatus } = useAppSelector(
-    selectCollectionFloorsByCollectionSetId({ collectionSetId: GEMS_ON_THE_FLOOR_PHOTOGRAPHY_COLLECTION_SET_ID }),
+    selectCollectionFloorsByCollectionSetId({ collectionSetId: GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID }),
   )
 
   useEffect(() => {
-    if (GEMS_ON_THE_FLOOR_PHOTOGRAPHY_COLLECTION_SET_ID) {
+    if (GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID) {
       dispatch(
         collectionsApi.endpoints.getCollectionFloorsByCollectionSetId.initiate({
-          collectionSetId: GEMS_ON_THE_FLOOR_PHOTOGRAPHY_COLLECTION_SET_ID,
+          collectionSetId: GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID,
         }),
       )
     }
