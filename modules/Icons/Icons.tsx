@@ -36,7 +36,7 @@ export const Icons: FC = () => {
       </div>
       <div className="w-full !text-black max-w-80 md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-2xl mt-3">
         <h1 className="ml-3 text-4xl md:text-6xl lg:text-8xl text-black translate-y-10 md:translate-y-11">
-          Featured
+          Icons
         </h1>
         <div className="bg-white">
           {equals(iconsFloorsStatus, QueryStatus.pending) ? (

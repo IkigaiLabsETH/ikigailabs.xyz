@@ -101,6 +101,11 @@ export const Header: FC = () => {
               </Link>
             </div>
             <div className="flex justify-end">
+              <Link href="/icons" className="p-4 bg-black mb-1 inline-block">
+                Icons
+              </Link>
+            </div>
+            <div className="flex justify-end">
               <Link href={`/${network}/explore`} className="p-4 bg-black mb-1 inline-block">
                 Explore
               </Link>
