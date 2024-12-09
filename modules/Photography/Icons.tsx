@@ -10,11 +10,11 @@ import { QueryStatus } from '@reduxjs/toolkit/query'
 import { SkeletonLoader } from '../SkeletonLoader'
 import { TokenCarousel } from '../TokenCarousel'
 
-export const Photography: FC = () => {
+export const Icons: FC = () => {
   const dispatch = useAppDispatch()
   const network = Network.MAINNET
 
-  const { data: photographyFloors, status: photographyFloorsStatus } = useAppSelector(
+  const { data: iconsFloors, status: iconsFloorsStatus } = useAppSelector(
     selectCollectionFloorsByCollectionSetId({ collectionSetId: GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID }),
   )
 
@@ -40,7 +40,7 @@ export const Photography: FC = () => {
           Featured
         </h1>
         <div className="bg-white">
-          {equals(photographyFloorsStatus, QueryStatus.pending) ? (
+          {equals(iconsFloorsStatus, QueryStatus.pending) ? (
             <div className="grid grid-cols-4 gap-4 mb-8">
               <SkeletonLoader height="h-8" style="light" />
               <SkeletonLoader height="h-8" style="light" />
@@ -48,7 +48,7 @@ export const Photography: FC = () => {
               <SkeletonLoader height="h-8" style="light" />
             </div>
           ) : (
-            photographyFloors && <TokenCarousel nfts={photographyFloors} network={network} />
+            iconsFloors && <TokenCarousel nfts={iconsFloors} network={network} />
           )}
         </div>
       </div>
