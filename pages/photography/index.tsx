@@ -48,4 +48,4 @@ const Icons: FC = () => {
   )
 }
 
-export default withLayout(Layout.main)(Photography)
+export default withLayout(Layout.main)(Icons)
