@@ -10,7 +10,7 @@ import { QueryStatus } from '@reduxjs/toolkit/query'
 import { SkeletonLoader } from '../SkeletonLoader'
 import { TokenCarousel } from '../TokenCarousel'
 
-export const GemsOnTheFloor: FC = () => {
+export const Photography: FC = () => {
   const dispatch = useAppDispatch()
   const network = Network.MAINNET
 
