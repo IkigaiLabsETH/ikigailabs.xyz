@@ -40,7 +40,7 @@ const Floor: FC = () => {
       <main className="w-full">
         <div className="bg-white flex items-center justify-center">
           <div className="">
-            <GemsOnTheFloor />
+            <Photography />
           </div>
         </div>
       </main>
