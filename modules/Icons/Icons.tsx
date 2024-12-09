@@ -31,11 +31,10 @@ export const Icons: FC = () => {
   return (
     <div className="w-full">
       <div>
-        <h1 className="flex w-full pt-16 pb-8 text-6xl lg:text-8xl text-black justify-center text-center">
-          Photography
+        <h1 className="flex boska w-full pt-16 pb-8 text-6xl lg:text-8xl text-black justify-center text-center">
         </h1>
       </div>
-      <div className="w-full !text-black max-w-80 md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-2xl mx-auto mt-3">
+      <div className="w-full !text-black max-w-80 md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-2xl mt-3">
         <h1 className="ml-3 text-4xl md:text-6xl lg:text-8xl text-black translate-y-10 md:translate-y-11">
           Featured
         </h1>
