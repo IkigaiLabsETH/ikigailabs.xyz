@@ -90,14 +90,14 @@ export const Header: FC = () => {
                 Home
               </Link>
             </div>
-            <div className="flex justify-end">
-              <Link href="/floor" className="p-4 bg-black mb-1 inline-block">
-                Curated
-              </Link>
-            </div>
               <div className="flex justify-end">
               <Link href="/gallery" className="p-4 bg-black mb-1 inline-block">
                 Gallery
+              </Link>
+            </div>
+              <div className="flex justify-end">
+              <Link href="/floor" className="p-4 bg-black mb-1 inline-block">
+                Featured
               </Link>
             </div>
             <div className="flex justify-end">
