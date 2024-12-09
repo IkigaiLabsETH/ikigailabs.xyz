@@ -2,12 +2,12 @@ import Head from 'next/head'
 import React, { FC } from 'react'
 import { withLayout } from '../../common/layouts'
 import { Footer } from '../../modules/Footer'
-import { Icons } from '../../modules/Photography'
+import { Icons } from '../../modules/Icons'
 import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../common/constants'
 import { Layout, Network } from '../../common/types'
 import { useRouter } from 'next/router'
 
-const Icons: FC = () => {
+const IconsPage: FC = () => {
   const { asPath } = useRouter()
   const siteTitle = `${SITE_TITLE} | Gems On The Floor`
   const siteDescription = 'Gems On The Floor'
@@ -48,4 +48,4 @@ const Icons: FC = () => {
   )
 }
 
-export default withLayout(Layout.main)(Icons)
+export default withLayout(Layout.main)(IconsPage)
