@@ -1,38 +1,36 @@
 import React, { FC, useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../common/redux/store'
-import { 
-  GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID,
-} from '../../common/config'
-import { collectionsApi, selectCollectionFloorsByCollectionSetId } from '../Collections/collections.api'
+import { useAppDispatch } from '../../common/redux/store'
+import { GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID } from '../../common/config'
+import { collectionsApi } from '../Collections/collections.api'
 import { Network } from '../../common/types'
-import { equals } from 'ramda'
 import { QueryStatus } from '@reduxjs/toolkit/query'
 import { SkeletonLoader } from '../SkeletonLoader'
 
 export const GemsOnTheFloor: FC = () => {
   const dispatch = useAppDispatch()
   const network = Network.MAINNET
-  
-  // Only focusing on ICONS
-  const { data: iconsFloors, status: iconsFloorsStatus } = useAppSelector(
-    selectCollectionFloorsByCollectionSetId({ collectionSetId: GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID }),
-  )
 
-  useEffect(() => {
-    if (GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID) {
-      dispatch(
-        collectionsApi.endpoints.getCollectionFloorsByCollectionSetId.initiate({
-          collectionSetId: GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID,
-        })
-      )
-    }
-  }, [dispatch, network])
+  // Fetch data using the RTK Query hook directly
+  const { data: iconsFloors, error, isLoading, isSuccess, isError } = 
+    collectionsApi.endpoints.getCollectionFloorsByCollectionSetId.useQuery({ 
+      collectionSetId: GEMS_ON_THE_FLOOR_ICONS_COLLECTION_SET_ID 
+    })
 
-  // Just pick the first NFT if available
+  // Determine the status to match with previous logic
+  let iconsFloorsStatus: QueryStatus = QueryStatus.pending
+  if (isLoading) iconsFloorsStatus = QueryStatus.pending
+  if (isSuccess) iconsFloorsStatus = QueryStatus.fulfilled
+  if (isError) iconsFloorsStatus = QueryStatus.rejected
+
   const featuredIcon = iconsFloors && iconsFloors.length > 0 ? iconsFloors[0] : null
 
-  console.log('IconsFloors Data:', iconsFloors)
-  console.log('IconsFloors Status:', iconsFloorsStatus)
+  useEffect(() => {
+    console.log('IconsFloors Data:', iconsFloors)
+    console.log('IconsFloors Status:', iconsFloorsStatus)
+    if (error) {
+      console.error('Error fetching iconsFloors:', error)
+    }
+  }, [iconsFloors, iconsFloorsStatus, error])
 
   return (
     <div className="w-full">
@@ -40,19 +38,21 @@ export const GemsOnTheFloor: FC = () => {
         Featured Icon
       </h1>
 
-      <div className="w-full !text-black max-w-80 md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-2xl mx-auto mt-3">
-        {equals(iconsFloorsStatus, QueryStatus.pending) && (
+      <div className="w-full text-black max-w-80 md:max-w-screen-md lg:max-w-screen-lg 2xl:max-w-screen-2xl mx-auto mt-3">
+        {iconsFloorsStatus === QueryStatus.pending && (
           <div className="mb-8">
             <SkeletonLoader height="h-8" style="light" />
           </div>
         )}
 
         {iconsFloorsStatus === QueryStatus.rejected && (
-          <div className="text-red-500">Failed to load data. Please check the network calls and API responses.</div>
+          <div className="text-red-500">
+            Failed to load data. Please check network calls and API responses.
+          </div>
         )}
 
         {iconsFloorsStatus === QueryStatus.fulfilled && !featuredIcon && (
-          <div className="text-white">No icons available.</div>
+          <div className="text-black">No icons available.</div>
         )}
 
         {iconsFloorsStatus === QueryStatus.fulfilled && featuredIcon && (
