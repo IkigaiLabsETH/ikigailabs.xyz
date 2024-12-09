@@ -95,6 +95,11 @@ export const Header: FC = () => {
                 Gallery
               </Link>
             </div>
+              <div className="flex justify-end">
+              <Link href="/floor" className="p-4 bg-black mb-1 inline-block">
+                Featured
+              </Link>
+            </div>
             <div className="flex justify-end">
               <Link href={`/${network}/explore`} className="p-4 bg-black mb-1 inline-block">
                 Explore
