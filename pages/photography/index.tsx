@@ -7,7 +7,7 @@ import { SITE_DESCRIPTION, SITE_LOGO_PATH, SITE_TITLE, SITE_URL } from '../../co
 import { Layout, Network } from '../../common/types'
 import { useRouter } from 'next/router'
 
-const Floor: FC = () => {
+const Icons: FC = () => {
   const { asPath } = useRouter()
   const siteTitle = `${SITE_TITLE} | Gems On The Floor`
   const siteDescription = 'Gems On The Floor'
@@ -40,7 +40,7 @@ const Floor: FC = () => {
       <main className="w-full">
         <div className="bg-white flex items-center justify-center">
           <div className="">
-            <Photography />
+            <Icons />
           </div>
         </div>
       </main>
