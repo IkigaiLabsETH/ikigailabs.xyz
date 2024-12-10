@@ -87,7 +87,7 @@ export const Header: FC = () => {
           >
             <div className="flex justify-end">
               <Link href="/" className="p-4 bg-black mb-1 inline-block">
-                Home
+                Eliza
               </Link>
             </div>
             <div className="flex justify-end">
