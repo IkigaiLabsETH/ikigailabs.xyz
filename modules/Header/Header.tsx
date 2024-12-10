@@ -91,6 +91,11 @@ export const Header: FC = () => {
               </Link>
             </div>
             <div className="flex justify-end">
+              <Link href={`/${network}/explore`} className="p-4 bg-black mb-1 inline-block">
+                Explore
+              </Link>
+            </div>
+            <div className="flex justify-end">
               <Link href="/icons" className="p-4 bg-black mb-1 inline-block">
                 Iconic
               </Link>
@@ -101,13 +106,16 @@ export const Header: FC = () => {
               </Link>
             </div>
             <div className="flex justify-end">
-              <Link href={`/${network}/explore`} className="p-4 bg-black mb-1 inline-block">
-                Explore
+              <Link href="https://moonlight.ikigailabs.xyz/tokens" className="p-4 bg-black mb-1 inline-block"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+                Moonlight
               </Link>
             </div>
                 <div className="flex justify-end">
               <Link href="/about" className="p-4 bg-black mb-1 inline-block">
-                About
+                IkigaiLabs
               </Link>
             </div>
           </div>
