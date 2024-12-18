@@ -105,14 +105,6 @@ export const Header: FC = () => {
                 Featured
               </Link>
             </div>
-            <div className="flex justify-end">
-              <Link href="https://moonlight.ikigailabs.xyz/tokens" className="p-4 bg-black mb-1 inline-block"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-                Moonlight
-              </Link>
-            </div>
                 <div className="flex justify-end">
               <Link href="/about" className="p-4 bg-black mb-1 inline-block">
                 IkigaiLabs
