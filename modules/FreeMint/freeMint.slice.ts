@@ -1,10 +1,33 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { find, findIndex, isNil, path, pipe, propEq, propOr } from 'ramda'
-import { QueryStatus } from '@reduxjs/toolkit/dist/query'
+import { QueryStatus } from '@reduxjs/toolkit/query'
 
 import { RootState } from '../../common/redux/store'
 import { Network, Status } from '../../common/types'
 import { Web3, getTWClient } from '../../common/web3'
+
+interface ClaimEntity {
+  id: string;
+  status: Status;
+  data: Record<string, any>;
+  [key: string]: any;
+}
+
+interface FreeMintState {
+  entities: {
+    claims: ClaimEntity[];
+  };
+  loading: QueryStatus;
+  error: string | null;
+}
+
+const initialState: FreeMintState = {
+  entities: {
+    claims: [],
+  },
+  loading: QueryStatus.uninitialized,
+  error: null,
+}
 
 export const claimTh = (web3Client: (chain: Network) => Web3) =>
   createAsyncThunk<
@@ -20,25 +43,10 @@ export const claimTh = (web3Client: (chain: Network) => Web3) =>
 
 export const claim = claimTh(getTWClient)
 
-interface FreeMintState {
-  entities: []
-  loading: QueryStatus
-  error: string | null
-}
-
-const initialState = {
-  entities: [],
-  loading: QueryStatus.uninitialized,
-  error: null,
-} as FreeMintState
-
-// Then, handle actions in your reducers:
 export const freeMintSlice = createSlice({
   name: 'freeMint',
   initialState,
-  reducers: {
-    // standard reducer logic, with auto-generated action types per reducer
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(claim.pending, state => {
@@ -52,34 +60,46 @@ export const freeMintSlice = createSlice({
           payload,
         } = action
 
-        const claim = find(propEq('id', `${contract}_${tokenId}`))(state.entities)
-        if (isNil(claim)) {
-          state.entities.push(payload as never)
+        const claimId = `${contract}_${tokenId}`
+        const claims = state.entities.claims as ClaimEntity[]
+        const claim = claims.find(c => c.id === claimId)
+        
+        if (!claim) {
+          claims.push({
+            id: claimId,
+            status: 'success' as Status,
+            data: payload as Record<string, any>
+          })
         } else {
-          const claimIndex = findIndex(propEq('id', `${contract}_${tokenId}`))(state.entities)
-          state.entities[claimIndex] = payload as never
+          const claimIndex = claims.findIndex(c => c.id === claimId)
+          claims[claimIndex] = {
+            ...claims[claimIndex],
+            status: 'success' as Status,
+            data: payload as Record<string, any>
+          }
         }
       })
       .addCase(claim.rejected, (state, action) => {
         const {
-          meta: {
-            arg: { contract, tokenId },
-          },
           payload,
           error: { message },
         } = action
 
-        state.error = payload ? (payload as string) : message
+        state.error = payload as string ?? message ?? null
       })
   },
 })
 
 export const { reducer } = freeMintSlice
 
-export const selectClaimLoadingState = (tokenId: string) => (state: RootState) =>
-  pipe(path(['freeMint', 'entities', 'claims']), find(propEq('id', tokenId)), propOr('idle', 'status'))(state) as Status
-export const selectClaim = (tokenId: string) => (state: RootState) =>
-  pipe(path(['freeMint', 'entities', 'claims']), find(propEq('id', tokenId)), propOr({}, 'data'))(state) as Record<
-    string,
-    any
-  >
+export const selectClaimLoadingState = (tokenId: string) => (state: RootState): Status => {
+  const claims = path(['freeMint', 'entities', 'claims'])(state) as ClaimEntity[]
+  const claim = claims?.find(c => c.id === tokenId)
+  return claim?.status ?? 'idle' as Status
+}
+
+export const selectClaim = (tokenId: string) => (state: RootState): Record<string, any> => {
+  const claims = path(['freeMint', 'entities', 'claims'])(state) as ClaimEntity[]
+  const claim = claims?.find(c => c.id === tokenId)
+  return claim?.data ?? {}
+}

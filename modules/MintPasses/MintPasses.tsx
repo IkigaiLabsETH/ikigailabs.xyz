@@ -1,11 +1,14 @@
 import React, { FC, useEffect } from 'react'
 import { map } from 'ramda'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
+import { useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
+import { useAccount } from 'wagmi'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { TokenDefinition } from '../../common/types'
 import Link from 'next/link'
-import { QueryStatus } from '@reduxjs/toolkit/dist/query'
+import { QueryStatus } from '@reduxjs/toolkit/query'
 import { getDropTokenByContractAndTokenId, selectToken } from '../EditionDrop/editionDrop.api'
 
 interface MintPassesProps {

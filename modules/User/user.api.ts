@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { uniq } from 'ramda'
 
 import { Activity, ActivityType, Network } from '../../common/types'
@@ -33,7 +33,7 @@ export const userApi = createApi({
           selectedActivityTypes.length ? `${activityTypes}` : ''
         }${continuation ? `&continuation=${continuation}` : ''}`
       },
-      serializeQueryArgs: ({ queryArgs: { address, network, selectedActivityTypes } }) => {
+      serializeQueryArgs: ({ queryArgs: { address, network, selectedActivityTypes = [] } }) => {
         const activityTypes = selectedActivityTypes.map(type => `types=${type}`).join('&')
         return `activity-${network}-${address}-${activityTypes}`
       },
