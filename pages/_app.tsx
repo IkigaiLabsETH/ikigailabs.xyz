@@ -7,8 +7,7 @@ import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/router'
-import { ThirdwebProvider } from '@thirdweb-dev/react'
-import { metamaskWallet, coinbaseWallet, walletConnect } from "@thirdweb-dev/react"
+import { ThirdwebProvider, coinbaseWallet, metamaskWallet, walletConnect } from "@thirdweb-dev/react"
 
 import '../styles/globals.css'
 import 'slick-carousel/slick/slick.css'
