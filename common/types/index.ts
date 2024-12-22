@@ -14,7 +14,6 @@ export enum Network {
   SEPOLIA = 'sepolia',
   POLYGON = 'polygon',
   ARBITRUM = 'arbitrum',
-  ARBITRUM_NOVA = 'arbitrum-nova',
   MUMBAI = 'mumbai',
   ZORA = 'zora',
   BASE = 'base',

@@ -8,7 +8,9 @@ import {
   isRejected,
   TypedAddListener,
   TypedStartListening,
+  Reducer
 } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/query/react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { persistStore, persistReducer, PERSIST } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -29,7 +31,6 @@ import { notificationMiddleware } from '../notification'
 import { burnToMint } from '../../modules/BurnToMint/burnToMint.slice'
 import { claim } from '../../modules/FreeMint/freeMint.slice'
 import { collectionsApi } from '../../modules/Collections/collections.api'
-import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import { NFTDropsReducer } from '../../modules/NFTDrops'
 import { confettiReducer, hideConfettiMiddleware, showConfettiMiddleware } from '../../modules/Confetti'
 import { collectionTokenInteractionReducer } from '../../modules/Collection/Token/token.slice'
@@ -50,9 +51,9 @@ import { searchApi } from '../../modules/Search'
 
 export const listenerMiddleware = createListenerMiddleware()
 
-export type AppDispatch = any
+export type AppDispatch = AppStore['dispatch']
 export type AppStore = ReturnType<typeof makeStore>
-export type RootState = any
+export type RootState = ReturnType<typeof combinedReducer>
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
@@ -78,15 +79,14 @@ const notifications = {
   [transactionFailed.type]: 'Transaction failed',
 }
 
-startAppListening(collectionTokenMiddleware)
-startAppListening(collectionMiddleware)
+startAppListening(collectionTokenMiddleware as any)
+startAppListening(collectionMiddleware as any)
 startAppListening(openModalMiddleware(openModalActions as any))
 startAppListening(closeModalMiddleware(closeModalActions as any))
 startAppListening(openSlideUpMiddleware(openSlideUpActions as any))
 startAppListening(closeSlideUpMiddleware(closeSlideUpActions as any))
-startAppListening(checkTokenBalancesForCollectionMiddleware)
+startAppListening(checkTokenBalancesForCollectionMiddleware as any)
 startAppListening(
-  // @ts-ignore
   notificationMiddleware(notifications)([
     isFulfilled(burnToMint),
     isRejected(burnToMint),
@@ -101,7 +101,7 @@ startAppListening(
     mintSuccess,
     transactionSent,
     transactionFailed,
-  ]),
+  ]) as any,
 )
 startAppListening(walletMiddleware([changeNetwork] as any))
 startAppListening(showConfettiMiddleware(showConfettiActions as any))
@@ -132,11 +132,14 @@ const combinedReducer = combineReducers({
   [searchApi.reducerPath]: prop('reducer')(searchApi),
 })
 
-const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => combinedReducer(state, action)
+const reducer = (
+  state: RootState | undefined,
+  action: AnyAction
+): RootState => combinedReducer(state, action)
 
-const makeStore = () =>
-  configureStore({
-    reducer,
+const makeStore = () => {
+  const store = configureStore({
+    reducer: reducer as Reducer<RootState>,
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
         serializableCheck: {
@@ -158,6 +161,8 @@ const makeStore = () =>
         ),
     devTools: true,
   })
+  return store
+}
 
 export const store = makeStore()
 export const persistor = persistStore(store)

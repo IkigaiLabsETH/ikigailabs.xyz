@@ -1,4 +1,4 @@
-import { QueryStatus } from '@reduxjs/toolkit/dist/query'
+import { QueryStatus } from '@reduxjs/toolkit/query'
 import { equals, isNil, pathOr, pipe, propOr, unless } from 'ramda'
 import React, { FC, Fragment, useState } from 'react'
 import { match } from 'ts-pattern'

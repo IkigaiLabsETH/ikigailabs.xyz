@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Collection, SearchResult } from '../../common/types'
 
 export const searchApi = createApi({

@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
+import { createAction, createAsyncThunk, createEntityAdapter, createSlice, EntityId } from '@reduxjs/toolkit'
 
 import { RootState } from '../../../common/redux/store'
 import { jsonRpcProvider, reservoirClient, walletClient } from '../../../common/web3'
@@ -6,27 +6,39 @@ import { ReservoirClient } from '@reservoir0x/reservoir-sdk'
 import { Network } from '../../../common/types'
 import { getUnixTime } from 'date-fns/fp'
 
-export const tokenAdapter = createEntityAdapter({})
+interface TokenEntity {
+  id: EntityId
+  [key: string]: any
+}
+
+export const tokenAdapter = createEntityAdapter<TokenEntity>({})
 
 export const interactionProgressAction = createAction<any>('collection/interaction/progress')
 export const showListToken = createAction<any>('listToken/show')
 export const showCreateBid = createAction<any>('createBid/show')
 
+interface ProgressStep {
+  message: string
+  status: 'complete' | 'incomplete'
+  kind: string
+}
+
 export const buyTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
-  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; address: string; network: Network }>(
+  createAsyncThunk<TokenEntity, { contract: string; tokenId: string; address: string; network: Network }>(
     'token/buy',
     ({ contract, tokenId, address, network }, { rejectWithValue }) => {
       return client(network)
         ?.actions.buyToken({
           items: [{ token: `${contract}:${tokenId}`, quantity: 1 }],
-          wallet: walletClient(address, network),
-          onProgress: steps => {
+          wallet: walletClient(address),
+          onProgress: (steps: ProgressStep[]) => {
             // dispatch(interactionProgressAction(steps))
             console.log(steps)
           },
         })
+        .then((result: any) => ({ id: `${contract}:${tokenId}`, ...result }))
         .catch((err: any) => {
-          return rejectWithValue(err.response.data)
+          return rejectWithValue(err.response?.data || err)
         })
     },
   )
@@ -35,7 +47,7 @@ export const buyToken = buyTokenTh(reservoirClient, walletClient)
 
 export const createBidTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<
-    Promise<any>,
+    TokenEntity,
     {
       contract: string
       tokenId: string
@@ -78,14 +90,15 @@ export const createBidTh = (client: (network: Network) => ReservoirClient, walle
       return client(network)
         ?.actions.placeBid({
           bids: bids,
-          wallet: walletClient(address, network),
-          onProgress: steps => {
+          wallet: walletClient(address),
+          onProgress: (steps: ProgressStep[]) => {
             // dispatch(interactionProgressAction(steps))
             console.log(steps)
           },
         })
+        .then((result: any) => ({ id: `${contract}:${tokenId}`, ...result }))
         .catch((err: any) => {
-          return rejectWithValue(err)
+          return rejectWithValue(err.response?.data || err)
         })
     },
   )
@@ -94,7 +107,7 @@ export const createBid = createBidTh(reservoirClient, walletClient)
 
 export const listTokenTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
   createAsyncThunk<
-    Promise<any>,
+    TokenEntity,
     {
       contract: string
       tokenId: string
@@ -137,14 +150,15 @@ export const listTokenTh = (client: (network: Network) => ReservoirClient, walle
       return client(network)
         ?.actions.listToken({
           listings,
-          wallet: walletClient(address, network),
-          onProgress: steps => {
+          wallet: walletClient(address),
+          onProgress: (steps: ProgressStep[]) => {
             // dispatch(interactionProgressAction(steps))
             console.log(steps)
           },
         })
+        .then((result: any) => ({ id: `${contract}:${tokenId}`, ...result }))
         .catch((err: any) => {
-          return rejectWithValue(err)
+          return rejectWithValue(err.response?.data || err)
         })
     },
   )
@@ -152,25 +166,26 @@ export const listTokenTh = (client: (network: Network) => ReservoirClient, walle
 export const listToken = listTokenTh(reservoirClient, walletClient)
 
 export const acceptOfferTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
-  createAsyncThunk<Promise<any>, { contract: string; tokenId: string; address: string; network: Network }>(
+  createAsyncThunk<TokenEntity, { contract: string; tokenId: string; address: string; network: Network }>(
     'token/acceptOffer',
     ({ contract, tokenId, address, network }, { rejectWithValue, dispatch }) => {
       return client(network)
-        ?.actions.acceptOffer({
+        ?.actions.buyToken({
           items: [
             {
               token: `${contract}:${tokenId}`,
               quantity: 1,
             },
           ],
-          wallet: walletClient(address, network),
-          onProgress: steps => {
+          wallet: walletClient(address),
+          onProgress: (steps: ProgressStep[]) => {
             // dispatch(interactionProgressAction(steps))
             console.log(steps)
           },
         })
+        .then((result: any) => ({ id: `${contract}:${tokenId}`, ...result }))
         .catch((err: any) => {
-          return rejectWithValue(err)
+          return rejectWithValue(err.response?.data || err)
         })
     },
   )
@@ -178,20 +193,21 @@ export const acceptOfferTh = (client: (network: Network) => ReservoirClient, wal
 export const acceptOffer = acceptOfferTh(reservoirClient, walletClient)
 
 export const cancelOrderTh = (client: (network: Network) => ReservoirClient, walletClient: any) =>
-  createAsyncThunk<Promise<any>, { id: string; address: string; network: Network }>(
+  createAsyncThunk<TokenEntity, { id: string; address: string; network: Network }>(
     'token/cancelOrder',
     ({ id, address, network }, { rejectWithValue, dispatch }) => {
       return client(network)
         ?.actions.cancelOrder({
           ids: [id],
-          wallet: walletClient(address, network),
-          onProgress: steps => {
+          wallet: walletClient(address),
+          onProgress: (steps: ProgressStep[]) => {
             // dispatch(interactionProgressAction(steps))
             console.log(steps)
           },
         })
+        .then((result: any) => ({ id, ...result }))
         .catch((err: any) => {
-          return rejectWithValue(err)
+          return rejectWithValue(err.response?.data || err)
         })
     },
   )
