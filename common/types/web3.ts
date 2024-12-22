@@ -8,6 +8,17 @@ export interface Token {
   chainId: number
 }
 
+export interface Metadata {
+  name: string
+  description: string
+  image: string
+  external_url?: string
+  attributes?: Array<{
+    trait_type: string
+    value: string | number
+  }>
+}
+
 export interface NFT {
   tokenId: string
   name: string

@@ -1,9 +1,11 @@
+import * as React from 'react'
 import { toast, ToastOptions } from 'react-hot-toast'
-import { ReactNode } from 'react'
 
-interface NotificationOptions extends ToastOptions {
+interface NotificationOptions extends Omit<ToastOptions, 'duration' | 'position'> {
   title?: string
   description?: string
+  duration?: number
+  position?: ToastOptions['position']
 }
 
 interface ToastContent {
@@ -17,7 +19,7 @@ export class NotificationService {
     position: 'bottom-right',
   }
 
-  private renderToast({ title, description }: ToastContent): ReactNode {
+  private renderToast({ title, description }: ToastContent): React.ReactNode {
     return (
       <div className="flex flex-col gap-1">
         <div className="font-semibold">{title}</div>
