@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading, react/function-component-definition */
+'use client'
+
 import type { AppProps } from 'next/app'
-import { FC, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -35,23 +37,46 @@ type URLSType = {
   [key in Network]?: NetworkConfig
 }
 
-function LTLMarketplace({ Component, pageProps }: AppProps) {
-  const [isMounted, setIsMounted] = useState(false);
+interface DappMetadata {
+  name: string
+  url: string
+  isDarkMode: boolean
+  gasless?: {
+    openzeppelin: {
+      relayerUrl: string
+    }
+  }
+}
+
+interface SDKOptions {
+  dappMetadata: DappMetadata
+  readonlySettings: {
+    rpcUrl: string
+    chainId: number
+  }
+}
+
+export default function LTLMarketplace({ Component, pageProps }: AppProps) {
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
   const { query, events, route } = router
   const network = (query?.network as Network) || Network.MAINNET
 
-  const sdkOptions: Record<string, any> = {
+  const sdkOptions: SDKOptions = {
     dappMetadata: {
       name: "IkigaiLabs",
       url: process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000",
       isDarkMode: true,
+    },
+    readonlySettings: {
+      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL || "https://rpc.ankr.com/eth",
+      chainId: getChainIdFromNetwork(Network.MAINNET),
     }
   }
 
   const networkConfig = (URLS as URLSType)[network]
   if (networkConfig?.openzeppelin) {
-    sdkOptions.gasless = {
+    sdkOptions.dappMetadata.gasless = {
       openzeppelin: {
         relayerUrl: networkConfig.openzeppelin,
       },
@@ -75,25 +100,21 @@ function LTLMarketplace({ Component, pageProps }: AppProps) {
     }
   }, [query, route])
 
+  // Handle client-side mounting
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    setMounted(true)
+  }, [])
 
-  if (!isMounted) {
-    return null;
+  // Prevent hydration issues by rendering nothing on server
+  if (!mounted) {
+    return null
   }
 
   return (
     <ThirdwebProvider
       clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
       activeChain={getChainIdFromNetwork(Network.MAINNET)}
-      sdkOptions={{
-        ...sdkOptions,
-        readonlySettings: {
-          rpcUrl: process.env.NEXT_PUBLIC_RPC_URL || "https://rpc.ankr.com/eth",
-          chainId: getChainIdFromNetwork(Network.MAINNET),
-        },
-      }}
+      sdkOptions={sdkOptions}
       supportedWallets={[
         metamaskWallet({ recommended: true }),
         coinbaseWallet(),
@@ -121,5 +142,3 @@ function LTLMarketplace({ Component, pageProps }: AppProps) {
     </ThirdwebProvider>
   )
 }
-
-export default LTLMarketplace
