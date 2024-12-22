@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/router'
 import { ThirdwebProvider } from '@thirdweb-dev/react'
 import { metamaskWallet, coinbaseWallet, walletConnect } from "@thirdweb-dev/react"
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import '../styles/globals.css'
 import 'slick-carousel/slick/slick.css'
@@ -62,6 +63,17 @@ export default function LTLMarketplace({ Component, pageProps }: AppProps) {
   const { query, events, route } = router
   const network = (query?.network as Network) || Network.MAINNET
 
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        staleTime: 60 * 1000,
+        retry: 1,
+        enabled: typeof window !== 'undefined',
+      },
+    },
+  }))
+
   const sdkOptions: SDKOptions = {
     dappMetadata: {
       name: "IkigaiLabs",
@@ -111,34 +123,40 @@ export default function LTLMarketplace({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <ThirdwebProvider
-      clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-      activeChain={getChainIdFromNetwork(Network.MAINNET)}
-      sdkOptions={sdkOptions}
-      supportedWallets={[
-        metamaskWallet({ recommended: true }),
-        coinbaseWallet(),
-        walletConnect()
-      ]}
-    >
-      <Provider store={store}>
-        <Component {...pageProps} />
-        <Modal modals={MODALS} />
-        <SlideUp slideUps={SLIDEUPS} />
-        <ToastContainer
-          position="bottom-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        <Confetti />
-      </Provider>
-    </ThirdwebProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThirdwebProvider
+        clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
+        activeChain={getChainIdFromNetwork(Network.MAINNET)}
+        sdkOptions={sdkOptions}
+        supportedWallets={[
+          metamaskWallet({ recommended: true }),
+          coinbaseWallet(),
+          walletConnect()
+        ]}
+        authConfig={{
+          domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "http://localhost:3000",
+          authUrl: "/api/auth",
+        }}
+      >
+        <Provider store={store}>
+          <Component {...pageProps} />
+          <Modal modals={MODALS} />
+          <SlideUp slideUps={SLIDEUPS} />
+          <ToastContainer
+            position="bottom-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          <Confetti />
+        </Provider>
+      </ThirdwebProvider>
+    </QueryClientProvider>
   )
 }
