@@ -363,3 +363,208 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
   - Non-custodial wallet integration
   - Transaction signing confirmation
   - Fraud detection systems
+
+## Performance Optimization Guide
+
+### 1. Server-Side Optimizations
+
+#### React Server Components (RSC)
+- Convert data-fetching components to RSC
+- Move heavy computations to the server
+- Keep client components minimal and focused on interactivity
+```typescript
+// Before
+export default function CollectionGrid() {
+  const [data, setData] = useState()
+  useEffect(() => {
+    fetchData()
+  }, [])
+  return <Grid data={data} />
+}
+
+// After
+export default async function CollectionGrid() {
+  const data = await fetchData() // Server-side
+  return <Grid data={data} />
+}
+```
+
+#### Route Segmentation
+- Implement parallel routes for independent data fetching
+- Use loading.tsx for streaming
+- Leverage generateStaticParams for static paths
+```typescript
+// app/collection/[slug]/loading.tsx
+export default function Loading() {
+  return <CollectionSkeleton />
+}
+
+// app/collection/[slug]/page.tsx
+export async function generateStaticParams() {
+  const collections = await getTopCollections()
+  return collections.map((c) => ({ slug: c.slug }))
+}
+```
+
+### 2. Data Fetching & Caching
+
+#### Reservoir API Optimization
+- Implement cursor-based pagination
+- Use field selection to minimize response size
+- Cache common queries with Redis
+```typescript
+// lib/cache.ts
+export async function getCachedCollections() {
+  const cached = await redis.get('top_collections')
+  if (cached) return JSON.parse(cached)
+  
+  const data = await fetchCollections()
+  await redis.setex('top_collections', 300, JSON.stringify(data))
+  return data
+}
+```
+
+#### Dynamic Data Strategy
+- Use SWR for real-time data with optimistic updates
+- Implement infinite loading for large lists
+- Cache invalidation based on blockchain events
+```typescript
+// hooks/useCollectionData.ts
+export function useCollectionData(slug: string) {
+  return useSWR(
+    ['collection', slug],
+    () => fetchCollectionData(slug),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 10000,
+    }
+  )
+}
+```
+
+### 3. Client-Side Optimizations
+
+#### Bundle Size Reduction
+- Implement route-based code splitting
+- Lazy load non-critical components
+- Tree shake unused dependencies
+```typescript
+// Dynamic imports for heavy components
+const TokenMedia = dynamic(() => import('@/modules/NFT/TokenMedia'), {
+  loading: () => <MediaSkeleton />,
+  ssr: false
+})
+```
+
+#### Asset Optimization
+- Use next/image with priority for LCP images
+- Implement responsive images with srcset
+- Convert animations to CSS where possible
+```typescript
+// components/NFTCard.tsx
+export function NFTCard({ image }) {
+  return (
+    <Image
+      src={image}
+      alt="NFT"
+      width={300}
+      height={300}
+      priority={true}
+      sizes="(max-width: 768px) 100vw, 300px"
+    />
+  )
+}
+```
+
+### 4. State Management
+
+#### URL State Management
+- Use URL state for shareable filters
+- Implement debounced updates
+- Minimize client-side state
+```typescript
+// hooks/useFilterState.ts
+export function useFilterState() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const debouncedSetParams = useDebouncedCallback(
+    (params) => setSearchParams(params),
+    300
+  )
+}
+```
+
+#### Memory Management
+- Implement virtualization for long lists
+- Clean up subscriptions and event listeners
+- Use weak references for large objects
+```typescript
+// components/TokenGrid.tsx
+export function TokenGrid({ tokens }) {
+  return (
+    <VirtualizedGrid
+      data={tokens}
+      rowHeight={300}
+      overscan={5}
+      renderItem={(token) => <TokenCard token={token} />}
+    />
+  )
+}
+```
+
+### 5. Infrastructure Optimization
+
+#### Edge Runtime
+- Deploy API routes to edge locations
+- Use streaming responses for large datasets
+- Implement stale-while-revalidate caching
+```typescript
+// app/api/collections/route.ts
+export const runtime = 'edge'
+
+export async function GET() {
+  const cached = await cache.get('collections')
+  if (cached) {
+    revalidateData() // Background revalidation
+    return new Response(cached)
+  }
+  // ... fetch and cache data
+}
+```
+
+#### CDN Configuration
+- Configure Vercel for optimal asset delivery
+- Use persistent caching for static assets
+- Implement cache warming for popular routes
+
+### 6. Monitoring & Metrics
+
+#### Performance Monitoring
+- Implement Web Vitals tracking
+- Set up error boundary monitoring
+- Track and optimize API response times
+```typescript
+// lib/monitoring.ts
+export function reportWebVitals(metric) {
+  if (metric.name === 'LCP') {
+    console.log('LCP:', metric.value)
+    // Send to analytics
+  }
+}
+```
+
+### Implementation Priority
+
+1. **Immediate Wins**
+   - Convert data-heavy components to RSC
+   - Implement proper image optimization
+   - Add Redis caching for common queries
+
+2. **Short-term Improvements**
+   - Set up edge runtime for API routes
+   - Implement virtualization for long lists
+   - Optimize bundle size
+
+3. **Long-term Optimization**
+   - Set up comprehensive monitoring
+   - Implement advanced caching strategies
+   - Optimize infrastructure configuration
