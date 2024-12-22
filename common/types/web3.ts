@@ -30,6 +30,17 @@ export interface TransactionReceipt {
   status: number
   transactionHash: string
   blockNumber: number
+  gasUsed: bigint
+  effectiveGasPrice: bigint
+  blockHash: string
+  logs: Array<{
+    address: string
+    topics: string[]
+    data: string
+    blockNumber: number
+    transactionHash: string
+    logIndex: number
+  }>
 }
 
 export interface WalletState {
@@ -41,4 +52,10 @@ export interface WalletState {
 export interface Web3Error extends Error {
   code: number
   data?: unknown
+}
+
+export interface Web3Config {
+  rpcUrl: string
+  chainId: number
+  networkName: Network
 } 
