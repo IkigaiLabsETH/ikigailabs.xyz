@@ -9,13 +9,14 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/router'
 import { ThirdwebProvider } from '@thirdweb-dev/react'
 import { metamaskWallet, coinbaseWallet, walletConnect } from "@thirdweb-dev/react"
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 import '../styles/globals.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
 import { store } from '../common/redux'
+import { queryClient } from '../common/redux/store'
 import { Modal } from '../modules/Modal'
 import { MODALS } from '../common/modal'
 import { Confetti } from '../modules/Confetti'
@@ -62,17 +63,6 @@ export default function LTLMarketplace({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const { query, events, route } = router
   const network = (query?.network as Network) || Network.MAINNET
-
-  const [queryClient] = useState(() => new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        staleTime: 60 * 1000,
-        retry: 1,
-        enabled: typeof window !== 'undefined',
-      },
-    },
-  }))
 
   const sdkOptions: SDKOptions = {
     dappMetadata: {
