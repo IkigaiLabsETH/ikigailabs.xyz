@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading, react/function-component-definition */
 import type { AppProps } from 'next/app'
-import { FC, useEffect, useState, useRef } from 'react'
+import { FC, useState, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/router'
 import { ThirdwebProvider } from '@thirdweb-dev/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { metamaskWallet, coinbaseWallet, walletConnect } from "@thirdweb-dev/react"
 
 import '../styles/globals.css'
 import 'slick-carousel/slick/slick.css'
@@ -35,25 +36,18 @@ type URLSType = {
   [key in Network]?: NetworkConfig
 }
 
-// Create a client
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60 * 1000, // 1 minute
-      refetchOnWindowFocus: false,
-      retry: 1,
-      // This is the important part for SSR
-      enabled: typeof window !== 'undefined',
-    },
-  },
-})
-
-const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
+function LTLMarketplace({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const { query, events, route } = router
   const network = (query?.network as Network) || Network.MAINNET
 
-  const sdkOptions: Record<string, any> = {}
+  const sdkOptions: Record<string, any> = {
+    dappMetadata: {
+      name: "IkigaiLabs",
+      url: process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000",
+      isDarkMode: true,
+    }
+  }
 
   const networkConfig = (URLS as URLSType)[network]
   if (networkConfig?.openzeppelin) {
@@ -64,52 +58,55 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
     }
   }
 
+  // Handle route changes
   useEffect(() => {
     const handleRouteChange = (requestedRoute: string) => {
       store.dispatch(changeRoute(requestedRoute))
     }
 
     events.on('routeChangeStart', handleRouteChange)
-
-    return () => {
-      events.off('routeChangeStart', handleRouteChange)
-    }
+    return () => events.off('routeChangeStart', handleRouteChange)
   }, [events])
 
+  // Handle initial page load
   useEffect(() => {
     if (query) {
       store.dispatch(initialPageLoad(route))
     }
   }, [query, route])
 
+  if (typeof window === 'undefined') return null
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThirdwebProvider
-        clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-        activeChain={getChainIdFromNetwork(Network.MAINNET)}
-        sdkOptions={sdkOptions}
-        queryClient={queryClient}
-      >
-        <Provider store={store}>
-          <Component {...pageProps} />
-          <Modal modals={MODALS} />
-          <SlideUp slideUps={SLIDEUPS} />
-          <ToastContainer
-            position="bottom-center"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-          <Confetti />
-        </Provider>
-      </ThirdwebProvider>
-    </QueryClientProvider>
+    <ThirdwebProvider
+      clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
+      activeChain={getChainIdFromNetwork(Network.MAINNET)}
+      sdkOptions={sdkOptions}
+      supportedWallets={[
+        metamaskWallet({ recommended: true }),
+        coinbaseWallet(),
+        walletConnect()
+      ]}
+    >
+      <Provider store={store}>
+        <Component {...pageProps} />
+        <Modal modals={MODALS} />
+        <SlideUp slideUps={SLIDEUPS} />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <Confetti />
+      </Provider>
+    </ThirdwebProvider>
   )
 }
 
