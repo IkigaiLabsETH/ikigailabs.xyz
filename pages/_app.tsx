@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/router'
 import { ThirdwebProvider } from '@thirdweb-dev/react'
 import { metamaskWallet, coinbaseWallet, walletConnect } from "@thirdweb-dev/react"
-import dynamic from 'next/dynamic'
 
 import '../styles/globals.css'
 import 'slick-carousel/slick/slick.css'
@@ -36,7 +35,8 @@ type URLSType = {
   [key in Network]?: NetworkConfig
 }
 
-function AppContent({ Component, pageProps }: AppProps) {
+function LTLMarketplace({ Component, pageProps }: AppProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter()
   const { query, events, route } = router
   const network = (query?.network as Network) || Network.MAINNET
@@ -75,17 +75,30 @@ function AppContent({ Component, pageProps }: AppProps) {
     }
   }, [query, route])
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <ThirdwebProvider
       clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
       activeChain={getChainIdFromNetwork(Network.MAINNET)}
-      sdkOptions={sdkOptions}
+      sdkOptions={{
+        ...sdkOptions,
+        readonlySettings: {
+          rpcUrl: process.env.NEXT_PUBLIC_RPC_URL || "https://rpc.ankr.com/eth",
+          chainId: getChainIdFromNetwork(Network.MAINNET),
+        },
+      }}
       supportedWallets={[
         metamaskWallet({ recommended: true }),
         coinbaseWallet(),
         walletConnect()
       ]}
-      autoConnect={false}
     >
       <Provider store={store}>
         <Component {...pageProps} />
@@ -108,10 +121,5 @@ function AppContent({ Component, pageProps }: AppProps) {
     </ThirdwebProvider>
   )
 }
-
-// Disable SSR for the entire app
-const LTLMarketplace = dynamic(() => Promise.resolve(AppContent), {
-  ssr: false
-})
 
 export default LTLMarketplace
