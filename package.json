@@ -10,7 +10,7 @@
     "code:prettier": "prettier --write '**/*.{ts,tsx}'"
   },
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=22.12.0"
   },
   "engineStrict": true,
   "dependencies": {
@@ -22,7 +22,7 @@
     "@reduxjs/toolkit": "^2.5.0",
     "@reservoir0x/reservoir-sdk": "^2.4.35",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "@tanstack/react-query": "^5.62.8",
+    "@tanstack/react-query": "^5.28.2",
     "@thirdweb-dev/chains": "^0.1.75",
     "@thirdweb-dev/react": "^4.9.4",
     "@thirdweb-dev/sdk": "^4.0.99",
