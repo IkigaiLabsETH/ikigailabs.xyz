@@ -16,7 +16,6 @@ import { persistStore, persistReducer, PERSIST } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { createWrapper } from 'next-redux-wrapper'
 import { prop } from 'ramda'
-import { QueryClient } from '@tanstack/react-query'
 
 import { featuredAuctionReducer } from '../../modules/Auction/Featured'
 import { mintPassesReducer } from '../../modules/MintPasses'
@@ -63,17 +62,6 @@ export type AppStartListening = TypedStartListening<RootState, AppDispatch>
 export const startAppListening = listenerMiddleware.startListening as AppStartListening
 
 export const addAppListener = addListener as TypedAddListener<RootState, AppDispatch>
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      staleTime: 60 * 1000,
-      retry: 1,
-      enabled: typeof window !== 'undefined',
-    },
-  },
-})
 
 const notifications = {
   [burnToMint.fulfilled.type]: 'You have successfully swapped your tokens',

@@ -9,14 +9,12 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/router'
 import { ThirdwebProvider } from '@thirdweb-dev/react'
 import { metamaskWallet, coinbaseWallet, walletConnect } from "@thirdweb-dev/react"
-import { QueryClientProvider } from '@tanstack/react-query'
 
 import '../styles/globals.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
 import { store } from '../common/redux'
-import { queryClient } from '../common/redux/store'
 import { Modal } from '../modules/Modal'
 import { MODALS } from '../common/modal'
 import { Confetti } from '../modules/Confetti'
@@ -127,26 +125,24 @@ export default function LTLMarketplace({ Component, pageProps }: AppProps) {
         authUrl: "/api/auth",
       }}
     >
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <Component {...pageProps} />
-          <Modal modals={MODALS} />
-          <SlideUp slideUps={SLIDEUPS} />
-          <ToastContainer
-            position="bottom-center"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-          <Confetti />
-        </Provider>
-      </QueryClientProvider>
+      <Provider store={store}>
+        <Component {...pageProps} />
+        <Modal modals={MODALS} />
+        <SlideUp slideUps={SLIDEUPS} />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <Confetti />
+      </Provider>
     </ThirdwebProvider>
   )
 }
