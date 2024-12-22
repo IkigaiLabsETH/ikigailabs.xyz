@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading, react/function-component-definition */
 import type { AppProps } from 'next/app'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState, useRef } from 'react'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/router'
 import { ThirdwebProvider } from '@thirdweb-dev/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import '../styles/globals.css'
 import 'slick-carousel/slick/slick.css'
@@ -20,6 +21,7 @@ import { changeRoute, initialPageLoad } from '../common/app'
 import { URLS } from '../common/config'
 import { SlideUp } from '../modules/SlideUp'
 import { SLIDEUPS } from '../common/slideup'
+import { getChainIdFromNetwork } from '../common/utils'
 
 interface NetworkConfig {
   reservoir: string
@@ -32,6 +34,19 @@ interface NetworkConfig {
 type URLSType = {
   [key in Network]?: NetworkConfig
 }
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000, // 1 minute
+      refetchOnWindowFocus: false,
+      retry: 1,
+      // This is the important part for SSR
+      enabled: typeof window !== 'undefined',
+    },
+  },
+})
 
 const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter()
@@ -68,30 +83,33 @@ const LTLMarketplace: FC<AppProps> = ({ Component, pageProps }) => {
   }, [query, route])
 
   return (
-    <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <ThirdwebProvider
         clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-        activeChain="ethereum"
+        activeChain={getChainIdFromNetwork(Network.MAINNET)}
         sdkOptions={sdkOptions}
+        queryClient={queryClient}
       >
-        <Component {...pageProps} />
-        <Modal modals={MODALS} />
-        <SlideUp slideUps={SLIDEUPS} />
-        <ToastContainer
-          position="bottom-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        <Confetti />
+        <Provider store={store}>
+          <Component {...pageProps} />
+          <Modal modals={MODALS} />
+          <SlideUp slideUps={SLIDEUPS} />
+          <ToastContainer
+            position="bottom-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          <Confetti />
+        </Provider>
       </ThirdwebProvider>
-    </Provider>
+    </QueryClientProvider>
   )
 }
 
