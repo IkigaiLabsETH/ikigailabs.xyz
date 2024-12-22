@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    serverActions: true,
+    optimizeCss: true,
+    serverComponentsExternalPackages: ['sharp'],
+  },
   images: {
     remotePatterns: [
       {
@@ -9,6 +14,7 @@ const nextConfig = {
       },
     ],
     domains: ['cdn.simplehash.com', 'gateway.ipfscdn.io', 'media.artblocks.io', '**.thirdwebcdn.com', '**.seadn.io', 'lh3.googleusercontent.com', 'i.seadn.io', 'openseauserdata.com', 'rarible.mypinata.cloud', 'media-proxy.artblocks.io', 'raw.seadn.io', 'img.reservoir.tools', 'blur.io', '0b6ff6d257685c2de8cc8e51755a0ae9.ipfscdn.io'],
+    formats: ['image/avif', 'image/webp'],
   },
   webpack(config) {
     config.module.rules.push({
