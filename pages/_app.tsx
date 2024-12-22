@@ -113,21 +113,21 @@ export default function LTLMarketplace({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThirdwebProvider
-        clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
-        activeChain={getChainIdFromNetwork(Network.MAINNET)}
-        sdkOptions={sdkOptions}
-        supportedWallets={[
-          metamaskWallet({ recommended: true }),
-          coinbaseWallet(),
-          walletConnect()
-        ]}
-        authConfig={{
-          domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "http://localhost:3000",
-          authUrl: "/api/auth",
-        }}
-      >
+    <ThirdwebProvider
+      clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
+      activeChain={getChainIdFromNetwork(Network.MAINNET)}
+      sdkOptions={sdkOptions}
+      supportedWallets={[
+        metamaskWallet({ recommended: true }),
+        coinbaseWallet(),
+        walletConnect()
+      ]}
+      authConfig={{
+        domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "http://localhost:3000",
+        authUrl: "/api/auth",
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <Component {...pageProps} />
           <Modal modals={MODALS} />
@@ -146,7 +146,7 @@ export default function LTLMarketplace({ Component, pageProps }: AppProps) {
           />
           <Confetti />
         </Provider>
-      </ThirdwebProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </ThirdwebProvider>
   )
 }
