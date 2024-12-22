@@ -1,22 +1,18 @@
 import { match } from 'ts-pattern'
 import React, { FC, useEffect, useState } from 'react'
+import { Chain } from '@thirdweb-dev/chains'
+import { ConnectWallet, useAddress, useContract, useContractWrite } from "@thirdweb-dev/react"
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { Loader } from '../Loader'
 import { getDropTokenByContractAndTokenId, selectToken } from './editionDrop.api'
 import { ContractType, Network } from '../../common/types'
-import { QueryStatus } from '@reduxjs/toolkit/dist/query'
+import { QueryStatus } from '@reduxjs/toolkit/query'
 import { Eyebrow } from '../Eyebrow'
-import { TransactionButton } from 'thirdweb/react'
-import { Chain, getContract } from 'thirdweb'
-import { claimTo, getActiveClaimCondition } from 'thirdweb/extensions/erc1155'
-import { getContractMetadata } from 'thirdweb/extensions/common'
-import { useWallet } from '../../common/useWallet'
 import { TWClient } from '../../common/web3/web3'
 import { mintSuccess } from '../Drop/drop.actions'
-import { transactionFailed, transactionSent } from '../../common/transaction'
+import { transactionFailed } from '../../common/transaction'
 import { CollectionStat } from '../CollectionStat'
-import { set } from 'date-fns'
 import { formatDateAndTime } from '../../common/utils'
 
 interface EditionDropProps {
@@ -32,8 +28,9 @@ export const EditionDrop: FC<EditionDropProps> = ({ contractAddress, tokenId, ne
     selectToken({ contract: contractAddress, tokenId, network, type }),
   ) as any
   const dispatch = useAppDispatch()
-  const { address } = useWallet()
-  const [contract, setContract] = useState<any>(null)
+  const address = useAddress()
+  const { contract } = useContract(contractAddress)
+  const { mutateAsync: claim, isLoading } = useContractWrite(contract, "claim")
   const [quantity, setQuantity] = useState(1)
   const [contractMetadata, setContractMetadata] = useState<any>(null)
   const [activeClaimConditions, setActiveClaimConditions] = useState<any>(null)
@@ -45,27 +42,34 @@ export const EditionDrop: FC<EditionDropProps> = ({ contractAddress, tokenId, ne
   }, [contractAddress, tokenId, network, dispatch, token, type])
 
   useEffect(() => {
-    if (contractAddress) {
-      const contract = getContract({
-        client: TWClient,
-        chain,
-        address: contractAddress,
-      })
-      setContract(contract)
-      getContractMetadata({
-        contract,
-      }).then(setContractMetadata)
+    const getMetadata = async () => {
+      if (contract) {
+        try {
+          const metadata = await contract.metadata.get()
+          setContractMetadata(metadata)
+        } catch (error) {
+          console.error('Error getting metadata:', error)
+        }
+      }
     }
-  }, [contractAddress, chain])
+    getMetadata()
+  }, [contract])
 
   useEffect(() => {
-    if (contract && tokenId) {
-      getActiveClaimCondition({ contract, tokenId: BigInt(tokenId) }).then(setActiveClaimConditions)
+    const getClaimConditions = async () => {
+      if (contract && tokenId) {
+        try {
+          const conditions = await contract.erc1155.claimConditions.getActive(tokenId)
+          setActiveClaimConditions(conditions)
+        } catch (error) {
+          console.error('Error getting claim conditions:', error)
+        }
+      }
     }
+    getClaimConditions()
   }, [contract, tokenId])
 
   const onPlus = () => {
-    // if (quantity >= pathOr(1, ['claimConditions', 0, 'maxClaimablePerWallet'])(data)) return
     setQuantity(quantity + 1)
   }
 
@@ -74,11 +78,52 @@ export const EditionDrop: FC<EditionDropProps> = ({ contractAddress, tokenId, ne
     setQuantity(quantity - 1)
   }
 
+  const handleClaim = async () => {
+    if (!address || !contract) return
+    try {
+      const tx = await claim({ 
+        args: [tokenId, quantity],
+        overrides: { gasLimit: 500000 }
+      })
+      handleSuccess(tx)
+      return tx
+    } catch (error) {
+      console.error('Error claiming:', error)
+      if (error instanceof Error) {
+        handleError(error)
+      }
+      throw error
+    }
+  }
+
+  const handleSuccess = (result: any) => {
+    if (result?.receipt?.transactionHash) {
+      dispatch(mintSuccess({ 
+        tokenId, 
+        network: Network.BASE, 
+        transactionHash: result.receipt.transactionHash 
+      }))
+      dispatch(
+        getDropTokenByContractAndTokenId.initiate({ 
+          contract: contractAddress, 
+          tokenId, 
+          network, 
+          type 
+        })
+      )
+    }
+  }
+
+  const handleError = (error: Error) => {
+    dispatch(transactionFailed({ error: error.message }))
+  }
+
   const loader = (
     <div className="flex w-screen h-screen justify-center items-center bg-yellow">
       <Loader />
     </div>
   )
+
   const component = () => {
     const {
       metadata: { image, name, description },
@@ -113,30 +158,20 @@ export const EditionDrop: FC<EditionDropProps> = ({ contractAddress, tokenId, ne
                 </CollectionStat>
               </div>
               <div className="grid grid-cols-3 justify-center items-center mt-10">
-                <TransactionButton
-                  className="!bg-yellow !text-black !w-full !border-black shadow-[5px_5px_0px_0px_rgba(234,179,8,1)] hover:shadow-[6px_6px_0px_0px_rgba(234,179,8,1)] !transition-all !epilogue !text-xl hover:cursor-pointer"
-                  style={{ padding: '0.75rem', border: '2px solid yellow', borderRadius: '0' }}
-                  transaction={() =>
-                    claimTo({
-                      contract,
-                      to: address,
-                      quantity: BigInt(1),
-                      tokenId: BigInt(0),
-                    })
-                  }
-                  onTransactionSent={({ transactionHash }) => dispatch(transactionSent(transactionHash))}
-                  onTransactionConfirmed={({ transactionHash }) => {
-                    dispatch(mintSuccess({ tokenId, network: Network.BASE, transactionHash }))
-                    dispatch(
-                      getDropTokenByContractAndTokenId.initiate({ contract: contractAddress, tokenId, network, type }),
-                    )
-                  }}
-                  onError={error => {
-                    dispatch(transactionFailed(error))
-                  }}
-                >
-                  Claim
-                </TransactionButton>
+                {!address ? (
+                  <div className="!bg-yellow !text-black !w-full !border-black shadow-[5px_5px_0px_0px_rgba(234,179,8,1)] hover:shadow-[6px_6px_0px_0px_rgba(234,179,8,1)] !transition-all !epilogue !text-xl hover:cursor-pointer">
+                    <ConnectWallet />
+                  </div>
+                ) : (
+                  <button
+                    className="!bg-yellow !text-black !w-full !border-black shadow-[5px_5px_0px_0px_rgba(234,179,8,1)] hover:shadow-[6px_6px_0px_0px_rgba(234,179,8,1)] !transition-all !epilogue !text-xl hover:cursor-pointer"
+                    style={{ padding: '0.75rem', border: '2px solid yellow', borderRadius: '0' }}
+                    onClick={handleClaim}
+                    disabled={!address || isLoading}
+                  >
+                    {isLoading ? 'Claiming...' : `Claim (${quantity})`}
+                  </button>
+                )}
               </div>
             </div>
           )}
