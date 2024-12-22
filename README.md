@@ -12,23 +12,32 @@ graph TB
         UI[User Interface]
         RSC[React Server Components]
         CC[Client Components]
+        subgraph Modules
+            NFT[NFT Components]
+            User[User Components]
+            Market[Market Components]
+            UI_Common[UI Common]
+        end
     end
 
     subgraph Server
         AR[App Router]
         API[API Routes]
         MW[Middleware]
+        Auth[Authentication]
     end
 
     subgraph External
         RES[Reservoir Protocol]
         TW[Thirdweb SDK]
         BC[Blockchain Networks]
+        TRACE[T.R.A.C.E System]
     end
 
     subgraph Data
         DB[(Database)]
         Cache[(Redis Cache)]
+        IPFS[(IPFS Storage)]
     end
 
     UI --> RSC
@@ -43,46 +52,92 @@ graph TB
     RES --> BC
     API --> DB
     API --> Cache
+    NFT --> API
+    User --> API
+    Market --> API
+    TRACE --> BC
 ```
 
-## Table of Contents
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Technologies](#technologies)
-- [Dependencies](#dependencies)
-- [App Architecture](#app-architecture)
-- [API Reference](#api-reference)
-- [Contributing](#contributing)
-- [License](#license)
+## Project Structure
+
+```
+ikigailabs.xyz/
+├── modules/                # Feature-based components
+│   ├── NFT/               # NFT-related components
+│   │   ├── TokenCard
+│   │   ├── TokenMedia
+│   │   └── TokenActivity
+│   ├── Market/            # Marketplace components
+│   │   ├── ListingsList
+│   │   ├── OffersList
+│   │   └── MarketStats
+│   ├── User/              # User-related components
+│   │   ├── Profile
+│   │   ├── UserBids
+│   │   └── UserAsks
+│   └── Common/            # Shared components
+│       ├── Header
+│       ├── Footer
+│       └── Modal
+├── pages/                 # Next.js pages
+├── styles/                # Global styles and Tailwind
+├── lib/                   # Utilities and configurations
+├── public/               # Static assets
+└── common/               # Shared utilities and types
+```
 
 ## Features
 
-- **NFT Trading**
-  - Seamless NFT browsing and trading experience
+- **NFT Trading & Management**
+  - Token Media Viewer with support for multiple formats
   - Real-time pricing and advanced filtering
   - Multi-chain support (Ethereum, Polygon, Base, Zora)
   - Batch minting and listing capabilities
+  - Token activity tracking and history
   
-- **Performance**
+- **Market Features**
+  - Real-time listings and offers
+  - Market statistics and analytics
+  - Collection insights and trends
+  - Bulk bidding and listing tools
+  
+- **User Experience**
+  - Profile management and portfolio tracking
+  - Customizable notifications and alerts
+  - Bid/Ask management interface
+  - Activity history and analytics
+  
+- **Platform Infrastructure**
   - React Server Components for optimal rendering
   - Edge Runtime support for API routes
-  - Streaming SSR for faster page loads
-  - Optimized asset delivery with next/image
+  - Multi-chain transaction support
+  - IPFS integration for decentralized storage
 
-- **Creator Tools**
-  - Custom smart contract deployment
-  - Flexible minting options (ERC721A, ERC1155)
-  - Royalty enforcement
-  - Advanced metadata management
+## Core Modules
 
-- **Collector Features**
-  - Portfolio analytics
-  - Price alerts and notifications
-  - Bulk bidding tools
-  - Collection insights
+### NFT Module
+- `TokenCard`: Displays NFT preview with key metadata
+- `TokenMedia`: Handles various media formats (image, video, 3D)
+- `TokenActivity`: Shows token history and transactions
+- `NFTGrid`: Responsive grid layout for token display
+
+### Market Module
+- `ListingsList`: Active market listings view
+- `OffersList`: Current offers and bid management
+- `MarketStats`: Real-time market statistics
+- `CreateOffer`: Offer creation interface
+
+### User Module
+- `Profile`: User profile and settings
+- `UserBids`: Active and historical bids
+- `UserAsks`: Listed items management
+- `UserActivity`: Transaction history
+
+### Common Components
+- `Header`: Navigation and wallet connection
+- `Footer`: Site information and links
+- `Modal`: Reusable modal component
+- `Search`: Global search functionality
 
 ## Technologies
 
