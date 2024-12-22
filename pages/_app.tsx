@@ -6,8 +6,8 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/router'
 import { ThirdwebProvider } from '@thirdweb-dev/react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { metamaskWallet, coinbaseWallet, walletConnect } from "@thirdweb-dev/react"
+import dynamic from 'next/dynamic'
 
 import '../styles/globals.css'
 import 'slick-carousel/slick/slick.css'
@@ -36,7 +36,7 @@ type URLSType = {
   [key in Network]?: NetworkConfig
 }
 
-function LTLMarketplace({ Component, pageProps }: AppProps) {
+function AppContent({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const { query, events, route } = router
   const network = (query?.network as Network) || Network.MAINNET
@@ -75,8 +75,6 @@ function LTLMarketplace({ Component, pageProps }: AppProps) {
     }
   }, [query, route])
 
-  if (typeof window === 'undefined') return null
-
   return (
     <ThirdwebProvider
       clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
@@ -87,6 +85,7 @@ function LTLMarketplace({ Component, pageProps }: AppProps) {
         coinbaseWallet(),
         walletConnect()
       ]}
+      autoConnect={false}
     >
       <Provider store={store}>
         <Component {...pageProps} />
@@ -109,5 +108,10 @@ function LTLMarketplace({ Component, pageProps }: AppProps) {
     </ThirdwebProvider>
   )
 }
+
+// Disable SSR for the entire app
+const LTLMarketplace = dynamic(() => Promise.resolve(AppContent), {
+  ssr: false
+})
 
 export default LTLMarketplace
