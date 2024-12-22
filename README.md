@@ -4,6 +4,47 @@ The platform is a comprehensive, non-custodial, open-source Web3 application, de
 
 Curators play a pivotal role, crafting narratives and experiences through a seamless multi-chain aggregator that showcases over 150 marketplaces. Collectors are further engaged through innovative equity tokenization, offering them shared ownership and deeper community involvement. The platform not only supports digital art transactions but fosters a dynamic, evolving ecosystem where creators, curators, and collectors thrive. The concept of 'ikigai' guides this vision, blending technology, innovation, and passion to nurture both digital and physical art spaces through residencies and real-world experiences. 
 
+## System Architecture
+
+```mermaid
+graph TB
+    subgraph Client
+        UI[User Interface]
+        RSC[React Server Components]
+        CC[Client Components]
+    end
+
+    subgraph Server
+        AR[App Router]
+        API[API Routes]
+        MW[Middleware]
+    end
+
+    subgraph External
+        RES[Reservoir Protocol]
+        TW[Thirdweb SDK]
+        BC[Blockchain Networks]
+    end
+
+    subgraph Data
+        DB[(Database)]
+        Cache[(Redis Cache)]
+    end
+
+    UI --> RSC
+    UI --> CC
+    RSC --> AR
+    CC --> API
+    AR --> API
+    API --> MW
+    MW --> RES
+    MW --> TW
+    TW --> BC
+    RES --> BC
+    API --> DB
+    API --> Cache
+```
+
 ## Table of Contents
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
@@ -19,10 +60,29 @@ Curators play a pivotal role, crafting narratives and experiences through a seam
 
 ## Features
 
-- Seamless NFT browsing and trading experience
-- Real-time pricing and advanced filtering
-- Multi-chain support
-- Optimized performance with React Server Components
+- **NFT Trading**
+  - Seamless NFT browsing and trading experience
+  - Real-time pricing and advanced filtering
+  - Multi-chain support (Ethereum, Polygon, Base, Zora)
+  - Batch minting and listing capabilities
+  
+- **Performance**
+  - React Server Components for optimal rendering
+  - Edge Runtime support for API routes
+  - Streaming SSR for faster page loads
+  - Optimized asset delivery with next/image
+
+- **Creator Tools**
+  - Custom smart contract deployment
+  - Flexible minting options (ERC721A, ERC1155)
+  - Royalty enforcement
+  - Advanced metadata management
+
+- **Collector Features**
+  - Portfolio analytics
+  - Price alerts and notifications
+  - Bulk bidding tools
+  - Collection insights
 
 ## Technologies
 
@@ -220,3 +280,31 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Performance Optimization
+
+- **Server Components**: Extensive use of React Server Components reduces client-side JavaScript
+- **Edge Runtime**: API routes deployed to the edge for minimal latency
+- **Caching Strategy**:
+  - Static paths generation for collection pages
+  - Incremental Static Regeneration for dynamic data
+  - Redis caching for API responses
+- **Image Optimization**:
+  - WebP/AVIF format delivery
+  - Automatic responsive images
+  - Lazy loading implementation
+
+## Security Measures
+
+- **Smart Contract Security**:
+  - Audited contract templates
+  - Multi-signature support
+  - Automated vulnerability scanning
+- **API Security**:
+  - Rate limiting
+  - CORS configuration
+  - Input validation
+- **User Protection**:
+  - Non-custodial wallet integration
+  - Transaction signing confirmation
+  - Fraud detection systems
