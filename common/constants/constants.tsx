@@ -102,7 +102,7 @@ export const customChains = {
     },
     blockExplorers: [
       {
-        name: 'Beratrail',
+        name: 'Berascan',
         url: 'https://berascan.com',
       },
     ],
