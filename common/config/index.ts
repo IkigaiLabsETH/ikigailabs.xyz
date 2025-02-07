@@ -90,7 +90,7 @@ export const URLS = {
     openzeppelin: '',
   },
   [Network.BERA]: {
-    reservoir: 'https://api-berachain-testnet.reservoir.tools',
+    reservoir: 'https://api-berachain.reservoir.tools',
     tw: '',
     alchemy: '',
     explorer: 'https://berascan.com',
