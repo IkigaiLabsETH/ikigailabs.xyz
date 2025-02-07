@@ -93,7 +93,7 @@ export const URLS = {
     reservoir: 'https://api-berachain-testnet.reservoir.tools',
     tw: '',
     alchemy: '',
-    explorer: 'https://bartio.beratrail.io',
+    explorer: 'https://berascan.com',
     openzeppelin: '',
   },
   [Network.BLAST]: {
