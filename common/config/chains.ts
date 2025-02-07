@@ -198,9 +198,9 @@ export const supportedChains = [
     darkIconUrl: '/icons/blast-icon-light.svg',
   },
   {
-    ...Berachain,
+    ...berachain,
     routePrefix: Network.BERA,
-    reservoirBaseUrl: 'https://api-berachain-testnet.reservoir.tools',
+    reservoirBaseUrl: 'https://api-berachain.reservoir.tools',
     lightIconUrl: '/icons/blast-icon-dark.svg',
     darkIconUrl: '/icons/blast-icon-light.svg',
   },
