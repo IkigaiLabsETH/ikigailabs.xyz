@@ -8,6 +8,7 @@ import { match } from 'ts-pattern'
 import { Loader, Size } from '../Loader'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { supportedChains } from '../../common/config/chains'
 
 interface ProfileProps {
   connectLabel?: string
@@ -24,7 +25,7 @@ export const Profile: FC<ProfileProps> = () => {
       wallets={wallets}
       theme={'dark'}
       connectModal={{ size: 'wide' }}
-      chains={values(CHAINS)}
+      chains={supportedChains}
     />
   )
 
