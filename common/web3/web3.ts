@@ -59,7 +59,7 @@ export const wallets = [
       nativeCurrency: chain.nativeCurrency,
       name: chain.name,
       blockExplorers: chain.blockExplorers,
-      testnet: chain.testnet || false,
+      ...(chain.testnet === true && { testnet: true }),
     })),
     appMetadata: {
       name: 'IKIGAI Labs',
