@@ -20,7 +20,6 @@ import {
   FaRegCircleXmark,
 } from 'react-icons/fa6'
 import { ETH } from 'react-cryptoicon'
-import { berachain as wagmiBerachain } from 'wagmi/chains'
 import { Berachain } from '../config/chains'
 
 import { ActivityType, Network, Option } from '../types'
