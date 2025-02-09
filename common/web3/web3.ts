@@ -26,12 +26,10 @@ if (typeof window !== 'undefined') {
 const getTWClient = (chain: Network) => {
   const settings = {
     supportedChains: supportedChains.map(chain => ({
-      id: chain.id,
-      rpc: chain.rpc[0],
+      chainId: chain.id,
+      rpc: [chain.rpc[0]],
       nativeCurrency: chain.nativeCurrency,
-      name: chain.name,
-      blockExplorers: chain.blockExplorers,
-      testnet: chain.testnet || false,
+      slug: chain.network,
     })),
     clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
     secretKey: process.env.THIRDWEB_SECRET_KEY,
