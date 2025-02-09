@@ -196,7 +196,7 @@ export const CHAIN_ID = {
   [Network.BASE]: base.id,
   [Network.BASE_SEPOLIA]: baseSepolia.id,
   [Network.AVALANCHE]: avalanche.id,
-  [Network.BERA]: berachain.id,
+  [Network.BERA]: Berachain.id,
   [Network.LINEA]: customChains[Network.LINEA].id,
   [Network.ZKSYNC]: customChains[Network.ZKSYNC].id,
 } as const
@@ -211,7 +211,7 @@ export const CHAINS = {
   [Network.BASE]: base,
   [Network.BASE_SEPOLIA]: baseSepolia,
   [Network.AVALANCHE]: avalanche,
-  [Network.BERA]: berachain,
+  [Network.BERA]: Berachain,
   [Network.LINEA]: customChains[Network.LINEA],
   [Network.ZKSYNC]: customChains[Network.ZKSYNC],
 } as const
