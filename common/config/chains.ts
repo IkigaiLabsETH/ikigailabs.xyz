@@ -65,6 +65,11 @@ export const Berachain: ReservoirChain = {
   name: "Berachain",
   network: "berachain",
   rpc: ["https://rpc.berachain.com"],
+  nativeCurrency: {
+    name: "BERA",
+    symbol: "BERA",
+    decimals: 18,
+  },
   blockExplorers: [
     {
       name: "Berascan",
