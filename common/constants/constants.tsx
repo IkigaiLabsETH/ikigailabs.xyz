@@ -98,21 +98,24 @@ export const EXPIRATION_DEFAULTS = [
 ]
 
 export const customChains = {
-  [Network.BERA]: defineChain({
+  [Network.BERA]: {
     id: 80094,
     name: 'Berachain',
+    network: 'berachain',
     nativeCurrency: {
       name: 'BERA',
       symbol: 'BERA',
       decimals: 18,
     },
-    blockExplorers: [
-      {
-        name: 'Berascan',
-        url: 'https://berascan.com',
-      },
-    ],
-  }),
+    rpc: ["https://rpc.berachain.com"],
+    blockExplorers: {
+      default: {
+        name: "Berascan",
+        url: "https://berascan.com"
+      }
+    },
+    testnet: false,
+  },
   [Network.LINEA]: defineChain({
     id: 59144,
     name: 'Linea',
@@ -193,7 +196,7 @@ export const CHAIN_ID = {
   [Network.BASE]: base.id,
   [Network.BASE_SEPOLIA]: baseSepolia.id,
   [Network.AVALANCHE]: avalanche.id,
-  [Network.BERA]: Berachain.chainId,
+  [Network.BERA]: Berachain.id,
   [Network.LINEA]: customChains[Network.LINEA].id,
   [Network.ZKSYNC]: customChains[Network.ZKSYNC].id,
 } as const
