@@ -11,103 +11,11 @@ export const URLS = {
     explorer: 'https://etherscan.io',
     openzeppelin: '',
   },
-  [Network.OPTIMISM]: {
-    reservoir: 'https://api-optimism.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://optimistic.etherscan.io',
-    openzeppelin: '',
-  },
-  [Network.POLYGON]: {
-    reservoir: 'https://api-polygon.reservoir.tools',
-    tw: '',
-    alchemy: 'https://polygon-mainnet.g.alchemy.com',
-    explorer: 'https://polygonscan.com',
-    openzeppelin: '',
-  },
-  [Network.ARBITRUM]: {
-    reservoir: 'https://api-arbitrum.reservoir.tools',
-    tw: '',
-    alchemy: 'https://arb-mainnet.g.alchemy.com',
-    explorer: 'https://arbiscan.io',
-    openzeppelin: '',
-  },
-  [Network.MUMBAI]: {
-    reservoir: 'https://api-mumbai.reservoir.tools',
-    tw: '',
-    alchemy: 'https://polygon-mumbai.g.alchemy.com',
-    explorer: 'https://mumbai.polygonscan.com',
-    openzeppelin:
-      'https://api.defender.openzeppelin.com/autotasks/3d39e44f-5ed0-4c66-9107-8f45e4c1b918/runs/webhook/d3bad3c5-947c-4dde-8868-915e797a8bc4/SkSiPovrShFkTHST4cPCHw',
-  },
-  [Network.ZORA]: {
-    reservoir: 'https://api-zora.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://zorascan.xyz',
-    openzeppelin: '',
-  },
-  [Network.BASE]: {
-    reservoir: 'https://api-base.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://basescan.org',
-    openzeppelin: '',
-  },
-  [Network.BASE_SEPOLIA]: {
-    reservoir: 'https://api-base-sepolia.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://basescan.org',
-    openzeppelin: '',
-  },
-  [Network.ZKEVM]: {
-    reservoir: 'https://api-polygon-zkevm.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://zkevm.polygonscan.com',
-    openzeppelin: '',
-  },
-  [Network.AVALANCHE]: {
-    reservoir: 'https://api-avalanche.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://avascan.info',
-    openzeppelin: '',
-  },
-  [Network.LINEA]: {
-    reservoir: 'https://api-linea.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://lineascan.build',
-    openzeppelin: '',
-  },
-  [Network.SCROLL]: {
-    reservoir: 'https://api-scroll.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://scrollscan.com',
-    openzeppelin: '',
-  },
   [Network.BERA]: {
     reservoir: 'https://api-berachain.reservoir.tools',
     tw: '',
     alchemy: '',
     explorer: 'https://berascan.com',
-    openzeppelin: '',
-  },
-  [Network.BLAST]: {
-    reservoir: 'https://api-blast.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://blastscan.io',
-    openzeppelin: '',
-  },
-  [Network.SEPOLIA]: {
-    reservoir: 'https://api-sepolia.reservoir.tools',
-    tw: '',
-    alchemy: '',
-    explorer: 'https://sepolia.etherscan.io',
     openzeppelin: '',
   },
 }
@@ -155,25 +63,6 @@ export const COLLECTIONS = {
       name: 'Degens',
     },
   ],
-  [Network.POLYGON]: [
-    {
-      id: '5bc9be317c2b9d36e7ec0ceff90f9c86443862391d96f5569377abd1463d4271',
-      name: 'Top',
-    },
-  ],
-  [Network.ARBITRUM]: [
-    {
-      id: 'e7491360f8ea4f48278f2836057028e04e4e5203de9d3141af17b2d8eac1f702',
-      name: 'Curated',
-    },
-  ],
-  [Network.OPTIMISM]: [
-    {
-      id: '2e6f356700068babbb4e2d802c03c3f3212ca7149065b655b18564f561f0af5a',
-      name: 'Curated',
-    },
-  ],
-  [Network.MUMBAI]: [],
 }
 
 export const FEATURED_DROP = '0x3C9A5EeB4D7126D759B64B9129C23012CF802313'
@@ -202,19 +91,19 @@ export const MINT_PASSES = [
   {
     contract: '0x9943b6498bC20Ca6237fF9DD29c870205F997B97',
     tokenId: '0',
-    network: Network.ARBITRUM,
+    network: Network.BERA,
     type: 'edition-drop' as ContractType,
   },
   {
     contract: '0x9943b6498bC20Ca6237fF9DD29c870205F997B97',
     tokenId: '1',
-    network: Network.ARBITRUM,
+    network: Network.BERA,
     type: 'edition-drop' as ContractType,
   },
   {
     contract: '0x9943b6498bC20Ca6237fF9DD29c870205F997B97',
     tokenId: '2',
-    network: Network.ARBITRUM,
+    network: Network.BERA,
     type: 'edition-drop' as ContractType,
   },
 ]
