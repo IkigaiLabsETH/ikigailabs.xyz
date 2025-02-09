@@ -1,21 +1,21 @@
-import { Ethereum } from '@thirdweb-dev/chains'
-import { mainnet, Chain } from 'wagmi/chains'
+import { mainnet } from 'wagmi/chains'
 import { Network } from '../types'
 
-//CONFIGURABLE: The default export controls the supported chains for the marketplace. Removing
-// or adding chains will result in adding more or less chains to the marketplace.
-// They are an extension of the wagmi chain objects
-
-export type ReservoirChain = {
+// Base chain type for Thirdweb
+type ThirdwebChain = {
   id: number
-  name: string
-  network: string
-  rpc: string
+  rpc: string[]
   nativeCurrency: {
     name: string
     symbol: string
     decimals: number
   }
+  network: string
+}
+
+// Combined type for both Reservoir and Thirdweb requirements
+export type ReservoirChain = ThirdwebChain & {
+  name: string
   blockExplorers: {
     name: string
     url: string
@@ -37,7 +37,7 @@ export const defaultChain: ReservoirChain = {
   id: 1,
   name: 'Ethereum',
   network: 'ethereum',
-  rpc: "https://eth.llamarpc.com",
+  rpc: ["https://eth.llamarpc.com"],
   nativeCurrency: {
     name: 'Ether',
     symbol: 'ETH',
@@ -64,12 +64,7 @@ export const Berachain: ReservoirChain = {
   id: 80094,
   name: "Berachain",
   network: "berachain",
-  nativeCurrency: {
-    name: "BERA",
-    symbol: "BERA",
-    decimals: 18,
-  },
-  rpc: "https://rpc.berachain.com",
+  rpc: ["https://rpc.berachain.com"],
   blockExplorers: [
     {
       name: "Berascan",
@@ -77,7 +72,6 @@ export const Berachain: ReservoirChain = {
     }
   ],
   testnet: false,
-  // Add required Reservoir fields
   lightIconUrl: '/icons/blast-icon-dark.svg',
   darkIconUrl: '/icons/blast-icon-light.svg',
   reservoirBaseUrl: 'https://api-berachain.reservoir.tools',
