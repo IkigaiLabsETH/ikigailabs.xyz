@@ -13,7 +13,6 @@ import {
   Scroll,
   Zksync,
   Blast,
-  Berachain,
   BaseSepoliaTestnet,
 } from '@thirdweb-dev/chains'
 import {
