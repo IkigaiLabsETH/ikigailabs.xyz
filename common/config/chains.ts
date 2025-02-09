@@ -87,7 +87,7 @@ export const Berachain = {
     symbol: "BERA",
     decimals: 18,
   },
-  rpc: ["https://rpc.berachain.com"],
+  rpc: "https://rpc.berachain.com",
   blockExplorers: {
     default: {
       name: "Berascan",
