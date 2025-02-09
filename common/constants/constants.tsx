@@ -108,12 +108,12 @@ export const customChains = {
       decimals: 18,
     },
     rpc: "https://rpc.berachain.com",
-    blockExplorers: {
-      default: {
-        name: "Berascan",
-        url: "https://berascan.com"
-      }
-    },
+  blockExplorers: [
+    {
+      name: "Berascan",
+      url: "https://berascan.com"
+    }
+  ],
     testnet: false,
   },
   [Network.LINEA]: defineChain({
