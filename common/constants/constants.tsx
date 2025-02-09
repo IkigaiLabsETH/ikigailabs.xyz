@@ -9,7 +9,6 @@ import {
   base,
   baseSepolia,
   avalanche,
-  berachain,
 } from 'thirdweb/chains'
 import {
   FaArrowRightArrowLeft,
