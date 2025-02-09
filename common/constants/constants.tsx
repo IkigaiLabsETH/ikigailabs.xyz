@@ -20,6 +20,8 @@ import {
   FaRegCircleXmark,
 } from 'react-icons/fa6'
 import { ETH } from 'react-cryptoicon'
+import { berachain as wagmiBerachain } from 'wagmi/chains'
+import { Berachain } from '../config/chains'
 
 import { ActivityType, Network, Option } from '../types'
 
@@ -182,6 +184,21 @@ export const customChains = {
   }),
 }
 
+export const CHAIN_ID = {
+  [Network.MAINNET]: ethereum.id,
+  [Network.OPTIMISM]: optimism.id,
+  [Network.POLYGON]: polygon.id,
+  [Network.ARBITRUM]: arbitrum.id,
+  [Network.ARBITRUM_NOVA]: arbitrumNova.id,
+  [Network.ZORA]: zora.id,
+  [Network.BASE]: base.id,
+  [Network.BASE_SEPOLIA]: baseSepolia.id,
+  [Network.AVALANCHE]: avalanche.id,
+  [Network.BERA]: Berachain.chainId,
+  [Network.LINEA]: customChains[Network.LINEA].id,
+  [Network.ZKSYNC]: customChains[Network.ZKSYNC].id,
+} as const
+
 export const CHAINS = {
   [Network.MAINNET]: ethereum,
   [Network.OPTIMISM]: optimism,
@@ -192,13 +209,10 @@ export const CHAINS = {
   [Network.BASE]: base,
   [Network.BASE_SEPOLIA]: baseSepolia,
   [Network.AVALANCHE]: avalanche,
-  [Network.BERA]: berachain,
+  [Network.BERA]: Berachain,
   [Network.LINEA]: customChains[Network.LINEA],
-  // [Network.SCROLL]: customChains[Network.SCROLL],
   [Network.ZKSYNC]: customChains[Network.ZKSYNC],
-  // [Network.BLAST]: customChains[Network.BLAST],
-  [Network.BERA]: customChains[Network.BERA],
-}
+} as const
 
 export const CHAIN_ICON_MAP = {
   ETH: <ETH size={20} />,
