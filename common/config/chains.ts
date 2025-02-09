@@ -13,7 +13,6 @@ import {
   Scroll,
   Zksync,
   Blast,
-  Berachain,
 } from '@thirdweb-dev/chains'
 import {
   arbitrum,
