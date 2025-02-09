@@ -25,7 +25,12 @@ if (typeof window !== 'undefined') {
 
 const getTWClient = (chain: Network) => {
   const settings = {
-    supportedChains: supportedChains,
+    supportedChains: supportedChains.map(chain => ({
+      chainId: chain.chainId,
+      rpc: chain.rpc,
+      nativeCurrency: chain.nativeCurrency,
+      slug: chain.slug
+    })),
     clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
     secretKey: process.env.THIRDWEB_SECRET_KEY,
   }
@@ -48,7 +53,12 @@ export const wallets = [
     walletConfig: {
       options: 'smartWalletOnly',
     },
-    chains: [supportedChains],
+    chains: supportedChains.map(chain => ({
+      chainId: chain.chainId,
+      rpc: chain.rpc,
+      nativeCurrency: chain.nativeCurrency,
+      slug: chain.slug
+    })),
     appMetadata: {
       name: 'IKIGAI Labs',
       description: 'Shaped by Photography',
