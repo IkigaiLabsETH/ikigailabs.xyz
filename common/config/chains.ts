@@ -203,7 +203,6 @@ export const TW_SUPPORTED_CHAINS = [
   Arbitrum,
   Zora,
   Base,
-  BaseSepoliaTestnet,
   Optimism,
   ArbitrumNova,
   Polygon,
