@@ -9,6 +9,7 @@ import {
   base,
   baseSepolia,
   avalanche,
+  berachain,
 } from 'thirdweb/chains'
 import {
   FaArrowRightArrowLeft,
@@ -35,6 +36,7 @@ export const COLLECTION_SORTING_OPTIONS = [
 export const SUPPORTED_CURRENCY = [
   { id: 'ETH', name: 'ETH' },
   { id: 'USDC', name: 'USDC' },
+  { id: 'BERA', name: 'BERA' },
 ]
 
 export const NETWORK_OPTIONS = [
@@ -53,6 +55,10 @@ export const NETWORK_OPTIONS = [
   {
     id: 'mumbai',
     name: 'Mumbai',
+  },
+  {
+    id: 'berachain',
+    name: 'Berachain',
   },
 ] as Option[]
 
@@ -187,6 +193,7 @@ export const CHAINS = {
   [Network.BASE]: base,
   [Network.BASE_SEPOLIA]: baseSepolia,
   [Network.AVALANCHE]: avalanche,
+  [Network.BERA]: berachain,
   [Network.LINEA]: customChains[Network.LINEA],
   // [Network.SCROLL]: customChains[Network.SCROLL],
   [Network.ZKSYNC]: customChains[Network.ZKSYNC],
