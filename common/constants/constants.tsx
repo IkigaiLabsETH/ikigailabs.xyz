@@ -107,7 +107,7 @@ export const customChains = {
       symbol: 'BERA',
       decimals: 18,
     },
-    rpc: ["https://rpc.berachain.com"],
+    rpc: "https://rpc.berachain.com",
     blockExplorers: {
       default: {
         name: "Berascan",
@@ -196,7 +196,7 @@ export const CHAIN_ID = {
   [Network.BASE]: base.id,
   [Network.BASE_SEPOLIA]: baseSepolia.id,
   [Network.AVALANCHE]: avalanche.id,
-  [Network.BERA]: Berachain.id,
+  [Network.BERA]: berachain.id,
   [Network.LINEA]: customChains[Network.LINEA].id,
   [Network.ZKSYNC]: customChains[Network.ZKSYNC].id,
 } as const
@@ -211,7 +211,7 @@ export const CHAINS = {
   [Network.BASE]: base,
   [Network.BASE_SEPOLIA]: baseSepolia,
   [Network.AVALANCHE]: avalanche,
-  [Network.BERA]: Berachain,
+  [Network.BERA]: berachain,
   [Network.LINEA]: customChains[Network.LINEA],
   [Network.ZKSYNC]: customChains[Network.ZKSYNC],
 } as const
