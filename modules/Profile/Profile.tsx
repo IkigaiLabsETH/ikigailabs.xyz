@@ -25,7 +25,14 @@ export const Profile: FC<ProfileProps> = () => {
       wallets={wallets}
       theme={'dark'}
       connectModal={{ size: 'wide' }}
-      chains={supportedChains}
+      chains={supportedChains.map(chain => ({
+        id: chain.id,
+        name: chain.name,
+        rpc: chain.rpc[0], // Use first RPC as string
+        nativeCurrency: chain.nativeCurrency,
+        blockExplorers: chain.blockExplorers,
+        ...(chain.testnet === true && { testnet: true }),
+      }))}
     />
   )
 
