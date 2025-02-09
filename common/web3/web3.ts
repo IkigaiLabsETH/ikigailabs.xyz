@@ -6,7 +6,7 @@ import { Network } from '../types'
 import { URLS } from '../config'
 import { getChainIdFromNetwork } from '../utils'
 import { createWalletClient, custom } from 'viem'
-import { TW_SUPPORTED_CHAINS } from '../config/chains'
+import { supportedChains } from '../config/chains'
 import { createThirdwebClient } from 'thirdweb'
 import { createWallet, walletConnect } from 'thirdweb/wallets'
 
@@ -25,7 +25,7 @@ if (typeof window !== 'undefined') {
 
 const getTWClient = (chain: Network) => {
   const settings = {
-    supportedChains: TW_SUPPORTED_CHAINS,
+    supportedChains: supportedChains,
     clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
     secretKey: process.env.THIRDWEB_SECRET_KEY,
   }
@@ -48,7 +48,7 @@ export const wallets = [
     walletConfig: {
       options: 'smartWalletOnly',
     },
-    chains: [TW_SUPPORTED_CHAINS],
+    chains: [supportedChains],
     appMetadata: {
       name: 'IKIGAI Labs',
       description: 'Shaped by Photography',
