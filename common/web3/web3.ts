@@ -26,10 +26,12 @@ if (typeof window !== 'undefined') {
 const getTWClient = (chain: Network) => {
   const settings = {
     supportedChains: supportedChains.map(chain => ({
-      chainId: chain.id,
-      rpc: chain.rpc,
+      id: chain.id,
+      rpc: chain.rpc[0],
       nativeCurrency: chain.nativeCurrency,
-      slug: chain.network
+      name: chain.name,
+      blockExplorers: chain.blockExplorers,
+      testnet: chain.testnet || false,
     })),
     clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
     secretKey: process.env.THIRDWEB_SECRET_KEY,
@@ -54,10 +56,12 @@ export const wallets = [
       options: 'smartWalletOnly',
     },
     chains: supportedChains.map(chain => ({
-      chainId: chain.id,
-      rpc: chain.rpc,
+      id: chain.id,
+      rpc: chain.rpc[0],
       nativeCurrency: chain.nativeCurrency,
-      slug: chain.network
+      name: chain.name,
+      blockExplorers: chain.blockExplorers,
+      testnet: chain.testnet || false,
     })),
     appMetadata: {
       name: 'IKIGAI Labs',
