@@ -88,12 +88,12 @@ export const Berachain = {
     decimals: 18,
   },
   rpc: "https://rpc.berachain.com",
-  blockExplorers: {
-    default: {
+  blockExplorers: [
+    {
       name: "Berascan",
       url: "https://berascan.com"
     }
-  },
+  ],
   testnet: false,
 } as const;
 
