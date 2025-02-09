@@ -79,18 +79,22 @@ export const defaultChain: ReservoirChain = {
 }
 
 export const Berachain = {
-  chainId: 80094,
+  id: 80094,
   name: "Berachain",
-  chain: "BERA",
-  shortName: "BERA",
+  network: "berachain",
   nativeCurrency: {
     name: "BERA",
     symbol: "BERA",
     decimals: 18,
   },
   rpc: ["https://rpc.berachain.com"],
+  blockExplorers: {
+    default: {
+      name: "Berascan",
+      url: "https://berascan.com"
+    }
+  },
   testnet: false,
-  slug: "berachain"
 } as const;
 
 export const supportedChains = [
