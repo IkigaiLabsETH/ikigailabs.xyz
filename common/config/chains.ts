@@ -13,7 +13,7 @@ import {
   Scroll,
   Zksync,
   Blast,
-  BaseSepoliaTestnet,
+  Berachain,
 } from '@thirdweb-dev/chains'
 import {
   arbitrum,
