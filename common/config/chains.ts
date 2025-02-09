@@ -196,13 +196,6 @@ export const supportedChains = [
     lightIconUrl: '/icons/blast-icon-dark.svg',
     darkIconUrl: '/icons/blast-icon-light.svg',
   },
-  {
-    ...berachain,
-    routePrefix: Network.BERA,
-    reservoirBaseUrl: 'https://api-berachain.reservoir.tools',
-    lightIconUrl: '/icons/blast-icon-dark.svg',
-    darkIconUrl: '/icons/blast-icon-light.svg',
-  },
 ] as ReservoirChain[]
 
 export const TW_SUPPORTED_CHAINS = [
@@ -221,5 +214,20 @@ export const TW_SUPPORTED_CHAINS = [
   Scroll,
   Zksync,
   Blast,
-  Berachain,
 ] as any
+
+// Add custom Berachain definition
+const Berachain = {
+  chainId: 80094,
+  name: "Berachain",
+  chain: "BERA",
+  shortName: "BERA",
+  nativeCurrency: {
+    name: "BERA",
+    symbol: "BERA",
+    decimals: 18,
+  },
+  rpc: ["https://rpc.berachain.com"],
+  testnet: false,
+  slug: "berachain"
+} as const;
