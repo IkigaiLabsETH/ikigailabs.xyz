@@ -6,6 +6,7 @@ export const useValidNetwork = (network: string) => {
     Network.MAINNET,
     Network.ARBITRUM,
     Network.BASE,
+    Network.BERA,
   ]
 
   return includes(network, supportedNetworks)
