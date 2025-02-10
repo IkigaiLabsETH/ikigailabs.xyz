@@ -1,8 +1,15 @@
 import { add, pathOr, propOr } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
-import { useContract, useNFT } from '@thirdweb-dev/react'
-import { ContractType } from '@thirdweb-dev/sdk'
+import { 
+  useContract, 
+  useNFT,
+  Web3Button as TransactionButton 
+} from '@thirdweb-dev/react'
+import { 
+  ContractType,
+  SmartContract
+} from '@thirdweb-dev/sdk'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { CurrencyChain, DropTypeStandards, Network } from '../../common/types'
@@ -12,11 +19,8 @@ import { Loader } from '../Loader'
 import { getDropByContract, selectDrop } from './drop.api'
 import { mintSuccess } from './drop.actions'
 import { Amount } from '../Form/Amount'
-import { TransactionButton } from 'thirdweb/react'
-import { claimTo } from 'thirdweb/extensions/erc721'
 import { transactionFailed, transactionSent } from '../../common/transaction'
-import { useWallet } from '../../common/useWallet'
-import { ContractOptions, getContract } from 'thirdweb'
+import { useWallet } from '@thirdweb-dev/react'
 import { TWClient } from '../../common/web3/web3'
 import { CHAINS } from '../../common/constants'
 import { getContractMetadata } from 'thirdweb/extensions/common'
@@ -30,12 +34,12 @@ interface DropProps {
 
 export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
   const dispatch = useAppDispatch()
-  const { address } = useWallet()
+  const address = useWallet()
   const [localClaimedSupply, setLocalClaimedSupply] = useState(0)
   const [amountToMint, setAmountToMint] = useState(1)
   const { data, status } = useAppSelector(selectDrop({ contract: contractAddress, network, type: 'nft-drop' }))
   const [maxClaimable, setMaxClaimable] = useState<string | number>(1)
-  const [contract, setContract] = useState<Readonly<ContractOptions<[]>> | null>(null)
+  const [contract, setContract] = useState<SmartContract | null>(null)
   const [contractMetadata, setContractMetadata] = useState<any>(null)
   const [error, setError] = useState<string>('')
 
