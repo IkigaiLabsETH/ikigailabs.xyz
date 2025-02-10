@@ -134,12 +134,14 @@ export const CHAIN_ID = {
   [Network.MAINNET]: mainnet.id,
   [Network.BERA]: Berachain.id,
   [Network.BASE]: base.id,
+  [Network.ARBITRUM]: arbitrum.id,
 } as const
 
 export const CHAINS = {
   [Network.MAINNET]: mainnet,
   [Network.BERA]: Berachain,
   [Network.BASE]: base,
+  [Network.ARBITRUM]: arbitrum.id,
 } as const
 
 export const CHAIN_ICON_MAP = {
