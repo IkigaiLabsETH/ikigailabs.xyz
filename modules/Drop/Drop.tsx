@@ -1,6 +1,7 @@
 import { add, pathOr, propOr } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
+import { useContract, useNFT } from 'thirdweb/react'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { CurrencyChain, DropTypeStandards, Network } from '../../common/types'
@@ -21,12 +22,12 @@ import { getContractMetadata } from 'thirdweb/extensions/common'
 import { TransactionReceipt } from 'thirdweb/dist/types/transaction/types'
 
 interface DropProps {
-  contractAddress: string
-  tokenId: string
+  contractAddress?: string
+  tokenId?: string
   network: Network
 }
 
-export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
+export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
   const dispatch = useAppDispatch()
   const { address } = useWallet()
   const [localClaimedSupply, setLocalClaimedSupply] = useState(0)
@@ -35,6 +36,30 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
   const [maxClaimable, setMaxClaimable] = useState<string | number>(1)
   const [contract, setContract] = useState<Readonly<ContractOptions<[]>> | null>(null)
   const [contractMetadata, setContractMetadata] = useState<any>(null)
+  const [error, setError] = useState<string>('')
+
+  const { contract: thirdwebContract } = useContract(contractAddress)
+  const { data: nft, isLoading } = useNFT(thirdwebContract, tokenId)
+
+  // Add image loading state
+  const [imageLoaded, setImageLoaded] = useState(false)
+
+  // Improved image handling
+  const handleImageLoad = () => {
+    setImageLoaded(true)
+  }
+
+  // Validate props
+  useEffect(() => {
+    if (!contractAddress) {
+      setError('Contract address is required')
+      return
+    }
+    if (!tokenId) {
+      setError('Token ID is required')
+      return
+    }
+  }, [contractAddress, tokenId])
 
   useEffect(() => {
     if (!contractAddress) return
@@ -87,45 +112,70 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
 
   const totalSupply = add(claimedSupply, unclaimedSupply)
 
-  const header = match('succeeded')
+  if (error) {
+    return <div className="text-red-500">{error}</div>
+  }
+
+  if (isLoading || !nft) {
+    return <Loader />
+  }
+
+  const header = match(status)
     .with('succeeded', () => (
-      <>
-        <CollectionHeader
-          eyebrow="Welcome"
-          coverImage={pathOr('', ['metadata', 'image'])(data)}
-          name={pathOr('', ['metadata', 'name'])(data)}
-          description={pathOr('', ['metadata', 'description'])(data)}
-        >
-          <div className="flex flex-col">
-            <div className="grid grid-cols-3 gap-4 w-full border-y border-y-gray-700 py-8 mt-6">
-              <CollectionStat label="Price" loading={status === 'pending'}>
-                {pathOr('', ['claimConditions', 'currencyMetadata', 'displayValue'])(data)}{' '}
-                {pathOr('', ['claimConditions', 'currencyMetadata', 'symbol'])(data)}
-              </CollectionStat>
-              <CollectionStat label="Minted" loading={status === 'pending'}>{`${localClaimedSupply} / ${
-                pathOr('', ['claimConditions', 'maxClaimableSupply'])(data) === 'unlimited'
-                  ? 'Unlimited'
-                  : totalSupply?.toString()
-              }`}</CollectionStat>
-              {/* <CollectionStat label="Unique Owners" loading={isNil(ownersCount)}>
-                {ownersCount?.toString()}
-              </CollectionStat> */}
-            </div>
-            <div className="grid grid-cols-1 gap-4 w-full border-b border-b-gray-700 py-8">
-              <CollectionStat label="Opens:" loading={status === 'pending'}>
-                {new Date(pathOr('', ['claimConditions', 'startTime'])(data)).toLocaleDateString()}
-              </CollectionStat>
-            </div>
+      <CollectionHeader
+        eyebrow="Welcome"
+        coverImage={nft.metadata.image}
+        name={nft.metadata.name}
+        description={nft.metadata.description}
+      >
+        <div className="flex flex-col">
+          {/* Image with loading state */}
+          <div className="relative aspect-square w-full overflow-hidden rounded-lg">
+            {!imageLoaded && <Loader />}
+            <img 
+              src={nft.metadata.image}
+              alt={nft.metadata.name}
+              className={`w-full h-full object-cover transition-opacity duration-300 ${
+                imageLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+              onLoad={handleImageLoad}
+            />
           </div>
-          <div className="flex flex-col md:flex-row w-full mt-1 justify-between items-center">
-            <div className="w-full md:w-1/4 flex justify-center text-3xl font-bold">
-              <Amount amount={amountToMint} onMinus={onMinus} onPlus={onPlus} />
-            </div>
+
+          {/* Rest of the existing content */}
+          <div className="grid grid-cols-3 gap-4 w-full border-y border-y-gray-700 py-8 mt-6">
+            <CollectionStat label="Price" loading={status === 'pending'}>
+              {pathOr('', ['claimConditions', 'currencyMetadata', 'displayValue'])(data)}{' '}
+              {pathOr('', ['claimConditions', 'currencyMetadata', 'symbol'])(data)}
+            </CollectionStat>
+            <CollectionStat label="Minted" loading={status === 'pending'}>{`${localClaimedSupply} / ${
+              pathOr('', ['claimConditions', 'maxClaimableSupply'])(data) === 'unlimited'
+                ? 'Unlimited'
+                : totalSupply?.toString()
+            }`}</CollectionStat>
+            {/* <CollectionStat label="Unique Owners" loading={isNil(ownersCount)}>
+              {ownersCount?.toString()}
+            </CollectionStat> */}
+          </div>
+          <div className="grid grid-cols-1 gap-4 w-full border-b border-b-gray-700 py-8">
+            <CollectionStat label="Opens:" loading={status === 'pending'}>
+              {new Date(pathOr('', ['claimConditions', 'startTime'])(data)).toLocaleDateString()}
+            </CollectionStat>
+          </div>
+
+          {/* Mint controls */}
+          <div className="flex flex-col md:flex-row w-full mt-6 justify-between items-center">
+            <Amount 
+              amount={amountToMint} 
+              onMinus={onMinus} 
+              onPlus={onPlus}
+              max={maxClaimable === 'unlimited' ? 9999999999 : parseInt(maxClaimable as string, 10)}
+            />
+            
             <div className="w-full md:w-3/4 md:pl-4">
               {maxClaimable === 'unlimited' || 0 < (maxClaimable as number) ? (
                 <TransactionButton
-                  className="!bg-yellow !text-black !w-full !border-black shadow-[5px_5px_0px_0px_rgba(234,179,8,1)] hover:shadow-[6px_6px_0px_0px_rgba(234,179,8,1)] !transition-all !epilogue !text-xl hover:cursor-pointer"
-                  style={{ padding: '0.75rem', border: '2px solid yellow', borderRadius: '0' }}
+                  className="mint-button w-full"
                   transaction={() =>
                     claimTo({
                       contract,
@@ -134,20 +184,19 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
                     })
                   }
                   onTransactionSent={({ transactionHash }) => dispatch(transactionSent(transactionHash))}
-                  onTransactionConfirmed={({ transactionHash }: TransactionReceipt) => {
+                  onTransactionConfirmed={({ transactionHash }) => {
                     onSuccess({ transactionHash, tokenId: BigInt(0) })
                   }}
-                  onError={error => {
-                    dispatch(transactionFailed(error))
-                  }}
+                  onError={error => dispatch(transactionFailed(error))}
                 >
-                  Claim
+                  Mint Now
                 </TransactionButton>
               ) : (
-                <>Not eligible to claim. Connect an eligible wallet.</>
+                <div className="text-red-500">Not eligible to claim. Connect an eligible wallet.</div>
               )}
             </div>
           </div>
+
           <div className="flex flex-col w-full mt-1 text-gray-600 border-y border-y-gray-700 py-8 text-sm">
             <ul>
               <li>
@@ -162,8 +211,8 @@ export const Drop: FC<DropProps> = ({ contractAddress, network }) => {
               </li>
             </ul>
           </div>
-        </CollectionHeader>
-      </>
+        </div>
+      </CollectionHeader>
     ))
     .otherwise(() => <Loader />)
 
