@@ -210,3 +210,12 @@ export const ACTIVITY_ICON_MAP = {
     </div>
   ),
 }
+
+export const supportedChains = [
+  {
+    id: 1,
+    name: 'Ethereum',
+    // Add other chain properties as needed
+  },
+  // Add other supported chains
+] as const;
