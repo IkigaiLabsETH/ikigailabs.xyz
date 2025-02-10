@@ -1,7 +1,8 @@
 import { add, pathOr, propOr } from 'ramda'
 import React, { FC, useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
-import { useContract, useNFT } from 'thirdweb/react'
+import { useContract, useNFT } from '@thirdweb-dev/react'
+import { ContractType } from '@thirdweb-dev/sdk'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
 import { CurrencyChain, DropTypeStandards, Network } from '../../common/types'
