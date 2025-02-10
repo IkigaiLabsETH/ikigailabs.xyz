@@ -25,6 +25,7 @@ export const SUPPORTED_CURRENCY = [
   { id: 'ETH', name: 'ETH' },
   { id: 'USDC', name: 'USDC' },
   { id: 'BERA', name: 'BERA' },
+  { id: 'HONEY', name: 'HONEY' },
 ]
 
 export const NETWORK_OPTIONS = [
@@ -35,6 +36,10 @@ export const NETWORK_OPTIONS = [
   {
     id: 'berachain',
     name: 'Berachain',
+  },
+  {
+    id: 'base',
+    name: 'Base',
   },
 ] as Option[]
 
@@ -97,11 +102,13 @@ export const customChains = {
 export const CHAIN_ID = {
   [Network.MAINNET]: mainnet.id,
   [Network.BERA]: Berachain.id,
+  [Network.BASE]: base.id,
 } as const
 
 export const CHAINS = {
   [Network.MAINNET]: mainnet,
   [Network.BERA]: Berachain,
+  [Network.BASE]: base,
 } as const
 
 export const CHAIN_ICON_MAP = {
