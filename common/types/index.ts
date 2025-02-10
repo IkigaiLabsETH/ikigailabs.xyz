@@ -10,21 +10,8 @@ export enum Layout {
 
 export enum Network {
   MAINNET = 'ethereum',
-  OPTIMISM = 'optimism',
-  SEPOLIA = 'sepolia',
-  POLYGON = 'polygon',
   ARBITRUM = 'arbitrum',
-  ARBITRUM_NOVA = 'arbitrum-nova',
-  MUMBAI = 'mumbai',
-  ZORA = 'zora',
   BASE = 'base',
-  BASE_SEPOLIA = 'base-sepolia',
-  ZKEVM = 'polygon-zkevm',
-  AVALANCHE = 'avalanche',
-  LINEA = 'linea',
-  SCROLL = 'scroll',
-  ZKSYNC = 'zksync',
-  BLAST = 'blast',
   BERA = 'berachain',
 }
 
@@ -62,7 +49,7 @@ export interface Claim {
 
 export enum CurrencyChain {
   'Ether' = Network.MAINNET,
-  'MATIC' = Network.POLYGON,
+  'HONEY' = Network.BERA,
   'BERA' = Network.BERA,
 }
 
