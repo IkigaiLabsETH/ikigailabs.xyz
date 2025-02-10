@@ -9,7 +9,7 @@ export enum Layout {
 }
 
 export enum Network {
-  MAINNET = 'ethereum',
+  MAINNET = 'mainnet',
   ARBITRUM = 'arbitrum',
   BASE = 'base',
   BERA = 'berachain',
