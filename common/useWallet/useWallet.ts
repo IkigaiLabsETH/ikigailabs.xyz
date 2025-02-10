@@ -1,15 +1,18 @@
-import { useActiveAccount, useActiveWalletChain } from 'thirdweb/react'
-import { supportedChains } from '../config/chains'
-import { propEq } from 'ramda'
+import { useActiveAccount, useActiveWalletChain } from '@thirdweb-dev/react'
+import { supportedChains } from '../constants'
+import { ReservoirChain } from '../types'
 
 export const useWallet = () => {
   const account = useActiveAccount()
   const networkId = useActiveWalletChain()
-  const network = supportedChains.find(propEq('id', networkId))
+  const network = supportedChains.find((chain: ReservoirChain) => chain.id === networkId)
   const address = account?.address || ''
 
   return { 
-    address, 
-    network: network?.network // Changed from slug to network since that's what we have in ReservoirChain
+    address,
+    network,
+    networkId,
+    isConnected: !!account
   }
 }
+
