@@ -12,6 +12,14 @@ import { mainnet, base, arbitrum } from 'wagmi/chains'
 import { Berachain, Base, Arbitrum } from '../config/chains'
 import { ActivityType, Network, Option } from '../types'
 
+import { zeroAddress } from 'viem'
+
+const CHAIN_ID = {
+  MAINNET: 1,
+  BASE: 8453,
+  BERA: 80085,
+} as const
+
 export const COLLECTION_METADATA_FIELDS = ['name', 'description', 'image']
 
 export const COLLECTION_SORTING_OPTIONS = [
