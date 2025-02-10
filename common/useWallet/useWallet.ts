@@ -11,11 +11,12 @@ export const useWallet = () => {
   const connectionStatus = useActiveWalletConnectionStatus()
   const chain = useActiveWalletChain()
   const network = chain ? supportedChains.find((c) => c.id === Number(chain.id)) : undefined
+  const address = wallet ? wallet.getAddress() : undefined
 
   return { 
     wallet,
     connectionStatus,
-    address: wallet?.address,
+    address,
     network,
     networkId: chain?.id,
     isConnected: connectionStatus === "connected"
