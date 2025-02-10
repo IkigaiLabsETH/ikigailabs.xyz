@@ -8,8 +8,8 @@ import {
   FaRegCircleXmark,
 } from 'react-icons/fa6'
 import { ETH } from 'react-cryptoicon'
-import { mainnet } from 'wagmi/chains'
-import { Berachain } from '../config/chains'
+import { mainnet, base, arbitrum } from 'wagmi/chains'
+import { Berachain, Base, Arbitrum } from '../config/chains'
 import { ActivityType, Network, Option } from '../types'
 
 export const COLLECTION_METADATA_FIELDS = ['name', 'description', 'image']
