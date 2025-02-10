@@ -26,7 +26,34 @@ export const SUPPORTED_CURRENCY = [
   { id: 'USDC', name: 'USDC' },
   { id: 'BERA', name: 'BERA' },
   { id: 'HONEY', name: 'HONEY' },
+  { id: 'WBERA', name: 'WBERA' },
 ]
+
+export const PAYMENT_TOKENS = {
+  [CHAIN_ID.BERA]: [
+    {
+      chainId: 80085,
+      address: zeroAddress,
+      symbol: 'BERA',
+      name: 'BERA',
+      decimals: 18,
+    },
+    {
+      chainId: 80085,
+      address: '0x6969696969696969696969696969696969696969',
+      symbol: 'WBERA',
+      name: 'WBERA', 
+      decimals: 18,
+    },
+    {
+      chainId: 80085,
+      address: '0xfcbd14dc51f0a4d49d5e53c2e0950e0bc26d0dce',
+      symbol: 'HONEY',
+      name: 'Honey',
+      decimals: 18,
+    },
+  ],
+} as const
 
 export const NETWORK_OPTIONS = [
   {
