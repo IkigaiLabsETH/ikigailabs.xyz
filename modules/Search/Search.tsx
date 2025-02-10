@@ -100,7 +100,7 @@ export const Search: FC<SearchProps> = ({}) => {
                       <img src={`/assets${chain.darkIconUrl}`} />
                     </div>
                   </div>
-                ))(filterOutChains([Network.BASE_SEPOLIA, Network.SEPOLIA])(supportedChains))}
+                ))(filterOutChains([Network.ARBITRUM])(supportedChains))}
               </div>
             </div>
           ) : null}
