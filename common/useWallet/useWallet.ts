@@ -15,7 +15,7 @@ export const useWallet = () => {
   return { 
     wallet,
     connectionStatus,
-    address: wallet?.account.address,
+    address: wallet?.address,
     network,
     networkId: chain?.id,
     isConnected: connectionStatus === "connected"
