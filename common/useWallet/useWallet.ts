@@ -1,25 +1,15 @@
-import { 
-  useActiveWallet,
-  useActiveWalletChain,
-  useActiveWalletConnectionStatus,
-  useActiveAccount
-} from 'thirdweb/react'
+import { useActiveAccount, useActiveWalletChain } from 'thirdweb/react'
 import { supportedChains } from '../constants/constants'
+import { propEq } from 'ramda'
 
 export const useWallet = () => {
-  const wallet = useActiveWallet()
-  const connectionStatus = useActiveWalletConnectionStatus()
-  const chain = useActiveWalletChain()
   const account = useActiveAccount()
-  const network = chain ? supportedChains.find((c) => c.id === Number(chain.id)) : undefined
+  const networkId = useActiveWalletChain()
+  const network = supportedChains.find(propEq('id', networkId))
+  const address = account?.address || ''
 
   return { 
-    wallet,
-    connectionStatus,
-    address: account?.address,
-    network,
-    networkId: chain?.id,
-    isConnected: connectionStatus === "connected"
+    address, 
+    network: network?.network 
   }
 }
-
