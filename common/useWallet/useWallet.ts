@@ -1,22 +1,22 @@
 import { 
   useActiveWallet,
   useActiveWalletChain,
-  useActiveWalletConnectionStatus
+  useActiveWalletConnectionStatus,
+  useActiveAccount
 } from 'thirdweb/react'
 import { supportedChains } from '../constants/constants'
-import { ReservoirChain } from '../types'
 
 export const useWallet = () => {
   const wallet = useActiveWallet()
   const connectionStatus = useActiveWalletConnectionStatus()
   const chain = useActiveWalletChain()
+  const account = useActiveAccount()
   const network = chain ? supportedChains.find((c) => c.id === Number(chain.id)) : undefined
-  const address = wallet ? wallet.getAddress() : undefined
 
   return { 
     wallet,
     connectionStatus,
-    address,
+    address: account?.address,
     network,
     networkId: chain?.id,
     isConnected: connectionStatus === "connected"
