@@ -10,7 +10,7 @@ export const useWallet = () => {
   const wallet = useActiveWallet()
   const connectionStatus = useActiveWalletConnectionStatus()
   const chain = useActiveWalletChain()
-  const network = supportedChains.find((c: ReservoirChain) => c.id === chain?.id)
+  const network = chain ? supportedChains.find((c) => c.id === Number(chain.id)) : undefined
 
   return { 
     wallet,
