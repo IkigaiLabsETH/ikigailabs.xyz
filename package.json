@@ -24,7 +24,7 @@
     "thirdweb": "^5.42.0",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "airtable": "^0.11.4",
-    "axios": "^0.27.2",
+    "axios": "^1.6.0",
     "big-number": "^2.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^1.2.1",
@@ -63,7 +63,9 @@
     "wagmi": "2.5.12",
     "@types/ramda": "^0.29.0",
     "@types/react": "^18.0.0",
-    "@types/node": "^20.0.0"
+    "@types/node": "^20.0.0",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@thirdweb-dev/sdk": "^4.0.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.4.8",
