@@ -485,3 +485,9 @@ export interface SearchResult {
   openseaVerificationStatus: string
   tokenCount: string
 }
+
+export interface ReservoirChain {
+  id: number
+  name: string
+  network: Network
+}
