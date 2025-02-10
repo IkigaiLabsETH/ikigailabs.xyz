@@ -486,8 +486,9 @@ export interface SearchResult {
   tokenCount: string
 }
 
-export interface ReservoirChain {
+export type ReservoirChain = {
   id: number
   name: string
-  network: Network
+  network: string
+  // ... other properties
 }
