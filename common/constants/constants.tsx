@@ -11,14 +11,7 @@ import { ETH } from 'react-cryptoicon'
 import { mainnet, base, arbitrum } from 'wagmi/chains'
 import { Berachain, Base, Arbitrum } from '../config/chains'
 import { ActivityType, Network, Option } from '../types'
-
 import { zeroAddress } from 'viem'
-
-const CHAIN_ID = {
-  MAINNET: 1,
-  BASE: 8453,
-  BERA: 80085,
-} as const
 
 export const COLLECTION_METADATA_FIELDS = ['name', 'description', 'image']
 
@@ -33,35 +26,9 @@ export const SUPPORTED_CURRENCY = [
   { id: 'ETH', name: 'ETH' },
   { id: 'USDC', name: 'USDC' },
   { id: 'BERA', name: 'BERA' },
-  { id: 'HONEY', name: 'HONEY' },
   { id: 'WBERA', name: 'WBERA' },
+  { id: 'HONEY', name: 'HONEY' },
 ]
-
-export const PAYMENT_TOKENS = {
-  [CHAIN_ID.BERA]: [
-    {
-      chainId: 80085,
-      address: zeroAddress,
-      symbol: 'BERA',
-      name: 'BERA',
-      decimals: 18,
-    },
-    {
-      chainId: 80085,
-      address: '0x6969696969696969696969696969696969696969',
-      symbol: 'WBERA',
-      name: 'WBERA', 
-      decimals: 18,
-    },
-    {
-      chainId: 80085,
-      address: '0xfcbd14dc51f0a4d49d5e53c2e0950e0bc26d0dce',
-      symbol: 'HONEY',
-      name: 'Honey',
-      decimals: 18,
-    },
-  ],
-} as const
 
 export const NETWORK_OPTIONS = [
   {
@@ -75,10 +42,6 @@ export const NETWORK_OPTIONS = [
   {
     id: 'base',
     name: 'Base',
-  },
-  {
-    id: 'arbitrum',
-    name: 'Arbitrum',
   },
 ] as Option[]
 
@@ -138,18 +101,66 @@ export const customChains = {
   },
 } as const
 
-export const CHAIN_ID = {
-  [Network.MAINNET]: mainnet.id,
-  [Network.BERA]: Berachain.id,
-  [Network.BASE]: base.id,
-  [Network.ARBITRUM]: arbitrum.id,
+const CHAIN_ID = {
+  MAINNET: 1,
+  BASE: 8453,
+  BERA: 80085,
+} as const
+
+export const CHAIN_IDS = {
+  [Network.MAINNET]: CHAIN_ID.MAINNET,
+  [Network.BERA]: CHAIN_ID.BERA, 
+  [Network.BASE]: CHAIN_ID.BASE,
 } as const
 
 export const CHAINS = {
-  [Network.MAINNET]: mainnet,
+  [Network.MAINNET]: {
+    id: CHAIN_ID.MAINNET,
+    name: 'Ethereum',
+    network: 'mainnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+  },
   [Network.BERA]: Berachain,
-  [Network.BASE]: base,
-  [Network.ARBITRUM]: arbitrum.id,
+  [Network.BASE]: {
+    id: CHAIN_ID.BASE,
+    name: 'Base',
+    network: 'base',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH', 
+      decimals: 18,
+    },
+  },
+} as const
+
+export const PAYMENT_TOKENS = {
+  [CHAIN_ID.BERA]: [
+    {
+      chainId: 80085,
+      address: zeroAddress,
+      symbol: 'BERA',
+      name: 'BERA',
+      decimals: 18,
+    },
+    {
+      chainId: 80085,
+      address: '0x6969696969696969696969696969696969696969',
+      symbol: 'WBERA',
+      name: 'WBERA', 
+      decimals: 18,
+    },
+    {
+      chainId: 80085,
+      address: '0xfcbd14dc51f0a4d49d5e53c2e0950e0bc26d0dce',
+      symbol: 'HONEY',
+      name: 'Honey',
+      decimals: 18,
+    },
+  ],
 } as const
 
 export const CHAIN_ICON_MAP = {
