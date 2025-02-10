@@ -1,5 +1,5 @@
 import { useAddress, useChainId, useConnectionStatus } from '@thirdweb-dev/react'
-import { supportedChains } from '../constants'
+import { supportedChains } from '../constants/constants'
 import { ReservoirChain } from '../types'
 
 export const useWallet = () => {
