@@ -68,6 +68,10 @@ export const NETWORK_OPTIONS = [
     id: 'base',
     name: 'Base',
   },
+  {
+    id: 'arbitrum',
+    name: 'Arbitrum',
+  },
 ] as Option[]
 
 export const EXPIRATION_DEFAULTS = [
