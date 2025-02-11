@@ -65,8 +65,8 @@ export const CollectionToken: FC<TokenProps> = ({ token, network, ens }) => {
     market: { floorAsk, topBid },
   } = token as NFT
   const royalties = pipe(pathOr(0, ['royalties', 'bps']), divide(__, 100))(collection)
-  const floorPriceSource = prop('source')(floorAsk)
-  const topBidSource = prop('source')(topBid)
+  const floorPriceSource = pathOr(null, ['source'], floorAsk)
+  const topBidSource = pathOr(null, ['source'], topBid)
 
   return (
     <div className="w-full bg-white flex items-center flex-col">
