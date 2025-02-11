@@ -17,7 +17,14 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "react",
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "paths": {
+      "@thirdweb-dev/*": ["./node_modules/@thirdweb-dev/*"]
+    },
+    "types": ["react", "node"],
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment"
   },
   "include": [
     "next-env.d.ts",
