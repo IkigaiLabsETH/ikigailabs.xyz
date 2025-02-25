@@ -8,7 +8,8 @@ import {
 } from '@thirdweb-dev/react'
 import { 
   ContractType,
-  SmartContract
+  SmartContract,
+  getContract
 } from '@thirdweb-dev/sdk'
 
 import { useAppDispatch, useAppSelector } from '../../common/redux/store'
