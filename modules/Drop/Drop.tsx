@@ -26,6 +26,7 @@ import { TWClient } from '../../common/web3/web3'
 import { CHAINS } from '../../common/constants'
 import { getContractMetadata } from 'thirdweb/extensions/common'
 import { TransactionReceipt } from 'thirdweb/dist/types/transaction/types'
+import { QueryStatus } from '@reduxjs/toolkit/query'
 
 interface DropProps {
   contractAddress?: string
@@ -131,7 +132,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
   }
 
   const header = match(status)
-    .with('succeeded', () => (
+    .with('fulfilled', () => (
       <CollectionHeader
         eyebrow="Welcome"
         coverImage={nft.metadata.image}
