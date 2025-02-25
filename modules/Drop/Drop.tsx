@@ -40,12 +40,12 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
   const [amountToMint, setAmountToMint] = useState(1)
   const { data, status } = useAppSelector(selectDrop({ contract: contractAddress, network, type: 'nft-drop' }))
   const [maxClaimable, setMaxClaimable] = useState<string | number>(1)
-  const [contract, setContract] = useState<SmartContract | null>(null)
+  const [contractInstance, setContractInstance] = useState<SmartContract | null>(null)
   const [contractMetadata, setContractMetadata] = useState<any>(null)
   const [error, setError] = useState<string>('')
 
-  const { contract } = useContract(contractAddress)
-  const { data: nft, isLoading } = useNFT(contract, tokenId)
+  const { contract: thirdwebContract } = useContract(contractAddress)
+  const { data: nft, isLoading } = useNFT(thirdwebContract, tokenId)
 
   // Add image loading state
   const [imageLoaded, setImageLoaded] = useState(false)
@@ -85,13 +85,13 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
 
   useEffect(() => {
     if (!contractAddress) return
-    if (contract) {
-      setContract(contract)
+    if (thirdwebContract) {
+      setContractInstance(thirdwebContract)
       getContractMetadata({
-        contract,
+        contract: thirdwebContract,
       }).then(setContractMetadata)
     }
-  }, [contractAddress, contract])
+  }, [contractAddress, thirdwebContract])
 
   useEffect(() => {
     const claimedSupply = propOr(0, 'claimedSupply')(data) as number
@@ -181,7 +181,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
                   className="mint-button w-full"
                   transaction={() =>
                     claimTo({
-                      contract,
+                      contract: thirdwebContract,
                       to: address,
                       quantity: BigInt(amountToMint),
                     })
