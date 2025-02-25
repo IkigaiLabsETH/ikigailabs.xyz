@@ -175,7 +175,6 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
               amount={amountToMint} 
               onMinus={onMinus} 
               onPlus={onPlus}
-              max={maxClaimable === 'unlimited' ? 9999999999 : parseInt(maxClaimable as string, 10)}
             />
             
             <div className="w-full md:w-3/4 md:pl-4">
