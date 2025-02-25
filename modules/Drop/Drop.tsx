@@ -87,11 +87,19 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
     if (!contractAddress) return
     if (thirdwebContract) {
       setContractInstance(thirdwebContract)
+      
+      // Create a compatible contract object for getContractMetadata
+      const compatibleContract = {
+        address: contractAddress,
+        chain: CHAINS[network],
+        // Add any other required properties
+      };
+      
       getContractMetadata({
-        contract: thirdwebContract,
+        contract: compatibleContract,
       }).then(setContractMetadata)
     }
-  }, [contractAddress, thirdwebContract])
+  }, [contractAddress, thirdwebContract, network])
 
   useEffect(() => {
     const claimedSupply = propOr(0, 'claimedSupply')(data) as number
