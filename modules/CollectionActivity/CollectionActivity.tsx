@@ -111,7 +111,7 @@ export const CollectionActivity: FC<CollectionActivityProps> = ({ contract, netw
           </div>
           <ul className="hidden lg:block">
             {activity &&
-              map((activity: any) => {
+              activity.map((activity: any) => {
                 const isCollection = isNil(activity.token.tokenId)
                 return (
                   <li
@@ -185,7 +185,7 @@ export const CollectionActivity: FC<CollectionActivityProps> = ({ contract, netw
                     <span className="text-neutral-400">{activity.description}</span>
                   </li>
                 )
-              })((activity as any).activities)}
+              })}
           </ul>
           <ul className="block lg:hidden">
             {activity &&
@@ -272,7 +272,7 @@ export const CollectionActivity: FC<CollectionActivityProps> = ({ contract, netw
                     <span className="text-neutral-400">{activity.description}</span>
                   </li>
                 )
-              })((activity as any).activities)}
+              }, activity)}
           </ul>
           {activityStatus === QueryStatus.pending ? loader : null}
           <div ref={ref} />
