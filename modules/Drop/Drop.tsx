@@ -89,15 +89,10 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
     if (thirdwebContract) {
       setContractInstance(thirdwebContract)
       
-      // Skip the metadata fetching for now to get the build working
-      setContractMetadata({}) // Set empty metadata to avoid errors
-      
-      // Comment out the problematic code
-      /*
-      getContractMetadata({
-        contract: compatibleContract,
-      }).then(setContractMetadata)
-      */
+      // Use the correct approach for ThirdWeb SDK v5
+      if (thirdwebContract.metadata) {
+        thirdwebContract.metadata.get().then(setContractMetadata);
+      }
     }
   }, [contractAddress, thirdwebContract])
 
@@ -122,12 +117,6 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
   const unclaimedSupply = propOr(0, 'unclaimedSupply')(data) as number
 
   const totalSupply = add(claimedSupply, unclaimedSupply)
-
-  // Log the actual values of QueryStatus for debugging
-  console.log('QueryStatus values:', Object.values(QueryStatus));
-
-  // Add this before the match statement to see what status actually contains
-  console.log('Current status:', status);
 
   if (error) {
     return <div className="text-red-500">{error}</div>
