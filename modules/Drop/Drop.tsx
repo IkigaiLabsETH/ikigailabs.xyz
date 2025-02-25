@@ -132,7 +132,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
   }
 
   const header = match(status)
-    .with('fulfilled', () => (
+    .when(s => s === 'fulfilled' || s === 'succeeded', () => (
       <CollectionHeader
         eyebrow="Welcome"
         coverImage={nft.metadata.image}
