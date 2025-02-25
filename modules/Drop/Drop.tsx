@@ -181,16 +181,16 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
               {maxClaimable === 'unlimited' || 0 < (maxClaimable as number) ? (
                 <TransactionButton
                   className="mint-button w-full"
-                  transaction={() =>
+                  action={() =>
                     claimTo({
                       contract: thirdwebContract,
                       to: address,
                       quantity: BigInt(amountToMint),
                     })
                   }
-                  onTransactionSent={({ transactionHash }) => dispatch(transactionSent(transactionHash))}
-                  onTransactionConfirmed={({ transactionHash }) => {
-                    onSuccess({ transactionHash, tokenId: BigInt(0) })
+                  onSuccess={({ receipt }) => {
+                    const txHash = receipt.transactionHash;
+                    onSuccess({ transactionHash: txHash, tokenId: BigInt(0) });
                   }}
                   onError={error => dispatch(transactionFailed(error))}
                 >
