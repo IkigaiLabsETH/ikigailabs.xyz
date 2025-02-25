@@ -44,8 +44,8 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
   const [contractMetadata, setContractMetadata] = useState<any>(null)
   const [error, setError] = useState<string>('')
 
-  const { contract: thirdwebContract } = useContract(contractAddress)
-  const { data: nft, isLoading } = useNFT(thirdwebContract, tokenId)
+  const { contract } = useContract(contractAddress)
+  const { data: nft, isLoading } = useNFT(contract, tokenId)
 
   // Add image loading state
   const [imageLoaded, setImageLoaded] = useState(false)
@@ -85,16 +85,13 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
 
   useEffect(() => {
     if (!contractAddress) return
-    const contract = getContract({
-      client: TWClient,
-      chain: CHAINS[network],
-      address: contractAddress,
-    })
-    setContract(contract)
-    getContractMetadata({
-      contract,
-    }).then(setContractMetadata)
-  }, [contractAddress, network])
+    if (contract) {
+      setContract(contract)
+      getContractMetadata({
+        contract,
+      }).then(setContractMetadata)
+    }
+  }, [contractAddress, contract])
 
   useEffect(() => {
     const claimedSupply = propOr(0, 'claimedSupply')(data) as number
