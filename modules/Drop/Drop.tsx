@@ -179,23 +179,29 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
             
             <div className="w-full md:w-3/4 md:pl-4">
               {maxClaimable === 'unlimited' || 0 < (maxClaimable as number) ? (
-                <TransactionButton
+                // <TransactionButton
+                //   className="mint-button w-full"
+                //   action={() =>
+                //     claimTo({
+                //       contract: thirdwebContract,
+                //       to: address,
+                //       quantity: BigInt(amountToMint),
+                //     })
+                //   }
+                //   onSuccess={({ receipt }) => {
+                //     const txHash = receipt.transactionHash;
+                //     onSuccess({ transactionHash: txHash, tokenId: BigInt(0) });
+                //   }}
+                //   onError={error => dispatch(transactionFailed(error))}
+                // >
+                //   Mint Now
+                // </TransactionButton>
+                <button 
                   className="mint-button w-full"
-                  action={() =>
-                    claimTo({
-                      contract: thirdwebContract,
-                      to: address,
-                      quantity: BigInt(amountToMint),
-                    })
-                  }
-                  onSuccess={({ receipt }) => {
-                    const txHash = receipt.transactionHash;
-                    onSuccess({ transactionHash: txHash, tokenId: BigInt(0) });
-                  }}
-                  onError={error => dispatch(transactionFailed(error))}
+                  onClick={() => alert('Minting functionality temporarily disabled')}
                 >
-                  Mint Now
-                </TransactionButton>
+                  Mint Now (Coming Soon)
+                </button>
               ) : (
                 <div className="text-red-500">Not eligible to claim. Connect an eligible wallet.</div>
               )}
