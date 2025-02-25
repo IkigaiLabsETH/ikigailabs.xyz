@@ -142,8 +142,8 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
       <CollectionHeader
         eyebrow="Welcome"
         coverImage={nft.metadata.image}
-        name={nft.metadata.name}
-        description={nft.metadata.description}
+        name={String(nft.metadata.name)}
+        description={String(nft.metadata.description)}
       >
         <div className="flex flex-col">
           {/* Image with loading state */}
