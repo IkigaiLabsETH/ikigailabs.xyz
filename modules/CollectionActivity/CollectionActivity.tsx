@@ -110,30 +110,30 @@ export const CollectionActivity: FC<CollectionActivityProps> = ({ contract, netw
             </div>
           </div>
           <ul className="hidden lg:block">
-            {activity &&
-              activity.map((activity: any) => {
-                const isCollection = isNil(activity.token.tokenId)
+            {activity && activity.activities &&
+              activity.activities.map((activityItem: any) => {
+                const isCollection = isNil(activityItem.token.tokenId)
                 return (
                   <li
                     key={
-                      has('txHash')(activity) && has('logIndex')(activity)
-                        ? `${activity.txHash}-${activity.logIndex}`
-                        : activity?.order?.id
+                      has('txHash')(activityItem) && has('logIndex')(activityItem)
+                        ? `${activityItem.txHash}-${activityItem.logIndex}`
+                        : activityItem?.order?.id
                     }
                     className="my-4 pb-4 border-b-2 border-black"
                   >
                     <div className="grid grid-cols-6 justify-center items-center">
                       <div className="flex flex-row items-center">
-                        {ACTIVITY_ICON_MAP[activity.type]} {isCollection ? 'Collection ' : ''}{' '}
-                        {ActivityMap[activity.type]}
+                        {ACTIVITY_ICON_MAP[activityItem.type]} {isCollection ? 'Collection ' : ''}{' '}
+                        {ActivityMap[activityItem.type]}
                       </div>
                       <div className="flex flex-row items-center justify-center">
-                        {activity.token ? (
+                        {activityItem.token ? (
                           <>
-                            {activity.token.tokenImage && (
+                            {activityItem.token.tokenImage && (
                               <img
-                                src={activity.token.tokenImage}
-                                alt={activity.token.tokenName}
+                                src={activityItem.token.tokenImage}
+                                alt={activityItem.token.tokenName}
                                 width={50}
                                 height={50}
                               />
@@ -142,92 +142,92 @@ export const CollectionActivity: FC<CollectionActivityProps> = ({ contract, netw
                         ) : null}
                       </div>
                       <div className="flex flex-row items-center">
-                        <span className="mr-2 inline-block">{CHAIN_ICON_MAP[network]}</span> {activity.price}
+                        <span className="mr-2 inline-block">{CHAIN_ICON_MAP[network]}</span> {activityItem.price}
                       </div>
                       <div className="flex justify-center items-center flex-col">
-                        <div className="text-gray-500 text-xs">{truncateAddress(activity.fromAddress)}</div>
-                        {activity.toAddress && (
+                        <div className="text-gray-500 text-xs">{truncateAddress(activityItem.fromAddress)}</div>
+                        {activityItem.toAddress && (
                           <div className="text-gray-500 text-xs">
                             <FaArrowRight className="inline font-light mx-0.5 -mt-0.5" />
-                            {truncateAddress(activity.toAddress)}
+                            {truncateAddress(activityItem.toAddress)}
                           </div>
                         )}
                       </div>
                       <div className="flex justify-center items-center flex-col">
-                        {activity.order?.source && (
+                        {activityItem.order?.source && (
                           <div className="flex flex-row items-center">
-                            {activity.order.source?.icon && (
+                            {activityItem.order.source?.icon && (
                               <img
-                                src={activity.order.source.icon}
+                                src={activityItem.order.source.icon}
                                 width={20}
                                 height={20}
-                                alt={activity.order.source.domain}
+                                alt={activityItem.order.source.domain}
                               />
                             )}
-                            <div className="text-gray-500 ml-1 -mt-0.5">{activity.order.source.domain}</div>
+                            <div className="text-gray-500 ml-1 -mt-0.5">{activityItem.order.source.domain}</div>
                           </div>
                         )}
                         <div className="text-gray-500 text-xs">
-                          {formatDistance(new Date(activity.timestamp * 1000), new Date(), {
+                          {formatDistance(new Date(activityItem.timestamp * 1000), new Date(), {
                             includeSeconds: true,
                             addSuffix: true,
                           })}
                         </div>
                       </div>
                       <div className="flex items-end justify-end">
-                        {activity.type === ActivityType.transfer && (
-                          <a href={`${URLS[network].explorer}/tx/${activity.txHash}`}>
+                        {activityItem.type === ActivityType.transfer && (
+                          <a href={`${URLS[network].explorer}/tx/${activityItem.txHash}`}>
                             <FaArrowUpRightFromSquare />
                           </a>
                         )}
                       </div>
                     </div>
-                    <span className="text-neutral-400">{activity.description}</span>
+                    <span className="text-neutral-400">{activityItem.description}</span>
                   </li>
                 )
               })}
           </ul>
           <ul className="block lg:hidden">
-            {activity &&
-              map((activity: any) => {
-                const isCollection = isNil(activity.token.tokenId)
+            {activity && activity.activities &&
+              map((activityItem: any) => {
+                const isCollection = isNil(activityItem.token.tokenId)
                 return (
                   <li
                     key={
-                      has('txHash')(activity) && has('logIndex')(activity)
-                        ? `${activity.txHash}-${activity.logIndex}`
-                        : activity?.order?.id
+                      has('txHash')(activityItem) && has('logIndex')(activityItem)
+                        ? `${activityItem.txHash}-${activityItem.logIndex}`
+                        : activityItem?.order?.id
                     }
                     className="my-4 pb-4 border-b-2 border-black"
                   >
                     <div className="grid grid-cols-2 justify-center items-center">
                       <div className="flex items-start flex-col">
                         <div className="flex flex-row items-center mb-4">
-                          {ACTIVITY_ICON_MAP[activity.type]} {isCollection ? 'Collection ' : ''}{' '}
-                          {ActivityMap[activity.type]}
+                          {ACTIVITY_ICON_MAP[activityItem.type]} {isCollection ? 'Collection ' : ''}{' '}
+                          {ActivityMap[activityItem.type]}
                         </div>
                         <div className="flex flex-row items-center">
-                          {activity.token ? (
+                          {activityItem.token ? (
                             <>
-                              {activity.token.tokenImage && (
+                              {activityItem.token.tokenImage && (
                                 <img
-                                  src={activity.token.tokenImage}
-                                  alt={activity.token.tokenName}
+                                  src={activityItem.token.tokenImage}
+                                  alt={activityItem.token.tokenName}
                                   width={50}
                                   height={50}
                                 />
                               )}
-                              <div className="ml-4">{activity.token.tokenId}</div>
+                              <div className="ml-4">{activityItem.token.tokenId}</div>
                             </>
                           ) : null}
                         </div>
                         <div className="mt-4">
-                          <div className="text-gray-500 text-xs">{truncateAddress(activity.fromAddress)}</div>
+                          <div className="text-gray-500 text-xs">{truncateAddress(activityItem.fromAddress)}</div>
                           <div>
-                            {activity.toAddress && (
+                            {activityItem.toAddress && (
                               <div className="text-gray-500 text-xs">
                                 <FaArrowRight className="inline font-light mx-0.5 -mt-0.5" />
-                                {truncateAddress(activity.toAddress)}
+                                {truncateAddress(activityItem.toAddress)}
                               </div>
                             )}
                           </div>
@@ -236,43 +236,43 @@ export const CollectionActivity: FC<CollectionActivityProps> = ({ contract, netw
                       <div className="flex flex-row items-start justify-end">
                         <div className="flex flex-col justify-between">
                           <div className="font-bold text-xl">
-                            {CHAIN_ICON_MAP.ETH} {activity.price}
+                            {CHAIN_ICON_MAP.ETH} {activityItem.price}
                           </div>
                           <div>
                             <div className="text-gray-500 text-xs">
-                              {formatDistance(new Date(activity.timestamp * 1000), new Date(), {
+                              {formatDistance(new Date(activityItem.timestamp * 1000), new Date(), {
                                 includeSeconds: true,
                                 addSuffix: true,
                               })}
                             </div>
-                            {activity.order?.source && (
+                            {activityItem.order?.source && (
                               <div className="flex flex-row items-center">
-                                {activity.order.source?.icon && (
+                                {activityItem.order.source?.icon && (
                                   <img
-                                    src={activity.order.source.icon}
+                                    src={activityItem.order.source.icon}
                                     width={20}
                                     height={20}
-                                    alt={activity.order.source.domain}
+                                    alt={activityItem.order.source.domain}
                                   />
                                 )}
-                                <div className="text-gray-500 ml-1 -mt-0.5">{activity.order.source.domain}</div>
+                                <div className="text-gray-500 ml-1 -mt-0.5">{activityItem.order.source.domain}</div>
                               </div>
                             )}
                           </div>
                         </div>
                         <div>
-                          {activity.type === ActivityType.transfer && (
-                            <a href={`${URLS[network].explorer}/tx/${activity.txHash}`}>
+                          {activityItem.type === ActivityType.transfer && (
+                            <a href={`${URLS[network].explorer}/tx/${activityItem.txHash}`}>
                               <FaArrowUpRightFromSquare />
                             </a>
                           )}
                         </div>
                       </div>
                     </div>
-                    <span className="text-neutral-400">{activity.description}</span>
+                    <span className="text-neutral-400">{activityItem.description}</span>
                   </li>
                 )
-              }, activity)}
+              }, activity.activities)}
           </ul>
           {activityStatus === QueryStatus.pending ? loader : null}
           <div ref={ref} />
