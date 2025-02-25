@@ -140,7 +140,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
             {!imageLoaded && <Loader />}
             <img 
               src={nft.metadata.image}
-              alt={nft.metadata.name}
+              alt={String(nft.metadata.name)}
               className={`w-full h-full object-cover transition-opacity duration-300 ${
                 imageLoaded ? 'opacity-100' : 'opacity-0'
               }`}
