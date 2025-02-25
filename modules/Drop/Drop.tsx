@@ -123,6 +123,12 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
 
   const totalSupply = add(claimedSupply, unclaimedSupply)
 
+  // Log the actual values of QueryStatus for debugging
+  console.log('QueryStatus values:', Object.values(QueryStatus));
+
+  // Add this before the match statement to see what status actually contains
+  console.log('Current status:', status);
+
   if (error) {
     return <div className="text-red-500">{error}</div>
   }
@@ -132,7 +138,7 @@ export const Drop: FC<DropProps> = ({ contractAddress, tokenId, network }) => {
   }
 
   const header = match(status)
-    .when(s => s === 'fulfilled' || s === 'succeeded', () => (
+    .with(QueryStatus.fulfilled, () => (
       <CollectionHeader
         eyebrow="Welcome"
         coverImage={nft.metadata.image}
